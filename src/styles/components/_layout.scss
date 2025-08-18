@@ -1,0 +1,98 @@
+@use "../core/mixins" as *;
+
+@layer components {
+  /* 대시보드 레이아웃 */
+  :where(.c-dashboard-layout) {
+    @apply min-h-screen bg-gray-50;
+  }
+
+  /* 사이드바 */
+  :where(.c-sidebar) {
+    @apply fixed left-0 top-0 z-40 h-full bg-white border-r border-gray-200 transition-all duration-75;
+    
+    &.c-sidebar--expanded {
+      @apply w-64;
+    }
+    
+    &.c-sidebar--collapsed {
+      @apply w-16;
+    }
+  }
+
+  /* 메인 콘텐츠 */
+  :where(.c-main-content) {
+    @apply ml-16 transition-all duration-75;
+    
+    .c-sidebar--expanded + & {
+      @apply ml-64;
+    }
+  }
+
+  /* 헤더 */
+  :where(.c-header) {
+    @apply bg-white border-b border-gray-200 px-6 py-4;
+  }
+
+  /* 페이지 헤더 */
+  :where(.c-page-header) {
+    @apply mb-6;
+    
+    .c-page-header__title {
+      @apply text-2xl font-bold text-gray-900;
+    }
+    
+    .c-page-header__description {
+      @apply text-gray-600 mt-1;
+    }
+  }
+
+  /* 섹션 */
+  :where(.c-section) {
+    @apply space-y-6;
+  }
+
+  /* 그리드 레이아웃 */
+  :where(.c-grid) {
+    @apply grid gap-6;
+    
+    &.c-grid--1 {
+      @apply grid-cols-1;
+    }
+    
+    &.c-grid--2 {
+      @apply grid-cols-1 sm:grid-cols-2;
+    }
+    
+    &.c-grid--3 {
+      @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+    }
+    
+    &.c-grid--4 {
+      @apply grid-cols-1 sm:grid-cols-2 lg:grid-cols-4;
+    }
+  }
+
+  /* 컨테이너 */
+  :where(.c-container) {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* 패널 */
+  :where(.c-panel) {
+    @apply bg-white rounded-lg border border-gray-200 p-6;
+  }
+
+  /* 구분선 */
+  :where(.c-divider) {
+    @apply border-t border-gray-200 my-6;
+  }
+
+  /* 스페이싱 */
+  :where(.c-space-y) {
+    @apply space-y-6;
+  }
+
+  :where(.c-space-x) {
+    @apply space-x-6;
+  }
+} 

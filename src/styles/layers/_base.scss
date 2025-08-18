@@ -1,0 +1,156 @@
+@layer base {
+  /* 기본 HTML 요소 스타일 */
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: hsl(var(--color-bg));
+    color: hsl(var(--color-fg));
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color:#000000;
+  }
+
+  /* 링크 기본 스타일 */
+  a {
+    color: hsl(var(--color-primary));
+    text-decoration: none;
+    @include transition-base;
+    
+    &:hover {
+      text-decoration:none !important;
+    }
+    
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  /* 제목 기본 스타일 */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  h1 { font-size: var(--font-size-4xl); }
+  h2 { font-size: var(--font-size-3xl); }
+  h3 { font-size: var(--font-size-2xl); }
+  h4 { font-size: var(--font-size-xl); }
+  h5 { font-size: var(--font-size-lg); }
+  h6 { font-size: var(--font-size-base); }
+
+  /* 단락 기본 스타일 */
+  p {
+    margin: 0 0 0 0;
+    line-height: 1.7;
+    
+    &:last-child c-stat-item{
+      margin-bottom: 0;
+    }
+  }
+
+  /* 리스트 기본 스타일 */
+  ul, ol {
+    margin: 0 0 var(--space-4) 0;
+    padding-left: var(--space-6);
+    
+    li {
+      margin-bottom: var(--space-1);
+      line-height: 1.6;
+    }
+  }
+
+  /* 이미지 기본 스타일 */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* 버튼 기본 스타일 리셋 */
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  /* 입력 요소 기본 스타일 리셋 */
+  input, textarea, select {
+    font: inherit;
+    color: inherit;
+    
+    &:focus-visible {
+      @include focus-ring;
+    }
+  }
+
+  /* 테이블 기본 스타일 */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    padding: var(--space-3) var(--space-4);
+    text-align: left;
+    border-bottom: 1px solid hsl(var(--color-border));
+  }
+
+  th {
+    font-weight: var(--font-weight-semibold);
+    background: hsl(var(--color-muted));
+  }
+
+  /* 코드 블록 기본 스타일 */
+  code {
+    background: hsl(var(--color-muted));
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-sm);
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.875em;
+  }
+
+  pre {
+    background: hsl(var(--color-muted));
+    padding: var(--space-4);
+    border-radius: var(--radius);
+    overflow-x: auto;
+    
+    code {
+      background: none;
+      padding: 0;
+    }
+  }
+
+  /* 구분선 기본 스타일 */
+  hr {
+    border: none;
+    border-top: 1px solid hsl(var(--color-border));
+    margin: var(--space-8) 0;
+  }
+
+  /* 블록쿼트 기본 스타일 */
+  blockquote {
+    border-left: 4px solid hsl(var(--color-primary));
+    padding-left: var(--space-4);
+    margin: var(--space-6) 0;
+    font-style: italic;
+    color: hsl(var(--color-muted));
+  }
+} 

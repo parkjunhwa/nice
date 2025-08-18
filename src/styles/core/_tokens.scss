@@ -1,0 +1,226 @@
+:root {
+  /* ===== 색상 시스템 ===== */
+  
+/* 기본 색상 */
+--color-bg: 0 0% 100%;                     /* White */
+--color-fg: 222 47% 11%;                   /* Gray-900 */
+--color-muted: 210 40% 96%;                 /* Gray-100 */
+--color-muted-foreground: 215 16% 47%;     /* Gray-500 */
+
+/* 메인 색상 */
+--color-primary: 217 91% 60%;               /* #2563EB (Blue-600) */
+--color-primary-foreground: 0 0% 100%;      /* White */
+--color-primary-hover: 217 91% 53%;         /* Blue-700 (더 어두운 hover) */
+--color-primary-light: 217 91% 97%;         /* Blue-50 (매우 밝은 light) */
+
+/* 보조 색상 */
+--color-secondary: 210 40% 96%;             /* Gray-100 */
+--color-secondary-foreground: 222 47% 11%;  /* Gray-900 */
+--color-secondary-hover: 210 40% 90%;       /* Gray-200 */
+
+/* 강조 색상 */
+--color-accent: 210 40% 96%;                /* Gray-100 */
+--color-accent-foreground: 222 47% 11%;     /* Gray-900 */
+--color-accent-hover: 210 40% 90%;          /* Gray-200 */
+
+/* 상태 색상 */
+--color-success: 160 84% 39%;               /* #10b981 (emerald-500) */
+--color-success-foreground: 0 0% 100%;      /* White */
+--color-success-light: 160 84% 95%;         /* emerald-50 */
+
+--color-warning: 43 96% 48%;                 /* #f59e0b (amber-500) */
+--color-warning-foreground: 0 0% 100%;      /* White */
+--color-warning-light: 43 96% 95%;          /* amber-50 */
+
+--color-error: 0 84% 60%;                    /* #ef4444 (red-500) */
+--color-error-foreground: 0 0% 100%;        /* White */
+--color-error-light: 0 84% 95%;             /* red-50 */
+
+--color-info: 160 84% 39%;                   /* #10b981 (emerald-500, success와 동일) */
+--color-info-foreground: 0 0% 100%;         /* White */
+--color-info-light: 160 84% 95%;            /* emerald-50 */
+
+/* 중립 색상 */
+--color-border: 214 32% 91%;                 /* Gray-200 */
+--color-border-hover: 214 32% 85%;           /* Gray-300 */
+--color-input: 214 32% 91%;                  /* Gray-200 */
+--color-ring: 222 89% 52%;                   /* Blue-600 */
+
+/* 배경 레이어 */
+--color-bg-secondary: 210 40% 98%;           /* Gray-50 */
+--color-bg-tertiary: 210 40% 96%;            /* Gray-100 */
+--color-bg-elevated: 0 0% 100%;              /* White */
+--color-bg-overlay: 222 47% 11%;             /* Gray-900 */
+  /* ===== 간격 시스템 ===== */
+  
+  /* 기본 간격 단위 (4px 기준) */
+  --space-0: 0rem;
+  --space-1: 0.25rem;    /* 4px */
+  --space-2: 0.5rem;     /* 8px */
+  --space-3: 0.75rem;    /* 12px */
+  --space-4: 1rem;       /* 16px */
+  --space-5: 1.25rem;    /* 20px */
+  --space-6: 1.5rem;     /* 24px */
+  --space-8: 2rem;       /* 32px */
+  --space-2-5: 2.5rem;   /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+  --space-32: 8rem;      /* 128px */
+  
+  /* 컴포넌트별 간격 */
+  --space-component: var(--space-6);         /* 컴포넌트 간격 */
+  --space-section: var(--space-8);          /* 섹션 간격 */
+  --space-page: var(--space-12);            /* 페이지 간격 */
+  
+  /* ===== 타이포그래피 ===== */
+  
+  /* 폰트 패밀리 */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  --font-family-mono: 'SF Mono', Monaco, 'Inconsolata', 'Roboto Mono', monospace;
+  
+  /* 폰트 크기 */
+  --font-size-xs: 0.75rem;      /* 12px */
+  --font-size-sm: 0.875rem;     /* 14px */
+  --font-size-base: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;     /* 18px */
+  --font-size-xl: 1.25rem;      /* 20px */
+  --font-size-2xl: 1.5rem;      /* 24px */
+  --font-size-3xl: 1.875rem;    /* 30px */
+  --font-size-4xl: 2.25rem;     /* 36px */
+  --font-size-5xl: 3rem;        /* 48px */
+  --font-size-6xl: 3.75rem;     /* 60px */
+  
+  /* 폰트 두께 */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* 줄 높이 */
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+  
+  /* 문자 간격 */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0em;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+  
+  /* ===== 레이아웃 ===== */
+  
+  /* 반경 */
+  --radius-none: 0;
+  --radius-sm: 0.125rem;     /* 2px */
+  --radius-base: 0.25rem;    /* 4px */
+  --radius-md: 0.375rem;     /* 6px */
+  --radius-lg: 0.5rem;       /* 8px */
+  --radius-xl: 0.75rem;      /* 12px */
+  --radius-2xl: 1rem;        /* 16px */
+  --radius-3xl: 1.5rem;      /* 24px */
+  --radius-full: 9999px;
+  
+  /* 그림자 */
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  
+  /* ===== Z-Index 시스템 ===== */
+  
+  --z-auto: auto;
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+  --z-max: 9999;
+  
+  /* ===== 애니메이션 ===== */
+  
+  /* 트랜지션 지속 시간 */
+  --duration-0: 0ms;
+  --duration-75: 75ms;
+  --duration-100: 100ms;
+  --duration-150: 150ms;
+  --duration-200: 200ms;
+  --duration-300: 300ms;
+  --duration-500: 500ms;
+  --duration-700: 700ms;
+  --duration-1000: 1000ms;
+  
+  /* 트랜지션 타이밍 함수 */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* ===== 브레이크포인트 ===== */
+  
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+  
+  /* ===== 컴포넌트별 토큰 ===== */
+  
+  /* 사이드바 */
+  --sidebar-width-expanded: 16rem;           /* 256px */
+  --sidebar-width-collapsed: 4rem;           /* 64px */
+  --sidebar-transition-duration: var(--duration-75);
+  
+  /* 헤더 */
+  --header-height: 4rem;                     /* 64px */
+  --header-padding-x: var(--space-6);
+  --header-padding-y: var(--space-4);
+  
+  /* 카드 */
+  --card-padding: var(--space-6);
+  --card-border-radius: var(--radius-lg);
+  --card-shadow: var(--shadow-sm);
+  --card-shadow-hover: var(--shadow-md);
+  
+  /* 버튼 */
+  --button-height-sm: 2rem;                  /* 32px */
+  --button-height-base: 2.5rem;              /* 40px */
+  --button-height-lg: 3rem;                  /* 48px */
+  --button-padding-x-sm: var(--space-3);
+  --button-padding-x-base: var(--space-4);
+  --button-padding-x-lg: var(--space-6);
+  
+  /* 입력 필드 */
+  --input-height: 2.5rem;                    /* 40px */
+  --input-padding-x: var(--space-3);
+  --input-padding-y: var(--space-2);
+  --input-border-radius: var(--radius-base);
+  
+  /* 테이블 */
+  --table-cell-padding-x: var(--space-6);
+  --table-cell-padding-y: var(--space-4);
+  --table-header-bg: hsl(var(--color-muted));
+  --table-row-hover-bg: hsl(var(--color-muted));
+}

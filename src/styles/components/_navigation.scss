@@ -1,0 +1,137 @@
+@use "../core/mixins" as *;
+
+@layer components {
+  /* 메뉴 아이템 */
+  :where(.c-menu-item) {
+    @apply flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md transition-colors duration-150;
+    
+    &:hover {
+      @apply bg-gray-100 text-gray-900;
+    }
+    
+    &.c-menu-item--active {
+      @apply bg-blue-50 text-blue-700 border-r-2 border-blue-700;
+    }
+    
+    &.c-menu-item--disabled {
+      @apply opacity-50 cursor-not-allowed;
+      
+      &:hover {
+        @apply bg-transparent text-gray-700;
+      }
+    }
+  }
+
+  /* 메뉴 아이콘 */
+  :where(.c-menu-icon) {
+    @apply w-5 h-5 mr-3 flex-shrink-0;
+  }
+
+  /* 서브메뉴 */
+  :where(.c-submenu) {
+    @apply ml-4 mt-1 space-y-1;
+  }
+
+  /* 팝오버 메뉴 */
+  :where(.c-popover-menu) {
+    @apply absolute bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50;
+    
+    &.c-popover-menu--level-2 {
+      @apply left-full top-0 ml-1;
+    }
+    
+    &.c-popover-menu--level-3 {
+      @apply left-full top-0 ml-1 -ml-3;
+    }
+    
+    &.c-popover-menu--level-4 {
+      @apply left-full top-0 ml-1 -ml-3;
+    }
+  }
+
+  /* 팝오버 메뉴 아이템 */
+  :where(.c-popover-menu-item) {
+    @apply flex items-center px-2 py-2 text-sm text-gray-700 hover:bg-gray-100 whitespace-nowrap;
+  }
+
+  /* 팝오버 화살표 */
+  :where(.c-popover-arrow) {
+    @apply absolute w-3 h-3 bg-white border-l border-t border-gray-200 transform -rotate-45 z-[10002];
+    
+    &.c-popover-arrow--level-2 {
+      @apply -left-1.5 top-3;
+    }
+    
+    &.c-popover-arrow--level-3 {
+      @apply -left-1.5 top-3;
+    }
+    
+    &.c-popover-arrow--level-4 {
+      @apply -left-1.5 top-3;
+    }
+  }
+
+  /* 브레드크럼 */
+  :where(.c-breadcrumb) {
+    @apply flex items-center space-x-2 text-sm text-gray-500;
+    
+    .c-breadcrumb__item {
+      @apply flex items-center;
+      
+      &:not(:last-child)::after {
+        content: "/";
+        @apply mx-2 text-gray-300;
+      }
+      
+      &.c-breadcrumb__item--active {
+        @apply text-gray-900 font-medium;
+      }
+    }
+  }
+
+  /* 탭 네비게이션 */
+  :where(.c-tabs) {
+    @apply border-b border-gray-200;
+  }
+
+  :where(.c-tab) {
+    @apply px-4 py-2 text-sm font-medium text-gray-500 border-b-2 border-transparent;
+    
+    &:hover {
+      @apply text-gray-700 border-gray-300;
+    }
+    
+    &.c-tab--active {
+      @apply text-blue-600 border-blue-600;
+    }
+  }
+
+  /* 페이지네이션 */
+  :where(.c-pagination) {
+    @apply flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6;
+  }
+
+  :where(.c-pagination__info) {
+    @apply text-sm text-gray-700;
+  }
+
+  :where(.c-pagination__nav) {
+    @apply flex items-center space-x-2;
+  }
+
+  :where(.c-pagination__button) {
+    @apply px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md;
+    
+    &:hover:not(:disabled) {
+      @apply text-gray-700 bg-gray-50;
+    }
+    
+    &:disabled {
+      @apply opacity-50 cursor-not-allowed;
+    }
+    
+    &.c-pagination__button--active {
+      @apply text-blue-600 bg-blue-50 border-blue-600;
+    }
+  }
+} 

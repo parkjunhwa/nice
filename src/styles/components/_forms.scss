@@ -1,0 +1,349 @@
+@use "../core/mixins" as *;
+
+@layer components {
+  /* 폼 그룹 */
+  :where(.c-form-group) {
+    margin-bottom: var(--space-component);
+  }
+
+  /* 폼 라벨 */
+  :where(.c-form-label) {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: hsl(var(--color-fg));
+    margin-bottom: var(--space-2);
+    line-height: var(--line-height-normal);
+    
+    &.c-form-label--required::after {
+      content: " *";
+      color: hsl(var(--color-error));
+    }
+  }
+
+  /* 폼 입력 */
+  :where(.c-form-input) {
+    @include input-base;
+  }
+
+  :where(.c-form-input--error) {
+    @include input-variant('error');
+  }
+
+  :where(.c-form-input--success) {
+    @include input-variant('success');
+  }
+
+  /* 텍스트에어리어 */
+  :where(.c-form-textarea) {
+    @extend .c-form-input;
+    resize: vertical;
+    min-height: 100px;
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* 셀렉트 */
+  :where(.c-form-select) {
+    @extend .c-form-input;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right var(--space-3) center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: var(--space-10);
+  }
+
+  /* 체크박스 */
+  :where(.c-form-checkbox) {
+    @include flex-center;
+    gap: var(--space-2);
+    cursor: pointer;
+    
+    input[type="checkbox"] {
+      width: 1rem;
+      height: 1rem;
+      border: 1px solid hsl(var(--color-border));
+      border-radius: var(--radius-sm);
+      background-color: hsl(var(--color-bg));
+      cursor: pointer;
+      @include transition-colors;
+      
+      &:checked {
+        background-color: hsl(var(--color-primary));
+        border-color: hsl(var(--color-primary));
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+        background-size: 0.75em 0.75em;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px hsl(var(--color-primary) / 0.1);
+      }
+    }
+    
+    .c-form-checkbox__label {
+      font-size: var(--font-size-sm);
+      color: hsl(var(--color-fg));
+      cursor: pointer;
+      line-height: var(--line-height-normal);
+    }
+  }
+
+  /* 라디오 */
+  :where(.c-form-radio) {
+    @include flex-center;
+    gap: var(--space-2);
+    cursor: pointer;
+    
+    input[type="radio"] {
+      width: 1rem;
+      height: 1rem;
+      border: 1px solid hsl(var(--color-border));
+      border-radius: var(--radius-full);
+      background-color: hsl(var(--color-bg));
+      cursor: pointer;
+      @include transition-colors;
+      
+      &:checked {
+        border-color: hsl(var(--color-primary));
+        background-color: hsl(var(--color-primary));
+        background-image: radial-gradient(circle, white 0, white 0.25em, hsl(var(--color-primary)) 0.25em);
+      }
+      
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px hsl(var(--color-primary) / 0.1);
+      }
+    }
+    
+    .c-form-radio__label {
+      font-size: var(--font-size-sm);
+      color: hsl(var(--color-fg));
+      cursor: pointer;
+      line-height: var(--line-height-normal);
+    }
+  }
+
+  /* 토글 스위치 */
+  :where(.c-form-toggle) {
+    @include flex-center;
+    gap: var(--space-2);
+    cursor: pointer;
+    
+    input[type="checkbox"] {
+      position: relative;
+      width: 3rem;
+      height: 1.5rem;
+      appearance: none;
+      background-color: hsl(var(--color-muted));
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      @include transition-colors;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: calc(1.5rem - 4px);
+        height: calc(1.5rem - 4px);
+        background-color: white;
+        border-radius: var(--radius-full);
+        @include transition-transform;
+      }
+      
+      &:checked {
+        background-color: hsl(var(--color-primary));
+        
+        &::before {
+          transform: translateX(1.5rem);
+        }
+      }
+      
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px hsl(var(--color-primary) / 0.1);
+      }
+    }
+    
+    .c-form-toggle__label {
+      font-size: var(--font-size-sm);
+      color: hsl(var(--color-fg));
+      cursor: pointer;
+      line-height: var(--line-height-normal);
+    }
+  }
+
+  /* 폼 검증 메시지 */
+  :where(.c-form-message) {
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-1);
+    line-height: var(--line-height-normal);
+    
+    &.c-form-message--error {
+      color: hsl(var(--color-error));
+    }
+    
+    &.c-form-message--success {
+      color: hsl(var(--color-success));
+    }
+    
+    &.c-form-message--info {
+      color: hsl(var(--color-muted-foreground));
+    }
+    
+    &.c-form-message--warning {
+      color: hsl(var(--color-warning));
+    }
+  }
+
+  /* 폼 행 */
+  :where(.c-form-row) {
+    @include grid-fit(200px);
+    gap: var(--space-4);
+    
+    &.c-form-row--2 {
+      @include grid-fit(200px);
+    }
+    
+    &.c-form-row--3 {
+      @include grid-fit(150px);
+    }
+  }
+
+  /* 폼 액션 */
+  :where(.c-form-actions) {
+    @include flex-row-end;
+    gap: var(--space-3);
+    margin-top: var(--space-section);
+    padding-top: var(--space-4);
+    border-top: 1px solid hsl(var(--color-border));
+  }
+
+  /* 폼 섹션 */
+  :where(.c-form-section) {
+    margin-bottom: var(--space-section);
+    padding: var(--space-6);
+    background-color: hsl(var(--color-bg-secondary));
+    border-radius: var(--radius-lg);
+    border: 1px solid hsl(var(--color-border));
+    
+    .c-form-section__title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: hsl(var(--color-fg));
+      margin: 0 0 var(--space-4) 0;
+      line-height: var(--line-height-tight);
+    }
+    
+    .c-form-section__description {
+      font-size: var(--font-size-sm);
+      color: hsl(var(--color-muted-foreground));
+      margin-bottom: var(--space-4);
+      line-height: var(--line-height-relaxed);
+    }
+  }
+
+  /* 폼 헬프 텍스트 */
+  :where(.c-form-help) {
+    font-size: var(--font-size-xs);
+    color: hsl(var(--color-muted-foreground));
+    margin-top: var(--space-1);
+    line-height: var(--line-height-normal);
+  }
+
+  /* 폼 그룹 인라인 */
+  :where(.c-form-group--inline) {
+    @include flex-center;
+    gap: var(--space-3);
+    
+    .c-form-label {
+      margin-bottom: 0;
+      min-width: 120px;
+    }
+    
+    .c-form-input,
+    .c-form-select,
+    .c-form-textarea {
+      flex: 1;
+    }
+  }
+
+  /* 폼 그룹 스택 */
+  :where(.c-form-group--stack) {
+    @include flex-col-start;
+    gap: var(--space-2);
+  }
+
+  /* 폼 그룹 행 */
+  :where(.c-form-group--row) {
+    @include flex-row-start;
+    gap: var(--space-3);
+    align-items: flex-end;
+  }
+
+  /* 폼 그룹 그리드 */
+  :where(.c-form-group--grid) {
+    @include grid-fit(200px);
+    gap: var(--space-4);
+  }
+
+  /* 폼 검증 상태 */
+  :where(.c-form-group--valid) {
+    .c-form-input,
+    .c-form-select,
+    .c-form-textarea {
+      border-color: hsl(var(--color-success));
+      
+      &:focus {
+        box-shadow: 0 0 0 3px hsl(var(--color-success) / 0.1);
+      }
+    }
+  }
+
+  :where(.c-form-group--invalid) {
+    .c-form-input,
+    .c-form-select,
+    .c-form-textarea {
+      border-color: hsl(var(--color-error));
+      
+      &:focus {
+        box-shadow: 0 0 0 3px hsl(var(--color-error) / 0.1);
+      }
+    }
+  }
+
+  /* 폼 로딩 상태 */
+  :where(.c-form-group--loading) {
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: var(--space-3);
+      width: 1rem;
+      height: 1rem;
+      margin-top: -0.5rem;
+      border: 2px solid hsl(var(--color-primary));
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+    
+    .c-form-input,
+    .c-form-select,
+    .c-form-textarea {
+      padding-right: var(--space-10);
+    }
+  }
+
+  /* 로딩 애니메이션 */
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+} 
