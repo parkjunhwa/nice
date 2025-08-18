@@ -78,11 +78,11 @@ jspm_packages/
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
-# Large font files
-public/fonts/*.otf
-public/fonts/*.ttf
-public/fonts/*.woff
-public/fonts/*.woff2
+# Large font files - temporarily removed for upload
+# public/fonts/*.otf
+# public/fonts/*.ttf
+# public/fonts/*.woff
+# public/fonts/*.woff2
 
 # OS generated files
 .DS_Store
