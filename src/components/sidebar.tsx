@@ -583,7 +583,7 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         "flex h-16 items-center justify-between border-b border-gray-200",
         isOpen ? "pl-4 pr-2" : "px-4"
       )}>
-        <div className="flex items-center">
+        <div className="flex items-center h-16">
           {isOpen ? (
             <img
               src="/images/logo.png"
