@@ -218,6 +218,9 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
+        
+        {/* 하단 여백 추가 - 스크롤 문제 해결 */}
+        <div className="h-16"></div>
       </div>
     </DashboardLayout>
   )
