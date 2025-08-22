@@ -1,4 +1,3 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { DashboardCard } from "@/components/dashboard-card"
 import { Chart } from "@/components/chart"
 import { TrendingUp, TrendingDown, Users, Eye } from "lucide-react"
@@ -32,8 +31,7 @@ export default function AnalyticsPage() {
   ]
 
   return (
-    <DashboardLayout>
-      <div className="c-section">
+    <div className="c-section">
         <div className="c-page-header">
           <h1 className="c-page-header__title">분석</h1>
           <p className="c-page-header__description">상세한 데이터 분석과 인사이트를 확인하세요.</p>
@@ -180,6 +178,5 @@ export default function AnalyticsPage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
   )
 } 

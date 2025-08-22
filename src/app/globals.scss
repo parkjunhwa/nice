@@ -206,4 +206,210 @@ main.overflow-y-auto {
   overflow-y: scroll;
   /* 스크롤 영역의 최소 높이 설정 */
   min-height: 0;
+}
+
+/* MUI 버튼 및 버튼그룹 쉐도우 제거 */
+.MuiButton-root {
+  box-shadow: none !important;
+  text-transform: none !important;
+  
+  &:hover {
+    box-shadow: none !important;
+  }
+  
+  &:focus {
+    box-shadow: none !important;
+  }
+  
+  &:active {
+    box-shadow: none !important;
+  }
+  
+  &.Mui-focusVisible {
+    box-shadow: none !important;
+  }
+}
+
+.MuiButtonGroup-root {
+  box-shadow: none !important;
+  
+  .MuiButton-root {
+    box-shadow: none !important;
+    
+    &:hover {
+      box-shadow: none !important;
+    }
+    
+    &:focus {
+      box-shadow: none !important;
+    }
+    
+    &:active {
+      box-shadow: none !important;
+    }
+    
+    &.Mui-focusVisible {
+      box-shadow: none !important;
+    }
+  }
+}
+
+/* MUI 버튼 변형별 쉐도우 제거 */
+.MuiButton-contained {
+  box-shadow: none !important;
+  
+  &:hover {
+    box-shadow: none !important;
+  }
+  
+  &:focus {
+    box-shadow: none !important;
+  }
+  
+  &:active {
+    box-shadow: none !important;
+  }
+}
+
+.MuiButton-outlined {
+  box-shadow: none !important;
+  
+  &:hover {
+    box-shadow: none !important;
+  }
+  
+  &:focus {
+    box-shadow: none !important;
+  }
+  
+  &:active {
+    box-shadow: none !important;
+  }
+}
+
+.MuiButton-text {
+  box-shadow: none !important;
+  
+  &:hover {
+    box-shadow: none !important;
+  }
+  
+  &:focus {
+    box-shadow: none !important;
+  }
+  
+  &:active {
+    box-shadow: none !important;
+  }
+}
+
+/* MUI 버튼그룹 내부 버튼 간격 조정 */
+.MuiButtonGroup-grouped {
+  &:not(:last-of-type) {
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+  }
+  
+  &:first-of-type {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  &:last-of-type {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+  &:not(:first-of-type):not(:last-of-type) {
+    border-radius: 0;
+  }
+}
+
+/* MUI Toggle Button 스타일 조정 - small 크기와 동일하게 */
+.MuiToggleButton-root {
+  box-shadow: none !important;
+  text-transform: none !important;
+  
+  /* small 크기와 동일한 높이 및 padding */
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 4px 12px !important;
+  font-size: 14px !important;
+  line-height: 1.25 !important;
+  
+  &:hover {
+    box-shadow: none !important;
+  }
+  
+  &:focus {
+    box-shadow: none !important;
+  }
+  
+  &:active {
+    box-shadow: none !important;
+  }
+  
+  &.Mui-focusVisible {
+    box-shadow: none !important;
+  }
+  
+  /* selected 상태에서도 쉐도우 제거 */
+  &.Mui-selected {
+    box-shadow: none !important;
+    
+    &:hover {
+      box-shadow: none !important;
+    }
+    
+    &:focus {
+      box-shadow: none !important;
+    }
+    
+    &:active {
+      box-shadow: none !important;
+    }
+  }
+}
+
+/* Toggle Button Group 스타일 */
+.MuiToggleButtonGroup-root {
+  box-shadow: none !important;
+  height: 36px !important;
+  
+  .MuiToggleButton-root {
+    box-shadow: none !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    
+    &:hover {
+      box-shadow: none !important;
+    }
+    
+    &:focus {
+      box-shadow: none !important;
+    }
+    
+    &:active {
+      box-shadow: none !important;
+    }
+    
+    &.Mui-focusVisible {
+      box-shadow: none !important;
+    }
+    
+    &.Mui-selected {
+      box-shadow: none !important;
+      
+      &:hover {
+        box-shadow: none !important;
+      }
+      
+      &:focus {
+        box-shadow: none !important;
+      }
+      
+      &:active {
+        box-shadow: none !important;
+      }
+    }
+  }
 } 

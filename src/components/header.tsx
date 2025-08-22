@@ -2,13 +2,14 @@
 
 import { Bell, Search, User } from "lucide-react"
 import { SidebarToggle } from "./sidebar-toggle"
+import { memo } from "react"
 
 interface HeaderProps {
   isSidebarOpen?: boolean
   onToggleSidebar?: () => void
 }
 
-export function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) {
+const Header = memo(function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) {
   return (
     <header className="flex h-16 items-center justify-between border-b border-gray-200 bg-white px-6">
       <div className="flex items-center space-x-3">
@@ -43,4 +44,6 @@ export function Header({ isSidebarOpen, onToggleSidebar }: HeaderProps) {
       </div>
     </header>
   )
-} 
+})
+
+export { Header } 

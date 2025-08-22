@@ -1,6 +1,5 @@
 "use client"
 
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { 
   User, 
   Mail, 
@@ -124,9 +123,8 @@ export default function FormPage() {
   const skills = ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'MUI', 'Node.js', 'Python', 'Java']
 
   return (
-    <DashboardLayout>
-      <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
-        <div className="space-y-8">
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
+      <div className="space-y-8">
           {/* 페이지 헤더 */}
           <div className="c-page-header">
             <h1 className="c-page-header__title">MUI + Tailwind 폼 컴포넌트</h1>
@@ -566,6 +564,5 @@ export default function FormPage() {
 
         </div>
       </LocalizationProvider>
-    </DashboardLayout>
   )
 } 

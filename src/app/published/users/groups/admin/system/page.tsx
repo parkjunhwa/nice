@@ -1,9 +1,6 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
-
 export default function SystemAdminPage() {
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">시스템 관리자</h1>
           <p className="text-gray-600">시스템 관리자 권한 및 설정을 관리합니다.</p>
@@ -14,6 +11,5 @@ export default function SystemAdminPage() {
           <p className="text-gray-600">시스템 관리자 목록이 여기에 표시됩니다.</p>
         </div>
       </div>
-    </DashboardLayout>
   )
 } 

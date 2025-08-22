@@ -1,4 +1,3 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { Users, UserPlus, UserCheck, UserX } from "lucide-react"
 import { 
   Button, 
@@ -67,8 +66,7 @@ export default function UsersPage() {
   ]
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">사용자 관리</h1>
@@ -230,6 +228,5 @@ export default function UsersPage() {
           </div>
         </div>
       </div>
-    </DashboardLayout>
   )
 } 

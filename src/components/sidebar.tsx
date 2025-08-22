@@ -17,7 +17,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useMemo, memo } from "react"
 import { SidebarToggle } from "./sidebar-toggle"
 
 interface MenuItem {
@@ -166,7 +166,6 @@ function MenuItem({
 }) {
   const pathname = usePathname()
   const [isExpanded, setIsExpanded] = useState(false)
-  const [showText, setShowText] = useState(false)
   const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 })
   const [hoveredChildIndex, setHoveredChildIndex] = useState<number | null>(null)
   const [hoveredGrandChildIndex, setHoveredGrandChildIndex] = useState<number | null>(null)
@@ -230,21 +229,14 @@ function MenuItem({
     }
   }
 
-  // 사이드바가 열릴 때 텍스트를 즉시 표시
-  useEffect(() => {
-    if (isOpen) {
-      setShowText(true)
-    } else {
-      setShowText(false)
-    }
-  }, [isOpen])
+
 
   const paddingLeft = level * 16 + (isOpen ? 12 : 0)
 
-  // Popover 메뉴 렌더링 함수 (4depth까지 지원)
-  const renderPopoverMenu = (children: MenuItem[], level: number) => (
-    <div 
-      className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[10000]"
+     // Popover 메뉴 렌더링 함수 (4depth까지 지원)
+   const renderPopoverMenu = (children: MenuItem[], level: number) => (
+     <div 
+       className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99999]"
       style={{
         left: popoverPosition.left,
         top: popoverPosition.top,
@@ -276,10 +268,10 @@ function MenuItem({
             </div>
           )}
           
-          {/* 3depth popover - 하위 메뉴가 있는 경우에만 해당 child에 마우스 오버 시 표시 */}
-          {child.children && child.children.length > 0 && hoveredChildIndex === index && (
-            <div 
-              className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[10001]"
+                     {/* 3depth popover - 하위 메뉴가 있는 경우에만 해당 child에 마우스 오버 시 표시 */}
+           {child.children && child.children.length > 0 && hoveredChildIndex === index && (
+             <div 
+               className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99998]"
               style={{
                 left: popoverPosition.left + 196, // 2depth popover 오른쪽에 배치 (200 - 4 = 196)
                 top: popoverPosition.top,
@@ -312,10 +304,10 @@ function MenuItem({
                     </div>
                   )}
                   
-                  {/* 4depth popover - 하위 메뉴가 있는 경우에만 해당 grandChild에 마우스 오버 시 표시 */}
-                  {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildIndex === grandIndex && (
-                    <div 
-                      className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[10002]"
+                                     {/* 4depth popover - 하위 메뉴가 있는 경우에만 해당 grandChild에 마우스 오버 시 표시 */}
+                   {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildIndex === grandIndex && (
+                     <div 
+                       className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99997]"
                       style={{
                         left: popoverPosition.left + 392, // 3depth popover 오른쪽에 배치 (196 + 196 = 392)
                         top: popoverPosition.top,
@@ -386,10 +378,7 @@ function MenuItem({
       )}
       {isOpen && (
         <>
-          <span className={cn(
-            "transition-opacity duration-100 flex-1",
-            showText ? "opacity-100" : "opacity-0"
-          )}>
+          <span className="transition-opacity duration-100 flex-1">
             {item.title}
           </span>
           {hasChildren && (
@@ -401,9 +390,9 @@ function MenuItem({
         </>
       )}
       
-      {/* 접힌 상태에서 하위 메뉴가 있을 때 popover 표시 */}
-      {!isOpen && hasChildren && activePopover === item.title && (
-        <div className="absolute left-full top-0 -ml-0 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[10000]">
+             {/* 접힌 상태에서 하위 메뉴가 있을 때 popover 표시 */}
+       {!isOpen && hasChildren && activePopover === item.title && (
+         <div className="absolute left-full top-0 -ml-0 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99999]">
           {/* 상위 메뉴를 가리키는 화살표 */}
           <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 transform -rotate-45 z-[10002]"></div>
           {item.children?.map((child, index) => (
@@ -434,10 +423,10 @@ function MenuItem({
                 </div>
               )}
               
-              {/* 3depth popover - 하위 메뉴가 있는 경우에만 해당 child에 마우스 오버 시 표시 */}
-              {child.children && child.children.length > 0 && hoveredChildFor3Depth === index && (
-                <div 
-                  className="absolute left-full top-0 -ml-3 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[10001]"
+                             {/* 3depth popover - 하위 메뉴가 있는 경우에만 해당 child에 마우스 오버 시 표시 */}
+               {child.children && child.children.length > 0 && hoveredChildFor3Depth === index && (
+                 <div 
+                   className="absolute left-full top-0 -ml-3 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99998]"
                   onMouseEnter={() => {
                     console.log('3depth popover onMouseEnter, index:', index)
                     setHoveredChildFor3Depth(index)
@@ -478,10 +467,10 @@ function MenuItem({
                         </div>
                       )}
                       
-                      {/* 4depth popover - 하위 메뉴가 있는 경우에만 해당 grandChild에 마우스 오버 시 표시 */}
-                      {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildFor4Depth === grandIndex && (
-                        <div 
-                          className="absolute left-full top-0 -ml-3 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[10002]"
+                                             {/* 4depth popover - 하위 메뉴가 있는 경우에만 해당 grandChild에 마우스 오버 시 표시 */}
+                       {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildFor4Depth === grandIndex && (
+                         <div 
+                           className="absolute left-full top-0 -ml-3 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99997]"
                           onMouseEnter={() => setHoveredGrandChildFor4Depth(grandIndex)}
                           onMouseLeave={() => setHoveredGrandChildFor4Depth(null)}
                         >
@@ -551,7 +540,7 @@ function MenuItem({
   )
 }
 
-export function Sidebar({ isOpen, onToggle }: SidebarProps) {
+const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const pathname = usePathname()
   const [activePopover, setActivePopover] = useState<string | null>(null)
 
@@ -599,7 +588,10 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
         {/* 접었다 펼치는 버튼 */}
         <SidebarToggle isOpen={isOpen} onToggle={onToggle} />
       </div>
-      <nav className="flex-1 space-y-1 px-2 py-4 overflow-visible">
+                                                       <nav className={cn(
+                                                         "flex-1 space-y-1 px-2 py-4",
+                                                         isOpen ? "overflow-y-auto overflow-x-hidden" : ""
+                                                       )}>
         {/* 메인 기능 섹션 */}
         {isOpen ? (
           <div className="px-3 mb-3">
@@ -659,19 +651,14 @@ export function Sidebar({ isOpen, onToggle }: SidebarProps) {
             setActivePopover={setActivePopover}
           />
         ))}
-      </nav>
-      <div className="border-t border-gray-200 p-4 space-y-3">
-        <div className="flex items-center">
-          <div className="h-8 w-8 rounded-full bg-gray-300 flex-shrink-0"></div>
-          {isOpen && (
-            <div className="ml-3 min-w-0">
-              <p className="text-sm font-medium text-gray-700 truncate">관리자</p>
-              <p className="text-xs text-gray-500 truncate">admin@example.com</p>
-            </div>
-          )}
-        </div>
-
-      </div>
+             </nav>
+       {isOpen && (
+         <div className="border-t border-gray-200 p-4 space-y-3 mt-auto sticky bottom-0 bg-white">
+           <p className="text-[11px] text-gray-400 text-center">Copyright NICE Infra. All Right Reserved.</p>
+         </div>
+       )}
     </div>
   )
-} 
+})
+
+export { Sidebar } 

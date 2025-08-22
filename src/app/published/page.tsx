@@ -1,4 +1,3 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { DashboardCard } from "@/components/dashboard-card"
 import { Chart } from "@/components/chart"
 import { 
@@ -11,20 +10,16 @@ import {
 } from "lucide-react"
 
 export default function DashboardPage() {
-  // 월별 다중 데이터 (매출, 사용자, 주문)
-  const multiChartData = [
-    { name: "1월", value1: 125, value2: 1200, value3: 89 },
-    { name: "2월", value1: 142, value2: 1350, value3: 102 },
-    { name: "3월", value1: 168, value2: 1580, value3: 118 },
-    { name: "4월", value1: 189, value2: 1720, value3: 134 },
-    { name: "5월", value1: 203, value2: 1890, value3: 145 },
-    { name: "6월", value1: 218, value2: 2100, value3: 156 },
-    { name: "7월", value1: 245, value2: 2350, value3: 167 },
-    { name: "8월", value1: 267, value2: 2580, value3: 178 },
-    { name: "9월", value1: 289, value2: 2780, value3: 189 },
-    { name: "10월", value1: 312, value2: 2950, value3: 201 },
-    { name: "11월", value1: 298, value2: 3120, value3: 189 },
-    { name: "12월", value1: 325, value2: 3280, value3: 212 }
+  // 최근 7일간 매출 데이터 (건수, 금액)
+  const recentSalesData = [
+    { name: "08.13", value1: 14, value2: 7 },    // 2025.08.13 / 14건, 7억
+    { name: "08.14", value1: 15, value2: 8 },    // 2025.08.14 / 15건, 8억
+    { name: "08.15", value1: 8, value2: 6 },     // 2025.08.15 / 8건, 6억
+    { name: "08.16", value1: 9, value2: 6.5 },   // 2025.08.16 / 9건, 6.5억
+    { name: "08.17", value1: 10, value2: 8 },    // 2025.08.17 / 10건, 8억
+    { name: "08.18", value1: 12, value2: 9 },    // 2025.08.18 / 12건, 9억
+    { name: "08.19", value1: 13, value2: 11 },   // 2025.08.19 / 13건, 11억
+    { name: "08.20", value1: 14, value2: 12 }    // 2025.08.20 / 14건, 12억
   ]
 
   // 지역별 다중 데이터 (매출, 사용자, 주문)
@@ -37,9 +32,39 @@ export default function DashboardPage() {
     { name: "대전", value1: 4567, value2: 980, value3: 234 }
   ]
 
+  // 최근 3개월간 매출 데이터 (건수, 금액)
+  const monthlySalesData = [
+    { name: "2025.06", value1: 140, value2: 72 },   // 140건, 72억
+    { name: "2025.07", value1: 150, value2: 80 },   // 150건, 80억
+    { name: "2025.08", value1: 160, value2: 83 }    // 160건, 83억
+  ]
+
+  // 제품별 매출 데이터 (건수, 금액) - 최근 7일간과 동일
+  const productSalesData = [
+    { name: "08.13", value1: 14, value2: 7 },    // 2025.08.13 / 14건, 7억
+    { name: "08.14", value1: 15, value2: 8 },    // 2025.08.14 / 15건, 8억
+    { name: "08.15", value1: 8, value2: 6 },     // 2025.08.15 / 8건, 6억
+    { name: "08.16", value1: 9, value2: 6.5 },   // 2025.08.16 / 9건, 6.5억
+    { name: "08.17", value1: 10, value2: 8 },    // 2025.08.17 / 10건, 8억
+    { name: "08.18", value1: 12, value2: 9 },    // 2025.08.18 / 12건, 9억
+    { name: "08.19", value1: 13, value2: 11 },   // 2025.08.19 / 13건, 11억
+    { name: "08.20", value1: 14, value2: 12 }    // 2025.08.20 / 14건, 12억
+  ]
+
+  // 월별 고객 만족도 데이터 (건수, 금액)
+  const customerSatisfactionData = [
+    { name: "1월", value1: 140, value2: 72 },   // 140건, 72억
+    { name: "2월", value1: 150, value2: 80 },   // 150건, 80억
+    { name: "3월", value1: 160, value2: 83 },   // 160건, 83억
+    { name: "4월", value1: 170, value2: 85 },   // 170건, 85억
+    { name: "5월", value1: 180, value2: 88 },   // 180건, 88억
+    { name: "6월", value1: 190, value2: 90 },   // 190건, 90억
+    { name: "7월", value1: 200, value2: 92 },   // 200건, 92억
+    { name: "8월", value1: 210, value2: 95 }    // 210건, 95억
+  ]
+
   return (
-    <DashboardLayout>
-      <div className="c-section">
+    <div className="c-section">
         {/* 페이지 헤더 */}
         <div className="c-page-header">
           <h1 className="c-page-header__title">대시보드</h1>
@@ -81,33 +106,59 @@ export default function DashboardPage() {
         {/* 차트 섹션 */}
         <div className="c-grid c-grid--2">
           <Chart
-            title="월별 통계 (매출, 사용자, 주문)"
-            data={multiChartData}
+            title="매출현황(최근 7일간의 매출)"
+            data={recentSalesData}
             type="line"
             colors={{
-              value1: '#3b82f6', // blue-500
-              value2: '#10b981', // emerald-500
-              value3: '#f59e0b'  // amber-500
+              value1: '#3b82f6', // blue-500 (파란색)
+              value2: '#fbbf24', // amber-400 (노란색)
             }}
             labels={{
-              value1: '매출 (백만원)',
-              value2: '사용자 수',
-              value3: '주문 수'
+              value1: '건수',
+              value2: '금액 (억원)'
             }}
           />
           <Chart
-            title="지역별 통계 (매출, 사용자, 주문)"
-            data={regionChartData}
-            type="bar"
+            title="매출현황(최근 3개월간 매출)"
+            data={monthlySalesData}
+            type="line"
             colors={{
-              value1: '#8b5cf6', // violet-500
-              value2: '#06b6d4', // cyan-500
-              value3: '#84cc16'  // lime-500
+              value1: '#3b82f6', // blue-500 (파란색)
+              value2: '#fbbf24', // amber-400 (노란색)
             }}
             labels={{
-              value1: '매출 (백만원)',
-              value2: '사용자 수',
-              value3: '주문 수'
+              value1: '건수',
+              value2: '금액 (억원)'
+            }}
+          />
+        </div>
+
+        {/* 추가 차트 섹션 */}
+        <div className="c-grid c-grid--2">
+          <Chart
+            title="매출현황(제품별 매출)"
+            data={productSalesData}
+            type="bar"
+            colors={{
+              value1: '#818CF8', // indigo-400 (건수)
+              value2: '#06B6D4', // cyan-500 (금액)
+            }}
+            labels={{
+              value1: '건수',
+              value2: '금액 (억원)'
+            }}
+          />
+          <Chart
+            title="매출현황(월별 매출)"
+            data={customerSatisfactionData}
+            type="bar"
+            colors={{
+              value1: '#818CF8', // indigo-400 (건수)
+              value2: '#06B6D4', // cyan-500 (금액)
+            }}
+            labels={{
+              value1: '건수',
+              value2: '금액 (억원)'
             }}
           />
         </div>
@@ -222,6 +273,5 @@ export default function DashboardPage() {
         {/* 하단 여백 추가 - 스크롤 문제 해결 */}
         <div className="h-16"></div>
       </div>
-    </DashboardLayout>
   )
 } 

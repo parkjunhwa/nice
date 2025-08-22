@@ -1,6 +1,5 @@
 "use client"
 
-import { DashboardLayout } from "@/components/dashboard-layout"
 import {
   TextField,
   Button,
@@ -98,34 +97,148 @@ import {
   Collapse,
   StepConnector,
   StepIcon,
-  MobileStepper
+  MobileStepper,
+  Popover
 } from '@mui/material'
+// MUI 아이콘은 제거하고 lucide-react 아이콘만 사용
 import {
-  ExpandMore,
-  Add,
-  Home,
-  Favorite,
-  LocationOn,
-  Person,
-  Settings,
-  Search,
-  Notifications,
-  Mail,
-  Phone,
-  Star,
-  Check,
-  Close,
-  Edit,
-  Delete,
-  Visibility,
-  VisibilityOff,
-  KeyboardArrowRight,
-  KeyboardArrowLeft,
-  FirstPage,
-  LastPage,
-  NavigateNext,
-  NavigateBefore
-} from '@mui/icons-material'
+  Search as SearchIcon,
+  Mail as MailIcon,
+  Phone as PhoneIcon,
+  User as UserIcon,
+  Lock as LockIcon,
+  Eye as EyeIcon,
+  EyeOff as EyeOffIcon,
+  Plus as PlusIcon,
+  Minus as MinusIcon,
+  Settings as SettingsIcon,
+  Heart as HeartIcon,
+  Star as StarIcon,
+  Check as CheckIcon,
+  X as XIcon,
+  Edit as EditIcon,
+  Home as HomeIcon,
+  MapPin as MapPinIcon,
+  Trash as TrashIcon,
+  AlertCircle as AlertCircleIcon,
+  // 추가 lucide 아이콘들
+  Bell as BellIcon,
+  MessageCircle as MessageCircleIcon,
+  ChevronDown as ChevronDownIcon,
+  ChevronRight as ChevronRightIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronUp as ChevronUpIcon,
+  ArrowRight as ArrowRightIcon,
+  ArrowLeft as ArrowLeftIcon,
+  ArrowUp as ArrowUpIcon,
+  ArrowDown as ArrowDownIcon,
+  Calendar as CalendarIcon,
+  Clock as ClockIcon,
+  Download as DownloadIcon,
+  Upload as UploadIcon,
+  Share as ShareIcon,
+  Bookmark as BookmarkIcon,
+  Filter as FilterIcon,
+  SortAsc as SortAscIcon,
+  SortDesc as SortDescIcon,
+  RefreshCw as RefreshCwIcon,
+  RotateCcw as RotateCcwIcon,
+  ZoomIn as ZoomInIcon,
+  ZoomOut as ZoomOutIcon,
+  Maximize as MaximizeIcon,
+  Minimize as MinimizeIcon,
+  XCircle as XCircleIcon,
+  CheckCircle as CheckCircleIcon,
+  AlertTriangle as AlertTriangleIcon,
+  Info as InfoIcon,
+  HelpCircle as HelpCircleIcon,
+  FileText as FileTextIcon,
+  Image as ImageIcon,
+  Video as VideoIcon,
+  Music as MusicIcon,
+  Folder as FolderIcon,
+  HardDrive as HardDriveIcon,
+  Database as DatabaseIcon,
+  Server as ServerIcon,
+  Wifi as WifiIcon,
+  Bluetooth as BluetoothIcon,
+  Battery as BatteryIcon,
+  Power as PowerIcon,
+  Volume2 as Volume2Icon,
+  Mic as MicIcon,
+  Camera as CameraIcon,
+  Smartphone as SmartphoneIcon,
+  Monitor as MonitorIcon,
+  Tablet as TabletIcon,
+  Laptop as LaptopIcon,
+  Printer as PrinterIcon,
+  Keyboard as KeyboardIcon,
+  Mouse as MouseIcon,
+  Headphones as HeadphonesIcon,
+  Speaker as SpeakerIcon,
+  Trophy as TrophyIcon,
+  Award as AwardIcon,
+  Gift as GiftIcon,
+  ShoppingCart as ShoppingCartIcon,
+  CreditCard as CreditCardIcon,
+  DollarSign as DollarSignIcon,
+  TrendingUp as TrendingUpIcon,
+  TrendingDown as TrendingDownIcon,
+  BarChart3 as BarChart3Icon,
+  PieChart as PieChart3Icon,
+  LineChart as LineChartIcon,
+  Activity as ActivityIcon,
+  Target as TargetIcon,
+  Zap as ZapIcon,
+  Sun as SunIcon,
+  Moon as MoonIcon,
+  Cloud as CloudIcon,
+  Building as BuildingIcon,
+  Store as StoreIcon,
+  Factory as FactoryIcon,
+  Warehouse as WarehouseIcon,
+  Truck as TruckIcon,
+  Car as CarIcon,
+  Bike as BikeIcon,
+  Plane as PlaneIcon,
+  Ship as ShipIcon,
+  Train as TrainIcon,
+  Bus as BusIcon,
+  Rocket as RocketIcon,
+  Satellite as SatelliteIcon,
+  Telescope as TelescopeIcon,
+  Microscope as MicroscopeIcon,
+  FlaskConical as FlaskConicalIcon,
+  Atom as AtomIcon,
+  Dna as DnaIcon,
+  Pill as PillIcon,
+  Stethoscope as StethoscopeIcon,
+  Syringe as SyringeIcon,
+  Bandage as BandageIcon,
+  HeartPulse as HeartPulseIcon,
+  Brain as BrainIcon,
+  TestTube as TestTubeIcon,
+  Beaker as BeakerIcon,
+  GraduationCap as GraduationCapIcon,
+  BookOpen as BookOpenIcon,
+  Library as LibraryIcon,
+  School as SchoolIcon,
+  University as UniversityIcon,
+  Cake as CakeIcon,
+  Wine as WineIcon,
+  Coffee as CoffeeIcon,
+  Utensils as UtensilsIcon,
+  Pizza as PizzaIcon,
+  Hamburger as HamburgerIcon,
+  IceCream as IceCreamIcon,
+  Cookie as CookieIcon,
+  Apple as AppleIcon,
+  Carrot as CarrotIcon,
+  Leaf as LeafIcon,
+  Trees as TreesIcon,
+  Flower as FlowerIcon,
+  Mountain as MountainIcon
+} from 'lucide-react'
 import { useState } from 'react'
 
 export default function MuiPage() {
@@ -137,11 +250,42 @@ export default function MuiPage() {
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [toggleValue, setToggleValue] = useState<string | null>('left')
   const [deletableChips, setDeletableChips] = useState(['삭제 가능 1', '삭제 가능 2', '삭제 가능 3'])
+  const [popoverAnchor, setPopoverAnchor] = useState<HTMLElement | null>(null)
+  const [popoverPlacement, setPopoverPlacement] = useState<'top' | 'bottom' | 'left' | 'right'>('top')
 
   // 공통 input 스타일
   const commonInputProps = {
     size: "small" as const,
-    sx: { '& .MuiInputBase-root': { height: '40px' } }
+    sx: { 
+      '& .MuiInputBase-root': { 
+        height: '36px',
+        fontSize: '14px'
+      },
+      '& .MuiInputBase-input': {
+        paddingLeft: '12px',
+        paddingRight: '12px'
+      },
+      '& .MuiInputAdornment-root': {
+        marginRight: '8px'
+      },
+      '& .MuiInputAdornment-positionStart': {
+        marginRight: '8px'
+      },
+      // readonly 상태 공통 스타일
+      '& .MuiInputBase-root.Mui-readOnly': {
+        backgroundColor: '#f3f4f6', // gray-100
+        '& .MuiInputBase-input': {
+          color: '#6b7280' // gray-500
+        }
+      },
+      // disabled 상태 공통 스타일
+      '& .MuiInputBase-root.Mui-disabled': {
+        backgroundColor: '#f3f4f6', // gray-100
+        '& .MuiInputBase-input': {
+          color: '#9ca3af' // gray-400
+        }
+      }
+    }
   }
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -187,8 +331,7 @@ export default function MuiPage() {
   ]
 
   return (
-    <DashboardLayout>
-      <div className="space-y-8">
+    <div className="space-y-8">
         {/* 페이지 헤더 */}
         <div className="c-page-header">
           <h1 className="c-page-header__title">Material-UI Components</h1>
@@ -278,7 +421,7 @@ export default function MuiPage() {
                   Floating Action Button
                 </Typography>
                 <Fab color="primary" aria-label="add">
-                  <Add />
+                  <PlusIcon size={24} />
                 </Fab>
               </Paper>
             </Grid>
@@ -352,23 +495,80 @@ export default function MuiPage() {
               </Paper>
             </Grid>
 
-            {/* Text Field */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  Text Field
-                </Typography>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  이름 입력
-                </label>
-                <TextField 
-                  variant="outlined" 
-                  fullWidth 
-                  {...commonInputProps}
-                  placeholder="이름을 입력하세요"
-                />
-              </Paper>
-            </Grid>
+                         {/* Text Field */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   Text Field
+                 </Typography>
+                 <div className="space-y-4">
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       Normal 상태
+                     </label>
+                     <TextField 
+                       variant="outlined" 
+                       fullWidth 
+                       size="small"
+                       {...commonInputProps}
+                       placeholder="일반 입력 필드"
+                       InputProps={{
+                         startAdornment: <UserIcon size={18} className="text-gray-400" />
+                       }}
+                     />
+                   </div>
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       에러 상태
+                     </label>
+                     <TextField 
+                       variant="outlined" 
+                       fullWidth 
+                       size="small"
+                       {...commonInputProps}
+                       placeholder="에러 상태 예시"
+                       error
+                       helperText="이 필드는 필수 입력 항목입니다."
+                       InputProps={{
+                         startAdornment: <AlertCircleIcon size={18} className="text-red-500" />
+                       }}
+                     />
+                   </div>
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       Readonly 상태
+                     </label>
+                     <TextField 
+                       variant="outlined" 
+                       fullWidth 
+                       size="small"
+                       {...commonInputProps}
+                       value="읽기 전용 텍스트"
+                       InputProps={{
+                         readOnly: true,
+                         startAdornment: <EyeIcon size={18} className="text-gray-400" />
+                       }}
+                     />
+                   </div>
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       Disabled 상태
+                     </label>
+                     <TextField 
+                       variant="outlined" 
+                       fullWidth 
+                       size="small"
+                       {...commonInputProps}
+                       placeholder="비활성화된 필드"
+                       disabled
+                       InputProps={{
+                         startAdornment: <LockIcon size={18} className="text-gray-400" />
+                       }}
+                     />
+                   </div>
+                 </div>
+               </Paper>
+             </Grid>
 
             {/* Toggle Button */}
             <Grid item xs={12} md={6}>
@@ -386,6 +586,40 @@ export default function MuiPage() {
                       exclusive 
                       size="small"
                       onChange={handleToggleChange}
+                      sx={{
+                        height: '36px',
+                        '& .MuiToggleButton-root': {
+                          height: '36px',
+                          padding: '4px 12px',
+                          fontSize: '14px',
+                          lineHeight: '1.25',
+                          border: '1px solid rgba(0, 0, 0, 0.12)',
+                          '&:not(:last-of-type)': {
+                            borderRight: '1px solid rgba(0, 0, 0, 0.12)',
+                          },
+                          '&:first-of-type': {
+                            borderTopRightRadius: 0,
+                            borderBottomRightRadius: 0,
+                          },
+                          '&:last-of-type': {
+                            borderTopLeftRadius: 0,
+                            borderBottomLeftRadius: 0,
+                          },
+                          '&:not(:first-of-type):not(:last-of-type)': {
+                            borderRadius: 0,
+                          },
+                          '&.Mui-selected': {
+                            backgroundColor: 'rgba(25, 118, 210, 0.08)',
+                            color: 'rgb(25, 118, 210)',
+                            '&:hover': {
+                              backgroundColor: 'rgba(25, 118, 210, 0.12)',
+                            },
+                          },
+                          '&:hover': {
+                            backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                          },
+                        },
+                      }}
                     >
                       <ToggleButton value="left" size="small">Left</ToggleButton>
                       <ToggleButton value="center" size="small">Center</ToggleButton>
@@ -449,7 +683,7 @@ export default function MuiPage() {
                   Badge
                 </Typography>
                 <Badge badgeContent={4} color="primary">
-                  <Mail />
+                  <MailIcon size={24} />
                 </Badge>
               </Paper>
             </Grid>
@@ -496,10 +730,10 @@ export default function MuiPage() {
                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
                   Divider
                 </Typography>
-                <div className="space-y-4">
-                  <div>위 내용</div>
+                <div>
+                  <div className="space-y-4">위 내용</div>
                   <Divider />
-                  <div>아래 내용</div>
+                  <div className="space-y-4">아래 내용</div>
                 </div>
               </Paper>
             </Grid>
@@ -511,11 +745,11 @@ export default function MuiPage() {
                   Icons
                 </Typography>
                 <div className="flex space-x-4">
-                  <Home />
-                  <Favorite />
-                  <LocationOn />
-                  <Person />
-                  <Settings />
+                  <HomeIcon size={24} />
+                  <HeartIcon size={24} />
+                  <MapPinIcon size={24} />
+                  <UserIcon size={24} />
+                  <SettingsIcon size={24} />
                 </div>
               </Paper>
             </Grid>
@@ -530,7 +764,7 @@ export default function MuiPage() {
                   <ListItem>
                     <ListItemAvatar>
                       <Avatar>
-                        <Person />
+                        <UserIcon size={20} />
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="사용자 1" secondary="사용자 설명" />
@@ -538,7 +772,7 @@ export default function MuiPage() {
                   <ListItem>
                     <ListItemAvatar>
                       <Avatar>
-                        <Person />
+                        <UserIcon size={20} />
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="사용자 2" secondary="사용자 설명" />
@@ -576,6 +810,121 @@ export default function MuiPage() {
                     </TableBody>
                   </Table>
                 </TableContainer>
+              </Paper>
+            </Grid>
+
+            {/* Large Data Table - 40x40 */}
+            <Grid item xs={12}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  대용량 데이터 테이블 (40x40)
+                </Typography>
+                <Typography variant="body2" color="textSecondary" className="mb-4">
+                  가로 40셀, 세로 40라인의 대용량 데이터 테이블 예시입니다.
+                </Typography>
+                                 <TableContainer sx={{ maxHeight: 600, overflowX: 'auto', width: '100%' }}>
+                   <Table size="small" stickyHeader sx={{ width: '100%', tableLayout: 'fixed' }}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>ID</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>이름</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>이메일</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>전화번호</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>나이</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>직업</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>회사</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>부서</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>직급</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>입사일</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>급여</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>성별</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>주소</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>도시</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>우편번호</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>국가</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>언어</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>시간대</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>통화</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>생년월일</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>학력</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>전공</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>경력</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>스킬</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>인증서</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>프로젝트</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>담당업무</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>상태</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>우선순위</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>마감일</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>진행률</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>담당자</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>예산</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>비용</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>수익</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>ROI</TableCell>
+                        <TableCell sx={{ width: '2.5%', fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>평가</TableCell>
+                      </TableRow>
+                    </TableHead>
+                                         <TableBody>
+                       {Array.from({ length: 40 }, (_, rowIndex) => (
+                         <TableRow key={rowIndex} hover>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{rowIndex + 1}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>사용자{rowIndex + 1}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>user{rowIndex + 1}@example.com</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>010-1234-{String(rowIndex + 1000).padStart(4, '0')}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{20 + (rowIndex % 40)}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['개발자', '디자이너', '기획자', '마케터', '영업'][rowIndex % 5]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>회사{(rowIndex % 10) + 1}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['개발팀', '디자인팀', '기획팀', '마케팅팀', '영업팀'][rowIndex % 5]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['사원', '대리', '과장', '차장', '부장'][rowIndex % 5]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>202{Math.floor(rowIndex / 10) + 3}-{String((rowIndex % 12) + 1).padStart(2, '0')}-{String((rowIndex % 28) + 1).padStart(2, '0')}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{(3000 + (rowIndex * 100)).toLocaleString()}만원</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{rowIndex % 2 === 0 ? '남성' : '여성'}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>서울시 강남구 테헤란로 {rowIndex + 1}길</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>서울</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{String(60000 + rowIndex).padStart(5, '0')}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>대한민국</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>한국어</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>UTC+9</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>KRW</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>199{Math.floor(rowIndex / 10) + 0}-{String((rowIndex % 12) + 1).padStart(2, '0')}-{String((rowIndex % 28) + 1).padStart(2, '0')}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['고졸', '전문대', '대졸', '석사', '박사'][rowIndex % 5]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['컴퓨터공학', '디자인', '경영학', '마케팅', '경제학'][rowIndex % 5]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{rowIndex + 1}년</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['JavaScript', 'Python', 'Java', 'C++', 'React'][rowIndex % 5]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes'][rowIndex % 5]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>프로젝트{rowIndex + 1}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['개발', '디자인', '기획', '테스트', '배포'][rowIndex % 5]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['진행중', '완료', '보류', '취소'][rowIndex % 4]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['낮음', '보통', '높음', '긴급'][rowIndex % 4]}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>2024-{String((rowIndex % 12) + 1).padStart(2, '0')}-{String((rowIndex % 28) + 1).padStart(2, '0')}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{rowIndex * 2.5}%</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>담당자{rowIndex + 1}</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{(1000 + rowIndex * 50).toLocaleString()}만원</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{(500 + rowIndex * 25).toLocaleString()}만원</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{(1500 + rowIndex * 75).toLocaleString()}만원</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{((rowIndex + 1) * 2.5).toFixed(1)}%</TableCell>
+                           <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{['A', 'B', 'C', 'D'][rowIndex % 4]}</TableCell>
+                         </TableRow>
+                       ))}
+                     </TableBody>
+                  </Table>
+                </TableContainer>
+                <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Typography variant="body2" color="textSecondary">
+                    총 40개 행, 40개 열의 데이터
+                  </Typography>
+                  <TablePagination
+                    component="div"
+                    count={40}
+                    page={0}
+                    onPageChange={() => {}}
+                    rowsPerPage={10}
+                    onRowsPerPageChange={() => {}}
+                    labelRowsPerPage="페이지당:"
+                    labelDisplayedRows={({ from, to, count }) => `${from}-${to}/${count}`}
+                  />
+                </Box>
               </Paper>
             </Grid>
 
@@ -735,7 +1084,7 @@ export default function MuiPage() {
                   Accordion
                 </Typography>
                 <Accordion>
-                  <AccordionSummary expandIcon={<ExpandMore />}>
+                  <AccordionSummary expandIcon={<ChevronDownIcon size={20} />}>
                     <Typography>아코디언 제목</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
@@ -757,10 +1106,10 @@ export default function MuiPage() {
                       앱 제목
                     </Typography>
                     <IconButton color="inherit">
-                      <Search />
+                      <SearchIcon size={24} />
                     </IconButton>
                     <IconButton color="inherit">
-                      <Notifications />
+                      <BellIcon size={24} />
                     </IconButton>
                   </Toolbar>
                 </AppBar>
@@ -838,9 +1187,9 @@ export default function MuiPage() {
                       setValue(newValue)
                     }}
                   >
-                    <BottomNavigationAction icon={<Home />} />
-                    <BottomNavigationAction icon={<Favorite />} />
-                    <BottomNavigationAction icon={<LocationOn />} />
+                    <BottomNavigationAction icon={<HomeIcon size={24} />} />
+                    <BottomNavigationAction icon={<HeartIcon size={24} />} />
+                    <BottomNavigationAction icon={<MapPinIcon size={24} />} />
                   </BottomNavigation>
                 </Paper>
               </Paper>
@@ -944,14 +1293,14 @@ export default function MuiPage() {
                 <SpeedDial
                   ariaLabel="SpeedDial example"
                   sx={{ position: 'relative' }}
-                  icon={<SpeedDialIcon />}
+                  icon={<PlusIcon size={24} />}
                 >
                   <SpeedDialAction
-                    icon={<Edit />}
+                    icon={<EditIcon size={24} />}
                     tooltipTitle="편집"
                   />
                   <SpeedDialAction
-                    icon={<Delete />}
+                    icon={<TrashIcon size={24} />}
                     tooltipTitle="삭제"
                   />
                 </SpeedDial>
@@ -1049,234 +1398,362 @@ export default function MuiPage() {
               </Paper>
             </Grid>
 
-            {/* Input with Adornment */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  Input with Adornment
-                </Typography>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  가격
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">₩</InputAdornment>,
-                  }}
-                />
-              </Paper>
-            </Grid>
+                         {/* Input with Adornment */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   Input with Adornment
+                 </Typography>
+                 <div className="space-y-4">
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       가격
+                     </label>
+                     <TextField
+                       variant="outlined"
+                       {...commonInputProps}
+                       placeholder="가격을 입력하세요"
+                       InputProps={{
+                         startAdornment: <InputAdornment position="start">₩</InputAdornment>,
+                       }}
+                     />
+                   </div>
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       검색
+                     </label>
+                     <TextField
+                       variant="outlined"
+                       {...commonInputProps}
+                       placeholder="검색어를 입력하세요"
+                       InputProps={{
+                         startAdornment: <InputAdornment position="start"><SearchIcon size={18} className="text-gray-400" /></InputAdornment>,
+                       }}
+                     />
+                   </div>
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       비밀번호
+                     </label>
+                     <TextField
+                       variant="outlined"
+                       {...commonInputProps}
+                       type="password"
+                       placeholder="비밀번호를 입력하세요"
+                       InputProps={{
+                         startAdornment: <InputAdornment position="start"><LockIcon size={18} className="text-gray-400" /></InputAdornment>,
+                         endAdornment: <InputAdornment position="end"><EyeIcon size={18} className="text-gray-400 cursor-pointer" /></InputAdornment>,
+                       }}
+                     />
+                   </div>
+                 </div>
+               </Paper>
+             </Grid>
 
-            {/* Outlined Input */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  Outlined Input
-                </Typography>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  입력
-                </label>
-                <OutlinedInput
-                  placeholder="아웃라인 입력"
-                  size="small"
-                  endAdornment={<InputAdornment position="end">kg</InputAdornment>}
-                />
-              </Paper>
-            </Grid>
+                         {/* Outlined Input */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   Outlined Input
+                 </Typography>
+                 <div className="space-y-4">
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       무게 입력
+                     </label>
+                     <OutlinedInput
+                       placeholder="무게를 입력하세요"
+                       {...commonInputProps}
+                       endAdornment={<InputAdornment position="end">kg</InputAdornment>}
+                     />
+                   </div>
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       설정
+                     </label>
+                     <OutlinedInput
+                       placeholder="설정값을 입력하세요"
+                       {...commonInputProps}
+                       startAdornment={<InputAdornment position="start"><SettingsIcon size={18} className="text-gray-400" /></InputAdornment>}
+                     />
+                   </div>
+                 </div>
+               </Paper>
+             </Grid>
 
-            {/* Basic Input */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  Basic Input
-                </Typography>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  기본입력
-                </label>
-                <Input
-                  placeholder="기본 입력"
-                  size="small"
-                />
-              </Paper>
-            </Grid>
+                         {/* Basic Input */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   Basic Input
+                 </Typography>
+                 <div className="space-y-4">
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       기본 입력
+                     </label>
+                     <Input
+                       placeholder="기본 입력"
+                       {...commonInputProps}
+                       startAdornment={<InputAdornment position="start"><PlusIcon size={18} className="text-gray-400" /></InputAdornment>}
+                     />
+                   </div>
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       즐겨찾기
+                     </label>
+                     <Input
+                       placeholder="즐겨찾기 입력"
+                       {...commonInputProps}
+                       startAdornment={<InputAdornment position="start"><HeartIcon size={18} className="text-gray-400" /></InputAdornment>}
+                     />
+                   </div>
+                 </div>
+               </Paper>
+             </Grid>
 
-            {/* Form Helper Text */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  Form Helper Text
-                </Typography>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  이메일
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  helperText="올바른 이메일 형식을 입력하세요"
-                  error
-                />
-              </Paper>
-            </Grid>
+                         {/* Form Helper Text */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   Form Helper Text
+                 </Typography>
+                 <div className="space-y-4">
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       이메일
+                     </label>
+                     <TextField
+                       variant="outlined"
+                       {...commonInputProps}
+                       placeholder="이메일을 입력하세요"
+                       helperText="올바른 이메일 형식을 입력하세요"
+                       error
+                       InputProps={{
+                         startAdornment: <InputAdornment position="start"><MailIcon size={18} className="text-gray-400" /></InputAdornment>,
+                       }}
+                     />
+                   </div>
+                   <div>
+                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                       사용자명
+                     </label>
+                     <TextField
+                       variant="outlined"
+                       {...commonInputProps}
+                       placeholder="사용자명을 입력하세요"
+                       helperText="3-20자 사이로 입력하세요"
+                       InputProps={{
+                         startAdornment: <InputAdornment position="start"><UserIcon size={18} className="text-gray-400" /></InputAdornment>,
+                       }}
+                     />
+                   </div>
+                 </div>
+               </Paper>
+             </Grid>
 
-            {/* List with Icons */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  List with Icons
-                </Typography>
-                <List>
-                  <ListItem>
-                    <ListItemIcon>
-                      <Mail />
-                    </ListItemIcon>
-                    <ListItemText primary="이메일" secondary="mail@example.com" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <Phone />
-                    </ListItemIcon>
-                    <ListItemText primary="전화번호" secondary="010-1234-5678" />
-                  </ListItem>
-                </List>
-              </Paper>
-            </Grid>
+                         {/* List with Icons */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   List with Icons
+                 </Typography>
+                 <List>
+                   <ListItem>
+                     <ListItemIcon>
+                       <MailIcon size={20} className="text-blue-500" />
+                     </ListItemIcon>
+                     <ListItemText primary="이메일" secondary="mail@example.com" />
+                   </ListItem>
+                   <ListItem>
+                     <ListItemIcon>
+                       <PhoneIcon size={20} className="text-green-500" />
+                     </ListItemIcon>
+                     <ListItemText primary="전화번호" secondary="010-1234-5678" />
+                   </ListItem>
+                   <ListItem>
+                     <ListItemIcon>
+                       <UserIcon size={20} className="text-purple-500" />
+                     </ListItemIcon>
+                     <ListItemText primary="사용자" secondary="사용자 정보" />
+                   </ListItem>
+                 </List>
+               </Paper>
+             </Grid>
 
-            {/* List with Secondary Action */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  List with Secondary Action
-                </Typography>
-                <List>
-                  <ListItem>
-                    <ListItemText primary="항목 1" />
-                    <ListItemSecondaryAction>
-                      <IconButton edge="end" aria-label="삭제">
-                        <Delete />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText primary="항목 2" />
-                    <ListItemSecondaryAction>
-                      <IconButton edge="end" aria-label="편집">
-                        <Edit />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                </List>
-              </Paper>
-            </Grid>
+                         {/* List with Secondary Action */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   List with Secondary Action
+                 </Typography>
+                 <List>
+                   <ListItem>
+                     <ListItemText primary="항목 1" />
+                     <ListItemSecondaryAction>
+                       <IconButton edge="end" aria-label="삭제">
+                         <TrashIcon size={18} />
+                       </IconButton>
+                     </ListItemSecondaryAction>
+                   </ListItem>
+                   <ListItem>
+                     <ListItemText primary="항목 2" />
+                     <ListItemSecondaryAction>
+                       <IconButton edge="end" aria-label="편집">
+                         <EditIcon size={18} />
+                       </IconButton>
+                     </ListItemSecondaryAction>
+                   </ListItem>
+                   <ListItem>
+                     <ListItemText primary="항목 3" />
+                     <ListItemSecondaryAction>
+                       <IconButton edge="end" aria-label="확인">
+                         <CheckIcon size={18} />
+                       </IconButton>
+                     </ListItemSecondaryAction>
+                   </ListItem>
+                 </List>
+               </Paper>
+             </Grid>
 
-            {/* List with Subheader */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  List with Subheader
-                </Typography>
-                <List subheader={<ListSubheader>카테고리</ListSubheader>}>
-                  <ListItem>
-                    <ListItemText primary="항목 1" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemText primary="항목 2" />
-                  </ListItem>
-                </List>
-              </Paper>
-            </Grid>
+                         {/* List with Subheader */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   List with Subheader
+                 </Typography>
+                 <List subheader={<ListSubheader>카테고리</ListSubheader>}>
+                   <ListItem>
+                     <ListItemIcon>
+                       <StarIcon size={18} className="text-yellow-500" />
+                     </ListItemIcon>
+                     <ListItemText primary="항목 1" />
+                   </ListItem>
+                   <ListItem>
+                     <ListItemIcon>
+                       <HeartIcon size={18} className="text-red-500" />
+                     </ListItemIcon>
+                     <ListItemText primary="항목 2" />
+                   </ListItem>
+                   <ListItem>
+                     <ListItemIcon>
+                       <CheckIcon size={18} className="text-green-500" />
+                     </ListItemIcon>
+                     <ListItemText primary="항목 3" />
+                   </ListItem>
+                 </List>
+               </Paper>
+             </Grid>
 
-            {/* Table with Pagination */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  Table with Pagination
-                </Typography>
-                <TableContainer>
-                  <Table size="small">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>이름</TableCell>
-                        <TableCell>역할</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>홍길동</TableCell>
-                        <TableCell>관리자</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  component="div"
-                  count={100}
-                  page={0}
-                  onPageChange={() => {}}
-                  rowsPerPage={10}
-                  onRowsPerPageChange={() => {}}
-                  labelRowsPerPage="페이지당:"
-                  labelDisplayedRows={({ from, to, count }) => `${from}-${to}/${count}`}
-                />
-              </Paper>
-            </Grid>
+                         {/* Table with Pagination */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   Table with Pagination
+                 </Typography>
+                 <TableContainer>
+                   <Table size="small">
+                     <TableHead>
+                       <TableRow>
+                         <TableCell>
+                           <div className="flex items-center gap-2">
+                             <UserIcon size={16} className="text-gray-500" />
+                             이름
+                           </div>
+                         </TableCell>
+                         <TableCell>
+                           <div className="flex items-center gap-2">
+                             <SettingsIcon size={16} className="text-gray-500" />
+                             역할
+                           </div>
+                         </TableCell>
+                       </TableRow>
+                     </TableHead>
+                     <TableBody>
+                       <TableRow>
+                         <TableCell>홍길동</TableCell>
+                         <TableCell>관리자</TableCell>
+                       </TableRow>
+                     </TableBody>
+                   </Table>
+                 </TableContainer>
+                 <TablePagination
+                   component="div"
+                   count={100}
+                   page={0}
+                   onPageChange={() => {}}
+                   rowsPerPage={10}
+                   onRowsPerPageChange={() => {}}
+                   labelRowsPerPage="페이지당:"
+                   labelDisplayedRows={({ from, to, count }) => `${from}-${to}/${count}`}
+                 />
+               </Paper>
+             </Grid>
 
-            {/* Table with Sort Label */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  Table with Sort Label
-                </Typography>
-                <TableContainer>
-                  <Table size="small">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>
-                          <TableSortLabel>이름</TableSortLabel>
-                        </TableCell>
-                        <TableCell>
-                          <TableSortLabel>나이</TableSortLabel>
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <TableCell>홍길동</TableCell>
-                        <TableCell>30</TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Paper>
-            </Grid>
+                         {/* Table with Sort Label */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   Table with Sort Label
+                 </Typography>
+                 <TableContainer>
+                   <Table size="small">
+                     <TableHead>
+                       <TableRow>
+                         <TableCell>
+                           <div className="flex items-center gap-2">
+                             <UserIcon size={16} className="text-gray-500" />
+                             <TableSortLabel>이름</TableSortLabel>
+                           </div>
+                         </TableCell>
+                         <TableCell>
+                           <div className="flex items-center gap-2">
+                             <StarIcon size={16} className="text-gray-500" />
+                             <TableSortLabel>나이</TableSortLabel>
+                           </div>
+                         </TableCell>
+                       </TableRow>
+                     </TableHead>
+                     <TableBody>
+                       <TableRow>
+                         <TableCell>홍길동</TableCell>
+                         <TableCell>30</TableCell>
+                       </TableRow>
+                     </TableBody>
+                   </Table>
+                 </TableContainer>
+               </Paper>
+             </Grid>
 
-            {/* Card with Action Area */}
-            <Grid item xs={12} md={6}>
-              <Paper className="p-6 shadow-lg rounded-lg">
-                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                  Card with Action Area
-                </Typography>
-                <Card sx={{ maxWidth: 345 }}>
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image="/images/logo.png"
-                      alt="카드 이미지"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        클릭 가능한 카드
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        클릭하면 액션이 실행됩니다.
-                      </Typography>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </Paper>
-            </Grid>
+                         {/* Card with Action Area */}
+             <Grid item xs={12} md={6}>
+               <Paper className="p-6 shadow-lg rounded-lg">
+                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                   Card with Action Area
+                 </Typography>
+                 <Card sx={{ maxWidth: 345 }}>
+                   <CardActionArea>
+                     <CardMedia
+                       component="img"
+                       height="140"
+                       image="/images/logo.png"
+                       alt="카드 이미지"
+                     />
+                     <CardContent>
+                       <div className="flex items-center gap-2 mb-2">
+                         <HeartIcon size={20} className="text-red-500" />
+                         <Typography gutterBottom variant="h5" component="div">
+                           클릭 가능한 카드
+                         </Typography>
+                       </div>
+                       <Typography variant="body2" color="text.secondary">
+                         클릭하면 액션이 실행됩니다.
+                       </Typography>
+                     </CardContent>
+                   </CardActionArea>
+                 </Card>
+               </Paper>
+             </Grid>
 
             {/* Mobile Stepper */}
             <Grid item xs={12} md={6}>
@@ -1293,6 +1770,7 @@ export default function MuiPage() {
                       size="small" 
                       onClick={handleNext}
                       disabled={activeStep === 5}
+                      startIcon={<PlusIcon size={16} />}
                     >
                       다음
                     </Button>
@@ -1302,6 +1780,7 @@ export default function MuiPage() {
                       size="small" 
                       onClick={handleBack}
                       disabled={activeStep === 0}
+                      startIcon={<MinusIcon size={16} />}
                     >
                       뒤로
                     </Button>
@@ -1557,9 +2036,404 @@ export default function MuiPage() {
                 </div>
               </Paper>
             </Grid>
+
+                        {/* Popover & Tooltip */}
+            <Grid item xs={12}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 'semibold', color: '#111827' }}>
+                  Popover & Tooltip
+                </Typography>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {/* Tooltip Examples */}
+                  <div>
+                    <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'medium', color: '#1f2937' }}>
+                      Tooltip Examples
+                    </Typography>
+                    <div className="flex flex-wrap gap-4">
+                      <Tooltip 
+                        title="Top tooltip with arrow" 
+                        arrow 
+                        placement="top"
+                        sx={{
+                          '& .MuiTooltip-tooltip': {
+                            backgroundColor: '#000000',
+                            color: '#ffffff'
+                          },
+                          '& .MuiTooltip-arrow': {
+                            color: '#000000'
+                          }
+                        }}
+                      >
+                        <Button variant="outlined">Top Tooltip</Button>
+                      </Tooltip>
+                      
+                      <Tooltip 
+                        title="Bottom tooltip with arrow" 
+                        arrow 
+                        placement="bottom"
+                        sx={{
+                          '& .MuiTooltip-tooltip': {
+                            backgroundColor: '#000000',
+                            color: '#ffffff'
+                          },
+                          '& .MuiTooltip-arrow': {
+                            color: '#000000'
+                          }
+                        }}
+                      >
+                        <Button variant="outlined">Bottom Tooltip</Button>
+                      </Tooltip>
+                      
+                      <Tooltip 
+                        title="Left tooltip with arrow" 
+                        arrow 
+                        placement="left"
+                        sx={{
+                          '& .MuiTooltip-tooltip': {
+                            backgroundColor: '#000000',
+                            color: '#ffffff'
+                          },
+                          '& .MuiTooltip-arrow': {
+                            color: '#000000'
+                          }
+                        }}
+                      >
+                        <Button variant="outlined">Left Tooltip</Button>
+                      </Tooltip>
+                      
+                      <Tooltip 
+                        title="Right tooltip with arrow" 
+                        arrow 
+                        placement="right"
+                        sx={{
+                          '& .MuiTooltip-tooltip': {
+                            backgroundColor: '#000000',
+                            color: '#ffffff'
+                          },
+                          '& .MuiTooltip-arrow': {
+                            color: '#000000'
+                          }
+                        }}
+                      >
+                        <Button variant="outlined">Right Tooltip</Button>
+                      </Tooltip>
+                    </div>
+                  </div>
+
+                  {/* Popover Examples */}
+                  <div>
+                    <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'medium', color: '#1f2937' }}>
+                      Popover Examples
+                    </Typography>
+                    <div className="flex flex-wrap gap-4">
+                      <Button 
+                        variant="contained" 
+                        onClick={(e) => {
+                          setPopoverAnchor(e.currentTarget)
+                          setPopoverPlacement('top')
+                        }}
+                      >
+                        Top Popover
+                      </Button>
+                      
+                      <Button 
+                        variant="contained" 
+                        onClick={(e) => {
+                          setPopoverAnchor(e.currentTarget)
+                          setPopoverPlacement('bottom')
+                        }}
+                      >
+                        Bottom Popover
+                      </Button>
+                      
+                      <Button 
+                        variant="contained" 
+                        onClick={(e) => {
+                          setPopoverAnchor(e.currentTarget)
+                          setPopoverPlacement('left')
+                        }}
+                      >
+                        Left Popover
+                      </Button>
+                      
+                      <Button 
+                        variant="contained" 
+                        onClick={(e) => {
+                          setPopoverAnchor(e.currentTarget)
+                          setPopoverPlacement('right')
+                        }}
+                      >
+                        Right Popover
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </Paper>
+            </Grid>
+
+            {/* Lucide Icons Examples */}
+            <Grid item xs={12}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 'semibold', color: '#111827' }}>
+                  Lucide Icons Examples
+                </Typography>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  {/* Technology Icons */}
+                  <div>
+                    <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'medium', color: '#1f2937' }}>
+                      Technology Icons
+                    </Typography>
+                    <div className="flex flex-wrap gap-3">
+                      <Button variant="outlined" startIcon={<LaptopIcon size={18} />}>
+                        Laptop
+                      </Button>
+                      <Button variant="outlined" startIcon={<SmartphoneIcon size={18} />}>
+                        Smartphone
+                      </Button>
+                      <Button variant="outlined" startIcon={<TabletIcon size={18} />}>
+                        Tablet
+                      </Button>
+                      <Button variant="outlined" startIcon={<MonitorIcon size={18} />}>
+                        Monitor
+                      </Button>
+                      <Button variant="outlined" startIcon={<ServerIcon size={18} />}>
+                        Server
+                      </Button>
+                      <Button variant="outlined" startIcon={<DatabaseIcon size={18} />}>
+                        Database
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Communication Icons */}
+                  <div>
+                    <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'medium', color: '#1f2937' }}>
+                      Communication Icons
+                    </Typography>
+                    <div className="flex flex-wrap gap-3">
+                      <Button variant="outlined" startIcon={<MailIcon size={18} />}>
+                        Mail
+                      </Button>
+                      <Button variant="outlined" startIcon={<PhoneIcon size={18} />}>
+                        Phone
+                      </Button>
+                      <Button variant="outlined" startIcon={<MessageCircleIcon size={18} />}>
+                        Message
+                      </Button>
+                      <Button variant="outlined" startIcon={<VideoIcon size={18} />}>
+                        Video Call
+                      </Button>
+                      <Button variant="outlined" startIcon={<ShareIcon size={18} />}>
+                        Share
+                      </Button>
+                      <Button variant="outlined" startIcon={<BellIcon size={18} />}>
+                        Notifications
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Business Icons */}
+                  <div>
+                    <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'medium', color: '#1f2937' }}>
+                      Business Icons
+                    </Typography>
+                    <div className="flex flex-wrap gap-3">
+                      <Button variant="outlined" startIcon={<BuildingIcon size={18} />}>
+                        Building
+                      </Button>
+                      <Button variant="outlined" startIcon={<StoreIcon size={18} />}>
+                        Store
+                      </Button>
+                      <Button variant="outlined" startIcon={<FactoryIcon size={18} />}>
+                        Factory
+                      </Button>
+                      <Button variant="outlined" startIcon={<WarehouseIcon size={18} />}>
+                        Warehouse
+                      </Button>
+                      <Button variant="outlined" startIcon={<TruckIcon size={18} />}>
+                        Truck
+                      </Button>
+                      <Button variant="outlined" startIcon={<ShipIcon size={18} />}>
+                        Ship
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Nature Icons */}
+                  <div>
+                    <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'medium', color: '#1f2937' }}>
+                      Nature Icons
+                    </Typography>
+                    <div className="flex flex-wrap gap-3">
+                      <Button variant="outlined" startIcon={<TreesIcon size={18} />}>
+                        Trees
+                      </Button>
+                      <Button variant="outlined" startIcon={<FlowerIcon size={18} />}>
+                        Flower
+                      </Button>
+                      <Button variant="outlined" startIcon={<MountainIcon size={18} />}>
+                        Mountain
+                      </Button>
+                      <Button variant="outlined" startIcon={<CloudIcon size={18} />}>
+                        Cloud
+                      </Button>
+                      <Button variant="outlined" startIcon={<SunIcon size={18} />}>
+                        Sun
+                      </Button>
+                      <Button variant="outlined" startIcon={<MoonIcon size={18} />}>
+                        Moon
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Science Icons */}
+                  <div>
+                    <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'medium', color: '#1f2937' }}>
+                      Science Icons
+                    </Typography>
+                    <div className="flex flex-wrap gap-3">
+                      <Button variant="outlined" startIcon={<AtomIcon size={18} />}>
+                        Atom
+                      </Button>
+                      <Button variant="outlined" startIcon={<DnaIcon size={18} />}>
+                        DNA
+                      </Button>
+                      <Button variant="outlined" startIcon={<FlaskConicalIcon size={18} />}>
+                        Flask
+                      </Button>
+                      <Button variant="outlined" startIcon={<MicroscopeIcon size={18} />}>
+                        Microscope
+                      </Button>
+                      <Button variant="outlined" startIcon={<TelescopeIcon size={18} />}>
+                        Telescope
+                      </Button>
+                      <Button variant="outlined" startIcon={<RocketIcon size={18} />}>
+                        Rocket
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Finance Icons */}
+                  <div>
+                    <Typography variant="subtitle1" sx={{ mb: 1.5, fontWeight: 'medium', color: '#1f2937' }}>
+                      Finance Icons
+                    </Typography>
+                    <div className="flex flex-wrap gap-3">
+                      <Button variant="outlined" startIcon={<DollarSignIcon size={18} />}>
+                        Dollar
+                      </Button>
+                      <Button variant="outlined" startIcon={<CreditCardIcon size={18} />}>
+                        Credit Card
+                      </Button>
+                      <Button variant="outlined" startIcon={<TrendingUpIcon size={18} />}>
+                        Trending Up
+                      </Button>
+                      <Button variant="outlined" startIcon={<BarChart3Icon size={18} />}>
+                        Bar Chart
+                      </Button>
+                      <Button variant="outlined" startIcon={<PieChart3Icon size={18} />}>
+                        Pie Chart
+                      </Button>
+                      <Button variant="outlined" startIcon={<LineChartIcon size={18} />}>
+                        Line Chart
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </Paper>
+            </Grid>
           </Grid>
         </div>
+
+        {/* Popover Component */}
+        <Popover
+          open={Boolean(popoverAnchor)}
+          anchorEl={popoverAnchor}
+          onClose={() => setPopoverAnchor(null)}
+          anchorOrigin={{
+            vertical: popoverPlacement === 'top' ? 'top' : popoverPlacement === 'bottom' ? 'bottom' : 'center',
+            horizontal: popoverPlacement === 'left' ? 'left' : popoverPlacement === 'right' ? 'right' : 'center',
+          }}
+          transformOrigin={{
+            vertical: popoverPlacement === 'top' ? 'bottom' : popoverPlacement === 'bottom' ? 'top' : 'center',
+            horizontal: popoverPlacement === 'left' ? 'right' : popoverPlacement === 'right' ? 'left' : 'center',
+          }}
+          sx={{
+            '& .MuiPopover-paper': {
+              borderRadius: '8px',
+              boxShadow: '0 10px 25px rgba(0,0,0,0.15)',
+              border: '1px solid rgba(0,0,0,0.1)',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                width: '0',
+                height: '0',
+                ...(popoverPlacement === 'top' && {
+                  bottom: '-8px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  borderLeft: '8px solid transparent',
+                  borderRight: '8px solid transparent',
+                  borderTop: '8px solid white',
+                  filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))'
+                }),
+                ...(popoverPlacement === 'bottom' && {
+                  top: '-8px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  borderLeft: '8px solid transparent',
+                  borderRight: '8px solid transparent',
+                  borderBottom: '8px solid white',
+                  filter: 'drop-shadow(0 -2px 4px rgba(0,0,0,0.1))'
+                }),
+                ...(popoverPlacement === 'left' && {
+                  right: '-8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  borderTop: '8px solid transparent',
+                  borderBottom: '8px solid transparent',
+                  borderRight: '8px solid white',
+                  filter: 'drop-shadow(2px 0 4px rgba(0,0,0,0.1))'
+                }),
+                ...(popoverPlacement === 'right' && {
+                  left: '-8px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  borderTop: '8px solid transparent',
+                  borderBottom: '8px solid transparent',
+                  borderLeft: '8px solid white',
+                  filter: 'drop-shadow(-2px 0 4px rgba(0,0,0,0.1))'
+                })
+              }
+            }
+          }}
+        >
+          <div className="p-4 max-w-xs">
+            <Typography variant="h6" sx={{ mb: 1, fontWeight: 'semibold', color: '#111827' }}>
+              Popover Content
+            </Typography>
+            <Typography variant="body2" sx={{ color: '#4b5563' }}>
+              이것은 {popoverPlacement} 방향으로 표시되는 Popover입니다. 
+              화살표가 {popoverPlacement} 방향을 가리키고 있습니다.
+            </Typography>
+            <div className="flex gap-2 mt-3 justify-end">
+              <Button 
+                size="small" 
+                variant="outlined" 
+                onClick={() => setPopoverAnchor(null)}
+              >
+                닫기
+              </Button>
+              <Button 
+                size="small" 
+                variant="contained"
+                onClick={() => setPopoverAnchor(null)}
+              >
+                확인
+              </Button>
+            </div>
+          </div>
+        </Popover>
       </div>
-    </DashboardLayout>
   )
 } 

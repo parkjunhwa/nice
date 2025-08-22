@@ -32,7 +32,7 @@ interface ChartData {
   name: string
   value1: number
   value2: number
-  value3: number
+  value3?: number
 }
 
 interface ChartProps {
@@ -68,43 +68,47 @@ export function Chart({
     value3: '데이터 3'
   }
 }: ChartProps) {
-  const maxValue = Math.max(...data.flatMap(item => [item.value1, item.value2, item.value3]))
-  const minValue = Math.min(...data.flatMap(item => [item.value1, item.value2, item.value3]))
+  // value3가 있는 경우에만 포함
+  const datasets = [
+    {
+      label: labels.value1,
+      data: data.map(item => item.value1),
+      backgroundColor: colors.value1,
+      borderColor: colors.value1,
+      borderWidth: 2,
+      borderRadius: 4,
+      tension: 0.4,
+      fill: false,
+    },
+    {
+      label: labels.value2,
+      data: data.map(item => item.value2),
+      backgroundColor: colors.value2,
+      borderColor: colors.value2,
+      borderWidth: 2,
+      borderRadius: 4,
+      tension: 0.4,
+      fill: false,
+    },
+  ]
+
+  // value3가 있는 경우에만 추가
+  if (data.some(item => item.value3 !== undefined)) {
+    datasets.push({
+      label: labels.value3,
+      data: data.map(item => item.value3 || 0),
+      backgroundColor: colors.value3,
+      borderColor: colors.value3,
+      borderWidth: 2,
+      borderRadius: 4,
+      tension: 0.4,
+      fill: false,
+    })
+  }
 
   const chartData = {
     labels: data.map(item => item.name),
-    datasets: [
-      {
-        label: labels.value1,
-        data: data.map(item => item.value1),
-        backgroundColor: colors.value1,
-        borderColor: colors.value1,
-        borderWidth: 2,
-        borderRadius: 4,
-        tension: 0.4,
-        fill: false,
-      },
-      {
-        label: labels.value2,
-        data: data.map(item => item.value2),
-        backgroundColor: colors.value2,
-        borderColor: colors.value2,
-        borderWidth: 2,
-        borderRadius: 4,
-        tension: 0.4,
-        fill: false,
-      },
-      {
-        label: labels.value3,
-        data: data.map(item => item.value3),
-        backgroundColor: colors.value3,
-        borderColor: colors.value3,
-        borderWidth: 2,
-        borderRadius: 4,
-        tension: 0.4,
-        fill: false,
-      },
-    ],
+    datasets: datasets,
   }
 
   const options = {
@@ -208,16 +212,6 @@ export function Chart({
           <h3 className="mb-4 text-lg font-semibold text-gray-900">{title}</h3>
         )}
         
-        {/* 차트 요약 정보 */}
-        <div className="mb-4 flex items-center justify-between">
-          <div className="text-sm text-gray-600">
-            최고: <span className="font-semibold text-green-600">{maxValue.toLocaleString()}</span>
-          </div>
-          <div className="text-sm text-gray-600">
-            최저: <span className="font-semibold text-red-600">{minValue.toLocaleString()}</span>
-          </div>
-        </div>
-        
         <div className="h-[300px]">
           <Line data={chartData} options={options} />
         </div>
@@ -230,16 +224,6 @@ export function Chart({
       {title && (
         <h3 className="mb-4 text-lg font-semibold text-gray-900">{title}</h3>
       )}
-      
-      {/* 차트 요약 정보 */}
-      <div className="mb-4 flex items-center justify-between">
-        <div className="text-sm text-gray-600">
-          최고: <span className="font-semibold text-green-600">{maxValue.toLocaleString()}</span>
-        </div>
-        <div className="text-sm text-gray-600">
-          최저: <span className="font-semibold text-red-600">{minValue.toLocaleString()}</span>
-        </div>
-      </div>
       
       <div className="h-[300px]">
         <Bar data={chartData} options={options} />
