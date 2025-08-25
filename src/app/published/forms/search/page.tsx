@@ -1,6 +1,5 @@
 "use client"
 
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { 
   TextField, 
   Button, 
@@ -157,7 +156,6 @@ export default function SearchFormPage() {
   ]
 
   return (
-    <DashboardLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">검색 및 필터 예시</h1>
@@ -524,7 +522,6 @@ export default function SearchFormPage() {
             </Alert>
           </Box>
         </Paper>
-      </div>
-    </DashboardLayout>
-  )
-} 
+              </div>
+    )
+  } 

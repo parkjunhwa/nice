@@ -1,4 +1,3 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { 
   Paper,
   Typography,
@@ -97,7 +96,6 @@ const materialUIComponents = [
 
 export default function FormsPage() {
   return (
-    <DashboardLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Material UI 폼 예시</h1>
@@ -347,7 +345,6 @@ export default function FormsPage() {
             </List>
           </Box>
         </Paper>
-      </div>
-    </DashboardLayout>
-  )
-} 
+              </div>
+    )
+  } 

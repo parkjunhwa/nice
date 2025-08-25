@@ -1,6 +1,5 @@
 "use client"
 
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { 
   TextField, 
   Button, 
@@ -456,7 +455,6 @@ export default function MultiStepFormPage() {
   }
 
   return (
-    <DashboardLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">다단계 폼 예시</h1>
@@ -585,7 +583,6 @@ export default function MultiStepFormPage() {
             </Alert>
           </Box>
         </Paper>
-      </div>
-    </DashboardLayout>
-  )
-} 
+              </div>
+    )
+  } 

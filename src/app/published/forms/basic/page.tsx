@@ -1,4 +1,3 @@
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { 
   TextField, 
   Button, 
@@ -20,7 +19,6 @@ import { Save as SaveIcon, RestartAlt as ResetIcon } from "@mui/icons-material"
 
 export default function BasicFormPage() {
   return (
-    <DashboardLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">기본 폼</h1>
@@ -184,7 +182,6 @@ export default function BasicFormPage() {
             </Box>
           </Box>
         </Paper>
-      </div>
-    </DashboardLayout>
-  )
-} 
+              </div>
+    )
+  } 

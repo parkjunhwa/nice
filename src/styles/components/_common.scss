@@ -36,6 +36,7 @@
     @include shadow-sm;
   }
 
+
   /* 활동 아이템 */
   :where(.c-activity-item) {
     @include flex-center;

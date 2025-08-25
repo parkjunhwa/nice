@@ -101,12 +101,6 @@ const sidebarItems: MenuItem[] = [
   
   // 도구 기능
   {
-    title: "폼",
-    href: "/published/form",
-    icon: FileText,
-    section: "tools"
-  },
-  {
     title: "MUI 컴포넌트",
     href: "/published/mui",
     icon: FileText,

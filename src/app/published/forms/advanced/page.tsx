@@ -1,6 +1,5 @@
 "use client"
 
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { 
   TextField, 
   Button, 
@@ -98,7 +97,6 @@ export default function AdvancedFormPage() {
   ]
 
   return (
-    <DashboardLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">고급 폼 컴포넌트</h1>
@@ -462,7 +460,6 @@ export default function AdvancedFormPage() {
             폼이 성공적으로 제출되었습니다!
           </Alert>
         </Snackbar>
-      </div>
-    </DashboardLayout>
-  )
-} 
+              </div>
+    )
+  } 

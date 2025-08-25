@@ -100,145 +100,144 @@ import {
   MobileStepper,
   Popover
 } from '@mui/material'
-// MUI 아이콘은 제거하고 lucide-react 아이콘만 사용
+// 아이콘은 공통 모듈에서 import
 import {
-  Search as SearchIcon,
-  Mail as MailIcon,
-  Phone as PhoneIcon,
-  User as UserIcon,
-  Lock as LockIcon,
-  Eye as EyeIcon,
-  EyeOff as EyeOffIcon,
-  Plus as PlusIcon,
-  Minus as MinusIcon,
-  Settings as SettingsIcon,
-  Heart as HeartIcon,
-  Star as StarIcon,
-  Check as CheckIcon,
-  X as XIcon,
-  Edit as EditIcon,
-  Home as HomeIcon,
-  MapPin as MapPinIcon,
-  Trash as TrashIcon,
-  AlertCircle as AlertCircleIcon,
-  // 추가 lucide 아이콘들
-  Bell as BellIcon,
-  MessageCircle as MessageCircleIcon,
-  ChevronDown as ChevronDownIcon,
-  ChevronRight as ChevronRightIcon,
-  ChevronLeft as ChevronLeftIcon,
-  ChevronUp as ChevronUpIcon,
-  ArrowRight as ArrowRightIcon,
-  ArrowLeft as ArrowLeftIcon,
-  ArrowUp as ArrowUpIcon,
-  ArrowDown as ArrowDownIcon,
-  Calendar as CalendarIcon,
-  Clock as ClockIcon,
-  Download as DownloadIcon,
-  Upload as UploadIcon,
-  Share as ShareIcon,
-  Bookmark as BookmarkIcon,
-  Filter as FilterIcon,
-  SortAsc as SortAscIcon,
-  SortDesc as SortDescIcon,
-  RefreshCw as RefreshCwIcon,
-  RotateCcw as RotateCcwIcon,
-  ZoomIn as ZoomInIcon,
-  ZoomOut as ZoomOutIcon,
-  Maximize as MaximizeIcon,
-  Minimize as MinimizeIcon,
-  XCircle as XCircleIcon,
-  CheckCircle as CheckCircleIcon,
-  AlertTriangle as AlertTriangleIcon,
-  Info as InfoIcon,
-  HelpCircle as HelpCircleIcon,
-  FileText as FileTextIcon,
-  Image as ImageIcon,
-  Video as VideoIcon,
-  Music as MusicIcon,
-  Folder as FolderIcon,
-  HardDrive as HardDriveIcon,
-  Database as DatabaseIcon,
-  Server as ServerIcon,
-  Wifi as WifiIcon,
-  Bluetooth as BluetoothIcon,
-  Battery as BatteryIcon,
-  Power as PowerIcon,
-  Volume2 as Volume2Icon,
-  Mic as MicIcon,
-  Camera as CameraIcon,
-  Smartphone as SmartphoneIcon,
-  Monitor as MonitorIcon,
-  Tablet as TabletIcon,
-  Laptop as LaptopIcon,
-  Printer as PrinterIcon,
-  Keyboard as KeyboardIcon,
-  Mouse as MouseIcon,
-  Headphones as HeadphonesIcon,
-  Speaker as SpeakerIcon,
-  Trophy as TrophyIcon,
-  Award as AwardIcon,
-  Gift as GiftIcon,
-  ShoppingCart as ShoppingCartIcon,
-  CreditCard as CreditCardIcon,
-  DollarSign as DollarSignIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  BarChart3 as BarChart3Icon,
-  PieChart as PieChart3Icon,
-  LineChart as LineChartIcon,
-  Activity as ActivityIcon,
-  Target as TargetIcon,
-  Zap as ZapIcon,
-  Sun as SunIcon,
-  Moon as MoonIcon,
-  Cloud as CloudIcon,
-  Building as BuildingIcon,
-  Store as StoreIcon,
-  Factory as FactoryIcon,
-  Warehouse as WarehouseIcon,
-  Truck as TruckIcon,
-  Car as CarIcon,
-  Bike as BikeIcon,
-  Plane as PlaneIcon,
-  Ship as ShipIcon,
-  Train as TrainIcon,
-  Bus as BusIcon,
-  Rocket as RocketIcon,
-  Satellite as SatelliteIcon,
-  Telescope as TelescopeIcon,
-  Microscope as MicroscopeIcon,
-  FlaskConical as FlaskConicalIcon,
-  Atom as AtomIcon,
-  Dna as DnaIcon,
-  Pill as PillIcon,
-  Stethoscope as StethoscopeIcon,
-  Syringe as SyringeIcon,
-  Bandage as BandageIcon,
-  HeartPulse as HeartPulseIcon,
-  Brain as BrainIcon,
-  TestTube as TestTubeIcon,
-  Beaker as BeakerIcon,
-  GraduationCap as GraduationCapIcon,
-  BookOpen as BookOpenIcon,
-  Library as LibraryIcon,
-  School as SchoolIcon,
-  University as UniversityIcon,
-  Cake as CakeIcon,
-  Wine as WineIcon,
-  Coffee as CoffeeIcon,
-  Utensils as UtensilsIcon,
-  Pizza as PizzaIcon,
-  Hamburger as HamburgerIcon,
-  IceCream as IceCreamIcon,
-  Cookie as CookieIcon,
-  Apple as AppleIcon,
-  Carrot as CarrotIcon,
-  Leaf as LeafIcon,
-  Trees as TreesIcon,
-  Flower as FlowerIcon,
-  Mountain as MountainIcon
-} from 'lucide-react'
+  SearchIcon,
+  MailIcon,
+  PhoneIcon,
+  UserIcon,
+  LockIcon,
+  EyeIcon,
+  EyeOffIcon,
+  PlusIcon,
+  MinusIcon,
+  SettingsIcon,
+  HeartIcon,
+  StarIcon,
+  CheckIcon,
+  XIcon,
+  EditIcon,
+  HomeIcon,
+  MapPinIcon,
+  TrashIcon,
+  AlertCircleIcon,
+  BellIcon,
+  MessageCircleIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  ChevronUpIcon,
+  ArrowRightIcon,
+  ArrowLeftIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
+  CalendarIcon,
+  ClockIcon,
+  DownloadIcon,
+  UploadIcon,
+  ShareIcon,
+  BookmarkIcon,
+  FilterIcon,
+  SortAscIcon,
+  SortDescIcon,
+  RefreshCwIcon,
+  RotateCcwIcon,
+  ZoomInIcon,
+  ZoomOutIcon,
+  MaximizeIcon,
+  MinimizeIcon,
+  XCircleIcon,
+  CheckCircleIcon,
+  AlertTriangleIcon,
+  InfoIcon,
+  HelpCircleIcon,
+  FileTextIcon,
+  ImageIcon,
+  VideoIcon,
+  MusicIcon,
+  FolderIcon,
+  HardDriveIcon,
+  DatabaseIcon,
+  ServerIcon,
+  WifiIcon,
+  BluetoothIcon,
+  BatteryIcon,
+  PowerIcon,
+  Volume2Icon,
+  MicIcon,
+  CameraIcon,
+  SmartphoneIcon,
+  MonitorIcon,
+  TabletIcon,
+  LaptopIcon,
+  PrinterIcon,
+  KeyboardIcon,
+  MouseIcon,
+  HeadphonesIcon,
+  SpeakerIcon,
+  TrophyIcon,
+  AwardIcon,
+  GiftIcon,
+  ShoppingCartIcon,
+  CreditCardIcon,
+  DollarSignIcon,
+  TrendingUpIcon,
+  TrendingDownIcon,
+  BarChart3Icon,
+  PieChart3Icon,
+  LineChartIcon,
+  ActivityIcon,
+  TargetIcon,
+  ZapIcon,
+  SunIcon,
+  MoonIcon,
+  CloudIcon,
+  BuildingIcon,
+  StoreIcon,
+  FactoryIcon,
+  WarehouseIcon,
+  TruckIcon,
+  CarIcon,
+  BikeIcon,
+  PlaneIcon,
+  ShipIcon,
+  TrainIcon,
+  BusIcon,
+  RocketIcon,
+  SatelliteIcon,
+  TelescopeIcon,
+  MicroscopeIcon,
+  FlaskConicalIcon,
+  AtomIcon,
+  DnaIcon,
+  PillIcon,
+  StethoscopeIcon,
+  SyringeIcon,
+  BandageIcon,
+  HeartPulseIcon,
+  BrainIcon,
+  TestTubeIcon,
+  BeakerIcon,
+  GraduationCapIcon,
+  BookOpenIcon,
+  LibraryIcon,
+  SchoolIcon,
+  UniversityIcon,
+  CakeIcon,
+  WineIcon,
+  CoffeeIcon,
+  UtensilsIcon,
+  PizzaIcon,
+  HamburgerIcon,
+  IceCreamIcon,
+  CookieIcon,
+  AppleIcon,
+  CarrotIcon,
+  LeafIcon,
+  TreesIcon,
+  FlowerIcon,
+  MountainIcon
+} from '@/components/icons'
 import { useState } from 'react'
 
 export default function MuiPage() {
@@ -253,39 +252,9 @@ export default function MuiPage() {
   const [popoverAnchor, setPopoverAnchor] = useState<HTMLElement | null>(null)
   const [popoverPlacement, setPopoverPlacement] = useState<'top' | 'bottom' | 'left' | 'right'>('top')
 
-  // 공통 input 스타일
+  // 공통 input 스타일 (기본 속성만 유지, 스타일은 SCSS에서 전역 관리)
   const commonInputProps = {
-    size: "small" as const,
-    sx: { 
-      '& .MuiInputBase-root': { 
-        height: '36px',
-        fontSize: '14px'
-      },
-      '& .MuiInputBase-input': {
-        paddingLeft: '12px',
-        paddingRight: '12px'
-      },
-      '& .MuiInputAdornment-root': {
-        marginRight: '8px'
-      },
-      '& .MuiInputAdornment-positionStart': {
-        marginRight: '8px'
-      },
-      // readonly 상태 공통 스타일
-      '& .MuiInputBase-root.Mui-readOnly': {
-        backgroundColor: '#f3f4f6', // gray-100
-        '& .MuiInputBase-input': {
-          color: '#6b7280' // gray-500
-        }
-      },
-      // disabled 상태 공통 스타일
-      '& .MuiInputBase-root.Mui-disabled': {
-        backgroundColor: '#f3f4f6', // gray-100
-        '& .MuiInputBase-input': {
-          color: '#9ca3af' // gray-400
-        }
-      }
-    }
+    size: "small" as const
   }
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -331,7 +300,7 @@ export default function MuiPage() {
   ]
 
   return (
-    <div className="space-y-8">
+      <div className="space-y-8">
         {/* 페이지 헤더 */}
         <div className="c-page-header">
           <h1 className="c-page-header__title">Material-UI Components</h1>
@@ -495,22 +464,22 @@ export default function MuiPage() {
               </Paper>
             </Grid>
 
-                         {/* Text Field */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   Text Field
-                 </Typography>
+            {/* Text Field */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  Text Field
+                </Typography>
                  <div className="space-y-4">
                    <div>
-                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                        Normal 상태
-                     </label>
-                     <TextField 
-                       variant="outlined" 
-                       fullWidth 
+                </label>
+                <TextField 
+                  variant="outlined" 
+                  fullWidth 
                        size="small"
-                       {...commonInputProps}
+                  {...commonInputProps}
                        placeholder="일반 입력 필드"
                        InputProps={{
                          startAdornment: <UserIcon size={18} className="text-gray-400" />
@@ -533,6 +502,7 @@ export default function MuiPage() {
                          startAdornment: <AlertCircleIcon size={18} className="text-red-500" />
                        }}
                      />
+                     
                    </div>
                    <div>
                      <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -567,8 +537,8 @@ export default function MuiPage() {
                      />
                    </div>
                  </div>
-               </Paper>
-             </Grid>
+              </Paper>
+            </Grid>
 
             {/* Toggle Button */}
             <Grid item xs={12} md={6}>
@@ -1398,25 +1368,25 @@ export default function MuiPage() {
               </Paper>
             </Grid>
 
-                         {/* Input with Adornment */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   Input with Adornment
-                 </Typography>
+            {/* Input with Adornment */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  Input with Adornment
+                </Typography>
                  <div className="space-y-4">
                    <div>
-                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                       가격
-                     </label>
-                     <TextField
-                       variant="outlined"
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  가격
+                </label>
+                <TextField
+                  variant="outlined"
                        {...commonInputProps}
                        placeholder="가격을 입력하세요"
-                       InputProps={{
-                         startAdornment: <InputAdornment position="start">₩</InputAdornment>,
-                       }}
-                     />
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">₩</InputAdornment>,
+                  }}
+                />
                    </div>
                    <div>
                      <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1427,7 +1397,7 @@ export default function MuiPage() {
                        {...commonInputProps}
                        placeholder="검색어를 입력하세요"
                        InputProps={{
-                         startAdornment: <InputAdornment position="start"><SearchIcon size={18} className="text-gray-400" /></InputAdornment>,
+                         startAdornment: <SearchIcon size={18} className="text-gray-400" />,
                        }}
                      />
                    </div>
@@ -1441,31 +1411,31 @@ export default function MuiPage() {
                        type="password"
                        placeholder="비밀번호를 입력하세요"
                        InputProps={{
-                         startAdornment: <InputAdornment position="start"><LockIcon size={18} className="text-gray-400" /></InputAdornment>,
-                         endAdornment: <InputAdornment position="end"><EyeIcon size={18} className="text-gray-400 cursor-pointer" /></InputAdornment>,
+                         startAdornment: <LockIcon size={18} className="text-gray-400" />,
+                         endAdornment: <EyeIcon size={18} className="text-gray-400 cursor-pointer" />,
                        }}
                      />
                    </div>
                  </div>
-               </Paper>
-             </Grid>
+              </Paper>
+            </Grid>
 
-                         {/* Outlined Input */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   Outlined Input
-                 </Typography>
+            {/* Outlined Input */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  Outlined Input
+                </Typography>
                  <div className="space-y-4">
                    <div>
-                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                        무게 입력
-                     </label>
-                     <OutlinedInput
+                </label>
+                <OutlinedInput
                        placeholder="무게를 입력하세요"
                        {...commonInputProps}
-                       endAdornment={<InputAdornment position="end">kg</InputAdornment>}
-                     />
+                  endAdornment={<InputAdornment position="end">kg</InputAdornment>}
+                />
                    </div>
                    <div>
                      <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1474,28 +1444,28 @@ export default function MuiPage() {
                      <OutlinedInput
                        placeholder="설정값을 입력하세요"
                        {...commonInputProps}
-                       startAdornment={<InputAdornment position="start"><SettingsIcon size={18} className="text-gray-400" /></InputAdornment>}
+                       startAdornment={<SettingsIcon size={18} className="text-gray-400" />}
                      />
                    </div>
                  </div>
-               </Paper>
-             </Grid>
+              </Paper>
+            </Grid>
 
-                         {/* Basic Input */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   Basic Input
-                 </Typography>
+            {/* Basic Input */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  Basic Input
+                </Typography>
                  <div className="space-y-4">
                    <div>
-                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                        기본 입력
-                     </label>
-                     <Input
-                       placeholder="기본 입력"
+                </label>
+                <Input
+                  placeholder="기본 입력"
                        {...commonInputProps}
-                       startAdornment={<InputAdornment position="start"><PlusIcon size={18} className="text-gray-400" /></InputAdornment>}
+                       startAdornment={<PlusIcon size={18} className="text-gray-400" />}
                      />
                    </div>
                    <div>
@@ -1505,32 +1475,32 @@ export default function MuiPage() {
                      <Input
                        placeholder="즐겨찾기 입력"
                        {...commonInputProps}
-                       startAdornment={<InputAdornment position="start"><HeartIcon size={18} className="text-gray-400" /></InputAdornment>}
+                       startAdornment={<HeartIcon size={18} className="text-gray-400" />}
                      />
                    </div>
                  </div>
-               </Paper>
-             </Grid>
+              </Paper>
+            </Grid>
 
-                         {/* Form Helper Text */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   Form Helper Text
-                 </Typography>
+            {/* Form Helper Text */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  Form Helper Text
+                </Typography>
                  <div className="space-y-4">
                    <div>
-                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                       이메일
-                     </label>
-                     <TextField
-                       variant="outlined"
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  이메일
+                </label>
+                <TextField
+                  variant="outlined"
                        {...commonInputProps}
                        placeholder="이메일을 입력하세요"
-                       helperText="올바른 이메일 형식을 입력하세요"
-                       error
+                  helperText="올바른 이메일 형식을 입력하세요"
+                  error
                        InputProps={{
-                         startAdornment: <InputAdornment position="start"><MailIcon size={18} className="text-gray-400" /></InputAdornment>,
+                         startAdornment:<MailIcon size={18} className="text-gray-400" />,
                        }}
                      />
                    </div>
@@ -1544,62 +1514,62 @@ export default function MuiPage() {
                        placeholder="사용자명을 입력하세요"
                        helperText="3-20자 사이로 입력하세요"
                        InputProps={{
-                         startAdornment: <InputAdornment position="start"><UserIcon size={18} className="text-gray-400" /></InputAdornment>,
+                         startAdornment: <UserIcon size={18} className="text-gray-400" />,
                        }}
                      />
                    </div>
                  </div>
-               </Paper>
-             </Grid>
+              </Paper>
+            </Grid>
 
-                         {/* List with Icons */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   List with Icons
-                 </Typography>
-                 <List>
-                   <ListItem>
-                     <ListItemIcon>
+            {/* List with Icons */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  List with Icons
+                </Typography>
+                <List>
+                  <ListItem>
+                    <ListItemIcon>
                        <MailIcon size={20} className="text-blue-500" />
-                     </ListItemIcon>
-                     <ListItemText primary="이메일" secondary="mail@example.com" />
-                   </ListItem>
-                   <ListItem>
-                     <ListItemIcon>
+                    </ListItemIcon>
+                    <ListItemText primary="이메일" secondary="mail@example.com" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
                        <PhoneIcon size={20} className="text-green-500" />
-                     </ListItemIcon>
-                     <ListItemText primary="전화번호" secondary="010-1234-5678" />
-                   </ListItem>
+                    </ListItemIcon>
+                    <ListItemText primary="전화번호" secondary="010-1234-5678" />
+                  </ListItem>
                    <ListItem>
                      <ListItemIcon>
                        <UserIcon size={20} className="text-purple-500" />
                      </ListItemIcon>
                      <ListItemText primary="사용자" secondary="사용자 정보" />
-                   </ListItem>
-                 </List>
-               </Paper>
-             </Grid>
+                  </ListItem>
+                </List>
+              </Paper>
+            </Grid>
 
-                         {/* List with Secondary Action */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   List with Secondary Action
-                 </Typography>
-                 <List>
-                   <ListItem>
-                     <ListItemText primary="항목 1" />
-                     <ListItemSecondaryAction>
-                       <IconButton edge="end" aria-label="삭제">
+            {/* List with Secondary Action */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  List with Secondary Action
+                </Typography>
+                <List>
+                  <ListItem>
+                    <ListItemText primary="항목 1" />
+                    <ListItemSecondaryAction>
+                      <IconButton edge="end" aria-label="삭제">
                          <TrashIcon size={18} />
-                       </IconButton>
-                     </ListItemSecondaryAction>
-                   </ListItem>
-                   <ListItem>
-                     <ListItemText primary="항목 2" />
-                     <ListItemSecondaryAction>
-                       <IconButton edge="end" aria-label="편집">
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary="항목 2" />
+                    <ListItemSecondaryAction>
+                      <IconButton edge="end" aria-label="편집">
                          <EditIcon size={18} />
                        </IconButton>
                      </ListItemSecondaryAction>
@@ -1609,52 +1579,52 @@ export default function MuiPage() {
                      <ListItemSecondaryAction>
                        <IconButton edge="end" aria-label="확인">
                          <CheckIcon size={18} />
-                       </IconButton>
-                     </ListItemSecondaryAction>
-                   </ListItem>
-                 </List>
-               </Paper>
-             </Grid>
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                </List>
+              </Paper>
+            </Grid>
 
-                         {/* List with Subheader */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   List with Subheader
-                 </Typography>
-                 <List subheader={<ListSubheader>카테고리</ListSubheader>}>
-                   <ListItem>
+            {/* List with Subheader */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  List with Subheader
+                </Typography>
+                <List subheader={<ListSubheader>카테고리</ListSubheader>}>
+                  <ListItem>
                      <ListItemIcon>
                        <StarIcon size={18} className="text-yellow-500" />
                      </ListItemIcon>
-                     <ListItemText primary="항목 1" />
-                   </ListItem>
-                   <ListItem>
+                    <ListItemText primary="항목 1" />
+                  </ListItem>
+                  <ListItem>
                      <ListItemIcon>
                        <HeartIcon size={18} className="text-red-500" />
                      </ListItemIcon>
-                     <ListItemText primary="항목 2" />
-                   </ListItem>
+                    <ListItemText primary="항목 2" />
+                  </ListItem>
                    <ListItem>
                      <ListItemIcon>
                        <CheckIcon size={18} className="text-green-500" />
                      </ListItemIcon>
                      <ListItemText primary="항목 3" />
-                   </ListItem>
-                 </List>
-               </Paper>
-             </Grid>
+                  </ListItem>
+                </List>
+              </Paper>
+            </Grid>
 
-                         {/* Table with Pagination */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   Table with Pagination
-                 </Typography>
-                 <TableContainer>
-                   <Table size="small">
-                     <TableHead>
-                       <TableRow>
+            {/* Table with Pagination */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  Table with Pagination
+                </Typography>
+                <TableContainer>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
                          <TableCell>
                            <div className="flex items-center gap-2">
                              <UserIcon size={16} className="text-gray-500" />
@@ -1667,93 +1637,93 @@ export default function MuiPage() {
                              역할
                            </div>
                          </TableCell>
-                       </TableRow>
-                     </TableHead>
-                     <TableBody>
-                       <TableRow>
-                         <TableCell>홍길동</TableCell>
-                         <TableCell>관리자</TableCell>
-                       </TableRow>
-                     </TableBody>
-                   </Table>
-                 </TableContainer>
-                 <TablePagination
-                   component="div"
-                   count={100}
-                   page={0}
-                   onPageChange={() => {}}
-                   rowsPerPage={10}
-                   onRowsPerPageChange={() => {}}
-                   labelRowsPerPage="페이지당:"
-                   labelDisplayedRows={({ from, to, count }) => `${from}-${to}/${count}`}
-                 />
-               </Paper>
-             </Grid>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>홍길동</TableCell>
+                        <TableCell>관리자</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  component="div"
+                  count={100}
+                  page={0}
+                  onPageChange={() => {}}
+                  rowsPerPage={10}
+                  onRowsPerPageChange={() => {}}
+                  labelRowsPerPage="페이지당:"
+                  labelDisplayedRows={({ from, to, count }) => `${from}-${to}/${count}`}
+                />
+              </Paper>
+            </Grid>
 
-                         {/* Table with Sort Label */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   Table with Sort Label
-                 </Typography>
-                 <TableContainer>
-                   <Table size="small">
-                     <TableHead>
-                       <TableRow>
-                         <TableCell>
+            {/* Table with Sort Label */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  Table with Sort Label
+                </Typography>
+                <TableContainer>
+                  <Table size="small">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
                            <div className="flex items-center gap-2">
                              <UserIcon size={16} className="text-gray-500" />
-                             <TableSortLabel>이름</TableSortLabel>
+                          <TableSortLabel>이름</TableSortLabel>
                            </div>
-                         </TableCell>
-                         <TableCell>
+                        </TableCell>
+                        <TableCell>
                            <div className="flex items-center gap-2">
                              <StarIcon size={16} className="text-gray-500" />
-                             <TableSortLabel>나이</TableSortLabel>
+                          <TableSortLabel>나이</TableSortLabel>
                            </div>
-                         </TableCell>
-                       </TableRow>
-                     </TableHead>
-                     <TableBody>
-                       <TableRow>
-                         <TableCell>홍길동</TableCell>
-                         <TableCell>30</TableCell>
-                       </TableRow>
-                     </TableBody>
-                   </Table>
-                 </TableContainer>
-               </Paper>
-             </Grid>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell>홍길동</TableCell>
+                        <TableCell>30</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
+            </Grid>
 
-                         {/* Card with Action Area */}
-             <Grid item xs={12} md={6}>
-               <Paper className="p-6 shadow-lg rounded-lg">
-                 <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
-                   Card with Action Area
-                 </Typography>
-                 <Card sx={{ maxWidth: 345 }}>
-                   <CardActionArea>
-                     <CardMedia
-                       component="img"
-                       height="140"
-                       image="/images/logo.png"
-                       alt="카드 이미지"
-                     />
-                     <CardContent>
+            {/* Card with Action Area */}
+            <Grid item xs={12} md={6}>
+              <Paper className="p-6 shadow-lg rounded-lg">
+                <Typography variant="h6" className="mb-4 font-semibold text-gray-900">
+                  Card with Action Area
+                </Typography>
+                <Card sx={{ maxWidth: 345 }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image="/images/logo.png"
+                      alt="카드 이미지"
+                    />
+                    <CardContent>
                        <div className="flex items-center gap-2 mb-2">
                          <HeartIcon size={20} className="text-red-500" />
-                         <Typography gutterBottom variant="h5" component="div">
-                           클릭 가능한 카드
-                         </Typography>
+                      <Typography gutterBottom variant="h5" component="div">
+                        클릭 가능한 카드
+                      </Typography>
                        </div>
-                       <Typography variant="body2" color="text.secondary">
-                         클릭하면 액션이 실행됩니다.
-                       </Typography>
-                     </CardContent>
-                   </CardActionArea>
-                 </Card>
-               </Paper>
-             </Grid>
+                      <Typography variant="body2" color="text.secondary">
+                        클릭하면 액션이 실행됩니다.
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Paper>
+            </Grid>
 
             {/* Mobile Stepper */}
             <Grid item xs={12} md={6}>
@@ -2169,7 +2139,7 @@ export default function MuiPage() {
                   </div>
                 </div>
               </Paper>
-            </Grid>
+          </Grid>
 
             {/* Lucide Icons Examples */}
             <Grid item xs={12}>
@@ -2202,8 +2172,8 @@ export default function MuiPage() {
                       <Button variant="outlined" startIcon={<DatabaseIcon size={18} />}>
                         Database
                       </Button>
-                    </div>
-                  </div>
+        </div>
+      </div>
 
                   {/* Communication Icons */}
                   <div>

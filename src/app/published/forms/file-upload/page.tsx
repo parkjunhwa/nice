@@ -1,6 +1,5 @@
 "use client"
 
-import { DashboardLayout } from "@/components/dashboard-layout"
 import { 
   Button, 
   Paper,
@@ -174,7 +173,6 @@ export default function FileUploadPage() {
   const uploadingFiles = files.filter(f => f.status === 'uploading').length
 
   return (
-    <DashboardLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">파일 업로드 예시</h1>
@@ -396,7 +394,6 @@ export default function FileUploadPage() {
             {snackbarMessage}
           </Alert>
         </Snackbar>
-      </div>
-    </DashboardLayout>
-  )
-} 
+              </div>
+    )
+  } 
