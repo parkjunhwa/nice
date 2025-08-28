@@ -94,6 +94,8 @@ export default function MuiPage() {
   const [searchValue, setSearchValue] = useState('')
   const [autocompleteValue, setAutocompleteValue] = useState<{ label: string; value: string } | null>(null)
   const [selectValue, setSelectValue] = useState('')
+  const [multiSelectValue, setMultiSelectValue] = useState<string[]>([])
+  const [interestAreas, setInterestAreas] = useState<string[]>([])
 
   // Date Picker 상태
   const [dateValue, setDateValue] = useState<Date | null>(null)
@@ -201,8 +203,8 @@ export default function MuiPage() {
           </div>
         </div>
 
-        {/* Search, Autocomplete, Select 행 */}
-        <div className="grid grid-cols-4 gap-2 mt-2">
+        {/* Search, Autocomplete, Select, MultiSelect 행 */}
+        <div className="grid grid-cols-5 gap-2 mt-2">
           {/* Search TextField */}
           <div className="flex flex-col">
             <label className="form-top-label">Search</label>
@@ -266,6 +268,45 @@ export default function MuiPage() {
                 ))}
               </Select>
             </FormControl>
+          </div>
+
+          {/* MultiSelect */}
+          <div className="flex flex-col">
+            <label className="form-top-label">MultiSelect</label>
+            <FormControl fullWidth size="small">
+                   <Select
+                     multiple
+                     value={interestAreas}
+                     onChange={(e) => setInterestAreas(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)}
+                     displayEmpty
+                     className="bg-white"
+                     renderValue={(selected: unknown) => {
+                       if (!selected || !Array.isArray(selected) || selected.length === 0) {
+                         return <span className="text-gray-500">관심 분야를 선택하세요</span>
+                       }
+                       return (
+                         <div className="flex flex-wrap gap-1">
+                           {selected.map((value: string) => (
+                             <Chip
+                               key={value}
+                               label={value}
+                               size="small"
+                               onDelete={() => {
+                                 setInterestAreas(prev => prev.filter(v => v !== value))
+                               }}
+                               className="bg-blue-100 text-blue-800"
+                             />
+                           ))}
+                         </div>
+                       )
+                     }}
+                   >
+                     <MenuItem value="web">웹 개발</MenuItem>
+                     <MenuItem value="mobile">모바일 개발</MenuItem>
+                     <MenuItem value="ai">인공지능</MenuItem>
+                     <MenuItem value="data">데이터 분석</MenuItem>
+                   </Select>
+                 </FormControl>
           </div>
 
         </div>
@@ -340,40 +381,40 @@ export default function MuiPage() {
 
         {/* 추가 DatePicker 예시들 */}
         <div className="grid grid-cols-4 gap-2 mt-2">
-          {/* 작은 크기 DatePicker */}
-          <div className="flex flex-col">
-            <label className="form-top-label">작은 크기 DatePicker</label>
-            <DatePicker
-              value={dateValue}
-              onChange={(newValue: Date | null) => setDateValue(newValue)}
-              slotProps={{ textField: { size: "small" as const } }}
-            />
-          </div>
-
-          {/* 에러 상태 DatePicker */}
+          {/* 에러 상태 DatePicker - 기본 */}
           <div className="flex flex-col">
             <label className="form-top-label">에러 상태 DatePicker</label>
             <DatePicker
               value={dateValue}
               onChange={(newValue: Date | null) => setDateValue(newValue)}
-              placeholder="에러 상태"
-              slotProps={{
-                textField: {
-                  size: "small" as const,
-                  error: true,
-                  helperText: "날짜를 선택해주세요"
-                }
-              }}
+              placeholder="에러 상태 날짜"
+              error={true}
+              helperText="날짜를 선택해주세요"
             />
           </div>
+
+          {/* 에러 상태 DatePicker - 유효성 검사 */}
+          <div className="flex flex-col">
+            <label className="form-top-label">유효성 검사 에러</label>
+            <DatePicker
+              value={dateValue}
+              onChange={(newValue: Date | null) => setDateValue(newValue)}
+              placeholder="유효성 검사 날짜"
+              error={true}
+              helperText="올바른 날짜 형식이 아닙니다"
+            />
+          </div>
+
+
           {/* 읽기 전용 DatePicker */}
           <div className="flex flex-col">
             <label className="form-top-label">READONLY DatePicker</label>
             <DatePicker
-              value={new Date()}
+              value={null}
               onChange={(newValue: Date | null) => { }}
-              placeholder="읽기 전용"
               readOnly
+              clearable={false}
+              placeholder="읽기 전용 날짜"
               slotProps={{
                 textField: {
                   size: "small" as const
@@ -388,8 +429,9 @@ export default function MuiPage() {
             <DatePicker
               value={dateValue}
               onChange={(newValue: Date | null) => setDateValue(newValue)}
-              placeholder="비활성화"
+              placeholder="비활성화 날짜"
               disabled
+              clearable={false}
               slotProps={{
                 textField: {
                   size: "small" as const
@@ -399,6 +441,125 @@ export default function MuiPage() {
           </div>
 
 
+        </div>
+
+        {/* 스위치, 라디오, 체크박스 예시들 */}
+        <div className="grid grid-cols-4 gap-2 mt-2">
+          {/* 기본 체크박스 */}
+          <div className="flex flex-col">
+            <label className="form-top-label">기본 체크박스</label>
+            <div className="flex flex-col gap-2">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={switchValue}
+                    onChange={(e) => setSwitchValue(e.target.checked)}
+                    size="small"
+                  />
+                }
+                label="기본 체크박스"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={true}
+                    disabled
+                    size="small"
+                  />
+                }
+                label="비활성화 체크박스"
+              />
+            </div>
+          </div>
+
+          {/* 라디오 버튼 그룹 */}
+          <div className="flex flex-col">
+            <label className="form-top-label">라디오 버튼 그룹</label>
+            <FormControl component="fieldset" size="small">
+              <RadioGroup
+                value={toggleValue}
+                onChange={(e) => setToggleValue(e.target.value)}
+              >
+                <FormControlLabel
+                  value="web"
+                  control={<Radio size="small" />}
+                  label="웹 개발"
+                />
+                <FormControlLabel
+                  value="mobile"
+                  control={<Radio size="small" />}
+                  label="모바일 개발"
+                />
+                <FormControlLabel
+                  value="design"
+                  control={<Radio size="small" />}
+                  label="UI/UX 디자인"
+                />
+              </RadioGroup>
+            </FormControl>
+          </div>
+
+          {/* 스위치 토글 */}
+          <div className="flex flex-col">
+            <label className="form-top-label">스위치 토글</label>
+            <div className="flex flex-col gap-2">
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={switchValue}
+                    onChange={(e) => setSwitchValue(e.target.checked)}
+                    size="small"
+                  />
+                }
+                label="기본 스위치"
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={true}
+                    disabled
+                    size="small"
+                  />
+                }
+                label="비활성화 스위치"
+              />
+            </div>
+          </div>
+
+          {/* 체크박스 그룹 */}
+          <div className="flex flex-col">
+            <label className="form-top-label">체크박스 그룹</label>
+            <div className="flex flex-col gap-2">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={switchValue}
+                    onChange={(e) => setSwitchValue(e.target.checked)}
+                    size="small"
+                  />
+                }
+                label="이메일 알림"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={true}
+                    size="small"
+                  />
+                }
+                label="SMS 알림"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={false}
+                    size="small"
+                  />
+                }
+                label="푸시 알림"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-4 gap-2 mt-4">
@@ -451,6 +612,100 @@ export default function MuiPage() {
               className="bg-white"
             >
               전체화면 다이얼로그 열기
+            </Button>
+          </div>
+        </div>
+
+        <div className="mt-6">
+          
+          
+          {/* 체크박스 그룹 */}
+          <div className="mb-6">
+            <label className="form-top-label">알림 설정</label>
+            <div className="grid grid-cols-3 gap-4 mt-2">
+              <FormControlLabel
+                control={<Checkbox size="small" />}
+                label="이메일 알림"
+              />
+              <FormControlLabel
+                control={<Checkbox size="small" />}
+                label="SMS 알림"
+              />
+              <FormControlLabel
+                control={<Checkbox size="small" />}
+                label="푸시 알림"
+              />
+            </div>
+          </div>
+          
+          {/* 라디오 버튼 그룹 */}
+          <div className="mb-6">
+            <label className="form-top-label">계정 유형</label>
+            <div className="grid grid-cols-3 gap-4 mt-2">
+              <FormControlLabel
+                value="personal"
+                control={<Radio size="small" />}
+                label="개인 계정"
+              />
+              <FormControlLabel
+                value="business"
+                control={<Radio size="small" />}
+                label="비즈니스 계정"
+              />
+              <FormControlLabel
+                value="enterprise"
+                control={<Radio size="small" />}
+                label="기업 계정"
+              />
+            </div>
+          </div>
+          
+          {/* 슬라이더 */}
+          <div className="mb-6">
+            <label className="form-top-label">예상 연봉 (만원)</label>
+            <div className="px-2">
+              <Slider
+                size="small"
+                value={sliderValue}
+                onChange={(e, newValue) => setSliderValue(newValue as number)}
+                min={2000}
+                max={10000}
+                step={500}
+                marks={[
+                  { value: 2000, label: '2,000' },
+                  { value: 5000, label: '5,000' },
+                  { value: 10000, label: '10,000' }
+                ]}
+                valueLabelDisplay="auto"
+                className="mt-2"
+              />
+            </div>
+          </div>
+          
+          {/* 액션 버튼 */}
+          <div className="flex gap-3">
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              저장
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              className="bg-white"
+            >
+              취소
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              color="error"
+              className="bg-white"
+            >
+              삭제
             </Button>
           </div>
         </div>
