@@ -70,6 +70,7 @@
   --space-32: 8rem;      /* 128px */
   
   /* 컴포넌트별 간격 */
+  
   --space-component: var(--space-6);         /* 컴포넌트 간격 */
   --space-section: var(--space-8);          /* 섹션 간격 */
   --space-page: var(--space-12);            /* 페이지 간격 */
@@ -189,7 +190,7 @@
   /* ===== 컴포넌트별 토큰 ===== */
   
   /* 사이드바 */
-  --sidebar-width-expanded: 16rem;           /* 256px */
+  --sidebar-width-expanded: 256px !important;           /* 256px */
   --sidebar-width-collapsed: 4rem;           /* 64px */
   --sidebar-transition-duration: var(--duration-75);
   
@@ -206,17 +207,35 @@
   
   /* 버튼 */
   --button-height-sm: 2rem;                  /* 32px */
-  --button-height-base: 2.5rem;              /* 40px */
+  --button-height-base: 2.25rem;             /* 36px */
   --button-height-lg: 3rem;                  /* 48px */
+  --button-padding-y-sm: var(--space-1);     /* 4px */
+  --button-padding-y-base: var(--space-2);   /* 8px */
+  --button-padding-y-lg: var(--space-3);     /* 12px */
   --button-padding-x-sm: var(--space-3);
   --button-padding-x-base: var(--space-4);
   --button-padding-x-lg: var(--space-6);
-  
-  /* 입력 필드 */
-  --input-height: 2.5rem;                    /* 40px */
-  --input-padding-x: var(--space-3);
-  --input-padding-y: var(--space-2);
+
+  /* 입력 필드 (크기별) */
+  --input-height: 2.5rem;                    /* 40px - 기본 높이 */
+  --input-height-sm: 2rem;                   /* 32px */
+  --input-height-base: 2.25rem;              /* 36px */
+  --input-height-lg: 3rem;                   /* 48px */
+  --input-padding-x: var(--space-3);         /* 기본 좌우 패딩 */
+  --input-padding-x-sm: var(--space-3);
+  --input-padding-x-base: var(--space-4);
+  --input-padding-x-lg: var(--space-6);
+  --input-padding-y: var(--space-2);         /* 기본 상하 패딩 */
+  --input-padding-y-sm: var(--space-1);
+  --input-padding-y-base: var(--space-2);
+  --input-padding-y-lg: var(--space-3);
   --input-border-radius: var(--radius-base);
+  
+  /* 셀렉트 입력 필드 */
+  --input-padding-select: var(--space-2) var(--space-6) var(--space-2) var(--space-3);  /* 8px 24px 8px 12px */
+  --input-padding-select-sm: var(--space-1) var(--space-5) var(--space-1) var(--space-2);  /* 4px 20px 4px 8px */
+  --input-padding-select-lg: var(--space-3) var(--space-8) var(--space-3) var(--space-4);  /* 12px 32px 12px 16px */
+  --input-padding-select-xl: var(--space-4) var(--space-10) var(--space-4) var(--space-5);  /* 16px 40px 16px 20px */
   
   /* 테이블 */
   --table-cell-padding-x: var(--space-6);

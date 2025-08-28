@@ -30,88 +30,109 @@ interface MenuItem {
 }
 
 const sidebarItems: MenuItem[] = [
-  // 메인 기능
+  // 메인
   {
-    title: "대시보드",
+    title: "메인",
     href: "/published",
     icon: Home,
     section: "main"
   },
-  {
-    title: "분석",
-    href: "/published/analytics",
-    icon: BarChart3,
-    section: "main"
-  },
   
-  // 관리 기능
+  // 폼 관리
   {
-    title: "사용자 관리",
-    icon: Users,
+    title: "폼 관리",
+    icon: FileText,
     section: "management",
     children: [
       {
-        title: "사용자 목록",
-        href: "/published/users",
-        icon: UserCheck,
+        title: "기본 폼",
+        href: "/published/forms/basic",
+        icon: FileText,
+        section: "management"
       },
       {
-        title: "그룹 관리",
-        icon: Users,
-        children: [
-          {
-            title: "관리자 그룹",
-            icon: UserCheck,
-            children: [
-              {
-                title: "시스템 관리자",
-                href: "/published/users/groups/admin/system",
-                icon: UserCheck,
-              }
-            ]
-          }
-        ]
+        title: "고급 폼",
+        href: "/published/forms/advanced",
+        icon: FileText,
+        section: "management"
+      },
+      {
+        title: "파일 업로드",
+        href: "/published/forms/file-upload",
+        icon: FileText,
+        section: "management"
+      },
+      {
+        title: "다단계 폼",
+        href: "/published/forms/multi-step",
+        icon: FileText,
+        section: "management"
+      },
+      {
+        title: "검색 폼",
+        href: "/published/forms/search",
+        icon: Settings,
+        section: "management"
+      },
+      {
+        title: "폼 검증",
+        href: "/published/forms/validation",
+        icon: Settings,
+        section: "management"
       }
     ]
   },
+
+  // 컴포넌트 예시
   {
-    title: "문서 관리",
+    title: "컴포넌트 예시",
     icon: FileText,
-    section: "management",
+    section:"components",
     children: [
       {
-        title: "미디어 파일",
-        icon: FileImage,
-        children: [
-          {
-            title: "이미지",
-            icon: FileImage,
-            children: [
-              {
-                title: "프로필 이미지",
-                href: "/published/documents/media/images/profile",
-                icon: FileImage,
-              }
-            ]
-          }
-        ]
+        title: "MUI 컴포넌트",
+        href: "/published/components/mui",
+        icon: FileText,
+        section: "components"
+      },
+      {
+        title: "검색01",
+        href: "/published/components/search01",
+        icon: Settings,
+        section: "components"
+      },
+      {
+        title: "검색02",
+        href: "/published/components/search02",
+        icon: Settings,
+        section: "components"
+      },
+      {
+        title: "알림",
+        href: "/published/components/notifications",
+        icon: Bell,
+        section: "components"
+      },
+      {
+        title: "메시지",
+        href: "/published/components/messages",
+        icon: Mail,
+        section: "components"
+      },
+      {
+        title: "캘린더",
+        href: "/published/components/calendar",
+        icon: Calendar,
+        section: "components"
+      },
+      {
+        title: "모달팝업",
+        href: "/published/components/modal",
+        icon: Calendar,
+        section: "components"
       }
     ]
-  },
-  
-  // 도구 기능
-  {
-    title: "MUI 컴포넌트",
-    href: "/published/mui",
-    icon: FileText,
-    section: "tools"
-  },
-  {
-    title: "설정",
-    href: "/published/settings",
-    icon: Settings,
-    section: "tools"
-  },
+  }
 ]
 
 interface SidebarProps {
@@ -540,8 +561,8 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
 
   return (
     <div className={cn(
-      "flex h-full flex-col bg-white border-r border-gray-200 transition-all duration-75 ease-in-out relative",
-      isOpen ? "w-64" : "w-16"
+      "c-sidebar flex h-full flex-col bg-white border-r border-gray-200 transition-all duration-300 ease-in-out relative shadow-sm",
+      isOpen ? "c-sidebar--expanded w-64 min-w-64" : "c-sidebar--collapsed w-16 min-w-16"
     )} style={{ zIndex: 10 }}>
       {/* CSS 스타일 추가 */}
       <style jsx>{`
@@ -607,44 +628,52 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
         ))}
         
         {/* 관리 기능 섹션 */}
-        {isOpen ? (
-          <div className="px-3 mb-3 mt-6">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">관리 기능</h3>
-          </div>
-        ) : (
-          <div className="mx-2 mb-3 mt-6">
-            <div className="h-px bg-gray-200"></div>
-          </div>
+        {sidebarItems.filter(item => item.section === "management").length > 0 && (
+          <>
+            {isOpen ? (
+              <div className="px-3 mb-3 mt-6">
+                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">관리 기능</h3>
+              </div>
+            ) : (
+              <div className="mx-2 mb-3 mt-6">
+                <div className="h-px bg-gray-200"></div>
+              </div>
+            )}
+            {sidebarItems.filter(item => item.section === "management").map((item, index) => (
+              <MenuItem
+                key={`management-${index}`}
+                item={item}
+                isOpen={isOpen}
+                activePopover={activePopover}
+                setActivePopover={setActivePopover}
+              />
+            ))}
+          </>
         )}
-        {sidebarItems.filter(item => item.section === "management").map((item, index) => (
-          <MenuItem
-            key={`management-${index}`}
-            item={item}
-            isOpen={isOpen}
-            activePopover={activePopover}
-            setActivePopover={setActivePopover}
-          />
-        ))}
         
-        {/* 도구 기능 섹션 */}
-        {isOpen ? (
-          <div className="px-3 mb-3 mt-6">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">도구 기능</h3>
-          </div>
-        ) : (
-          <div className="mx-2 mb-3 mt-6">
-            <div className="h-px bg-gray-200"></div>
-          </div>
+        {/* 컴포넌트 섹션 */}
+        {sidebarItems.filter(item => item.section === "components").length > 0 && (
+          <>
+            {isOpen ? (
+              <div className="px-3 mb-3 mt-6">
+                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">도구 기능</h3>
+              </div>
+            ) : (
+              <div className="mx-2 mb-3 mt-6">
+                <div className="h-px bg-gray-200"></div>
+              </div>
+            )}
+            {sidebarItems.filter(item => item.section === "components").map((item, index) => (
+              <MenuItem
+                key={`components-${index}`}
+                item={item}
+                isOpen={isOpen}
+                activePopover={activePopover}
+                setActivePopover={setActivePopover}
+              />
+            ))}
+          </>
         )}
-        {sidebarItems.filter(item => item.section === "tools").map((item, index) => (
-          <MenuItem
-            key={`tools-${index}`}
-            item={item}
-            isOpen={isOpen}
-            activePopover={activePopover}
-            setActivePopover={setActivePopover}
-          />
-        ))}
              </nav>
        {isOpen && (
          <div className="border-t border-gray-200 p-4 space-y-3 mt-auto sticky bottom-0 bg-white">

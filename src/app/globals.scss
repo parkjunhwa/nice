@@ -1,19 +1,125 @@
 /* Tailwind CSS v4 */
-@import "tailwindcss";
+@use "tailwindcss";
 
 /* SCSS 디자인 시스템 통합 */
-@import "../styles/core/tokens";
-@import "../styles/core/mixins";
-@import "../styles/layers/base";
-@import "../styles/components/buttons";
-@import "../styles/components/cards";
-@import "../styles/components/forms";
-@import "../styles/components/layout";
-@import "../styles/components/navigation";
-@import "../styles/components/data";
-@import "../styles/components/common";
-@import "../styles/components/examples";
-@import "../styles/utilities/helpers";
+@use "../styles/core/tokens" as *;
+@use "../styles/core/mixins" as *;
+@use "../styles/layers/base" as *;
+@use "../styles/components/buttons" as *;
+@use "../styles/components/cards" as *;
+@use "../styles/components/forms" as *;
+@use "../styles/components/layout" as *;
+@use "../styles/components/navigation" as *;
+@use "../styles/components/data" as *;
+@use "../styles/components/common" as *;
+@use "../styles/components/examples" as *;
+@use "../styles/utilities/helpers" as *;
+
+/* Tabulator CSS */
+@import "tabulator-tables/dist/css/tabulator.min.css";
+
+/* Tabulator 커스텀 스타일 - Calendar 테이블과 동일하게 */
+.tabulator-table {
+  .tabulator-header {
+    background-color: #f9fafb !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    
+    .tabulator-col {
+      background-color: #f9fafb !important;
+      border-right: 1px solid #e5e7eb !important;
+      padding: 12px 24px !important;
+      
+      .tabulator-col-content {
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        color: #6b7280 !important;
+      }
+    }
+  }
+  
+  .tabulator-tableholder {
+    .tabulator-table {
+      .tabulator-row {
+        border-bottom: 1px solid #f3f4f6 !important;
+        transition: all 0.2s ease !important;
+        
+        &:hover {
+          background-color: #f9fafb !important;
+        }
+        
+        &:last-child {
+          border-bottom: none !important;
+        }
+        
+        .tabulator-cell {
+          padding: 16px 24px !important;
+          border-right: none !important;
+          font-size: 14px !important;
+          color: #374151 !important;
+          
+          &.tabulator-cell-vertical {
+            vertical-align: middle !important;
+          }
+        }
+      }
+    }
+  }
+  
+  .tabulator-footer {
+    background-color: #f9fafb !important;
+    border-top: 1px solid #e5e7eb !important;
+    padding: 12px 24px !important;
+    
+    .tabulator-paginator {
+      .tabulator-page {
+        background-color: white !important;
+        border: 1px solid #d1d5db !important;
+        color: #374151 !important;
+        padding: 8px 12px !important;
+        margin: 0 2px !important;
+        border-radius: 6px !important;
+        transition: all 0.2s ease !important;
+        
+        &:hover {
+          background-color: #f3f4f6 !important;
+          border-color: #9ca3af !important;
+        }
+        
+        &.tabulator-page-active {
+          background-color: #3b82f6 !important;
+          border-color: #3b82f6 !important;
+          color: white !important;
+        }
+      }
+      
+      .tabulator-page-size {
+        select {
+          background-color: white !important;
+          border: 1px solid #d1d5db !important;
+          border-radius: 6px !important;
+          padding: 4px 8px !important;
+          font-size: 14px !important;
+          color: #374151 !important;
+        }
+      }
+    }
+  }
+  
+  /* 액션 버튼 스타일 */
+  .tabulator-cell .tabulator-button {
+    background-color: transparent !important;
+    border: none !important;
+    padding: 6px !important;
+    border-radius: 6px !important;
+    transition: all 0.2s ease !important;
+    
+    &:hover {
+      background-color: #f3f4f6 !important;
+    }
+  }
+}
 
 /* Noto Sans CJK KR 폰트 정의 - 두께별 */
 @font-face {

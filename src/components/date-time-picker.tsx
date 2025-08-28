@@ -1,11 +1,11 @@
 import React from 'react'
 import { DateTimePicker as MuiDateTimePicker, DateTimePickerProps } from '@mui/x-date-pickers'
-import { TextField } from '@mui/material'
+import { TextField } from '@/components'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { ko } from 'date-fns/locale'
 
-interface CustomDateTimePickerProps extends Omit<DateTimePickerProps<Date>, 'slotProps'> {
+interface CustomDateTimePickerProps extends Omit<any, 'slotProps'> {
   placeholder?: string
   fullWidth?: boolean
 }
@@ -26,14 +26,14 @@ export const DateTimePicker: React.FC<CustomDateTimePickerProps> = ({
       start: '시작',
       end: '종료',
     },
-    slotProps: {
-      textField: {
-        size: "small" as const,
-        fullWidth: true,
-        variant: "outlined" as const,
-        className: "bg-white"
-      }
-    }
+            slotProps: {
+          textField: {
+            size: "small" as const,
+            fullWidth: true,
+            variant: "outlined" as const,
+            className: "bg-white"
+          }
+        }
   }
 
   return (

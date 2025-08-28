@@ -73,7 +73,7 @@ interface FormData {
 }
 
 interface FormErrors {
-  [key: string]: string
+  [key: string]: string | undefined
 }
 
 export default function MultiStepFormPage() {

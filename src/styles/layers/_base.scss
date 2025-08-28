@@ -1,3 +1,5 @@
+@use "../core/mixins" as *;
+
 @layer base {
   /* 기본 HTML 요소 스타일 */
   html {
@@ -10,12 +12,10 @@
   body {
     background: hsl(var(--color-bg));
     color: hsl(var(--color-fg));
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
     font-size: var(--font-size-base);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    color:#000000;
   }
 
   /* 링크 기본 스타일 */
@@ -53,7 +53,7 @@
     margin: 0 0 0 0;
     line-height: 1.7;
     
-    &:last-child c-stat-item{
+    &:last-child .c-stat-item{
       margin-bottom: 0;
     }
   }

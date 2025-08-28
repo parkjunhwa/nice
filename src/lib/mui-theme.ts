@@ -79,8 +79,7 @@ export const muiTheme = createTheme({
       dark: '#4B5563', // Gray-600
       contrastText: '#FFFFFF',
     },
-    // blue 팔레트를 커스텀 색상으로 덮어쓰기
-    blue: customBlue,
+    // blue 팔레트는 MUI v7에서 지원되지 않음
   },
   // 컴포넌트별 스타일 커스터마이징
   components: {
@@ -110,6 +109,19 @@ export const muiTheme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: 'inherit',
+        },
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          backgroundColor: '#000000',
+          color: '#ffffff',
+          fontSize: '12px',
+          fontFamily: 'inherit',
+        },
+        arrow: {
+          color: '#000000',
         },
       },
     },

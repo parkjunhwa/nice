@@ -1,3 +1,6 @@
+'use client'
+
+import { useState } from 'react'
 import { 
   TextField, 
   Button, 
@@ -18,6 +21,51 @@ import {
 import { Save as SaveIcon, RestartAlt as ResetIcon } from "@mui/icons-material"
 
 export default function BasicFormPage() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    age: '',
+    job: '',
+    interests: [] as string[],
+    gender: '',
+    newsletter: false,
+    terms: false
+  })
+
+  const handleInputChange = (field: string) => (event: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: event.target.value
+    }))
+  }
+
+  const handleCheckboxChange = (field: string) => (event: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: event.target.checked
+    }))
+  }
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault()
+    console.log('Form submitted:', formData)
+    // 여기에 폼 제출 로직 추가
+  }
+
+  const handleReset = () => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      age: '',
+      job: '',
+      interests: [],
+      gender: '',
+      newsletter: false,
+      terms: false
+    })
+  }
   return (
       <div className="space-y-6">
         <div>
@@ -31,7 +79,7 @@ export default function BasicFormPage() {
           </Typography>
           <Divider sx={{ mb: 3 }} />
           
-          <Box component="form" sx={{ mt: 3 }}>
+          <Box component="form" sx={{ mt: 3 }} onSubmit={handleSubmit}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               {/* 개인 정보 */}
               <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
@@ -46,12 +94,16 @@ export default function BasicFormPage() {
                         fullWidth
                         required
                         size="small"
+                        value={formData.name}
+                        onChange={handleInputChange('name')}
                       />
                       <TextField
                         label="성"
                         fullWidth
                         required
                         size="small"
+                        value={formData.email}
+                        onChange={handleInputChange('email')}
                       />
                     </Box>
                     <TextField
@@ -60,6 +112,8 @@ export default function BasicFormPage() {
                       fullWidth
                       required
                       size="small"
+                      value={formData.phone}
+                      onChange={handleInputChange('phone')}
                     />
                     <TextField
                       label="전화번호"
@@ -108,7 +162,11 @@ export default function BasicFormPage() {
                 <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
                   <FormControl fullWidth size="small">
                     <InputLabel>직업</InputLabel>
-                    <Select label="직업">
+                    <Select 
+                      label="직업"
+                      value={formData.job}
+                      onChange={handleInputChange('job')}
+                    >
                       <MenuItem value="student">학생</MenuItem>
                       <MenuItem value="employee">직원</MenuItem>
                       <MenuItem value="freelancer">프리랜서</MenuItem>
@@ -117,7 +175,12 @@ export default function BasicFormPage() {
                   </FormControl>
                   <FormControl fullWidth size="small">
                     <InputLabel>관심 분야</InputLabel>
-                    <Select label="관심 분야" multiple>
+                    <Select 
+                      label="관심 분야" 
+                      multiple
+                      value={formData.interests}
+                      onChange={handleInputChange('interests')}
+                    >
                       <MenuItem value="technology">기술</MenuItem>
                       <MenuItem value="design">디자인</MenuItem>
                       <MenuItem value="business">비즈니스</MenuItem>
@@ -128,14 +191,23 @@ export default function BasicFormPage() {
                 <Box sx={{ mt: 3, display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <FormControl component="fieldset">
                     <FormLabel component="legend">성별</FormLabel>
-                    <RadioGroup row>
+                    <RadioGroup 
+                      row
+                      value={formData.gender}
+                      onChange={handleInputChange('gender')}
+                    >
                       <FormControlLabel value="male" control={<Radio />} label="남성" />
                       <FormControlLabel value="female" control={<Radio />} label="여성" />
                       <FormControlLabel value="other" control={<Radio />} label="기타" />
                     </RadioGroup>
                   </FormControl>
                   <FormControlLabel
-                    control={<Checkbox />}
+                    control={
+                      <Checkbox 
+                        checked={formData.newsletter}
+                        onChange={handleCheckboxChange('newsletter')}
+                      />
+                    }
                     label="뉴스레터 구독에 동의합니다"
                   />
                   <TextField
@@ -151,8 +223,10 @@ export default function BasicFormPage() {
               {/* 액션 버튼 */}
               <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
                 <Button
+                  type="button"
                   variant="outlined"
                   startIcon={<ResetIcon />}
+                  onClick={handleReset}
                   sx={{ 
                     textTransform: 'none',
                     borderColor: '#d1d5db', // gray-300
@@ -166,6 +240,7 @@ export default function BasicFormPage() {
                   초기화
                 </Button>
                 <Button
+                  type="submit"
                   variant="contained"
                   startIcon={<SaveIcon />}
                   sx={{ 

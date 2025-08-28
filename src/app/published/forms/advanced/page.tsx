@@ -41,17 +41,17 @@ import {
   StepContent
 } from "@mui/material"
 import { 
-  Save as SaveIcon, 
-  RestartAlt as ResetIcon,
-  ExpandMore as ExpandMoreIcon,
-  Star as StarIcon,
-  Search as SearchIcon,
-  AttachMoney as MoneyIcon,
-  Person as PersonIcon,
-  Email as EmailIcon,
-  Phone as PhoneIcon,
-  LocationOn as LocationIcon
-} from "@mui/icons-material"
+  ChevronDown,
+  User,
+  Mail,
+  Phone,
+  MapPin,
+  DollarSign,
+  Star,
+  Search,
+  RotateCcw,
+  Save
+} from "lucide-react"
 import { useState } from "react"
 
 export default function AdvancedFormPage() {
@@ -148,7 +148,7 @@ export default function AdvancedFormPage() {
           <Divider sx={{ mb: 3 }} />
           
           <Accordion expanded={expanded === 'panel1'} onChange={handleAccordionChange('panel1')}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <AccordionSummary expandIcon={<ChevronDown />}>
               <Typography>개인 정보</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -159,7 +159,7 @@ export default function AdvancedFormPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <PersonIcon />
+                        <User />
                       </InputAdornment>
                     ),
                   }}
@@ -171,7 +171,7 @@ export default function AdvancedFormPage() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <EmailIcon />
+                        <Mail />
                       </InputAdornment>
                     ),
                   }}
@@ -182,9 +182,9 @@ export default function AdvancedFormPage() {
                   fullWidth
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <PhoneIcon />
-                      </InputAdornment>
+                                         <InputAdornment position="start">
+                     <Phone />
+                   </InputAdornment>
                     ),
                   }}
                 />
@@ -193,7 +193,7 @@ export default function AdvancedFormPage() {
           </Accordion>
 
           <Accordion expanded={expanded === 'panel2'} onChange={handleAccordionChange('panel2')}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <AccordionSummary expandIcon={<ChevronDown />}>
               <Typography>주소 정보</Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -205,9 +205,9 @@ export default function AdvancedFormPage() {
                   rows={2}
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start">
-                        <LocationIcon />
-                      </InputAdornment>
+                                         <InputAdornment position="start">
+                     <MapPin />
+                   </InputAdornment>
                     ),
                   }}
                 />
@@ -292,16 +292,16 @@ export default function AdvancedFormPage() {
               <Typography variant="h6" gutterBottom>슬라이더 (Slider)</Typography>
               <Box sx={{ px: 2 }}>
                 <Typography gutterBottom>가격 범위</Typography>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <MoneyIcon />
-                  <Slider
-                    value={[20, 80]}
-                    onChange={(event, newValue) => {}}
-                    valueLabelDisplay="auto"
-                    sx={{ flex: 1 }}
-                  />
-                  <MoneyIcon />
-                </Box>
+                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                   <DollarSign />
+                   <Slider
+                     value={[20, 80]}
+                     onChange={(event, newValue) => {}}
+                     valueLabelDisplay="auto"
+                     sx={{ flex: 1 }}
+                   />
+                   <DollarSign />
+                 </Box>
                 <Typography gutterBottom>만족도</Typography>
                 <Slider
                   defaultValue={70}
@@ -319,12 +319,12 @@ export default function AdvancedFormPage() {
             <Box>
               <Typography variant="h6" gutterBottom>레이팅 (Rating)</Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Rating
-                  name="half-rating"
-                  defaultValue={2.5}
-                  precision={0.5}
-                  icon={<StarIcon fontSize="inherit" />}
-                />
+                                 <Rating
+                   name="half-rating"
+                   defaultValue={2.5}
+                   precision={0.5}
+                   icon={<Star fontSize="inherit" />}
+                 />
                 <Typography>(2.5/5)</Typography>
               </Box>
             </Box>
@@ -376,13 +376,13 @@ export default function AdvancedFormPage() {
               <TextField
                 fullWidth
                 placeholder="검색어를 입력하세요..."
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
+                                 InputProps={{
+                   startAdornment: (
+                     <InputAdornment position="start">
+                       <Search />
+                     </InputAdornment>
+                   ),
+                 }}
               />
             </Box>
           </Box>
@@ -426,7 +426,7 @@ export default function AdvancedFormPage() {
           <Button
             variant="contained"
             color="secondary"
-            startIcon={<ResetIcon />}
+                         startIcon={<RotateCcw />}
             sx={{ 
               textTransform: 'none',
             }}
@@ -435,7 +435,7 @@ export default function AdvancedFormPage() {
           </Button>
           <Button
             variant="contained"
-            startIcon={loading ? <CircularProgress size={20} /> : <SaveIcon />}
+                         startIcon={loading ? <CircularProgress size={20} /> : <Save />}
             onClick={handleSubmit}
             disabled={loading}
             sx={{ 

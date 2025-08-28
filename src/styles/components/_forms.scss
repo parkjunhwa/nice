@@ -1,14 +1,6 @@
 @use "../core/mixins" as *;
 
 @layer components {
-  // 공통 변수
-  $input-height: 36px;
-  $input-font-size: 14px;
-  $input-padding: 8px 12px;
-  $input-bg-disabled: #f3f4f6;
-  $input-color-readonly: #6b7280;
-  $input-color-disabled: #9ca3af;
-
   /* 폼 그룹 */
   :where(.c-form-group) {
     margin-bottom: var(--space-component);
@@ -29,6 +21,51 @@
     }
   }
 
+  /* 상단 폼 라벨 */
+  :where(.form-top-label) {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-normal);
+    color: hsl(var(--color-fg));
+    margin-bottom: var(--space-1);
+    line-height: var(--line-height-normal);
+    text-align: left;
+    
+    &.form-top-label--required::after {
+      content: " *";
+      color: hsl(var(--color-error));
+    }
+    
+    &.form-top-label--center {
+      text-align: center;
+    }
+  }
+
+  /* 사이드 라벨 */
+  :where(.form-side-label) {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-normal);
+    color: hsl(var(--color-fg));
+    margin-right: var(--space-2);
+    margin-bottom: 0;
+    white-space: nowrap;
+
+    &.form-side-label--required::after {
+      content: " *";
+      color: hsl(var(--color-error));
+    }
+    
+    &.form-side-label--center {
+      text-align: center;
+    }
+  }
+
+  .MuiFormHelperText-root {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
   /* 폼 입력 */
   :where(.c-form-input) {
     @include input-base;
@@ -53,151 +90,286 @@
   /* 셀렉트 */
   :where(.c-form-select) {
     @extend .c-form-input;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    line-height: 1.2;
+    box-sizing: border-box;
+    height: fit-content !important;
     appearance: none;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-    background-position: right var(--space-3) center;
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.2em;
+    padding: var(--input-padding-select);
+  }
+
+  /* 셀렉트 크기별 변형 */
+  :where(.c-form-select--sm) {
+    height: var(--button-height-sm);
+    font-size: var(--font-size-xs);
+    padding: var(--input-padding-select-sm);
+    background-size: 1.2em 1.2em;
+    background-position: right 8px center;
+  }
+
+  :where(.c-form-select--lg) {
+    height: var(--button-height-lg);
+    font-size: var(--font-size-base);
+    padding: var(--input-padding-select-lg);
+    background-size: 1.8em 1.8em;
+    background-position: right 16px center;
+  }
+
+  :where(.c-form-select--xl) {
+    height: 4rem;
+    font-size: var(--font-size-lg);
+    padding: var(--input-padding-select-xl);
+    background-size: 2em 2em;
+    background-position: right 20px center;
+  }
+
+  /* 기본 select 요소 상하 중앙 정렬 */
+  :where(select) {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    line-height: 1.2;
+    box-sizing: border-box;
+    height: fit-content !important;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
     background-repeat: no-repeat;
     background-size: 1.5em 1.5em;
-    padding-right: var(--space-10);
+    padding: var(--input-padding-select);
   }
 
-  /* 사이트 전역 기본 Input 스타일 (native elements) */
-  :where(
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="number"],
-    input[type="search"],
-    input[type="tel"],
-    input[type="url"],
-    select,
-    textarea
-  ) {
-    height: $input-height;
-    font-size: $input-font-size;
-    padding: $input-padding;
-    line-height: 1;
+  /* 기본 select 크기별 변형 */
+  :where(select[data-size="sm"]) {
+    height: var(--button-height-sm);
+    font-size: var(--font-size-xs);
+    padding: var(--input-padding-select-sm);
+    background-size: 1.2em 1.2em;
+    background-position: right 8px center;
   }
 
-  /* MUI 컴포넌트 공통 스타일 */
-  %mui-input-base {
-    height: $input-height !important;
-    font-size: $input-font-size !important;
+  :where(select[data-size="lg"]) {
+    height: var(--button-height-lg);
+    font-size: var(--font-size-base);
+    padding: var(--input-padding-select-lg);
+    background-size: 1.8em 1.8em;
+    background-position: right 16px center;
   }
 
-  %mui-input-inner {
-    height: $input-height !important;
-    font-size: $input-font-size !important;
-    padding: $input-padding !important;
+  :where(select[data-size="xl"]) {
+    height: 4rem;
+    font-size: var(--font-size-lg);
+    padding: var(--input-padding-select-xl);
+    background-size: 2em 2em;
+    background-position: right 20px center;
   }
-
-  %mui-input-placeholder {
-    &::placeholder {
-      font-size: $input-font-size !important;
-    }
-  }
-
-  /* MUI Input 컴포넌트 전역 스타일 */
-  .MuiInputBase-root {
-    @extend %mui-input-base;
-
-    .MuiInputBase-input {
-      padding-left: 12px !important;
-      padding-right: 12px !important;
-    }
-  }
-  .MuiInputBase-root .MuiInputAdornment-root, .MuiInputBase-root .MuiInputAdornment-positionStart {
+  
+  .MuiInputBase-root .MuiInputAdornment-root, 
+  .MuiInputBase-root .MuiInputAdornment-positionStart {
     margin-right: 0 !important;
-}
+  }
 
+  /* InputAdornment 아이콘 크기 고정 */
+  .MuiInputAdornment-root {
+    margin:0 !important;
+  }
+
+  .MuiInputAdornment-root svg ,
+  .MuiInputAdornment-positionStart svg,
+  .MuiInputAdornment-positionEnd svg {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* TextField endAdornment IconButton 공통 스타일 */
+  .MuiInputAdornment-positionEnd .MuiIconButton-root {
+    margin-right: -8px !important;
+    padding: 2px !important;
+  }
 
   /* MUI Input 상태별 스타일 */
   .MuiInputBase-root.Mui-readOnly,
   .MuiInputBase-root.Mui-disabled {
-    background-color: $input-bg-disabled !important;
+    background-color: hsl(var(--color-muted)) !important;
     
     .MuiInputBase-input {
-      color: var(--state) !important;
+      color: hsl(var(--color-muted-foreground)) !important;
     }
   }
 
   .MuiInputBase-root.Mui-readOnly .MuiInputBase-input {
-    color: $input-color-readonly !important;
+    color: hsl(var(--color-muted-foreground)) !important;
   }
 
   .MuiInputBase-root.Mui-disabled .MuiInputBase-input {
-    color: $input-color-disabled !important;
+    color: hsl(var(--color-muted-foreground)) !important;
   }
 
   /* MUI Select, Autocomplete 및 MenuItem 전역 스타일 */
   .MuiSelect-root,
   .MuiAutocomplete-root {
-    font-size: $input-font-size !important;
+    font-size: var(--font-size-sm) !important;
   }
 
-  .MuiSelect-root {
-    .MuiSelect-select {
-      @extend %mui-input-inner;
+  .MuiAutocomplete-root {
+    .MuiAutocomplete-inputRoot {
+      min-height: var(--input-height) !important;
+
+      .MuiAutocomplete-input {
+        padding: var(--input-padding-y) var(--input-padding-x) !important;
+        min-height: var(--input-height) !important;
+      }
     }
   }
 
   .MuiAutocomplete-root {
     .MuiAutocomplete-inputRoot {
-      @extend %mui-input-base;
-      min-height: $input-height !important;
-
-      .MuiAutocomplete-input {
-        @extend %mui-input-inner;
-        min-height: $input-height !important;
-      }
+      /* %mui-input-base placeholder가 정의되지 않아 제거 */
+      min-height: var(--input-height) !important;
     }
   }
 
   .MuiMenuItem-root {
-    font-size: $input-font-size !important;
-    padding: $input-padding !important;
-    min-height: $input-height !important;
-  }
-
-  .MuiFormControl-root {
-    .MuiSelect-root {
-      height: $input-height !important;
-      
-      .MuiSelect-select {
-        height: $input-height !important;
-        display: flex !important;
-        align-items: center !important;
-      }
-    }
+    font-size: var(--font-size-sm) !important;
+    padding: var(--input-padding-y) var(--input-padding-x) !important;
   }
 
   /* MUI OutlinedInput 전역 스타일 */
   .MuiOutlinedInput-root {
-    @extend %mui-input-base;
-    
-    .MuiOutlinedInput-input {
-      @extend %mui-input-inner;
-      @extend %mui-input-placeholder;
-    }
-    
     .MuiOutlinedInput-notchedOutline {
       border-width: 1px !important;
     }
   }
 
-  /* Autocomplete와 Select의 small 사이즈 */
-  .MuiAutocomplete-inputRoot.MuiInputBase-sizeSmall,
-  .MuiAutocomplete-inputRoot.MuiOutlinedInput-root.MuiInputBase-sizeSmall,
-  .MuiSelect-root.MuiInputBase-sizeSmall,
-  .MuiSelect-root.MuiOutlinedInput-root.MuiInputBase-sizeSmall {
-    @extend %mui-input-base;
-
-    .MuiAutocomplete-input,
+  /* MUI Select 크기별 스타일 */
+  .MuiFormControl-root .MuiSelect-root.MuiInputBase-sizeSmall,
+  .MuiSelect-root.MuiInputBase-sizeSmall {
+    height: var(--input-height-sm) !important;
+    min-height: var(--input-height-sm) !important;
+    font-size: var(--font-size-xs) !important;
+    
     .MuiSelect-select {
-      @extend %mui-input-inner;
-      @extend %mui-input-placeholder;
+      font-size: var(--font-size-xs) !important;
     }
   }
+
+  .MuiFormControl-root .MuiSelect-root.MuiInputBase-sizeMedium,
+  .MuiSelect-root.MuiInputBase-sizeMedium {
+    height: var(--input-height-base) !important;
+    min-height: var(--input-height-base) !important;
+    font-size: var(--font-size-sm) !important;
+    
+    .MuiSelect-select {
+      font-size: var(--font-size-sm) !important;
+    }
+  }
+
+  
+  .MuiFormControl-root .MuiSelect-root.MuiInputBase-sizeLarge,
+  .MuiSelect-root.MuiInputBase-sizeLarge {
+    height: var(--input-height-lg) !important;
+    min-height: var(--input-height-lg) !important;
+    font-size: var(--font-size-base) !important;
+    
+    .MuiSelect-select {
+      font-size: var(--font-size-base) !important;
+    }
+  }
+
+  /* MUI TextField 크기별 스타일 */
+  .MuiTextField-root.MuiInputBase-sizeSmall .MuiInputBase-root,
+  .MuiTextField-root .MuiInputBase-root.MuiInputBase-sizeSmall {
+    height: var(--input-height-sm) !important;
+    min-height: var(--input-height-sm) !important;
+    font-size: var(--font-size-xs) !important;
+    
+    .MuiInputBase-input {
+      height: var(--input-height-sm) !important;
+      min-height: var(--input-height-sm) !important;
+      padding: var(--input-padding-y-sm) var(--input-padding-x-sm) !important;
+      font-size: var(--font-size-xs) !important;
+      line-height: var(--input-height-sm) !important;
+    }
+  }
+
+  .MuiTextField-root.MuiInputBase-sizeMedium {
+    .MuiInputBase-root {
+      height: var(--input-height-sm) !important;
+      font-size: var(--font-size-sm) !important;
+    }
+    
+    .MuiInputBase-input {
+      height: var(--input-height-sm) !important;
+      padding: var(--input-padding-y-base) var(--input-padding-x-base) !important;
+      font-size: var(--font-size-sm) !important;
+    }
+  }
+
+  .MuiTextField-root.MuiInputBase-sizeLarge {
+    .MuiInputBase-root {
+      height: var(--input-height-lg) !important;
+      font-size: var(--font-size-base) !important;
+    }
+    
+    .MuiInputBase-input {
+      height: var(--input-height-lg) !important;
+      padding: var(--input-padding-y-lg) var(--input-padding-x-lg) !important;
+      font-size: var(--font-size-base) !important;
+    }
+  }
+
+  /* MUI DatePicker 크기별 스타일 */
+  .MuiDatePicker-root .MuiInputBase-sizeSmall .MuiInputBase-root,
+  .MuiDatePicker-root .MuiInputBase-root.MuiInputBase-sizeSmall {
+    height: var(--input-height-sm) !important;
+    min-height: var(--input-height-sm) !important;
+    font-size: var(--font-size-xs) !important;
+    
+    .MuiInputBase-input {
+      height: var(--input-height-sm) !important;
+      min-height: var(--input-height-sm) !important;
+      padding: var(--input-padding-y-sm) var(--input-padding-x-sm) !important;
+      font-size: var(--font-size-xs) !important;
+      line-height: var(--input-height-sm) !important;
+    }
+  }
+
+  .MuiDatePicker-root .MuiInputBase-sizeMedium {
+    .MuiInputBase-root {
+      height: var(--input-height-sm) !important;
+      font-size: var(--font-size-sm) !important;
+    }
+    
+    .MuiInputBase-input {
+      height: var(--input-height-sm) !important;
+      padding: var(--input-padding-y-base) var(--input-padding-x-base) !important;
+      font-size: var(--font-size-sm) !important;
+    }
+  }
+
+  .MuiDatePicker-root .MuiInputBase-sizeLarge {
+    .MuiInputBase-root {
+      height: var(--input-height-lg) !important;
+      font-size: var(--font-size-md) !important;
+    }
+    
+    .MuiInputBase-input {
+      height: var(--input-height-lg) !important;
+      padding: var(--input-padding-y-lg) var(--input-padding-x-lg) !important;
+      font-size: var(--font-size-md) !important;
+    }
+  }
+
+ 
 
   /* 체크박스 */
   :where(.c-form-checkbox) {
@@ -411,7 +583,6 @@
     }
     
     .c-form-input,
-    .c-form-select,
     .c-form-textarea {
       flex: 1;
     }
@@ -437,7 +608,6 @@
   :where(.c-form-group--valid),
   :where(.c-form-group--invalid) {
     .c-form-input,
-    .c-form-select,
     .c-form-textarea {
       border-color: var(--state-color);
       
@@ -474,7 +644,6 @@
     }
     
     .c-form-input,
-    .c-form-select,
     .c-form-textarea {
       padding-right: var(--space-10);
     }
@@ -486,4 +655,68 @@
       transform: rotate(360deg);
     }
   }
+
+  /* MUI Button 크기별 스타일 */
+  .MuiButton-root.MuiButton-sizeSmall {
+    height: var(--button-height-sm) !important;
+    min-height: var(--button-height-sm) !important;
+    font-size: var(--font-size-xs) !important;
+    padding: var(--button-padding-y-sm) var(--button-padding-x-sm) !important;
+  }
+
+  .MuiButton-root.MuiButton-sizeMedium {
+    height: var(--button-height-base) !important;
+    min-height: var(--button-height-base) !important;
+    font-size: var(--font-size-sm) !important;
+    padding: var(--button-padding-y-base) var(--button-padding-x-base) !important;
+  }
+
+  .MuiButton-root.MuiButton-sizeLarge {
+    height: var(--button-height-lg) !important;
+    min-height: var(--button-height-lg) !important;
+    font-size: var(--font-size-base) !important;
+    padding: var(--button-padding-y-lg) var(--button-padding-x-lg) !important;
+  }
+
+  /* MUI Button secondary outlined 배경색 */
+  .MuiButton-root.MuiButton-outlined.MuiButton-colorSecondary {
+    background-color: white !important;
+    
+    &:hover {
+      background-color: rgba(156, 163, 175, 0.04) !important;
+    }
+    
+    &:active {
+      background-color: rgba(156, 163, 175, 0.08) !important;
+    }
+  }
+
+  /* MUI OutlinedInput Small Size Padding Override */
+  .MuiOutlinedInput-root.MuiAutocomplete-inputRoot {
+    padding-left: 0px !important;
+  }
+
+  /* MUI TextField, Select, Autocomplete 기본 배경색 */
+  .MuiOutlinedInput-root {
+    background-color: white !important;
+    
+    &:hover {
+      background-color: white !important;
+    }
+    
+    &.Mui-focused {
+      background-color: white !important;
+    }
+  }
+
+  /* MUI Select 배경색 */
+  .MuiSelect-select {
+    background-color: white !important;
+  }
+
+  /* MUI Autocomplete 배경색 */
+  .MuiAutocomplete-root .MuiOutlinedInput-root {
+    background-color: white !important;
+  }
 }
+

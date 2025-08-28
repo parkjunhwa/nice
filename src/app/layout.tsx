@@ -3,8 +3,8 @@ import "./globals.scss";
 import { MuiThemeProvider } from "@/components/mui-theme-provider";
 
 export const metadata: Metadata = {
-  title: "대시보드 - Next.js",
-  description: "Next.js로 구축된 현대적인 대시보드",
+  title: "NICE정신시스템",
+  description: "나이스인프라 정산시스템",
 };
 
 export default function RootLayout({

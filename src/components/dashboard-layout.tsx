@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from "react"
 import { Sidebar } from "./sidebar"
 import { Header } from "./header"
+import { cn } from "@/lib/utils"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -28,8 +29,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
     }
   }, []) // 컴포넌트 마운트 시에만 실행
 
-
-
   // toggleSidebar 함수를 useCallback으로 메모이제이션
   const toggleSidebar = useCallback(() => {
     const newState = !isSidebarOpen
@@ -49,10 +48,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const layoutStructure = useMemo(() => (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       <Sidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
-      <div className="flex flex-1 flex-col min-h-0">
+      <div className={cn(
+        "flex flex-1 flex-col min-h-0 transition-all duration-300 ease-in-out",
+        isSidebarOpen ? "ml-0" : "ml-0"
+      )}>
         <Header isSidebarOpen={isSidebarOpen} onToggleSidebar={toggleSidebar} />
-        <main className="flex-1 overflow-y-auto px-6 pt-6 pb-0 min-h-0">
-          {children}
+        <main className="flex-1 overflow-y-auto p-6 min-h-0">
+          <div className="mx-auto">
+            {children}
+          </div>
         </main>
       </div>
     </div>

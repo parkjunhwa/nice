@@ -43,12 +43,12 @@ interface ChartProps {
   colors?: {
     value1: string
     value2: string
-    value3: string
+    value3?: string
   }
   labels?: {
     value1: string
     value2: string
-    value3: string
+    value3?: string
   }
 }
 
@@ -93,7 +93,7 @@ export function Chart({
   ]
 
   // value3가 있는 경우에만 추가
-  if (data.some(item => item.value3 !== undefined)) {
+  if (data.some(item => item.value3 !== undefined) && labels.value3 && colors.value3) {
     datasets.push({
       label: labels.value3,
       data: data.map(item => item.value3 || 0),

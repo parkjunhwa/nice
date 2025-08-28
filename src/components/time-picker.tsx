@@ -1,12 +1,12 @@
 import React from 'react'
 import { TimePicker as MuiTimePicker, TimePickerProps } from '@mui/x-date-pickers'
-import { TextField } from '@mui/material'
+import { TextField } from '@/components'
 import { koKR } from '@mui/x-date-pickers/locales'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { ko } from 'date-fns/locale'
 
-interface CustomTimePickerProps extends Omit<TimePickerProps<Date>, 'slotProps'> {
+interface CustomTimePickerProps extends Omit<any, 'slotProps'> {
   placeholder?: string
   fullWidth?: boolean
 }
