@@ -108,24 +108,6 @@ const sidebarItems: MenuItem[] = [
         section: "components"
       },
       {
-        title: "알림",
-        href: "/published/components/notifications",
-        icon: Bell,
-        section: "components"
-      },
-      {
-        title: "메시지",
-        href: "/published/components/messages",
-        icon: Mail,
-        section: "components"
-      },
-      {
-        title: "캘린더",
-        href: "/published/components/calendar",
-        icon: Calendar,
-        section: "components"
-      },
-      {
         title: "모달팝업",
         href: "/published/components/modal",
         icon: Calendar,
