@@ -193,7 +193,7 @@
   /* TextField endAdornment IconButton 공통 스타일 */
   .MuiInputAdornment-positionEnd .MuiIconButton-root {
     margin-right: -8px !important;
-    padding: 2px !important;
+    padding: 8px !important;
   }
 
   /* MUI Input 상태별 스타일 */
@@ -324,48 +324,6 @@
       height: var(--input-height-lg) !important;
       padding: var(--input-padding-y-lg) var(--input-padding-x-lg) !important;
       font-size: var(--font-size-base) !important;
-    }
-  }
-
-  /* MUI DatePicker 크기별 스타일 */
-  .MuiDatePicker-root .MuiInputBase-sizeSmall .MuiInputBase-root,
-  .MuiDatePicker-root .MuiInputBase-root.MuiInputBase-sizeSmall {
-    height: var(--input-height-sm) !important;
-    min-height: var(--input-height-sm) !important;
-    font-size: var(--font-size-xs) !important;
-    
-    .MuiInputBase-input {
-      height: var(--input-height-sm) !important;
-      min-height: var(--input-height-sm) !important;
-      padding: var(--input-padding-y-sm) var(--input-padding-x-sm) !important;
-      font-size: var(--font-size-xs) !important;
-      line-height: var(--input-height-sm) !important;
-    }
-  }
-
-  .MuiDatePicker-root .MuiInputBase-sizeMedium {
-    .MuiInputBase-root {
-      height: var(--input-height-sm) !important;
-      font-size: var(--font-size-sm) !important;
-    }
-    
-    .MuiInputBase-input {
-      height: var(--input-height-sm) !important;
-      padding: var(--input-padding-y-base) var(--input-padding-x-base) !important;
-      font-size: var(--font-size-sm) !important;
-    }
-  }
-
-  .MuiDatePicker-root .MuiInputBase-sizeLarge {
-    .MuiInputBase-root {
-      height: var(--input-height-lg) !important;
-      font-size: var(--font-size-md) !important;
-    }
-    
-    .MuiInputBase-input {
-      height: var(--input-height-lg) !important;
-      padding: var(--input-padding-y-lg) var(--input-padding-x-lg) !important;
-      font-size: var(--font-size-md) !important;
     }
   }
 
@@ -718,5 +676,13 @@
   .MuiAutocomplete-root .MuiOutlinedInput-root {
     background-color: white !important;
   }
-}
 
+ 
+  /* MUI DatePicker 모든 변형에 대한 전역 오버라이드 */
+  .MuiPickersInputBase-root,
+  .MuiPickersOutlinedInput-root {
+    height: var(--input-height-sm) !important;
+    min-height: var(--input-height-sm) !important;
+    font-size: var(--font-size-xs) !important;
+  }
+}
