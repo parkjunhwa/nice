@@ -83,7 +83,7 @@ export default function Cmn010({ open, onClose, onSuccess }: Cmn010Props) {
     >
       <DialogTitle>
         <div className="flex items-center justify-between">
-          <Typography variant="h6" component="div" sx={{ fontWeight: 500 }}>
+          <Typography variant="h6" component="div" sx={{ fontWeight: 560 }}>
             비밀번호 변경
           </Typography>
           <IconButton
