@@ -154,8 +154,8 @@ export default function MuiPage() {
   const steps = ['기본 정보', '주소 정보', '결제 정보', '확인']
 
   return (
-    <div className="c-panel bottom-contents-pannel flex-1 min-h-0 flex flex-col">
-      <div className="p-0 flex-1 min-h-0">
+            <div className="c-panel bottom-contents-pannel">
+              <div className="bottom-contents-pannel__content">
         <div className="grid grid-cols-4 gap-2">
           {/* 보통 (Normal) */}
           <div className="flex flex-col">

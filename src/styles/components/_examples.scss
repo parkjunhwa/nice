@@ -3,243 +3,64 @@
 @layer components {
   /* ===== 예시 컴포넌트들 ===== */
   
-  /* 기본 페이지 레이아웃 예시 */
-  :where(.c-example-page) {
-    @include flex-col-start;
-    min-height: 100vh;
-    background-color: hsl(var(--color-bg-tertiary));
+  /* 검색 패널 컴포넌트 */
+  :where(.top-search-panel) {
+    background-color: white;
+    border-radius: 0.5rem;
+    border: 1px solid #111827;
+    flex-shrink: 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* 아코디언 메뉴 버튼 */
+  :where(.accordion-menu-button) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    border: 1px solid #111827;
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+    margin-bottom: -1rem;
     
-    .c-example-page__header {
-      @include flex-between;
-      width: 100%;
-      padding: var(--header-padding-y) var(--header-padding-x);
-      background-color: hsl(var(--color-bg-elevated));
-      border-bottom: 1px solid hsl(var(--color-border));
-      box-shadow: var(--shadow-sm);
+    &:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
     
-    .c-example-page__main {
+    .accordion-menu-button__icon {
+      color: #4b5563;
+      transition: transform 0.2s;
+    }
+  }
+  
+  /* 하단 컨텐츠 패널 */
+  :where(.bottom-contents-pannel) {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    
+    .bottom-contents-pannel__content {
+      padding: 0;
       flex: 1;
-      width: 100%;
-      max-width: var(--breakpoint-2xl);
-      margin: 0 auto;
-      padding: var(--space-page);
-    }
-    
-    .c-example-page__section {
-      margin-bottom: var(--space-section);
-      
-      .c-example-page__section-title {
-        font-size: var(--font-size-2xl);
-        font-weight: var(--font-weight-bold);
-        color: hsl(var(--color-fg));
-        margin-bottom: var(--space-6);
-        line-height: var(--line-height-tight);
-      }
+      min-height: 0;
     }
   }
+  
 
-  /* 컴포넌트 쇼케이스 예시 */
-  :where(.c-showcase) {
-    @include flex-col-start;
-    gap: var(--space-section);
-    
-    .c-showcase__item {
-      @include card-base;
-      
-      .c-showcase__title {
-        font-size: var(--font-size-lg);
-        font-weight: var(--font-weight-semibold);
-        color: hsl(var(--color-fg));
-        margin-bottom: var(--space-4);
-        line-height: var(--line-height-tight);
-      }
-      
-      .c-showcase__description {
-        font-size: var(--font-size-sm);
-        color: hsl(var(--color-muted-foreground));
-        margin-bottom: var(--space-4);
-        line-height: var(--line-height-relaxed);
-      }
-      
-      .c-showcase__demo {
-        padding: var(--space-6);
-        background-color: hsl(var(--color-bg-secondary));
-        border-radius: var(--radius-lg);
-        border: 1px solid hsl(var(--color-border));
-        margin-bottom: var(--space-4);
-      }
-      
-      .c-showcase__code {
-        font-family: var(--font-family-mono);
-        font-size: var(--font-size-sm);
-        background-color: hsl(var(--color-bg-overlay));
-        color: hsl(var(--color-primary-foreground));
-        padding: var(--space-4);
-        border-radius: var(--radius-base);
-        overflow-x: auto;
-        @include scrollbar(6px, hsl(var(--color-bg-overlay)), hsl(var(--color-border)));
-      }
-    }
-  }
 
-  /* 색상 팔레트 예시 */
-  :where(.c-color-palette) {
-    @include grid-fit(200px);
-    gap: var(--space-4);
-    
-    .c-color-palette__item {
-      @include flex-col-center;
-      padding: var(--space-4);
-      background-color: hsl(var(--color-bg-elevated));
-      border: 1px solid hsl(var(--color-border));
-      border-radius: var(--radius-lg);
-      text-align: center;
-      
-      .c-color-palette__swatch {
-        width: 60px;
-        height: 60px;
-        border-radius: var(--radius-lg);
-        margin-bottom: var(--space-3);
-        border: 2px solid hsl(var(--color-border));
-        @include shadow-sm;
-      }
-      
-      .c-color-palette__name {
-        font-size: var(--font-size-sm);
-        font-weight: var(--font-weight-medium);
-        color: hsl(var(--color-fg));
-        margin-bottom: var(--space-1);
-        line-height: var(--line-height-normal);
-      }
-      
-      .c-color-palette__value {
-        font-family: var(--font-family-mono);
-        font-size: var(--font-size-xs);
-        color: hsl(var(--color-muted-foreground));
-        line-height: var(--line-height-normal);
-      }
-    }
-  }
 
-  /* 타이포그래피 예시 */
-  :where(.c-typography-showcase) {
-    @include flex-col-start;
-    gap: var(--space-6);
-    
-    .c-typography-showcase__item {
-      @include flex-col-start;
-      gap: var(--space-2);
-      
-      .c-typography-showcase__label {
-        font-size: var(--font-size-xs);
-        font-weight: var(--font-weight-medium);
-        color: hsl(var(--color-muted-foreground));
-        text-transform: uppercase;
-        letter-spacing: var(--letter-spacing-wide);
-        line-height: var(--line-height-normal);
-      }
-      
-      .c-typography-showcase__text {
-        color: hsl(var(--color-fg));
-        line-height: var(--line-height-normal);
-        
-        &.c-typography-showcase__text--xs {
-          font-size: var(--font-size-xs);
-        }
-        
-        &.c-typography-showcase__text--sm {
-          font-size: var(--font-size-sm);
-        }
-        
-        &.c-typography-showcase__text--base {
-          font-size: var(--font-size-base);
-        }
-        
-        &.c-typography-showcase__text--lg {
-          font-size: var(--font-size-lg);
-        }
-        
-        &.c-typography-showcase__text--xl {
-          font-size: var(--font-size-xl);
-        }
-        
-        &.c-typography-showcase__text--2xl {
-          font-size: var(--font-size-2xl);
-        }
-        
-        &.c-typography-showcase__text--3xl {
-          font-size: var(--font-size-3xl);
-        }
-        
-        &.c-typography-showcase__text--4xl {
-          font-size: var(--font-size-4xl);
-        }
-      }
-    }
-  }
 
-  /* 간격 예시 */
-  :where(.c-spacing-showcase) {
-    @include flex-col-start;
-    gap: var(--space-6);
-    
-    .c-spacing-showcase__item {
-      @include flex-center;
-      gap: var(--space-4);
-      
-      .c-spacing-showcase__label {
-        font-size: var(--font-size-sm);
-        font-weight: var(--font-weight-medium);
-        color: hsl(var(--color-muted-foreground));
-        min-width: 80px;
-        line-height: var(--line-height-normal);
-      }
-      
-      .c-spacing-showcase__visual {
-        background-color: hsl(var(--color-primary));
-        border-radius: var(--radius-sm);
-        @include shadow-sm;
-      }
-      
-      .c-spacing-showcase__value {
-        font-family: var(--font-family-mono);
-        font-size: var(--font-size-xs);
-        color: hsl(var(--color-muted-foreground));
-        line-height: var(--line-height-normal);
-      }
-      
-      &.c-spacing-showcase__item--space-1 .c-spacing-showcase__visual {
-        width: var(--space-1);
-        height: var(--space-1);
-      }
-      
-      &.c-spacing-showcase__item--space-2 .c-spacing-showcase__visual {
-        width: var(--space-2);
-        height: var(--space-2);
-      }
-      
-      &.c-spacing-showcase__item--space-3 .c-spacing-showcase__visual {
-        width: var(--space-3);
-        height: var(--space-3);
-      }
-      
-      &.c-spacing-showcase__item--space-4 .c-spacing-showcase__visual {
-        width: var(--space-4);
-        height: var(--space-4);
-      }
-      
-      &.c-spacing-showcase__item--space-6 .c-spacing-showcase__visual {
-        width: var(--space-6);
-        height: var(--space-6);
-      }
-      
-      &.c-spacing-showcase__item--space-8 .c-spacing-showcase__visual {
-        width: var(--space-8);
-        height: var(--space-8);
-      }
-    }
-  }
+
+
+
+
+
 
   /* 그림자 예시 */
   :where(.c-shadow-showcase) {
@@ -302,102 +123,5 @@
     }
   }
 
-  /* 반응형 예시 */
-  :where(.c-responsive-demo) {
-    @include flex-col-center;
-    gap: var(--space-4);
-    padding: var(--space-6);
-    background-color: hsl(var(--color-bg-secondary));
-    border: 1px solid hsl(var(--color-border));
-    border-radius: var(--radius-lg);
-    text-align: center;
-    
-    .c-responsive-demo__content {
-      font-size: var(--font-size-lg);
-      font-weight: var(--font-weight-semibold);
-      color: hsl(var(--color-fg));
-      line-height: var(--line-height-tight);
-    }
-    
-    .c-responsive-demo__breakpoint {
-      font-size: var(--font-size-sm);
-      color: hsl(var(--color-muted-foreground));
-      line-height: var(--line-height-normal);
-    }
-    
-    @include mobile {
-      background-color: hsl(var(--color-error-light));
-      .c-responsive-demo__breakpoint::after {
-        content: ' (Mobile)';
-      }
-    }
-    
-    @include tablet {
-      background-color: hsl(var(--color-warning-light));
-      .c-responsive-demo__breakpoint::after {
-        content: ' (Tablet)';
-      }
-    }
-    
-    @include desktop {
-      background-color: hsl(var(--color-success-light));
-      .c-responsive-demo__breakpoint::after {
-        content: ' (Desktop)';
-      }
-    }
-  }
 
-  /* 애니메이션 예시 */
-  :where(.c-animation-demo) {
-    @include flex-center;
-    gap: var(--space-6);
-    padding: var(--space-8);
-    background-color: hsl(var(--color-bg-elevated));
-    border-radius: var(--radius-xl);
-    border: 1px solid hsl(var(--color-border));
-    
-    .c-animation-demo__item {
-      @include flex-center;
-      width: 80px;
-      height: 80px;
-      background-color: hsl(var(--color-primary));
-      color: hsl(var(--color-primary-foreground));
-      border-radius: var(--radius-lg);
-      font-size: var(--font-size-2xl);
-      font-weight: var(--font-weight-bold);
-      cursor: pointer;
-      
-      &.c-animation-demo__item--lift {
-        @include hover-lift;
-      }
-      
-      &.c-animation-demo__item--scale {
-        @include hover-scale(1.1);
-      }
-      
-      &.c-animation-demo__item--rotate {
-        @include hover-rotate(10deg);
-      }
-      
-      &.c-animation-demo__item--bounce {
-        @include transition-transform;
-        
-        &:hover {
-          animation: bounce 0.6s ease-in-out;
-        }
-      }
-    }
-    
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-20px);
-      }
-      60% {
-        transform: translateY(-10px);
-      }
-    }
-  }
 } 

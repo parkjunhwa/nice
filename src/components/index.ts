@@ -7,6 +7,7 @@ export { Header } from './header'
 export { Sidebar } from './sidebar'
 export { SidebarToggle } from './sidebar-toggle'
 export { Chart } from './chart'
+export { default as Breadcrumb } from './Breadcrumb'
 // 테이블 컴포넌트들을 공통으로 export
 export * from './table'
 

@@ -574,7 +574,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
             <img
               src="/images/logo.png"
               alt="나이스 인프라"
-              style={{ height: 28, width: 'auto', display: 'block' }}
+              style={{ height: 18, width: 'auto', display: 'block', maxHeight: '18px' }}
             />
           ) : (
             // 접혔을 때 아무것도 렌더링하지 않음

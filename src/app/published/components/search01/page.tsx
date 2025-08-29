@@ -10,7 +10,8 @@ import {
   Collapse,
   Typography,
   Icons,
-  TabulatorTable
+  TabulatorTable,
+  Breadcrumb
 } from '@/components'
 
 export default function Search01Page() {
@@ -18,12 +19,23 @@ export default function Search01Page() {
 
   return (
     <div
-      className="flex flex-col h-full min-h-0 space-y-6 layout-top-bottom"
+      className="flex flex-col h-full min-h-0 layout-top-bottom"
       style={{
         height: 'calc(100vh - 64px - 3rem)', // 64px topbar + 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
       }}
     >
-      <div className="top-search-panel bg-white rounded-lg border flex-shrink-0 shadow-md border-gray-900">
+      {/* Breadcrumb */}
+      <Breadcrumb
+        items={[
+          { label: '대메뉴', href: '/' },
+          { label: '중메뉴', href: '/' },
+          { label: '현재페이지', active: true }
+        ]}
+      />
+
+      {/* Page Title */}
+      <h1 className="text-2xl font-bold text-gray-900">Search01 검색 페이지</h1>
+      <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={12}>
           <div className="py-4 px-6">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -73,8 +85,6 @@ export default function Search01Page() {
                     <MenuItem value="pending">대기중</MenuItem>
                   </Select>
                 </FormControl>
-
-
               </div>
             </div>
             <div className="flex justify-center items-center pt-2">
@@ -90,21 +100,21 @@ export default function Search01Page() {
           </div>
         </Collapse>
         {/* 아코디언 토글 버튼 */}
-        <div className="flex justify-center items-center" style={{ marginBottom: '-16px' }} >
+        <div className="flex justify-center items-center">
           <button
             type="button"
-            className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-900 bg-white shadow-sm hover:shadow-md transition-all duration-200"
+            className="accordion-menu-button"
             onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
           >
             {searchPanelExpanded ? (
               <Icons.ChevronUpIcon
                 size={16}
-                className="text-gray-600 transition-transform duration-200"
+                className="accordion-menu-button__icon"
               />
             ) : (
               <Icons.SearchIcon
                 size={16}
-                className="text-gray-600 transition-transform duration-200"
+                className="accordion-menu-button__icon"
               />
             )}
           </button>
@@ -112,8 +122,8 @@ export default function Search01Page() {
       </div>
 
       {/* bottom-contents-pannel */}
-      <div className="c-panel bottom-contents-pannel flex-1 min-h-0 flex flex-col overflow-hidden">
-        <div className="flex-1 min-h-0 flex flex-col">
+      <div className="c-panel bottom-contents-pannel">
+        <div className="bottom-contents-pannel__content">
           <div className="pb-4 flex-shrink-0">
             <Typography variant="h6" className="text-gray-800 font-semibold">
               사용자 목록
@@ -130,10 +140,7 @@ export default function Search01Page() {
           >
             <div className="h-full w-full overflow-hidden">
               <div className="h-full w-full">
-                <TabulatorTable
-                  className="h-full"
-                  height="100%"
-                />
+                <TabulatorTable className="h-full" height="100%" />
               </div>
             </div>
           </div>
@@ -141,4 +148,4 @@ export default function Search01Page() {
       </div>
     </div>
   )
-}
+} 

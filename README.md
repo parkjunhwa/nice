@@ -32,12 +32,8 @@ nice/
 │   │   ├── NICEGtNeobUni-eSb.otf
 │   │   └── NICEGtNeobUniTTF-eSb.ttf
 │   └── images/              # 이미지 파일들
-│       ├── file.svg
-│       ├── globe.svg
-│       ├── logo.png
-│       ├── next.svg
-│       ├── vercel.svg
-│       └── window.svg
+│       ├── background_login.png
+│       └── logo.png
 ├── src/
 │   ├── app/                 # Next.js App Router
 │   │   ├── published/       # Published Pages (메인 페이지들)
