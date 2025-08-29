@@ -1,12 +1,12 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { 
-  Home, 
-  BarChart3, 
-  Users, 
-  Settings, 
-  FileText, 
+import {
+  Home,
+  BarChart3,
+  Users,
+  Settings,
+  FileText,
   Calendar,
   Mail,
   Bell,
@@ -26,98 +26,78 @@ interface MenuItem {
   icon?: any
   children?: MenuItem[]
   badge?: string
-  section?: string
 }
 
 const sidebarItems: MenuItem[] = [
-  // 메인
   {
     title: "메인",
     href: "/published",
-    icon: Home,
-    section: "main"
+    icon: Home
   },
   {
     title: "로그인",
     href: "/login",
-    icon: UserCheck,
-    section: "main"
+    icon: UserCheck
   },
-  
-  // 폼 관리
   {
     title: "폼 관리",
     icon: FileText,
-    section: "management",
     children: [
       {
         title: "기본 폼",
         href: "/published/forms/basic",
-        icon: FileText,
-        section: "management"
+        icon: FileText
       },
       {
         title: "고급 폼",
         href: "/published/forms/advanced",
-        icon: FileText,
-        section: "management"
+        icon: FileText
       },
       {
         title: "파일 업로드",
         href: "/published/forms/file-upload",
-        icon: FileText,
-        section: "management"
+        icon: FileText
       },
       {
         title: "다단계 폼",
         href: "/published/forms/multi-step",
-        icon: FileText,
-        section: "management"
+        icon: FileText
       },
       {
         title: "검색 폼",
         href: "/published/forms/search",
-        icon: Settings,
-        section: "management"
+        icon: Settings
       },
       {
         title: "폼 검증",
         href: "/published/forms/validation",
-        icon: Settings,
-        section: "management"
+        icon: Settings
       }
     ]
   },
-
-  // 컴포넌트 예시
   {
     title: "컴포넌트 예시",
     icon: FileText,
-    section:"components",
     children: [
       {
         title: "MUI 컴포넌트",
         href: "/published/components/mui",
-        icon: FileText,
-        section: "components"
+        icon: FileText
       },
       {
         title: "검색01",
         href: "/published/components/search01",
-        icon: Settings,
-        section: "components"
+        icon: Settings
       },
       {
         title: "검색02",
         href: "/published/components/search02",
-        icon: Settings,
-        section: "components"
+        icon: Settings
       },
       {
         title: "모달팝업",
         href: "/published/components/modal",
-        icon: Calendar,
-        section: "components"
+        icon: Calendar
       }
     ]
   }
@@ -133,11 +113,11 @@ function isMenuItemActive(item: MenuItem, pathname: string): boolean {
   if (item.href && pathname === item.href) {
     return true
   }
-  
+
   if (item.children) {
     return item.children.some(child => isMenuItemActive(child, pathname))
   }
-  
+
   return false
 }
 
@@ -146,23 +126,23 @@ function shouldExpandMenuItem(item: MenuItem, pathname: string): boolean {
   if (item.href && pathname === item.href) {
     return false // 링크가 있는 아이템은 펼칠 필요 없음
   }
-  
+
   if (item.children) {
     return item.children.some(child => isMenuItemActive(child, pathname))
   }
-  
+
   return false
 }
 
-function MenuItem({ 
-  item, 
-  level = 0, 
-  isOpen, 
-  activePopover, 
-  setActivePopover 
-}: { 
-  item: MenuItem; 
-  level?: number; 
+function MenuItem({
+  item,
+  level = 0,
+  isOpen,
+  activePopover,
+  setActivePopover
+}: {
+  item: MenuItem;
+  level?: number;
   isOpen: boolean;
   activePopover: string | null;
   setActivePopover: (title: string | null) => void;
@@ -173,13 +153,13 @@ function MenuItem({
   const [hoveredChildIndex, setHoveredChildIndex] = useState<number | null>(null)
   const [hoveredGrandChildIndex, setHoveredGrandChildIndex] = useState<number | null>(null)
   const [hoveredGreatGrandChildIndex, setHoveredGreatGrandChildIndex] = useState<number | null>(null)
-  
+
   // 각 depth별로 독립적인 hover 상태 관리
   const [hoveredChildFor3Depth, setHoveredChildFor3Depth] = useState<number | null>(null)
   const [hoveredGrandChildFor4Depth, setHoveredGrandChildFor4Depth] = useState<number | null>(null)
   const hasChildren = item.children && item.children.length > 0
   const isActive = item.href ? pathname === item.href : false
-  const isChildActive = hasChildren && item.children?.some(child => 
+  const isChildActive = hasChildren && item.children?.some(child =>
     child.href ? pathname === child.href : false
   )
 
@@ -213,7 +193,7 @@ function MenuItem({
   useEffect(() => {
     const shouldExpand = shouldExpandMenuItem(item, pathname)
     const savedState = loadMenuState()
-    
+
     // 경로 기반 자동 펼침이 우선, 그 다음 저장된 상태
     if (shouldExpand) {
       setIsExpanded(true)
@@ -236,10 +216,10 @@ function MenuItem({
 
   const paddingLeft = level * 16 + (isOpen ? 12 : 0)
 
-     // Popover 메뉴 렌더링 함수 (4depth까지 지원)
-   const renderPopoverMenu = (children: MenuItem[], level: number) => (
-     <div 
-       className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99999]"
+  // Popover 메뉴 렌더링 함수 (4depth까지 지원)
+  const renderPopoverMenu = (children: MenuItem[], level: number) => (
+    <div
+      className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99999]"
       style={{
         left: popoverPosition.left,
         top: popoverPosition.top,
@@ -260,7 +240,7 @@ function MenuItem({
               </div>
             </Link>
           ) : (
-            <div 
+            <div
               className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
               onMouseEnter={() => setHoveredChildIndex(index)}
               onMouseLeave={() => setHoveredChildIndex(null)}
@@ -270,11 +250,11 @@ function MenuItem({
               {child.children && child.children.length > 0 && <ChevronRight className="h-4 w-4 ml-auto" />}
             </div>
           )}
-          
-                     {/* 3depth popover - 하위 메뉴가 있는 경우에만 해당 child에 마우스 오버 시 표시 */}
-           {child.children && child.children.length > 0 && hoveredChildIndex === index && (
-             <div 
-               className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99998]"
+
+          {/* 3depth popover - 하위 메뉴가 있는 경우에만 해당 child에 마우스 오버 시 표시 */}
+          {child.children && child.children.length > 0 && hoveredChildIndex === index && (
+            <div
+              className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99998]"
               style={{
                 left: popoverPosition.left + 196, // 2depth popover 오른쪽에 배치 (200 - 4 = 196)
                 top: popoverPosition.top,
@@ -296,7 +276,7 @@ function MenuItem({
                       </div>
                     </Link>
                   ) : (
-                    <div 
+                    <div
                       className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
                       onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)}
                       onMouseLeave={() => setHoveredGrandChildIndex(null)}
@@ -306,11 +286,11 @@ function MenuItem({
                       {grandChild.children && grandChild.children.length > 0 && <ChevronRight className="h-4 w-4 ml-auto" />}
                     </div>
                   )}
-                  
-                                     {/* 4depth popover - 하위 메뉴가 있는 경우에만 해당 grandChild에 마우스 오버 시 표시 */}
-                   {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildIndex === grandIndex && (
-                     <div 
-                       className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99997]"
+
+                  {/* 4depth popover - 하위 메뉴가 있는 경우에만 해당 grandChild에 마우스 오버 시 표시 */}
+                  {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildIndex === grandIndex && (
+                    <div
+                      className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99997]"
                       style={{
                         left: popoverPosition.left + 392, // 3depth popover 오른쪽에 배치 (196 + 196 = 392)
                         top: popoverPosition.top,
@@ -392,10 +372,10 @@ function MenuItem({
           )}
         </>
       )}
-      
-             {/* 접힌 상태에서 하위 메뉴가 있을 때 popover 표시 */}
-       {!isOpen && hasChildren && activePopover === item.title && (
-         <div className="absolute left-full top-0 -ml-0 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99999]">
+
+      {/* 접힌 상태에서 하위 메뉴가 있을 때 popover 표시 */}
+      {!isOpen && hasChildren && activePopover === item.title && (
+        <div className="absolute left-full top-0 -ml-0 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99999]">
           {/* 상위 메뉴를 가리키는 화살표 */}
           <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 transform -rotate-45 z-[10002]"></div>
           {item.children?.map((child, index) => (
@@ -409,7 +389,7 @@ function MenuItem({
                   </div>
                 </Link>
               ) : (
-                <div 
+                <div
                   className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
                   onMouseEnter={() => {
                     console.log('2depth menu onMouseEnter, index:', index)
@@ -425,11 +405,11 @@ function MenuItem({
                   {child.children && child.children.length > 0 && <ChevronRight className="h-4 w-4 ml-auto" />}
                 </div>
               )}
-              
-                             {/* 3depth popover - 하위 메뉴가 있는 경우에만 해당 child에 마우스 오버 시 표시 */}
-               {child.children && child.children.length > 0 && hoveredChildFor3Depth === index && (
-                 <div 
-                   className="absolute left-full top-0 -ml-3 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99998]"
+
+              {/* 3depth popover - 하위 메뉴가 있는 경우에만 해당 child에 마우스 오버 시 표시 */}
+              {child.children && child.children.length > 0 && hoveredChildFor3Depth === index && (
+                <div
+                  className="absolute left-full top-0 -ml-3 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99998]"
                   onMouseEnter={() => {
                     console.log('3depth popover onMouseEnter, index:', index)
                     setHoveredChildFor3Depth(index)
@@ -453,7 +433,7 @@ function MenuItem({
                           </div>
                         </Link>
                       ) : (
-                        <div 
+                        <div
                           className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
                           onMouseEnter={() => {
                             console.log('3depth menu onMouseEnter, grandIndex:', grandIndex)
@@ -469,11 +449,11 @@ function MenuItem({
                           {grandChild.children && grandChild.children.length > 0 && <ChevronRight className="h-4 w-4 ml-auto" />}
                         </div>
                       )}
-                      
-                                             {/* 4depth popover - 하위 메뉴가 있는 경우에만 해당 grandChild에 마우스 오버 시 표시 */}
-                       {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildFor4Depth === grandIndex && (
-                         <div 
-                           className="absolute left-full top-0 -ml-3 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99997]"
+
+                      {/* 4depth popover - 하위 메뉴가 있는 경우에만 해당 grandChild에 마우스 오버 시 표시 */}
+                      {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildFor4Depth === grandIndex && (
+                        <div
+                          className="absolute left-full top-0 -ml-3 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99997]"
                           onMouseEnter={() => setHoveredGrandChildFor4Depth(grandIndex)}
                           onMouseLeave={() => setHoveredGrandChildFor4Depth(null)}
                         >
@@ -497,14 +477,14 @@ function MenuItem({
           ))}
         </div>
       )}
-      
+
       {/* 접힌 상태에서 모든 메뉴에 tooltip 표시 */}
       {!isOpen && (
         <div className="absolute left-1/2 top-full -translate-x-1/2 mt-2 px-2 py-1 bg-gray-900 text-white text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
           {item.title}
-          <div 
-            className="absolute left-1/2 bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-t-0 border-transparent border-b-gray-900" 
-            style={{ 
+          <div
+            className="absolute left-1/2 bottom-full w-0 h-0 border-l-4 border-r-4 border-b-4 border-t-0 border-transparent border-b-gray-900"
+            style={{
               transform: 'translateX(-50%)'
             }}
           ></div>
@@ -522,7 +502,7 @@ function MenuItem({
       ) : (
         <MenuContent />
       )}
-      
+
       {hasChildren && isExpanded && isOpen && (
         <div className="mt-1 space-y-1">
           {item.children?.map((child, index) => (
@@ -537,7 +517,7 @@ function MenuItem({
           ))}
         </div>
       )}
-      
+
       {/* 접힌 상태에서는 renderPopoverMenu 함수를 통해서만 popover 표시 */}
     </div>
   )
@@ -570,7 +550,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
           text-decoration: none !important;
         }
       `}</style>
-      
+
       <div className={cn(
         "flex h-16 items-center justify-between border-b border-gray-200",
         isOpen ? "pl-4 pr-2" : "px-4"
@@ -587,87 +567,30 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
             null
           )}
         </div>
-        
+
         {/* 접었다 펼치는 버튼 */}
         <SidebarToggle isOpen={isOpen} onToggle={onToggle} />
       </div>
-                                                       <nav className={cn(
-                                                         "flex-1 space-y-1 px-2 py-4",
-                                                         isOpen ? "overflow-y-auto overflow-x-hidden" : ""
-                                                       )}>
-        {/* 메인 기능 섹션 */}
-        {isOpen ? (
-          <div className="px-3 mb-3">
-            <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">메인 기능</h3>
-          </div>
-        ) : (
-          <div className="mx-2 mb-3">
-            <div className="h-px bg-gray-200"></div>
-          </div>
-        )}
-        {sidebarItems.filter(item => item.section === "main").map((item, index) => (
+      <nav className={cn(
+        "flex-1 space-y-1 px-2 py-4",
+        isOpen ? "overflow-y-auto overflow-x-hidden" : ""
+      )}>
+        {/* 모든 메뉴 아이템을 하나의 리스트로 표시 */}
+        {sidebarItems.map((item, index) => (
           <MenuItem
-            key={`main-${index}`}
+            key={`menu-${index}`}
             item={item}
             isOpen={isOpen}
             activePopover={activePopover}
             setActivePopover={setActivePopover}
           />
         ))}
-        
-        {/* 관리 기능 섹션 */}
-        {sidebarItems.filter(item => item.section === "management").length > 0 && (
-          <>
-            {isOpen ? (
-              <div className="px-3 mb-3 mt-6">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">관리 기능</h3>
-              </div>
-            ) : (
-              <div className="mx-2 mb-3 mt-6">
-                <div className="h-px bg-gray-200"></div>
-              </div>
-            )}
-            {sidebarItems.filter(item => item.section === "management").map((item, index) => (
-              <MenuItem
-                key={`management-${index}`}
-                item={item}
-                isOpen={isOpen}
-                activePopover={activePopover}
-                setActivePopover={setActivePopover}
-              />
-            ))}
-          </>
-        )}
-        
-        {/* 컴포넌트 섹션 */}
-        {sidebarItems.filter(item => item.section === "components").length > 0 && (
-          <>
-            {isOpen ? (
-              <div className="px-3 mb-3 mt-6">
-                <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">도구 기능</h3>
-              </div>
-            ) : (
-              <div className="mx-2 mb-3 mt-6">
-                <div className="h-px bg-gray-200"></div>
-              </div>
-            )}
-            {sidebarItems.filter(item => item.section === "components").map((item, index) => (
-              <MenuItem
-                key={`components-${index}`}
-                item={item}
-                isOpen={isOpen}
-                activePopover={activePopover}
-                setActivePopover={setActivePopover}
-              />
-            ))}
-          </>
-        )}
-             </nav>
-       {isOpen && (
-         <div className="border-t border-gray-200 p-4 space-y-3 mt-auto sticky bottom-0 bg-white">
-           <p className="text-[11px] text-gray-400 text-center">Copyright NICE Infra. All Right Reserved.</p>
-         </div>
-       )}
+      </nav>
+      {isOpen && (
+        <div className="border-t border-gray-200 p-4 space-y-3 mt-auto sticky bottom-0 bg-white">
+          <p className="text-[11px] text-gray-400 text-center">Copyright NICE Infra. All Right Reserved.</p>
+        </div>
+      )}
     </div>
   )
 })

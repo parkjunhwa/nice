@@ -31,7 +31,13 @@ export default function Cmn010({ open, onClose, onSuccess }: Cmn010Props) {
   const [passwordError, setPasswordError] = useState('')
 
   const handleSubmit = () => {
-    // 비밀번호 검증
+    // 현재 비밀번호 검증 (간단한 예시 - 실제로는 서버에서 검증)
+    if (!currentPassword) {
+      setPasswordError('현재 비밀번호를 입력해주세요.')
+      return
+    }
+    
+    // 새 비밀번호 검증
     if (newPassword !== confirmPassword) {
       setPasswordError('새 비밀번호가 일치하지 않습니다.')
       return
@@ -77,7 +83,7 @@ export default function Cmn010({ open, onClose, onSuccess }: Cmn010Props) {
     >
       <DialogTitle>
         <div className="flex items-center justify-between">
-          <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
+          <Typography variant="h6" component="div" sx={{ fontWeight: 500 }}>
             비밀번호 변경
           </Typography>
           <IconButton
