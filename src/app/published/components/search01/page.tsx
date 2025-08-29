@@ -11,11 +11,28 @@ import {
   Typography,
   Icons,
   TabulatorTable,
-  Breadcrumb
+  Breadcrumb,
+  Snackbar,
+  Alert
 } from '@/components'
 
 export default function Search01Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
+  const [alertOpen, setAlertOpen] = useState(false)
+  const [alertMessage, setAlertMessage] = useState('')
+  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('info')
+
+  const handleTableAction = (action: string, data: any) => {
+    if (action === 'edit') {
+      setAlertMessage(`Editing item: ${data.name}`)
+      setAlertSeverity('info')
+      setAlertOpen(true)
+    } else if (action === 'delete') {
+      setAlertMessage(`Deleting item: ${data.name}`)
+      setAlertSeverity('warning')
+      setAlertOpen(true)
+    }
+  }
 
   return (
     <div
@@ -140,12 +157,45 @@ export default function Search01Page() {
           >
             <div className="h-full w-full overflow-hidden">
               <div className="h-full w-full">
-                <TabulatorTable className="h-full" height="100%" />
+                <TabulatorTable 
+                  className="h-full" 
+                  height="100%"
+                  onAction={handleTableAction}
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* MUI Alert Snackbar */}
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={4000}
+        onClose={() => setAlertOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{
+          top: '20px !important',
+          '& .MuiAlert-root': {
+            minWidth: '300px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            borderRadius: '8px'
+          }
+        }}
+      >
+        <Alert 
+          onClose={() => setAlertOpen(false)} 
+          severity={alertSeverity}
+          sx={{ 
+            width: '100%',
+            '& .MuiAlert-message': {
+              fontWeight: 500
+            }
+          }}
+        >
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   )
 } 

@@ -10,11 +10,25 @@ import {
   Collapse,
   Icons,
   Typography,
-  Breadcrumb
+  Breadcrumb,
+  Snackbar,
+  Alert
 } from '@/components'
 
 export default function Search01Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
+
+  // Alert 상태 관리
+  const [alertOpen, setAlertOpen] = useState(false)
+  const [alertMessage, setAlertMessage] = useState('')
+  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('success')
+
+  // Alert 표시 함수
+  const showAlert = (message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
+    setAlertMessage(message)
+    setAlertSeverity(severity)
+    setAlertOpen(true)
+  }
 
   return (
     <div
@@ -147,6 +161,35 @@ export default function Search01Page() {
           {/* 컨텐츠 입력 */}
         </div>
       </div>
+
+      {/* MUI Alert Snackbar */}
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={4000}
+        onClose={() => setAlertOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{
+          top: '20px !important',
+          '& .MuiAlert-root': {
+            minWidth: '300px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            borderRadius: '8px'
+          }
+        }}
+      >
+        <Alert 
+          onClose={() => setAlertOpen(false)} 
+          severity={alertSeverity}
+          sx={{ 
+            width: '100%',
+            '& .MuiAlert-message': {
+              fontWeight: 500
+            }
+          }}
+        >
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </div>
   )
 }

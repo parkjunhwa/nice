@@ -1,6 +1,7 @@
 export { DatePicker } from './date-picker'
 export { TimePicker } from './time-picker'
 export { DateTimePicker } from './date-time-picker'
+export { DateRangePicker } from './date-range-picker'
 export { DashboardLayout } from './dashboard-layout'
 export { DashboardCard } from './dashboard-card'
 export { Header } from './header'

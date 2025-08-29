@@ -5,17 +5,19 @@ import { TabulatorFull as Tabulator } from 'tabulator-tables'
 import '@/components/table/table-common.scss'
 
 interface TabulatorTableProps {
-  className?: string
-  height?: string | number
   data?: any[]
   columns?: any[]
+  height?: string | number
+  className?: string
+  onAction?: (action: string, rowData: any) => void
 }
 
 export default function TabulatorTable({
   className = '',
   height = 300,
   data,
-  columns
+  columns,
+  onAction
 }: TabulatorTableProps) {
   const tableRef = useRef<HTMLDivElement>(null)
   const tabulatorRef = useRef<Tabulator | null>(null)
@@ -169,9 +171,9 @@ export default function TabulatorTable({
       if (!rowData) return
 
       if (button.classList.contains('view-btn')) {
-        alert(`보기: ${rowData.name}`)
+        onAction?.('view', rowData)
       } else if (button.classList.contains('edit-btn')) {
-        alert(`편집: ${rowData.name}`)
+        onAction?.('edit', rowData)
       } else if (button.classList.contains('delete-btn')) {
         if (confirm(`정말로 ${rowData.name}을(를) 삭제하시겠습니까?`)) {
           tabulatorRef.current?.deleteRow(rowData.id)
@@ -190,7 +192,7 @@ export default function TabulatorTable({
         tableRef.current.removeEventListener('click', handleActionClick)
       }
     }
-  }, [data, columns, height])
+  }, [data, columns, height, onAction])
 
   return (
     <div className={`tabulator-table ${className}`}>

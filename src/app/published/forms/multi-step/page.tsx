@@ -25,7 +25,8 @@ import {
   CardContent,
   Grid,
   Chip,
-  FormHelperText
+  FormHelperText,
+  Snackbar
 } from "@mui/material"
 import { 
   Save as SaveIcon, 
@@ -101,7 +102,20 @@ export default function MultiStepFormPage() {
     agreeToTerms: false
   })
 
-  const [errors, setErrors] = useState<FormErrors>({})
+  // 폼 에러 상태
+  const [errors, setErrors] = useState<Partial<FormData>>({})
+
+  // Alert 상태 관리
+  const [alertOpen, setAlertOpen] = useState(false)
+  const [alertMessage, setAlertMessage] = useState('')
+  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('success')
+
+  // Alert 표시 함수
+  const showAlert = (message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
+    setAlertMessage(message)
+    setAlertSeverity(severity)
+    setAlertOpen(true)
+  }
 
   const steps = [
     {
@@ -211,7 +225,7 @@ export default function MultiStepFormPage() {
     if (validateStep(activeStep)) {
       // 폼 제출 로직
       console.log('폼 제출:', formData)
-      alert('폼이 성공적으로 제출되었습니다!')
+      showAlert('폼이 성공적으로 제출되었습니다!', 'success')
     }
   }
 
@@ -583,6 +597,36 @@ export default function MultiStepFormPage() {
             </Alert>
           </Box>
         </Paper>
-              </div>
-    )
-  } 
+      </div>
+
+      {/* MUI Alert Snackbar */}
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={4000}
+        onClose={() => setAlertOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{
+          top: '20px !important',
+          '& .MuiAlert-root': {
+            minWidth: '300px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            borderRadius: '8px'
+          }
+        }}
+      >
+        <Alert 
+          onClose={() => setAlertOpen(false)} 
+          severity={alertSeverity}
+          sx={{ 
+            width: '100%',
+            '& .MuiAlert-message': {
+              fontWeight: 500
+            }
+          }}
+        >
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+    </div>
+  )
+} 

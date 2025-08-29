@@ -68,7 +68,7 @@ export default function ModalPage() {
     setTimeout(() => {
       setLoading(false)
       setConfirmModalOpen(false)
-      alert('삭제가 완료되었습니다!')
+      showAlert('삭제가 완료되었습니다!', 'success')
     }, 2000)
   }
 
@@ -231,7 +231,7 @@ export default function ModalPage() {
               variant="outlined"
               size="small"
               onClick={() => setModal010Open(true)}
-              startIcon={<Icons.SettingsIcon size={16} />}
+              startIcon={<Icons.CheckIcon size={16} />}
             >
               비밀번호 변경
             </Button>
@@ -301,6 +301,9 @@ export default function ModalPage() {
           <Cmn010
             open={modal010Open}
             onClose={() => setModal010Open(false)}
+            onSuccess={(message) => {
+              showAlert(message, 'success')
+            }}
           />
 
           <Cmn011
@@ -357,7 +360,7 @@ export default function ModalPage() {
         title="MUI 폼 다이얼로그"
         onSubmit={(data) => {
           console.log('MUI 폼 데이터:', data)
-          alert('MUI 폼이 제출되었습니다!')
+          showAlert('MUI 폼이 제출되었습니다!', 'success')
         }}
       />
 
@@ -370,7 +373,7 @@ export default function ModalPage() {
         cancelText="취소"
         severity="warning"
         onConfirm={() => {
-          alert('MUI 확인 모달에서 삭제가 확인되었습니다!')
+          showAlert('MUI 확인 모달에서 삭제가 확인되었습니다!', 'success')
         }}
       />
 
@@ -391,14 +394,27 @@ export default function ModalPage() {
       {/* MUI Alert Snackbar */}
       <Snackbar
         open={alertOpen}
-        autoHideDuration={3000}
+        autoHideDuration={4000}
         onClose={() => setAlertOpen(false)}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{
+          top: '20px !important',
+          '& .MuiAlert-root': {
+            minWidth: '300px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            borderRadius: '8px'
+          }
+        }}
       >
         <Alert 
           onClose={() => setAlertOpen(false)} 
           severity={alertSeverity}
-          sx={{ width: '100%' }}
+          sx={{ 
+            width: '100%',
+            '& .MuiAlert-message': {
+              fontWeight: 500
+            }
+          }}
         >
           {alertMessage}
         </Alert>

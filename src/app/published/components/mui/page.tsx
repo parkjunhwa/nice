@@ -45,6 +45,7 @@ import {
   IconButton,
   Autocomplete,
   InputAdornment,
+  ListItemText,
   MuiBasicModal,
   MuiFormModal,
   MuiConfirmModal,
@@ -53,6 +54,7 @@ import {
 import { Icons } from '@/components'
 import { DatePicker } from '@/components/date-picker'
 import { DateTimePicker } from '@/components/date-time-picker'
+import { DateRangePicker } from '@/components'
 
 
 const {
@@ -100,6 +102,7 @@ export default function MuiPage() {
   // Date Picker 상태
   const [dateValue, setDateValue] = useState<Date | null>(null)
   const [dateTimeValue, setDateTimeValue] = useState<Date | null>(null)
+  const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
 
 
 
@@ -154,8 +157,8 @@ export default function MuiPage() {
   const steps = ['기본 정보', '주소 정보', '결제 정보', '확인']
 
   return (
-            <div className="c-panel bottom-contents-pannel">
-              <div className="bottom-contents-pannel__content">
+    <div className="c-panel bottom-contents-pannel">
+      <div className="bottom-contents-pannel__content">
         <div className="grid grid-cols-4 gap-2">
           {/* 보통 (Normal) */}
           <div className="flex flex-col">
@@ -165,7 +168,6 @@ export default function MuiPage() {
               size="small"
               placeholder="검색어를 입력하세요"
               fullWidth
-
             />
           </div>
 
@@ -210,6 +212,7 @@ export default function MuiPage() {
             <label className="form-top-label">Search</label>
             <TextField
               {...commonInputProps}
+              size="small"
               placeholder="검색어를 입력하세요"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
@@ -241,6 +244,14 @@ export default function MuiPage() {
                   placeholder="도시를 선택하세요"
                 />
               )}
+              sx={{
+                '& .MuiAutocomplete-listbox': {
+                  fontSize: '13px'
+                },
+                '& .MuiAutocomplete-option': {
+                  fontSize: '13px'
+                }
+              }}
             />
           </div>
 
@@ -259,8 +270,8 @@ export default function MuiPage() {
                   <span>옵션을 선택하세요</span>
                 </MenuItem>
                 {selectOptions.map((option) => (
-                  <MenuItem 
-                    key={option.value} 
+                  <MenuItem
+                    key={option.value}
                     value={option.value}
                   >
                     {option.label}
@@ -274,39 +285,102 @@ export default function MuiPage() {
           <div className="flex flex-col">
             <label className="form-top-label">MultiSelect</label>
             <FormControl fullWidth size="small">
-                   <Select
-                     multiple
-                     value={interestAreas}
-                     onChange={(e) => setInterestAreas(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)}
-                     displayEmpty
-                     className="bg-white"
-                     renderValue={(selected: unknown) => {
-                       if (!selected || !Array.isArray(selected) || selected.length === 0) {
-                         return <span className="text-gray-500">관심 분야를 선택하세요</span>
-                       }
-                       return (
-                         <div className="flex flex-wrap gap-1">
-                           {selected.map((value: string) => (
-                             <Chip
-                               key={value}
-                               label={value}
-                               size="small"
-                               onDelete={() => {
-                                 setInterestAreas(prev => prev.filter(v => v !== value))
-                               }}
-                               className="bg-blue-100 text-blue-800"
-                             />
-                           ))}
-                         </div>
-                       )
-                     }}
-                   >
-                     <MenuItem value="web">웹 개발</MenuItem>
-                     <MenuItem value="mobile">모바일 개발</MenuItem>
-                     <MenuItem value="ai">인공지능</MenuItem>
-                     <MenuItem value="data">데이터 분석</MenuItem>
-                   </Select>
-                 </FormControl>
+              <Select
+                multiple
+                value={interestAreas}
+                onChange={(e) => setInterestAreas(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)}
+                displayEmpty
+                className="bg-white"
+                renderValue={(selected: unknown) => {
+                  if (!selected || !Array.isArray(selected) || selected.length === 0) {
+                    return <span className="text-gray-500">관심 분야를 선택하세요</span>
+                  }
+                  return (
+                    <div className="flex flex-wrap gap-1">
+                      {selected.map((value: string) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          size="small"
+                          onDelete={() => {
+                            setInterestAreas(prev => prev.filter(v => v !== value))
+                          }}
+                          className="bg-blue-100 text-blue-800"
+                        />
+                      ))}
+                    </div>
+                  )
+                }}
+              >
+                <MenuItem value="web">웹 개발</MenuItem>
+                <MenuItem value="mobile">모바일 개발</MenuItem>
+                <MenuItem value="ai">인공지능</MenuItem>
+                <MenuItem value="data">데이터 분석</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+
+          {/* MultiSelect (체크박스 형) */}
+          <div className="flex flex-col">
+            <label className="form-top-label">MultiSelect (체크박스 형)</label>
+            <FormControl fullWidth size="small">
+              <Select
+                multiple
+                value={interestAreas}
+                onChange={(e) => setInterestAreas(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)}
+                displayEmpty
+                className="bg-white"
+                renderValue={(selected: unknown) => {
+                  if (!selected || !Array.isArray(selected) || selected.length === 0) {
+                    return <span className="text-gray-500">관심 분야를 선택하세요</span>
+                  }
+                  return (
+                    <div className="flex flex-wrap gap-1">
+                      {selected.map((value: string) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          size="small"
+                          onDelete={() => {
+                            setInterestAreas(prev => prev.filter(v => v !== value))
+                          }}
+                          className="bg-blue-100 text-blue-800"
+                        />
+                      ))}
+                    </div>
+                  )
+                }}
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      maxHeight: 200
+                    }
+                  }
+                }}
+              >
+                {[
+                  { value: 'web', label: '웹 개발' },
+                  { value: 'mobile', label: '모바일 개발' },
+                  { value: 'ai', label: '인공지능' },
+                  { value: 'data', label: '데이터 분석' },
+                  { value: 'cloud', label: '클라우드' },
+                  { value: 'security', label: '보안' }
+                ].map((option) => (
+                  <MenuItem
+                    key={option.value}
+                    value={option.value}
+                    style={{ padding: 0, fontSize: 13 }}
+                  >
+                    <Checkbox
+                      checked={interestAreas.indexOf(option.value) > -1}
+                      size="small"
+                      style={{ padding: 0, fontSize: 13 }}
+                    />
+                    <ListItemText primary={option.label} style={{ fontSize: 13 }} />
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </div>
 
         </div>
@@ -337,6 +411,50 @@ export default function MuiPage() {
 
           {/* 빈 공간 */}
           <div className="flex flex-col">
+          </div>
+
+          {/* 빈 공간 */}
+          <div className="flex flex-col">
+          </div>
+        </div>
+
+        {/* DatePicker-readonly, DatePicker-disabled, DateRangePicker 행 */}
+        <div className="grid grid-cols-4 gap-2 mt-2">
+          {/* DatePicker-readonly */}
+          <div className="flex flex-col">
+            <label className="form-top-label">DatePicker (Readonly)</label>
+            <DatePicker
+              value={null}
+              onChange={(newValue: Date | null) => { }}
+              readOnly
+              clearable={false}
+              placeholder="읽기 전용 날짜"
+              slotProps={{ textField: { size: "small" as const } }}
+            />
+          </div>
+
+          {/* DatePicker-disabled */}
+          <div className="flex flex-col">
+            <label className="form-top-label">DatePicker (Disabled)</label>
+            <DatePicker
+              value={dateValue}
+              onChange={(newValue: Date | null) => setDateValue(newValue)}
+              placeholder="비활성화 날짜"
+              disabled
+              clearable={false}
+              slotProps={{ textField: { size: "small" as const } }}
+            />
+          </div>
+
+          {/* DateRangePicker */}
+          <div className="flex flex-col">
+            <label className="form-top-label">DateRangePicker</label>
+            <DateRangePicker
+              value={dateRangeValue}
+              onChange={(newValue: [Date | null, Date | null]) => setDateRangeValue(newValue)}
+              placeholder="날짜 범위를 선택하세요"
+              size="small"
+            />
           </div>
 
           {/* 빈 공간 */}
@@ -377,70 +495,6 @@ export default function MuiPage() {
           >
             처리완료 알럿
           </Button>
-        </div>
-
-        {/* 추가 DatePicker 예시들 */}
-        <div className="grid grid-cols-4 gap-2 mt-2">
-          {/* 에러 상태 DatePicker - 기본 */}
-          <div className="flex flex-col">
-            <label className="form-top-label">에러 상태 DatePicker</label>
-            <DatePicker
-              value={dateValue}
-              onChange={(newValue: Date | null) => setDateValue(newValue)}
-              placeholder="에러 상태 날짜"
-              error={true}
-              helperText="날짜를 선택해주세요"
-            />
-          </div>
-
-          {/* 에러 상태 DatePicker - 유효성 검사 */}
-          <div className="flex flex-col">
-            <label className="form-top-label">유효성 검사 에러</label>
-            <DatePicker
-              value={dateValue}
-              onChange={(newValue: Date | null) => setDateValue(newValue)}
-              placeholder="유효성 검사 날짜"
-              error={true}
-              helperText="올바른 날짜 형식이 아닙니다"
-            />
-          </div>
-
-
-          {/* 읽기 전용 DatePicker */}
-          <div className="flex flex-col">
-            <label className="form-top-label">READONLY DatePicker</label>
-            <DatePicker
-              value={null}
-              onChange={(newValue: Date | null) => { }}
-              readOnly
-              clearable={false}
-              placeholder="읽기 전용 날짜"
-              slotProps={{
-                textField: {
-                  size: "small" as const
-                }
-              }}
-            />
-          </div>
-
-          {/* 비활성화 DatePicker */}
-          <div className="flex flex-col">
-            <label className="form-top-label">DISABLED DatePicker</label>
-            <DatePicker
-              value={dateValue}
-              onChange={(newValue: Date | null) => setDateValue(newValue)}
-              placeholder="비활성화 날짜"
-              disabled
-              clearable={false}
-              slotProps={{
-                textField: {
-                  size: "small" as const
-                }
-              }}
-            />
-          </div>
-
-
         </div>
 
         {/* 스위치, 라디오, 체크박스 예시들 */}
@@ -617,8 +671,8 @@ export default function MuiPage() {
         </div>
 
         <div className="mt-6">
-          
-          
+
+
           {/* 체크박스 그룹 */}
           <div className="mb-6">
             <label className="form-top-label">알림 설정</label>
@@ -637,7 +691,7 @@ export default function MuiPage() {
               />
             </div>
           </div>
-          
+
           {/* 라디오 버튼 그룹 */}
           <div className="mb-6">
             <label className="form-top-label">계정 유형</label>
@@ -659,7 +713,7 @@ export default function MuiPage() {
               />
             </div>
           </div>
-          
+
           {/* 슬라이더 */}
           <div className="mb-6">
             <label className="form-top-label">예상 연봉 (만원)</label>
@@ -681,7 +735,7 @@ export default function MuiPage() {
               />
             </div>
           </div>
-          
+
           {/* 액션 버튼 */}
           <div className="flex gap-3">
             <Button

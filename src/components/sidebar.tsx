@@ -37,6 +37,12 @@ const sidebarItems: MenuItem[] = [
     icon: Home,
     section: "main"
   },
+  {
+    title: "로그인",
+    href: "/login",
+    icon: UserCheck,
+    section: "main"
+  },
   
   // 폼 관리
   {
