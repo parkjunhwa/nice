@@ -18,7 +18,7 @@ import {
   Box,
   Divider
 } from "@mui/material"
-import { Save as SaveIcon, RestartAlt as ResetIcon } from "@mui/icons-material"
+import { Save as SaveIcon, RotateCcw as ResetIcon } from "lucide-react"
 
 export default function BasicFormPage() {
   const [formData, setFormData] = useState({

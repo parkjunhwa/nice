@@ -36,16 +36,16 @@ import {
 } from "@mui/material"
 import { 
   Search as SearchIcon,
-  FilterList as FilterIcon,
-  Clear as ClearIcon,
+  Filter as FilterIcon,
+  X as ClearIcon,
   Save as SaveIcon,
-  Person as PersonIcon,
-  Business as BusinessIcon,
-  LocationOn as LocationIcon,
-  CalendarToday as CalendarIcon,
-  AttachMoney as MoneyIcon,
+  User as PersonIcon,
+  Building2 as BusinessIcon,
+  MapPin as LocationIcon,
+  Calendar as CalendarIcon,
+  DollarSign as MoneyIcon,
   Star as StarIcon
-} from "@mui/icons-material"
+} from "lucide-react"
 import { useState } from "react"
 
 interface SearchFilters {

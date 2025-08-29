@@ -121,76 +121,54 @@
   }
 }
 
-/* Noto Sans CJK KR 폰트 정의 - 두께별 */
+/* NICE 폰트 정의 - 두께별 */
 @font-face {
-  font-family: 'Noto Sans CJK KR';
-  src: url('/fonts/NotoSansCJKkr-Thin.otf') format('opentype');
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Noto Sans CJK KR';
-  src: url('/fonts/NotoSansCJKkr-Light.otf') format('opentype');
+  font-family: 'NICE';
+  src: url('/fonts/NICEGtNeobUni-bLt.woff2') format('woff2'),
+       url('/fonts/NICEGtNeobUni-bLt.otf') format('opentype'),
+       url('/fonts/NICEGtNeobUniTTF-bLt.ttf') format('truetype');
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Noto Sans CJK KR';
-  src: url('/fonts/NotoSansCJKkr-DemiLight.otf') format('opentype');
-  font-weight: 350;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Noto Sans CJK KR';
-  src: url('/fonts/NotoSansCJKkr-Regular.otf') format('opentype');
+  font-family: 'NICE';
+  src: url('/fonts/NICEGtNeobUni-cRg.woff2') format('woff2'),
+       url('/fonts/NICEGtNeobUni-cRg.otf') format('opentype'),
+       url('/fonts/NICEGtNeobUniTTF-cRg.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Noto Sans CJK KR';
-  src: url('/fonts/NotoSansCJKkr-Medium.otf') format('opentype');
-  font-weight: 500;
+  font-family: 'NICE';
+  src: url('/fonts/NICEGtNeobUni-eSb.woff2') format('woff2'),
+       url('/fonts/NICEGtNeobUni-eSb.otf') format('opentype'),
+       url('/fonts/NICEGtNeobUniTTF-eSb.ttf') format('truetype');
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
+/* NICE 모노스페이스 폰트 정의 */
 @font-face {
-  font-family: 'Noto Sans CJK KR';
-  src: url('/fonts/NotoSansCJKkr-Bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Noto Sans CJK KR';
-  src: url('/fonts/NotoSansCJKkr-Black.otf') format('opentype');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* Noto Sans Mono CJK KR 폰트 정의 */
-@font-face {
-  font-family: 'Noto Sans Mono CJK KR';
-  src: url('/fonts/NotoSansMonoCJKkr-Regular.otf') format('opentype');
+  font-family: 'NICE Mono';
+  src: url('/fonts/NICEGtNeobUni-cRg.woff2') format('woff2'),
+       url('/fonts/NICEGtNeobUni-cRg.otf') format('opentype'),
+       url('/fonts/NICEGtNeobUniTTF-cRg.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Noto Sans Mono CJK KR';
-  src: url('/fonts/NotoSansMonoCJKkr-Bold.otf') format('opentype');
-  font-weight: 700;
+  font-family: 'NICE Mono';
+  src: url('/fonts/NICEGtNeobUni-eSb.woff2') format('woff2'),
+       url('/fonts/NICEGtNeobUni-eSb.otf') format('opentype'),
+       url('/fonts/NICEGtNeobUniTTF-eSb.ttf') format('truetype');
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
@@ -208,41 +186,25 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Noto Sans CJK KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family: 'NICE', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
 }
 
 /* 공통 폰트 두께 클래스 */
-.font-thin {
-  font-weight: 100;
-}
-
 .font-light {
   font-weight: 300;
-}
-
-.font-demi-light {
-  font-weight: 350;
 }
 
 .font-normal {
   font-weight: 400;
 }
 
-.font-medium {
-  font-weight: 500;
-}
-
-.font-bold {
-  font-weight: 700;
-}
-
-.font-black {
-  font-weight: 900;
+.font-semibold {
+  font-weight: 600;
 }
 
 /* 모노스페이스 폰트 */
 .font-mono {
-  font-family: 'Noto Sans Mono CJK KR', 'Noto Sans CJK KR', monospace;
+  font-family: 'NICE Mono', 'NICE', monospace;
 }
 
 /* MUI 컴포넌트 기본 스타일 */

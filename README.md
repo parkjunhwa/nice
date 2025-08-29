@@ -6,7 +6,7 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 
 - **Published Pages 구조**: Analytics, Calendar, Documents, Forms, Messages, MUI, Notifications, Search 등 다양한 기능별 페이지
 - **MUI 통합**: Material-UI 컴포넌트를 체계적으로 분류하여 제공
-- **Noto Sans CJK KR 폰트**: 한국어 최적화된 폰트 시스템 (Thin, Light, Regular, Medium, Bold, Black)
+- **NICE 폰트**: 한국어 최적화된 폰트 시스템 (Light, Regular, SemiBold)
 - **고급 테이블**: Tabulator.js 기반의 강력한 데이터 테이블 컴포넌트
 - **다양한 차트**: Chart.js와 Recharts를 활용한 데이터 시각화
 - **날짜/시간 선택기**: MUI X Date Pickers를 활용한 고급 날짜/시간 선택 기능
@@ -21,15 +21,16 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 ```
 nice/
 ├── public/                   # 정적 파일들
-│   ├── fonts/               # Noto Sans CJK KR 폰트 파일들
-│   │   ├── NotoSansCJKkr-Thin.otf
-│   │   ├── NotoSansCJKkr-Light.otf
-│   │   ├── NotoSansCJKkr-Regular.otf
-│   │   ├── NotoSansCJKkr-Medium.otf
-│   │   ├── NotoSansCJKkr-Bold.otf
-│   │   ├── NotoSansCJKkr-Black.otf
-│   │   ├── NotoSansMonoCJKkr-Regular.otf
-│   │   └── NotoSansMonoCJKkr-Bold.otf
+│   ├── fonts/               # NICE 폰트 파일들
+│   │   ├── NICEGtNeobUni-bLt.woff2
+│   │   ├── NICEGtNeobUni-bLt.otf
+│   │   ├── NICEGtNeobUniTTF-bLt.ttf
+│   │   ├── NICEGtNeobUni-cRg.woff2
+│   │   ├── NICEGtNeobUni-cRg.otf
+│   │   ├── NICEGtNeobUniTTF-cRg.ttf
+│   │   ├── NICEGtNeobUni-eSb.woff2
+│   │   ├── NICEGtNeobUni-eSb.otf
+│   │   └── NICEGtNeobUniTTF-eSb.ttf
 │   └── images/              # 이미지 파일들
 │       ├── file.svg
 │       ├── globe.svg
@@ -274,7 +275,7 @@ Published Pages의 공통 레이아웃 컴포넌트입니다.
 - **Charts**: Chart.js + react-chartjs-2, Recharts
 - **Tables**: Tabulator.js (고급 테이블)
 - **Date Pickers**: MUI X Date Pickers
-- **Fonts**: Noto Sans CJK KR (한국어 최적화)
+- **Fonts**: NICE (한국어 최적화)
 - **State Management**: React useState, useEffect
 - **Utilities**: clsx, tailwind-merge, class-variance-authority
 - **Storage**: LocalStorage (메뉴 상태 저장)
@@ -354,7 +355,7 @@ import {
 - **Tailwind CSS**: 유틸리티 클래스 사용
 - **SCSS 컴포넌트 클래스**: `c-` 접두사 사용
 - **토큰 기반 시스템**: CSS 변수 활용
-- **Noto Sans CJK KR**: 한국어 폰트 사용
+- **NICE**: 한국어 폰트 사용
 - **반응형 디자인**: 브레이크포인트 활용
 
 ```scss
@@ -366,7 +367,7 @@ import {
 }
 
 .c-section-title {
-  font-family: 'Noto Sans CJK KR', sans-serif;
+  font-family: 'NICE', sans-serif;
   font-weight: var(--font-weight-semibold);
   color: hsl(var(--color-fg));
 }
@@ -376,12 +377,9 @@ import {
 
 ```tsx
 // 폰트 두께 클래스 사용
-<div className="font-thin">Thin (100)</div>
 <div className="font-light">Light (300)</div>
 <div className="font-normal">Regular (400)</div>
-<div className="font-medium">Medium (500)</div>
-<div className="font-bold">Bold (700)</div>
-<div className="font-black">Black (900)</div>
+<div className="font-semibold">SemiBold (600)</div>
 
 // 모노스페이스 폰트
 <div className="font-mono">Monospace</div>
@@ -389,20 +387,16 @@ import {
 
 ## 🎨 디자인 시스템
 
-### Noto Sans CJK KR 폰트 시스템
-- **Thin (100)**: 얇은 두께
+### NICE 폰트 시스템
 - **Light (300)**: 가벼운 두께
-- **DemiLight (350)**: 중간-가벼운 두께
 - **Regular (400)**: 기본 두께
-- **Medium (500)**: 중간 두께
-- **Bold (700)**: 굵은 두께
-- **Black (900)**: 매우 굵은 두께
+- **SemiBold (600)**: 중간-굵은 두께
 - **Mono**: 모노스페이스 폰트 (코드, 데이터 표시용)
 
 ### 토큰 기반 시스템
 - **색상**: primary, secondary, accent, status, neutral, background
 - **간격**: 컴포넌트, 섹션, 페이지별 세분화된 spacing
-- **타이포그래피**: Noto Sans CJK KR 폰트 패밀리, 크기, 굵기, 줄 높이
+- **타이포그래피**: NICE 폰트 패밀리, 크기, 굵기, 줄 높이
 - **그림자**: elevation, depth별 shadow 시스템
 - **Z-index**: 컴포넌트별 계층 구조
 - **애니메이션**: duration, easing 함수

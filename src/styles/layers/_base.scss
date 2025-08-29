@@ -117,15 +117,6 @@
     background: hsl(var(--color-muted));
   }
 
-  /* 코드 블록 기본 스타일 */
-  code {
-    background: hsl(var(--color-muted));
-    padding: var(--space-1) var(--space-2);
-    border-radius: var(--radius-sm);
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-    font-size: 0.875em;
-  }
-
   pre {
     background: hsl(var(--color-muted));
     padding: var(--space-4);

@@ -6,18 +6,13 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Noto Sans CJK KR', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        mono: ['Noto Sans Mono CJK KR', 'Noto Sans CJK KR', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        sans: ['NICE', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['NICE Mono', 'NICE', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       fontWeight: {
-        thin: '100',
         light: '300',
-        'demi-light': '350',
         normal: '400',
-        medium: '500',
         semibold: '600',
-        bold: '700',
-        black: '900',
       },
       colors: {
         bg: "hsl(var(--color-bg))",

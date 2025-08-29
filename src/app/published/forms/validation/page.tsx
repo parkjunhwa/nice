@@ -24,12 +24,12 @@ import {
 } from "@mui/material"
 import { 
   Save as SaveIcon, 
-  RestartAlt as ResetIcon,
-  Visibility as VisibilityIcon,
-  VisibilityOff as VisibilityOffIcon,
+  RotateCcw as ResetIcon,
+  Eye as VisibilityIcon,
+  EyeOff as VisibilityOffIcon,
   CheckCircle as CheckCircleIcon,
-  Error as ErrorIcon
-} from "@mui/icons-material"
+  AlertCircle as ErrorIcon
+} from "lucide-react"
 import { useState } from "react"
 
 interface FormData {

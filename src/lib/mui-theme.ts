@@ -22,7 +22,7 @@ const customBlue = {
 export const muiTheme = createTheme({
   typography: {
     fontFamily: [
-      'Noto Sans CJK KR',
+      'NICE',
       '-apple-system',
       'BlinkMacSystemFont',
       '"Segoe UI"',

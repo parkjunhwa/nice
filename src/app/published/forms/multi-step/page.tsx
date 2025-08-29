@@ -29,17 +29,17 @@ import {
 } from "@mui/material"
 import { 
   Save as SaveIcon, 
-  RestartAlt as ResetIcon,
-  NavigateNext as NextIcon,
-  NavigateBefore as PrevIcon,
+  RotateCcw as ResetIcon,
+  ChevronRight as NextIcon,
+  ChevronLeft as PrevIcon,
   Check as CheckIcon,
-  Person as PersonIcon,
-  Business as BusinessIcon,
-  LocationOn as LocationIcon,
-  Work as WorkIcon,
-  School as SchoolIcon,
+  User as PersonIcon,
+  Building2 as BusinessIcon,
+  MapPin as LocationIcon,
+  Briefcase as WorkIcon,
+  GraduationCap as SchoolIcon,
   Star as StarIcon
-} from "@mui/icons-material"
+} from "lucide-react"
 import { useState } from "react"
 
 interface FormData {

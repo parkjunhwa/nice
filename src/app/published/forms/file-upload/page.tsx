@@ -22,19 +22,19 @@ import {
   Grid
 } from "@mui/material"
 import { 
-  CloudUpload as UploadIcon,
-  Delete as DeleteIcon,
-  FileCopy as CopyIcon,
+  Upload as UploadIcon,
+  Trash2 as DeleteIcon,
+  Copy as CopyIcon,
   Image as ImageIcon,
-  PictureAsPdf as PdfIcon,
-  Description as DocIcon,
-  Movie as VideoIcon,
-  MusicNote as AudioIcon,
+  FileText as PdfIcon,
+  FileText as DocIcon,
+  Video as VideoIcon,
+  Music as AudioIcon,
   Archive as ArchiveIcon,
   Code as CodeIcon,
   CheckCircle as CheckIcon,
-  Error as ErrorIcon
-} from "@mui/icons-material"
+  AlertCircle as ErrorIcon
+} from "lucide-react"
 import { useState, useRef } from "react"
 
 interface FileItem {
