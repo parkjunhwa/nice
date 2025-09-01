@@ -765,18 +765,17 @@
   }
 
   /* MUI DatePicker 빈 값일 때 placeholder 강제 표시 */
-  .MuiPickersInputBase-root .MuiInputBase-input[value=""]::placeholder,
-  .MuiPickersInputBase-root .MuiInputBase-input:not([value])::placeholder {
+  .MuiPickersInputBase-root .MuiInputBase-input[value=""]::placeholder {
     color: hsl(var(--color-muted-foreground)) !important;
     opacity: 1 !important;
   }
 
   /* MUI DatePicker 초기 상태에서 format 숨기기 */
-  .MuiPickersInputBase-root .MuiInputBase-input:not([value]) {
+  .MuiPickersInputBase-root .MuiInputBase-input[value=""] {
     color: transparent !important;
   }
 
-  .MuiPickersInputBase-root .MuiInputBase-input:not([value]):focus {
+  .MuiPickersInputBase-root .MuiInputBase-input[value=""]:focus {
     color: hsl(var(--color-fg)) !important;
   }
 
