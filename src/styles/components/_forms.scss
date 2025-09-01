@@ -40,6 +40,12 @@
     &.form-top-label--center {
       text-align: center;
     }
+
+    /* Required asterisk for "required" class */
+    &.required::after {
+      content: " *";
+      color: hsl(var(--color-error)); /* MUI error color */
+    }
   }
 
   /* 사이드 라벨 */
@@ -59,6 +65,12 @@
 
     &.form-side-label--center {
       text-align: center;
+    }
+
+    /* Required asterisk for "required" class */
+    &.required::after {
+      content: " *";
+      color: hsl(var(--color-error)); /* MUI error color */
     }
   }
 

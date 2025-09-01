@@ -110,6 +110,46 @@ export default function MuiPage() {
   const [dateTimeValue, setDateTimeValue] = useState<Date | null>(null)
   const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
 
+  // 필수 라디오/체크박스 상태
+  const [requiredRadioValue, setRequiredRadioValue] = useState<string>('')
+  const [requiredCheckboxValues, setRequiredCheckboxValues] = useState<string[]>([])
+  const [radioError, setRadioError] = useState<string>('')
+  const [checkboxError, setCheckboxError] = useState<string>('')
+
+  // 확인 버튼 클릭 핸들러
+  const handleValidation = () => {
+    let hasError = false
+    
+    // 라디오 그룹 검증
+    if (!requiredRadioValue) {
+      setRadioError('필수 항목을 선택해주세요.')
+      hasError = true
+    } else {
+      setRadioError('')
+    }
+    
+    // 체크박스 그룹 검증
+    if (requiredCheckboxValues.length === 0) {
+      setCheckboxError('최소 하나 이상 선택해주세요.')
+      hasError = true
+    } else {
+      setCheckboxError('')
+    }
+    
+    if (!hasError) {
+      showAlert('검증 완료!', 'success')
+    }
+  }
+
+  // 체크박스 변경 핸들러
+  const handleCheckboxChange = (value: string, checked: boolean) => {
+    if (checked) {
+      setRequiredCheckboxValues(prev => [...prev, value])
+    } else {
+      setRequiredCheckboxValues(prev => prev.filter(v => v !== value))
+    }
+  }
+
 
 
   // Autocomplete 옵션들
@@ -174,6 +214,16 @@ export default function MuiPage() {
               size="small"
               placeholder="검색어를 입력하세요"
               fullWidth
+            />
+          </div>
+
+          {/* 필수 */}
+          <div className="flex flex-col">
+            <label className="form-top-label required">필수</label>
+            <TextField
+              {...commonInputProps}
+              placeholder="검색어를 입력하세요"
+              required
             />
           </div>
 
@@ -672,13 +722,101 @@ export default function MuiPage() {
           </div>
         </div>
 
-        <div className="mt-6">
+        {/* 필수 라디오 그룹과 체크박스 그룹 */}
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          {/* 필수 라디오 그룹 */}
+          <div className="flex flex-col">
+            <label className="form-top-label required">개발 분야 (필수)</label>
+            <FormControl component="fieldset" size="small">
+              <RadioGroup
+                value={requiredRadioValue}
+                onChange={(e) => setRequiredRadioValue(e.target.value)}
+              >
+                <FormControlLabel
+                  value="frontend"
+                  control={<Radio size="small" />}
+                  label="프론트엔드"
+                />
+                <FormControlLabel
+                  value="backend"
+                  control={<Radio size="small" />}
+                  label="백엔드"
+                />
+                <FormControlLabel
+                  value="fullstack"
+                  control={<Radio size="small" />}
+                  label="풀스택"
+                />
+              </RadioGroup>
+            </FormControl>
+            {radioError && (
+              <Typography variant="caption" color="error" style={{ marginTop: '4px' }}>
+                {radioError}
+              </Typography>
+            )}
+          </div>
 
+          {/* 필수 체크박스 그룹 */}
+          <div className="flex flex-col">
+            <label className="form-top-label required">관심 기술 (필수)</label>
+            <div className="flex flex-col gap-2">
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={requiredCheckboxValues.includes('react')}
+                    onChange={(e) => handleCheckboxChange('react', e.target.checked)}
+                    size="small"
+                  />
+                }
+                label="React"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={requiredCheckboxValues.includes('vue')}
+                    onChange={(e) => handleCheckboxChange('vue', e.target.checked)}
+                    size="small"
+                  />
+                }
+                label="Vue.js"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={requiredCheckboxValues.includes('angular')}
+                    onChange={(e) => handleCheckboxChange('angular', e.target.checked)}
+                    size="small"
+                  />
+                }
+                label="Angular"
+              />
+            </div>
+            {checkboxError && (
+              <Typography variant="caption" color="error" style={{ marginTop: '4px' }}>
+                {checkboxError}
+              </Typography>
+            )}
+          </div>
+        </div>
+
+        {/* 확인 버튼 */}
+        <div className="mt-4">
+          <Button
+            variant="contained"
+            size="small"
+            onClick={handleValidation}
+            color="primary"
+          >
+            확인
+          </Button>
+        </div>
+
+        <div className="mt-6">
 
           {/* 체크박스 그룹 */}
           <div className="mb-6">
             <label className="form-top-label">알림 설정</label>
-            <div className="grid grid-cols-3 gap-4 mt-2">
+            <div className="grid grid-cols-3 gap-0">
               <FormControlLabel
                 control={<Checkbox size="small" />}
                 label="이메일 알림"
@@ -697,7 +835,7 @@ export default function MuiPage() {
           {/* 라디오 버튼 그룹 */}
           <div className="mb-6">
             <label className="form-top-label">계정 유형</label>
-            <div className="grid grid-cols-3 gap-4 mt-2">
+            <div className="grid grid-cols-3 gap-0">
               <FormControlLabel
                 value="personal"
                 control={<Radio size="small" />}
