@@ -40,17 +40,6 @@ const sidebarItems: MenuItem[] = [
     icon: UserCheck
   },
   {
-    title: "폼 관리",
-    icon: FileText,
-    children: [
-      {
-        title: "파일 업로드",
-        href: "/published/forms/file-upload",
-        icon: FileText
-      }
-    ]
-  },
-  {
     title: "컴포넌트 예시",
     icon: FileText,
     children: [

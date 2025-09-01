@@ -46,6 +46,9 @@ import {
   Autocomplete,
   InputAdornment,
   ListItemText,
+  DialogTitle,
+} from '@mui/material'
+import {
   MuiBasicModal,
   MuiFormModal,
   MuiConfirmModal,
@@ -98,6 +101,9 @@ export default function MuiPage() {
   const [selectValue, setSelectValue] = useState('')
   const [multiSelectValue, setMultiSelectValue] = useState<string[]>([])
   const [interestAreas, setInterestAreas] = useState<string[]>([])
+
+  // Excel 업로드 툴바 - 선택된 파일 상태
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
   // Date Picker 상태
   const [dateValue, setDateValue] = useState<Date | null>(null)
@@ -394,7 +400,6 @@ export default function MuiPage() {
               value={dateValue}
               onChange={(newValue: Date | null) => setDateValue(newValue)}
               placeholder="날짜를 선택하세요"
-              slotProps={{ textField: { size: "small" as const } }}
             />
           </div>
 
@@ -405,7 +410,6 @@ export default function MuiPage() {
               value={dateTimeValue}
               onChange={(newValue: Date | null) => setDateTimeValue(newValue)}
               placeholder="날짜와 시간을 선택하세요"
-              slotProps={{ textField: { size: "small" as const } }}
             />
           </div>
 
@@ -429,7 +433,6 @@ export default function MuiPage() {
               readOnly
               clearable={false}
               placeholder="읽기 전용 날짜"
-              slotProps={{ textField: { size: "small" as const } }}
             />
           </div>
 
@@ -442,7 +445,6 @@ export default function MuiPage() {
               placeholder="비활성화 날짜"
               disabled
               clearable={false}
-              slotProps={{ textField: { size: "small" as const } }}
             />
           </div>
 
@@ -761,6 +763,88 @@ export default function MuiPage() {
             >
               삭제
             </Button>
+          </div>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+            <Alert severity="info">
+              <Typography variant="subtitle2" gutterBottom>
+                드래그 앤 드롭
+              </Typography>
+              <Typography variant="body2">
+                파일을 업로드 영역에 드래그하여 놓으면 자동으로 업로드가 시작됩니다.
+              </Typography>
+            </Alert>
+
+            <Alert severity="warning">
+              <Typography variant="subtitle2" gutterBottom>
+                지원 파일 형식
+              </Typography>
+              <Typography variant="body2">
+                • 이미지: JPG, PNG, GIF, SVG 등<br />
+                • 문서: PDF, DOC, DOCX, TXT 등<br />
+                • 미디어: MP4, MP3, AVI 등<br />
+                • 압축: ZIP, RAR 등
+              </Typography>
+            </Alert>
+
+            <Alert severity="success">
+              <Typography variant="subtitle2" gutterBottom>
+                진행 상황
+              </Typography>
+              <Typography variant="body2">
+                각 파일의 업로드 진행 상황을 실시간으로 확인할 수 있으며, 완료된 파일은 URL을 복사할 수 있습니다.
+              </Typography>
+            </Alert>
+          </Box>
+          <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-6 border-t border-b border-blue-100 mt-4">
+            {/* 좌측: 파일 선택 버튼과 파일명 표시 */}
+            <div className="flex items-center gap-2">
+              <label htmlFor="excel-upload-input">
+                <input
+                  id="excel-upload-input"
+                  type="file"
+                  accept=".xlsx,.xls"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) {
+                      setSelectedFile(file)
+                    }
+                  }}
+                />
+                <Button
+                  variant="outlined"
+                  size="small"
+                  component="span"
+                >
+                  파일 선택
+                </Button>
+              </label>
+
+              {/* 파일명 표시 (버튼 오른쪽에 8px 띄워서) */}
+              <div className="ml-2 flex items-center gap-2">
+                <Typography variant="body2" color="textSecondary">
+                  선택된 파일:
+                </Typography>
+                {selectedFile ? (
+                  <>
+                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                      {selectedFile.name}
+                    </Typography>
+                    <IconButton
+                      size="small"
+                      onClick={() => setSelectedFile(null)}
+                    >
+                      <Icons.XIcon size={20} />
+                    </IconButton>
+                  </>
+                ) : (
+                  <Typography variant="body2" color="textSecondary">
+                    없음
+                  </Typography>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
