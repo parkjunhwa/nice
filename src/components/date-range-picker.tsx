@@ -13,6 +13,7 @@ interface DateRangePickerProps {
   readOnly?: boolean
   className?: string
   label?: string
+  clearable?: boolean
 }
 
 export function DateRangePicker({
@@ -23,7 +24,8 @@ export function DateRangePicker({
   disabled = false,
   readOnly = false,
   className = "",
-  label
+  label,
+  clearable = true
 }: DateRangePickerProps) {
   const handleStartDateChange = (newValue: Date | null) => {
     // 시작 날짜가 종료 날짜보다 늦으면 종료 날짜를 null로 설정
@@ -83,6 +85,7 @@ export function DateRangePicker({
             disabled={disabled}
             readOnly={readOnly}
             error={hasError || undefined}
+            clearable={clearable}
           />
         </div>
         
@@ -98,6 +101,7 @@ export function DateRangePicker({
             disabled={disabled}
             readOnly={readOnly}
             error={hasError || undefined}
+            clearable={clearable}
           />
         </div>
       </Box>

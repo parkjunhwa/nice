@@ -57,6 +57,9 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
             inputProps: {
               'aria-label': '날짜 입력',
             }
+          },
+          actionBar: {
+            actions: clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']
           }
         }}
         {...props}
