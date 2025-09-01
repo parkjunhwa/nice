@@ -116,6 +116,11 @@ export default function MuiPage() {
   const [radioError, setRadioError] = useState<string>('')
   const [checkboxError, setCheckboxError] = useState<string>('')
 
+  // TextField clear 기능용 로컬 상태들
+  const [normalInput, setNormalInput] = useState<string>('')
+  const [requiredInput, setRequiredInput] = useState<string>('')
+  const [errorInput, setErrorInput] = useState<string>('')
+
   // 확인 버튼 클릭 핸들러
   const handleValidation = () => {
     let hasError = false
@@ -214,6 +219,22 @@ export default function MuiPage() {
               size="small"
               placeholder="검색어를 입력하세요"
               fullWidth
+              value={normalInput}
+              onChange={(e) => setNormalInput(e.target.value)}
+              InputProps={{
+                endAdornment: normalInput ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="입력값 지우기"
+                      size="small"
+                      onClick={() => setNormalInput('')}
+                      edge="end"
+                    >
+                      <Icons.XIcon size={16} />
+                    </IconButton>
+                  </InputAdornment>
+                ) : undefined
+              }}
             />
           </div>
 
@@ -224,6 +245,22 @@ export default function MuiPage() {
               {...commonInputProps}
               placeholder="검색어를 입력하세요"
               required
+              value={requiredInput}
+              onChange={(e) => setRequiredInput(e.target.value)}
+              InputProps={{
+                endAdornment: requiredInput ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="입력값 지우기"
+                      size="small"
+                      onClick={() => setRequiredInput('')}
+                      edge="end"
+                    >
+                      <Icons.XIcon size={16} />
+                    </IconButton>
+                  </InputAdornment>
+                ) : undefined
+              }}
             />
           </div>
 
@@ -235,6 +272,22 @@ export default function MuiPage() {
               placeholder="이메일을 입력하세요"
               error
               helperText="올바른 이메일을 입력하세요"
+              value={errorInput}
+              onChange={(e) => setErrorInput(e.target.value)}
+              InputProps={{
+                endAdornment: errorInput ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="입력값 지우기"
+                      size="small"
+                      onClick={() => setErrorInput('')}
+                      edge="end"
+                    >
+                      <Icons.XIcon size={16} />
+                    </IconButton>
+                  </InputAdornment>
+                ) : undefined
+              }}
             />
           </div>
 
@@ -278,6 +331,18 @@ export default function MuiPage() {
                     <SearchIcon size={16} />
                   </InputAdornment>
                 ),
+                endAdornment: searchValue ? (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="입력값 지우기"
+                      size="small"
+                      onClick={() => setSearchValue('')}
+                      edge="end"
+                    >
+                      <Icons.XIcon size={16} />
+                    </IconButton>
+                  </InputAdornment>
+                ) : undefined
               }}
             />
           </div>

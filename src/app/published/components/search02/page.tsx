@@ -8,12 +8,20 @@ import {
   Select,
   MenuItem,
   Collapse,
-  Icons,
   Typography,
-  Breadcrumb,
   Snackbar,
-  Alert
-} from '@/components'
+  Alert,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  InputAdornment,
+} from '@mui/material'
+import { Icons, Breadcrumb } from '@/components'
 
 export default function Search01Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
@@ -22,6 +30,9 @@ export default function Search01Page() {
   const [alertOpen, setAlertOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('success')
+
+  // TextField 값 상태 (이 페이지 한정 clear 기능)
+  const [keyword, setKeyword] = useState('')
 
   // Alert 표시 함수
   const showAlert = (message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
@@ -63,6 +74,8 @@ export default function Search01Page() {
                     variant="outlined"
                     size="small"
                     placeholder="검색어를 입력하세요"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
                     InputProps={{
                       startAdornment: (
                         <Icons.SearchIcon
@@ -76,7 +89,19 @@ export default function Search01Page() {
                             flexShrink: 0
                           }}
                         />
-                      )
+                      ),
+                      endAdornment: keyword ? (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="입력값 지우기"
+                            size="small"
+                            onClick={() => setKeyword('')}
+                            edge="end"
+                          >
+                            <Icons.XIcon size={16} />
+                          </IconButton>
+                        </InputAdornment>
+                      ) : undefined
                     }}
                   />
                 </div>
@@ -160,6 +185,66 @@ export default function Search01Page() {
       <div className="c-panel bottom-contents-pannel">
         <div className="bottom-contents-pannel__content">
           {/* 컨텐츠 입력 */}
+
+        {/* 제목이 상단(열 헤더)이고, 폭 100%인 테이블 */}
+        <div className="mb-8">
+          <TableContainer component={Paper} sx={{ width: '100%' }} className="table-header-top">
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell>이름</TableCell>
+                  <TableCell>나이</TableCell>
+                  <TableCell>직업</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>홍길동</TableCell>
+                  <TableCell>28</TableCell>
+                  <TableCell>개발자</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>김영희</TableCell>
+                  <TableCell>32</TableCell>
+                  <TableCell>디자이너</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>이철수</TableCell>
+                  <TableCell>41</TableCell>
+                  <TableCell>기획자</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+
+        {/* 제목이 왼쪽(행 헤더)이고, 폭 100%인 테이블 */}
+        <div>
+          <div className="flex items-center mb-2">
+            {/* 테이블은 제목 오른쪽에 배치 */}
+            <TableContainer component={Paper} sx={{ width: '100%' }} className="table-header-left">
+              <Table size="small">
+                <TableBody>
+                  <TableRow>
+                    <TableCell component="th" scope="row">노트북</TableCell>
+                    <TableCell>1,200,000원</TableCell>
+                    <TableCell>15</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">모니터</TableCell>
+                    <TableCell>350,000원</TableCell>
+                    <TableCell>30</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell component="th" scope="row">키보드</TableCell>
+                    <TableCell>80,000원</TableCell>
+                    <TableCell>50</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </div>
         </div>
       </div>
 

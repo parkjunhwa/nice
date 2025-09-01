@@ -961,4 +961,40 @@
     padding-left: 12px !important;
     padding-right: 12px !important;
   }
+
+  /* 공통 테이블 스타일 */
+  .table-header-top,
+  .table-header-left {
+    box-shadow: none !important;
+    border: 1px solid #9ca3af !important; /* gray-400 */
+    
+    .MuiTable-root {
+      border-collapse: collapse !important;
+    }
+    
+    .MuiTableCell-root {
+      border-right: 1px solid #9ca3af !important; /* gray-400 */
+      border-bottom: 1px solid #9ca3af !important; /* gray-400 */
+      font-size: 13px !important; /* body1 스타일, 13px */
+      font-weight: 400 !important;
+      line-height: 1.5 !important;
+      padding: 8px 16px !important;
+      
+      &:last-child {
+        border-right: none !important;
+      }
+    }
+    
+    .MuiTableHead-root .MuiTableCell-root {
+      background-color: #f9fafb !important; /* gray-50 */
+      font-weight: 600 !important;
+      font-size: 13px !important; /* body1 스타일, 13px */
+      line-height: 1.5 !important;
+      padding: 8px 16px !important;
+    }
+    
+    .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root {
+      border-bottom: none !important;
+    }
+  }
 }
