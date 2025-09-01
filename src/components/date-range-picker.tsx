@@ -65,14 +65,6 @@ export function DateRangePicker({
   
   // 에러 상태 확인
   const hasError = value[0] && value[1] && value[0] > value[1]
-  
-  // 디버깅용 로그
-  console.log('DateRangePicker Debug:', {
-    startDate: value[0],
-    endDate: value[1],
-    hasError,
-    isRangeValid
-  })
 
   return (
     <FormControl fullWidth className={className}>
@@ -82,13 +74,6 @@ export function DateRangePicker({
         </Typography>
       )}
       
-      {/* 디버깅 정보 표시 */}
-      <Box className="mb-2 p-2 bg-blue-50 rounded text-xs text-blue-800">
-        <div>시작: {value[0]?.toLocaleDateString() || '없음'}</div>
-        <div>종료: {value[1]?.toLocaleDateString() || '없음'}</div>
-        <div>에러: {hasError ? '있음' : '없음'}</div>
-      </Box>
-      
       <Box className="flex items-center gap-1">
         <div style={{ width: 140 }}>
           <DatePicker
@@ -97,8 +82,7 @@ export function DateRangePicker({
             placeholder="시작 날짜"
             disabled={disabled}
             readOnly={readOnly}
-            error={hasError || false}
-            helperText={hasError ? '시작 날짜가 종료 날짜보다 늦습니다' : ''}
+            error={hasError || undefined}
           />
         </div>
         
@@ -113,16 +97,15 @@ export function DateRangePicker({
             placeholder="종료 날짜"
             disabled={disabled}
             readOnly={readOnly}
-            error={hasError || false}
-            helperText={hasError ? '종료 날짜가 시작 날짜보다 이릅니다' : ''}
+            error={hasError || undefined}
           />
         </div>
       </Box>
       
-      {/* 전체 에러 메시지 표시 */}
+      {/* 에러 메시지 (Error) */}
       {hasError && (
         <Typography variant="caption" className="text-red-600 mt-1 block">
-          ⚠ 날짜 범위가 올바르지 않습니다. 시작 날짜는 종료 날짜보다 이어야 합니다.
+          에러 메시지 (Error): 날짜 범위가 올바르지 않습니다. 시작 날짜는 종료 날짜보다 이어야 합니다.
         </Typography>
       )}
     </FormControl>

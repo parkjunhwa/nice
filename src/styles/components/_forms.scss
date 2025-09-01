@@ -795,28 +795,14 @@
     }
   }
 
-  /* MUI DatePicker readonly 상태 */
-  .MuiPickersInputBase-root.Mui-readOnly {
-    background-color: hsl(var(--color-muted)) !important;
-
-    .MuiInputBase-input {
-      color: hsl(var(--color-muted-foreground)) !important;
-      background-color: hsl(var(--color-muted)) !important;
-    }
+  /* MUI DatePicker 오늘 날짜 셀 스타일 (변수 사용) */
+  .MuiPickersDay-root.MuiPickersDay-today:not(.Mui-selected) {
+    background-color: #f3f4f6 !important; /* gray-100 */
+    border: 0 !important;
   }
 
-  /* MUI DatePicker disabled 상태 */
-  .MuiPickersInputBase-root.Mui-disabled {
-    background-color: hsl(var(--color-muted)) !important;
-
-    .MuiInputBase-input {
-      color: hsl(var(--color-muted-foreground)) !important;
-      background-color: hsl(var(--color-muted)) !important;
-    }
-
-    .MuiOutlinedInput-notchedOutline {
-      border-color: hsl(var(--color-border)) !important;
-    }
+  .MuiPickersDay-root.MuiPickersDay-today:not(.Mui-selected):hover {
+    background-color: #e5e7eb !important; /* gray-200 */
   }
 
   // MuiListItemText span 폰트 크기 13px 전역 설정

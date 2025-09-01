@@ -33,16 +33,17 @@ nice/
 │   │   └── NICEGtNeobUniTTF-eSb.ttf
 │   └── images/              # 이미지 파일들
 │       ├── background_login.png
-│       └── logo.png
+│       ├── ci.png
+│       ├── logo.png
+│       └── nice_ci.png
 ├── src/
 │   ├── app/                 # Next.js App Router
 │   │   ├── published/       # Published Pages (메인 페이지들)
-│   │   │   ├── analytics/   # 데이터 분석 및 차트 페이지
-│   │   │   ├── calendar/    # 캘린더 기능 페이지
-│   │   │   ├── documents/   # 문서 관리 페이지
-│   │   │   │   └── media/
-│   │   │   │       └── images/
-│   │   │   │           └── profile/
+│   │   │   ├── components/  # 컴포넌트 데모 페이지들
+│   │   │   │   ├── modal/   # 모달 컴포넌트 데모
+│   │   │   │   ├── mui/     # MUI 컴포넌트 데모
+│   │   │   │   ├── search01/ # 검색 컴포넌트 데모 1
+│   │   │   │   └── search02/ # 검색 컴포넌트 데모 2
 │   │   │   ├── forms/       # 폼 관리 페이지들
 │   │   │   │   ├── advanced/    # 고급 폼
 │   │   │   │   ├── basic/       # 기본 폼
@@ -50,11 +51,6 @@ nice/
 │   │   │   │   ├── multi-step/  # 다단계 폼
 │   │   │   │   ├── search/      # 검색 폼
 │   │   │   │   └── validation/  # 폼 검증
-│   │   │   ├── messages/    # 메시지 관리 페이지
-│   │   │   ├── mui/         # MUI 컴포넌트 데모 페이지
-│   │   │   ├── notifications/ # 알림 관리 페이지
-│   │   │   ├── search01/    # 검색 기능 페이지 1
-│   │   │   ├── search02/    # 검색 기능 페이지 2
 │   │   │   ├── layout.tsx   # Published Pages 레이아웃
 │   │   │   └── page.tsx     # 메인 대시보드 페이지
 │   │   ├── globals.scss     # 전역 SCSS 스타일 (폰트 정의 포함)
@@ -68,13 +64,19 @@ nice/
 │   │   ├── chart.tsx        # Chart.js 기반 차트 컴포넌트
 │   │   ├── dashboard-card.tsx # 대시보드 카드 컴포넌트
 │   │   ├── dashboard-layout.tsx # 대시보드 레이아웃
-│   │   ├── date-picker.tsx  # 날짜 선택 컴포넌트
-│   │   ├── time-picker.tsx  # 시간 선택 컴포넌트
+│   │   ├── date-picker.tsx  # 날짜 선택 컴포넌트 (MUI X Date Pickers)
+│   │   ├── date-range-picker.tsx # 날짜 범위 선택 컴포넌트
 │   │   ├── date-time-picker.tsx # 날짜/시간 선택 컴포넌트
 │   │   ├── header.tsx       # 헤더 컴포넌트
 │   │   ├── sidebar.tsx      # 사이드바 컴포넌트
 │   │   ├── sidebar-toggle.tsx # 사이드바 토글 컴포넌트
-│   │   ├── tabulator-table.tsx # Tabulator.js 테이블 컴포넌트
+│   │   ├── table/           # 테이블 컴포넌트들
+│   │   │   ├── tabulator-table.tsx # Tabulator.js 테이블 컴포넌트
+│   │   │   └── sample-table.tsx # 샘플 테이블 컴포넌트
+│   │   ├── modal/           # 모달 컴포넌트들
+│   │   │   ├── basic-modal.tsx # 기본 모달
+│   │   │   ├── confirm-modal.tsx # 확인 모달
+│   │   │   └── mui-*.tsx    # MUI 모달 컴포넌트들
 │   │   ├── mui-theme-provider.tsx # MUI 테마 프로바이더
 │   │   ├── index.ts         # 모든 컴포넌트 통합 export
 │   │   └── README.md        # 컴포넌트 구조 설명
@@ -88,7 +90,7 @@ nice/
 │       │   ├── _common.scss  # 공통 컴포넌트 스타일
 │       │   ├── _data.scss    # 데이터 표시 컴포넌트 스타일
 │       │   ├── _examples.scss # 예제 컴포넌트 스타일
-│       │   ├── _forms.scss   # 폼 컴포넌트 스타일
+│       │   ├── _forms.scss   # 폼 컴포넌트 스타일 (MUI DatePicker 스타일 포함)
 │       │   ├── _layout.scss  # 레이아웃 컴포넌트 스타일
 │       │   └── _navigation.scss # 네비게이션 컴포넌트 스타일
 │       ├── core/            # 핵심 스타일
@@ -188,6 +190,12 @@ MUI X Date Pickers를 활용한 날짜/시간 선택 컴포넌트들입니다.
   value={selectedDateTime}
   onChange={handleDateTimeChange}
 />
+
+<DateRangePicker
+  label="날짜 범위 선택"
+  value={[startDate, endDate]}
+  onChange={handleDateRangeChange}
+/>
 ```
 
 ### MUI 컴포넌트 통합
@@ -213,7 +221,7 @@ Published Pages의 공통 레이아웃 컴포넌트입니다.
 - **메인 콘텐츠**: 페이지별 콘텐츠 영역
 - **반응형 디자인**: 모바일/태블릿/데스크톱 지원
 
-## �� 페이지 구성
+## 📄 페이지 구성
 
 ### 메인 대시보드 (`/published`)
 - **통계 카드**: 총 사용자, 매출, 주문, 전환율
@@ -221,45 +229,19 @@ Published Pages의 공통 레이아웃 컴포넌트입니다.
 - **최근 활동**: 사용자 활동 및 시스템 활동 실시간 피드
 - **추가 통계**: 인기 상품, 지역별 매출, 시스템 상태 모니터링
 
-### Analytics 페이지 (`/published/analytics`)
-- **데이터 분석**: 페이지 뷰, 고유 방문자, 세션 시간, 이탈률
-- **차트 분석**: 월별/주간 트래픽 차트, 실시간 통계
-- **DashboardCard**: 각종 지표를 카드 형태로 표시
-- **Chart 컴포넌트**: 다양한 차트 타입으로 데이터 시각화
-
-### Calendar 페이지 (`/published/calendar`)
-- **캘린더 기능**: 날짜/시간 선택 및 관리
-- **DateTimePicker**: MUI X Date Pickers 활용
-- **일정 관리**: 이벤트 및 일정 표시
-
-### Documents 페이지 (`/published/documents`)
-- **문서 관리**: 파일 업로드 및 관리 시스템
-- **TabulatorTable**: 고급 테이블로 문서 목록 표시
-- **Media 관리**: 이미지 및 프로필 관리 (`/media/images/profile`)
-
 ### Forms 페이지들 (`/published/forms`)
-- **Advanced** (`/advanced`): 고급 폼 컴포넌트
+- **Advanced** (`/advanced`): 고급 폼 컴포넌트 (DatePicker, DateTimePicker 포함)
 - **Basic** (`/basic`): 기본 폼 요소들
 - **File Upload** (`/file-upload`): 파일 업로드 폼
 - **Multi-step** (`/multi-step`): 다단계 폼 프로세스
 - **Search** (`/search`): 검색 폼 기능
 - **Validation** (`/validation`): 폼 유효성 검사
 
-### Messages 페이지 (`/published/messages`)
-- **메시지 관리**: 메시지 시스템 관리
-- **통신 기능**: 메시지 송수신 및 관리
-
-### MUI 페이지 (`/published/mui`)
-- **MUI 데모**: Material-UI 컴포넌트 데모 및 예제
-- **컴포넌트 갤러리**: 다양한 MUI 컴포넌트 활용 예시
-
-### Notifications 페이지 (`/published/notifications`)
-- **알림 관리**: 시스템 알림 및 사용자 알림 관리
-- **알림 설정**: 알림 옵션 및 설정
-
-### Search 페이지들 (`/published/search01`, `/published/search02`)
-- **검색 기능**: 고급 검색 및 필터링 기능
-- **검색 결과**: 검색 결과 표시 및 관리
+### Components 데모 페이지들 (`/published/components`)
+- **Modal** (`/modal`): 모달 컴포넌트 데모
+- **MUI** (`/mui`): MUI 컴포넌트 데모 및 예제
+- **Search01** (`/search01`): 검색 컴포넌트 데모 1
+- **Search02** (`/search02`): 검색 컴포넌트 데모 2
 
 ## 🎯 사용된 기술 스택
 
@@ -270,7 +252,7 @@ Published Pages의 공통 레이아웃 컴포넌트입니다.
 - **Icons**: Lucide React (200+ 아이콘)
 - **Charts**: Chart.js + react-chartjs-2, Recharts
 - **Tables**: Tabulator.js (고급 테이블)
-- **Date Pickers**: MUI X Date Pickers
+- **Date Pickers**: MUI X Date Pickers (DatePicker, DateTimePicker, DateRangePicker)
 - **Fonts**: NICE (한국어 최적화)
 - **State Management**: React useState, useEffect
 - **Utilities**: clsx, tailwind-merge, class-variance-authority
@@ -340,10 +322,40 @@ import {
 <TextField 
   label="입력 필드" 
   variant="outlined" 
+  size="small"
 />
 
 // 아이콘 사용
 <Icons.SearchIcon size={24} />
+```
+
+### DatePicker 사용
+
+```tsx
+import { DatePicker, DateTimePicker, DateRangePicker } from '@/components'
+
+// 기본 날짜 선택
+<DatePicker
+  label="날짜 선택"
+  value={selectedDate}
+  onChange={handleDateChange}
+  inputFormat="yyyy-MM-dd"
+/>
+
+// 날짜/시간 선택
+<DateTimePicker
+  label="날짜/시간 선택"
+  value={selectedDateTime}
+  onChange={handleDateTimeChange}
+  inputFormat="yyyy-MM-dd HH:mm"
+/>
+
+// 날짜 범위 선택
+<DateRangePicker
+  label="날짜 범위"
+  value={[startDate, endDate]}
+  onChange={handleDateRangeChange}
+/>
 ```
 
 ### 스타일링 가이드
@@ -409,7 +421,13 @@ import {
 - **컴포넌트 분류**: Layout, Forms, Data Display, Feedback, Navigation
 - **테마 통합**: MUI 테마와 SCSS 토큰 시스템 연동
 - **아이콘 시스템**: Lucide React 200+ 아이콘 카테고리별 분류
-- **날짜/시간**: MUI X Date Pickers 통합
+- **날짜/시간**: MUI X Date Pickers 통합 (DatePicker, DateTimePicker, DateRangePicker)
+
+### DatePicker 스타일링
+- **오늘 날짜**: gray-100 배경색, 테두리 제거
+- **호버 효과**: gray-200 배경색
+- **선택된 날짜**: MUI 기본 선택 스타일 유지
+- **아이콘**: Lucide React CalendarIcon 사용
 
 ### 믹스인 시스템
 - **레이아웃**: flexbox, grid, positioning

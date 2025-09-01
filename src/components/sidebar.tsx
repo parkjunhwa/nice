@@ -44,34 +44,9 @@ const sidebarItems: MenuItem[] = [
     icon: FileText,
     children: [
       {
-        title: "기본 폼",
-        href: "/published/forms/basic",
-        icon: FileText
-      },
-      {
-        title: "고급 폼",
-        href: "/published/forms/advanced",
-        icon: FileText
-      },
-      {
         title: "파일 업로드",
         href: "/published/forms/file-upload",
         icon: FileText
-      },
-      {
-        title: "다단계 폼",
-        href: "/published/forms/multi-step",
-        icon: FileText
-      },
-      {
-        title: "검색 폼",
-        href: "/published/forms/search",
-        icon: Settings
-      },
-      {
-        title: "폼 검증",
-        href: "/published/forms/validation",
-        icon: Settings
       }
     ]
   },

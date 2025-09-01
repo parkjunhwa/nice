@@ -57,7 +57,7 @@ export default function Search01Page() {
           <div className="py-4 px-6">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="form-top-label">
                   키워드 검색
                 </label>
                 <TextField
@@ -71,7 +71,7 @@ export default function Search01Page() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="form-top-label">
                   카테고리
                 </label>
                 <FormControl fullWidth size='small'>
@@ -87,7 +87,7 @@ export default function Search01Page() {
                 </FormControl>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="form-top-label">
                   상태
                 </label>
                 <FormControl fullWidth>
@@ -106,12 +106,15 @@ export default function Search01Page() {
             </div>
             <div className="flex justify-center items-center pt-2">
               <div className="flex justify-center items-center gap-2">
-                <Button variant="outlined" startIcon={<Icons.RefreshCwIcon size={16} />}>
+                <Button variant="outlined" size="small" startIcon={<Icons.RefreshCwIcon size={16} />}>
                   새로고침
                 </Button>
-                <Button variant="contained" startIcon={<Icons.SearchIcon size={16} />}>
+                <Button variant="contained" size="small" startIcon={<Icons.SearchIcon size={16} />}>
                   검색
                 </Button>
+                
+                <Button variant="contained" size="small" color="primary">Primary</Button>
+                <Button variant="contained" size="small" color="secondary">Secondary</Button>
               </div>
             </div>
           </div>

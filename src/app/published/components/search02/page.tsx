@@ -98,7 +98,7 @@ export default function Search01Page() {
                   </FormControl>
                 </div>
                 <div className="flex items-center">
-                  <label className="block text-sm font-medium text-gray-700 mr-3 mb-0 whitespace-nowrap">
+                  <label className="form-side-label">
                     상태
                   </label>
                   <FormControl>
@@ -127,6 +127,7 @@ export default function Search01Page() {
                 <Button variant="contained" size="small" color="primary">Primary</Button>
                 <Button variant="contained" size="small" color="secondary">Secondary</Button>
                 <Button variant="outlined" size="small">Outlined</Button>
+                <Button variant="outlined" size="small" color="secondary">Outlined</Button>
                 <Button variant="text" size="small">Text</Button>
               </div>
             </div>

@@ -238,7 +238,7 @@ export default function FileUploadPage() {
             onDrop={handleDrop}
             onClick={() => fileInputRef.current?.click()}
           >
-            <UploadIcon sx={{ fontSize: 48, color: 'grey.400', mb: 2 }} />
+            <UploadIcon style={{ fontSize: 48, color: '#9ca3af', marginBottom: 16 }} />
             <Typography variant="h6" gutterBottom>
               파일을 드래그하여 놓거나 클릭하여 선택하세요
             </Typography>
