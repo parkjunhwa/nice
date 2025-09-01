@@ -85,7 +85,6 @@ export function DateRangePicker({
             disabled={disabled}
             readOnly={readOnly}
             error={hasError || undefined}
-            clearable={clearable}
           />
         </div>
         
@@ -101,7 +100,6 @@ export function DateRangePicker({
             disabled={disabled}
             readOnly={readOnly}
             error={hasError || undefined}
-            clearable={clearable}
           />
         </div>
       </Box>

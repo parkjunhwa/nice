@@ -805,6 +805,22 @@
     background-color: #e5e7eb !important; /* gray-200 */
   }
 
+  /* MUI DatePicker 헤더 요일 색상 */
+  .MuiPickersCalendarHeader-root .MuiPickersCalendarHeader-weekDayLabel {
+    font-size: var(--font-size-xs) !important;
+    font-weight: var(--font-weight-medium) !important;
+  }
+
+  /* 일요일 빨간색 */
+  .MuiPickersCalendarHeader-root .MuiPickersCalendarHeader-weekDayLabel:first-child {
+    color: hsl(var(--color-error)) !important;
+  }
+
+  /* 토요일 파란색 */
+  .MuiPickersCalendarHeader-root .MuiPickersCalendarHeader-weekDayLabel:nth-child(7) {
+    color: hsl(var(--color-primary)) !important;
+  }
+
   /* MUI DatePicker 하단 액션 버튼 스타일 */
   .MuiPickersActionBar-root {
     padding: 8px 16px !important;

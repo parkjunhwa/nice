@@ -57,6 +57,9 @@ export const DateTimePicker: React.FC<CustomDateTimePickerProps> = ({
             inputProps: {
               'aria-label': '날짜/시간 입력',
             }
+          },
+          actionBar: {
+            actions: clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']
           }
         }}
         {...props}
