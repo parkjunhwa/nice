@@ -51,7 +51,6 @@ export default function SampleTable({
       sortMode: 'local',
       initialSort: [{ column: 'header1', dir: 'asc' }],
       pagination: false,
-      cellPadding: '8px 12px',
       rowFormatter: (row: any) => {
         const element = row.getElement()
         element.style.transition = 'all 0.2s ease'

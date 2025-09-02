@@ -132,7 +132,6 @@ export default function TabulatorTable({
       paginationCounter: 'rows',
       paginationElement: '<div class="pagination-wrapper"></div>',
       paginationAddRow: 'page',
-      cellPadding: '4px 12px',
       rowFormatter: (row: any) => {
         const element = row.getElement()
         element.style.transition = 'all 0.2s ease'
