@@ -54,11 +54,6 @@ const sidebarItems: MenuItem[] = [
         title: "공지사항 상세",
         href: "/published/mnb006",
         icon: Eye // 보기(상세) 아이콘
-      },
-      {
-        title: "공지사항 등록/수정",
-        href: "/published/mnb007",
-        icon: Pencil // 수정(등록/수정) 아이콘
       }
     ]
   },

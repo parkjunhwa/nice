@@ -22,7 +22,7 @@ export default function Search01Page() {
   const [alertMessage, setAlertMessage] = useState('')
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('info')
 
-  const handleTableAction = (action: string, data: any) => {
+  const handleTableAction = (action: string, data: Record<string, unknown>) => {
     if (action === 'edit') {
       setAlertMessage(`Editing item: ${data.name}`)
       setAlertSeverity('info')
@@ -54,7 +54,7 @@ export default function Search01Page() {
       <h1 className="text-2xl font-bold text-gray-900">Search01 검색 페이지</h1>
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={12}>
-          <div className="py-4 px-6">
+          <div className="pt-4 pb-2 px-6">
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
               <div>
                 <label className="form-top-label">

@@ -236,6 +236,18 @@
     .MuiInputBase-input {
       color: hsl(var(--color-muted-foreground)) !important;
     }
+
+    /* Focus, hover 상태에서도 배경색 유지 */
+    &:hover,
+    &:focus,
+    &.Mui-focused,
+    &.Mui-hover {
+      background-color: hsl(var(--color-muted)) !important;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      border-color: hsl(var(--color-border)) !important;
+    }
   }
 
   .MuiInputBase-root.Mui-readOnly .MuiInputBase-input {
@@ -321,6 +333,23 @@
     &.Mui-focused .MuiOutlinedInput-notchedOutline {
       border-width: 2px !important;
     }
+
+    /* Readonly, disabled 상태에서 focus 시 배경색 유지 */
+    &.Mui-readOnly,
+    &.Mui-disabled {
+      background-color: hsl(var(--color-muted)) !important;
+
+      &:hover,
+      &:focus,
+      &.Mui-focused,
+      &.Mui-hover {
+        background-color: hsl(var(--color-muted)) !important;
+      }
+
+      .MuiOutlinedInput-notchedOutline {
+        border-color: hsl(var(--color-border)) !important;
+      }
+    }
   }
 
   /* MUI Select 크기별 스타일 */
@@ -395,6 +424,19 @@
       padding: var(--input-padding-y-lg) var(--input-padding-x-lg) !important;
       font-size: 14px !important;
     }
+  }
+
+  /* 멀티라인 TextField는 높이 제한 제외 */
+  .MuiTextField-root .MuiInputBase-root.MuiInputBase-multiline {
+    height: auto !important;
+    min-height: 200px !important;
+  }
+
+  .MuiTextField-root .MuiInputBase-root.MuiInputBase-multiline .MuiInputBase-input {
+    height: auto !important;
+    min-height: 200px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   // MUI MenuItem, Select, Autocomplete 폰트 크기 13px 전체 오버라이드
@@ -749,6 +791,19 @@
     &.Mui-focused {
       background-color: white !important;
     }
+
+    /* Readonly, disabled 상태에서는 muted 배경색 유지 */
+    &.Mui-readOnly,
+    &.Mui-disabled {
+      background-color: hsl(var(--color-muted)) !important;
+
+      &:hover,
+      &:focus,
+      &.Mui-focused,
+      &.Mui-hover {
+        background-color: hsl(var(--color-muted)) !important;
+      }
+    }
   }
 
   /* MUI Select 배경색 */
@@ -962,39 +1017,39 @@
     padding-right: 12px !important;
   }
 
-  /* 공통 테이블 스타일 */
-  .table-header-top,
-  .table-header-left {
-    box-shadow: none !important;
-    border: 1px solid #9ca3af !important; /* gray-400 */
-    
-    .MuiTable-root {
-      border-collapse: collapse !important;
-    }
-    
-    .MuiTableCell-root {
-      border-right: 1px solid #9ca3af !important; /* gray-400 */
-      border-bottom: 1px solid #9ca3af !important; /* gray-400 */
-      font-size: 13px !important; /* body1 스타일, 13px */
-      font-weight: 400 !important;
-      line-height: 1.5 !important;
-      padding: 8px 16px !important;
-      
-      &:last-child {
-        border-right: none !important;
-      }
-    }
-    
-    .MuiTableHead-root .MuiTableCell-root {
-      background-color: #f9fafb !important; /* gray-50 */
-      font-weight: 600 !important;
-      font-size: 13px !important; /* body1 스타일, 13px */
-      line-height: 1.5 !important;
-      padding: 8px 16px !important;
-    }
-    
-    .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root {
-      border-bottom: none !important;
-    }
-  }
+     /* 공통 테이블 스타일 */
+   .table-header-top,
+   .table-header-left {
+     box-shadow: none !important;
+     border: 1px solid hsl(var(--color-border)) !important; /* TextField와 동일한 border 색상 */
+     
+     .MuiTable-root {
+       border-collapse: collapse !important;
+     }
+     
+     .MuiTableCell-root {
+       border-right: 1px solid hsl(var(--color-border)) !important; /* TextField와 동일한 border 색상 */
+       border-bottom: 1px solid hsl(var(--color-border)) !important; /* TextField와 동일한 border 색상 */
+       font-size: 13px !important; /* body1 스타일, 13px */
+       font-weight: 400 !important;
+       line-height: 1.5 !important;
+       padding: 8px 16px !important;
+       
+       &:last-child {
+         border-right: none !important;
+       }
+     }
+     
+     .MuiTableHead-root .MuiTableCell-root {
+       background-color: #f3f4f6 !important; /* gray-100 - component="th"와 동일한 배경색 */
+       font-weight: 600 !important;
+       font-size: 13px !important; /* body1 스타일, 13px */
+       line-height: 1.5 !important;
+       padding: 8px 16px !important;
+     }
+     
+     .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root {
+       border-bottom: none !important;
+     }
+   }
 }

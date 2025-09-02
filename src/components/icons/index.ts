@@ -75,7 +75,10 @@ export {
   Plus as PlusIcon,
   Minus as MinusIcon,
   Edit as EditIcon,
+  Edit2 as Edit2Icon,
   Trash as TrashIcon,
+  Trash2 as Trash2Icon,
+  PlusCircle as PlusCircleIcon,
   Heart as HeartIcon,
   Star as StarIcon,
 } from 'lucide-react'

@@ -20,8 +20,9 @@ import {
   TableRow,
   IconButton,
   InputAdornment,
-} from '@mui/material'
-import { Icons, Breadcrumb } from '@/components'
+  Icons,
+  Breadcrumb
+} from '@/components'
 
 export default function Search01Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
@@ -76,49 +77,22 @@ export default function Search01Page() {
                     placeholder="검색어를 입력하세요"
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
-                    InputProps={{
-                      startAdornment: (
-                        <Icons.SearchIcon
-                          size={18}
-                          className="text-gray-400"
-                          style={{
-                            width: '18px',
-                            height: '18px',
-                            minWidth: '18px',
-                            minHeight: '18px',
-                            flexShrink: 0
-                          }}
-                        />
-                      ),
-                      endAdornment: keyword ? (
-                        <InputAdornment position="end">
-                          <IconButton
-                            aria-label="입력값 지우기"
-                            size="small"
-                            onClick={() => setKeyword('')}
-                            edge="end"
-                          >
-                            <Icons.XIcon size={16} />
-                          </IconButton>
-                        </InputAdornment>
-                      ) : undefined
-                    }}
                   />
                 </div>
                 <div className="flex items-center">
                   <label className="form-side-label">
                     카테고리
                   </label>
-                  <FormControl>
+                  <FormControl sx={{ fontSize: 12 }}>
                     <Select
                       defaultValue=""
                       displayEmpty
                       size="small"
                     >
-                      <MenuItem value="">전체 카테고리</MenuItem>
-                      <MenuItem value="tech">기술</MenuItem>
-                      <MenuItem value="design">디자인</MenuItem>
-                      <MenuItem value="business">비즈니스</MenuItem>
+                      <MenuItem value="" sx={{ fontSize: 12 }}>전체 카테고리</MenuItem>
+                      <MenuItem value="tech" sx={{ fontSize: 12 }}>기술</MenuItem>
+                      <MenuItem value="design" sx={{ fontSize: 12 }}>디자인</MenuItem>
+                      <MenuItem value="business" sx={{ fontSize: 12 }}>비즈니스</MenuItem>
                     </Select>
                   </FormControl>
                 </div>
@@ -186,40 +160,8 @@ export default function Search01Page() {
         <div className="bottom-contents-pannel__content">
           {/* 컨텐츠 입력 */}
 
-        {/* 제목이 상단(열 헤더)이고, 폭 100%인 테이블 */}
-        <div className="mb-8">
-          <TableContainer component={Paper} sx={{ width: '100%' }} className="table-header-top">
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  <TableCell>이름</TableCell>
-                  <TableCell>나이</TableCell>
-                  <TableCell>직업</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>홍길동</TableCell>
-                  <TableCell>28</TableCell>
-                  <TableCell>개발자</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>김영희</TableCell>
-                  <TableCell>32</TableCell>
-                  <TableCell>디자이너</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>이철수</TableCell>
-                  <TableCell>41</TableCell>
-                  <TableCell>기획자</TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
 
-        {/* 제목이 왼쪽(행 헤더)이고, 폭 100%인 테이블 */}
-        <div>
+          {/* 제목이 왼쪽(행 헤더)이고, 폭 100%인 테이블 */}
           <div className="flex items-center mb-2">
             {/* 테이블은 제목 오른쪽에 배치 */}
             <TableContainer component={Paper} sx={{ width: '100%' }} className="table-header-left">
@@ -244,7 +186,38 @@ export default function Search01Page() {
               </Table>
             </TableContainer>
           </div>
-        </div>
+          {/* 제목이 상단(열 헤더)이고, 폭 100%인 테이블 */}
+          <div className="mb-0">
+            <TableContainer component={Paper} sx={{ width: '100%' }} className="table-header-top">
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>이름</TableCell>
+                    <TableCell>나이</TableCell>
+                    <TableCell>직업</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>홍길동</TableCell>
+                    <TableCell>28</TableCell>
+                    <TableCell>개발자</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>김영희</TableCell>
+                    <TableCell>32</TableCell>
+                    <TableCell>디자이너</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>이철수</TableCell>
+                    <TableCell>41</TableCell>
+                    <TableCell>기획자</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+
         </div>
       </div>
 
@@ -263,10 +236,10 @@ export default function Search01Page() {
           }
         }}
       >
-        <Alert 
-          onClose={() => setAlertOpen(false)} 
+        <Alert
+          onClose={() => setAlertOpen(false)}
           severity={alertSeverity}
-          sx={{ 
+          sx={{
             width: '100%',
             '& .MuiAlert-message': {
               fontWeight: 500

@@ -47,17 +47,16 @@ import {
   InputAdornment,
   ListItemText,
   DialogTitle,
-} from '@mui/material'
-import {
   MuiBasicModal,
   MuiFormModal,
   MuiConfirmModal,
   MuiFullscreenModal,
+  Icons,
+  DatePicker,
+  DateTimePicker,
+  DateRangePicker,
+  ButtonGroup
 } from '@/components'
-import { Icons } from '@/components'
-import { DatePicker } from '@/components/date-picker'
-import { DateTimePicker } from '@/components/date-time-picker'
-import { DateRangePicker } from '@/components'
 
 
 const {
@@ -124,7 +123,7 @@ export default function MuiPage() {
   // 확인 버튼 클릭 핸들러
   const handleValidation = () => {
     let hasError = false
-    
+
     // 라디오 그룹 검증
     if (!requiredRadioValue) {
       setRadioError('필수 항목을 선택해주세요.')
@@ -132,7 +131,7 @@ export default function MuiPage() {
     } else {
       setRadioError('')
     }
-    
+
     // 체크박스 그룹 검증
     if (requiredCheckboxValues.length === 0) {
       setCheckboxError('최소 하나 이상 선택해주세요.')
@@ -140,7 +139,7 @@ export default function MuiPage() {
     } else {
       setCheckboxError('')
     }
-    
+
     if (!hasError) {
       showAlert('검증 완료!', 'success')
     }
@@ -576,6 +575,13 @@ export default function MuiPage() {
 
           {/* 빈 공간 */}
           <div className="flex flex-col">
+            <div className="flex items-center">
+              <ButtonGroup variant="outlined" size="small" className="bg-white">
+                <Button>오늘</Button>
+                <Button>최근 일주일</Button>
+                <Button>이번달</Button>
+              </ButtonGroup>
+            </div>
           </div>
         </div>
 
