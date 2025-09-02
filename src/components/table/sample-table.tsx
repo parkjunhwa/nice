@@ -45,8 +45,6 @@ export default function SampleTable({
       columns: columns,
       height: height,
       layout: 'fitColumns',
-      width: '100%',
-      maxWidth: '100%',
       headerVisible: true,
       scrollToColumnIfVisible: true,
       scrollToColumnPosition: 'left',

@@ -13,7 +13,9 @@ import {
   ChevronDown,
   ChevronRight,
   UserCheck,
-  FileImage
+  FileImage,
+  Eye,
+  Pencil
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -30,14 +32,35 @@ interface MenuItem {
 
 const sidebarItems: MenuItem[] = [
   {
+    title: "로그인",
+    href: "/mnb001",
+    icon: Users
+  },
+  {
     title: "메인",
     href: "/published",
     icon: Home
   },
   {
-    title: "로그인",
-    href: "/login",
-    icon: UserCheck
+    title: "공지사항",
+    icon: Bell,
+    children: [
+      {
+        title: "공지사항 목록",
+        href: "/published/mnb005",
+        icon: FileText // 목록(리스트) 아이콘
+      },
+      {
+        title: "공지사항 상세",
+        href: "/published/mnb006",
+        icon: Eye // 보기(상세) 아이콘
+      },
+      {
+        title: "공지사항 등록/수정",
+        href: "/published/mnb007",
+        icon: Pencil // 수정(등록/수정) 아이콘
+      }
+    ]
   },
   {
     title: "컴포넌트 예시",

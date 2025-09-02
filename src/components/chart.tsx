@@ -207,7 +207,7 @@ export function Chart({
 
   if (type === 'line') {
     return (
-      <div className={cn("rounded-lg border border-gray-200 bg-white p-6", className)}>
+      <div className={cn("p-0", className)}>
         {title && (
           <h3 className="mb-4 text-lg font-semibold text-gray-900">{title}</h3>
         )}
@@ -220,7 +220,7 @@ export function Chart({
   }
 
   return (
-    <div className={cn("rounded-lg border border-gray-200 bg-white p-6", className)}>
+    <div className={cn("p-0", className)}>
       {title && (
         <h3 className="mb-4 text-lg font-semibold text-gray-900">{title}</h3>
       )}

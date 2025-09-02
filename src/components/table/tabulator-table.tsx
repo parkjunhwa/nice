@@ -120,8 +120,6 @@ export default function TabulatorTable({
       columns: columns || sampleColumns,
       height: height,
       layout: 'fitColumns',
-      width: '100%',
-      maxWidth: '100%',
       headerVisible: true,
       scrollToColumnIfVisible: true,
       scrollToColumnPosition: 'left',
@@ -141,21 +139,23 @@ export default function TabulatorTable({
         if (row.getPosition() % 2 === 0) {
           element.style.backgroundColor = '#f9fafb'
         }
-      },
-      renderComplete: () => {
-        const tableElement = tableRef.current
-        if (!tableElement) return
+      }
+    })
 
-        const headerElement = tableElement.querySelector('.tabulator-header')
-        const tableholderElement = tableElement.querySelector('.tabulator-tableholder')
-        
-        if (headerElement && tableholderElement) {
-          const syncScroll = () => {
-            const scrollLeft = tableholderElement.scrollLeft
-            headerElement.scrollLeft = scrollLeft
-          }
-          tableholderElement.addEventListener('scroll', syncScroll)
+    // 테이블이 완성된 후 스크롤 동기화 설정
+    tabulatorRef.current.on('tableBuilt', () => {
+      const tableElement = tableRef.current
+      if (!tableElement) return
+
+      const headerElement = tableElement.querySelector('.tabulator-header')
+      const tableholderElement = tableElement.querySelector('.tabulator-tableholder')
+      
+      if (headerElement && tableholderElement) {
+        const syncScroll = () => {
+          const scrollLeft = tableholderElement.scrollLeft
+          headerElement.scrollLeft = scrollLeft
         }
+        tableholderElement.addEventListener('scroll', syncScroll)
       }
     })
 
