@@ -66,7 +66,7 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <label className="form-side-label">
-              상품명
+              상품 명
             </label>
             <FormControl fullWidth>
               <Select

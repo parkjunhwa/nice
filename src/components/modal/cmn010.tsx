@@ -295,9 +295,9 @@ export default function Cmn010({ open, onClose, onSuccess }: Cmn010Props) {
           <Typography variant="subtitle2" gutterBottom>
             비밀번호 변경 조건 안내
           </Typography>
-          <Typography variant="body2">
-            • 비밀번호는 <span className="text-red-500">영문 + 숫자 + 특수문자 8자 이상으로 조합</span> 되어야 합니다.<br />
-            • 비밀번호는 <span className="text-red-500">90일마다 변경되어야</span> 합니다.
+          <Typography variant="body2" sx={{ fontSize: '13px' }}>
+            • 비밀번호는 <span style={{ color: '#ef4444' }}>영문 + 숫자 + 특수문자 8자 이상으로 조합</span> 되어야 합니다.<br />
+            • 비밀번호는 <span style={{ color: '#ef4444' }}>90일마다 변경되어야</span> 합니다.
           </Typography>
         </Alert>
       </DialogContent>

@@ -177,6 +177,7 @@ export default function ModalPage() {
               variant="outlined"
               size="small"
               onClick={() => setModal003Open(true)}
+              startIcon={<Icons.CheckIcon size={16} />}
             >
               사이트 검색
             </Button>

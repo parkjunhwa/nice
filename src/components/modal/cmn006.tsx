@@ -67,9 +67,9 @@ export default function Cmn006({ open, onClose }: Cmn006Props) {
         {/* 좌측: 키워드 검색 */}
         <div className="flex flex-col gap-1">
           {/* 첫 번째 줄: 기관, 지점 */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <div className="flex items-center">
-              <label className="form-side-label text-right" style={{ width: '40px', minWidth: '40px', maxWidth: '40px' }}>
+              <label className="form-side-label text-left" style={{ width: '50px', minWidth: '50px', maxWidth: '50px' }}>
                 기관
               </label>
               <FormControl fullWidth>
@@ -93,7 +93,7 @@ export default function Cmn006({ open, onClose }: Cmn006Props) {
               </FormControl>
             </div>
             <div className="flex items-center">
-              <label className="form-side-label text-right" style={{ width: '40px', minWidth: '40px', maxWidth: '40px' }}>
+              <label className="form-side-label text-left" style={{ width: '50px', minWidth: '50px', maxWidth: '50px' }}>
                 지점
               </label>
               <FormControl fullWidth>
@@ -118,9 +118,9 @@ export default function Cmn006({ open, onClose }: Cmn006Props) {
             </div>
           </div>
           {/* 두 번째 줄: 기기번호, 기기명 */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <div className="flex items-center">
-              <label className="form-side-label text-right" style={{ width: '40px', minWidth: '40px', maxWidth: '40px' }}>
+              <label className="form-side-label text-left" style={{ width: '50px', minWidth: '50px', maxWidth: '50px' }}>
                 기기번호
               </label>
               <TextField
@@ -147,7 +147,7 @@ export default function Cmn006({ open, onClose }: Cmn006Props) {
               />
             </div>
             <div className="flex items-center">
-              <label className="form-side-label text-right" style={{ width: '40px', minWidth: '40px', maxWidth: '40px' }}>
+              <label className="form-side-label text-left" style={{ width: '50px', minWidth: '50px', maxWidth: '50px' }}>
                 기기명
               </label>
               <TextField

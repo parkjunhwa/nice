@@ -58,7 +58,7 @@ export default function Cmn004({ open, onClose }: Cmn004Props) {
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <label className="form-side-label">
-              사이트 코드
+              주차장명
             </label>
             <TextField
               variant="outlined"
@@ -85,7 +85,7 @@ export default function Cmn004({ open, onClose }: Cmn004Props) {
           </div>
           <div className="flex items-center">
             <label className="form-side-label">
-              사이트 명
+              주차장 코드
             </label>
             <TextField
               variant="outlined"
