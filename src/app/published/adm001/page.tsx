@@ -14,11 +14,13 @@ import {
   MenuItem,
   Collapse,
   Typography,
-  SampleTable,
-  Breadcrumb,
-  DateRangePicker,
   Switch,
   FormControlLabel
+} from '@mui/material'
+import {
+  SampleTable,
+  Breadcrumb,
+  DateRangePicker
 } from '@/components'
 
 export default function UserManagementPage() {
@@ -126,7 +128,6 @@ export default function UserManagementPage() {
                         size="small"
                       />
                     }
-                    label=""
                   />
                 </div>
                 <div className="flex items-center">

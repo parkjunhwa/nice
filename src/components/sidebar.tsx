@@ -65,7 +65,7 @@ const sidebarItems: MenuItem[] = [
   },
   {
     title: "ADMIN",
-    icon: UserCheck,
+    icon: Settings,
     children: [
       {
         title: "사용자 관리",
