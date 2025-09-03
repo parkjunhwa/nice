@@ -16,21 +16,24 @@ import {
   Typography,
   SampleTable,
   Breadcrumb,
-  DateRangePicker
+  DateRangePicker,
+  Switch,
+  FormControlLabel
 } from '@/components'
 
-export default function InterfaceLogPage() {
+export default function UserManagementPage() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
 
   // 폼 상태 변수들
-  const [interfaceType, setInterfaceType] = useState('')
-  const [interfaceId, setInterfaceId] = useState('')
-  const [status, setStatus] = useState('')
+  const [departmentName, setDepartmentName] = useState('')
+  const [userId, setUserId] = useState('')
+  const [userName, setUserName] = useState('')
+  const [useStatus, setUseStatus] = useState(false)
   const [dateValue, setDateValue] = useState<Date | null>(null)
   const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
 
   // Select 옵션들
-  const interfaceTypeOptions = [
+  const departmentOptions = [
     { value: 'option1', label: '옵션1' },
     { value: 'option2', label: '옵션2' },
     { value: 'option3', label: '옵션3' }
@@ -54,12 +57,12 @@ export default function InterfaceLogPage() {
         items={[
           { label: 'Home', href: '/' },
           { label: 'ADMIN', href: '/' },
-          { label: 'I/F로그 관리', active: true }
+          { label: '사용자 관리', active: true }
         ]}
       />
 
       {/* Page Title */}
-      <h1 className="text-2xl font-bold text-gray-900">I/F로그 관리</h1>
+      <h1 className="text-2xl font-bold text-gray-900">사용자 관리</h1>
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={12}>
           <div className="pt-4 pb-2 px-6">
@@ -73,12 +76,12 @@ export default function InterfaceLogPage() {
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
                   <label className="form-side-label text-left">
-                    인터페이스 타입
+                    부서명
                   </label>
                   <FormControl sx={{ width: '160px' }}>
                     <Select
-                      value={interfaceType}
-                      onChange={(e) => setInterfaceType(e.target.value)}
+                      value={departmentName}
+                      onChange={(e) => setDepartmentName(e.target.value)}
                       displayEmpty
                       className="bg-white"
                       size="small"
@@ -86,7 +89,7 @@ export default function InterfaceLogPage() {
                       <MenuItem value="">
                         <span>선택</span>
                       </MenuItem>
-                      {interfaceTypeOptions.map((option) => (
+                      {departmentOptions.map((option) => (
                         <MenuItem
                           key={option.value}
                           value={option.value}
@@ -99,55 +102,45 @@ export default function InterfaceLogPage() {
                 </div>
                 <div className="flex items-center">
                   <label className="form-side-label text-left">
-                    인터페이스 ID
+                    사용자ID
                   </label>
                   <TextField
                     variant="outlined"
                     size="small"
-                    value={interfaceId}
-                    onChange={(e) => setInterfaceId(e.target.value)}
+                    value={userId}
+                    onChange={(e) => setUserId(e.target.value)}
                     sx={{ width: '160px' }}
-                    placeholder="인터페이스 ID 입력"
+                    placeholder="사용자 ID 입력"
+                  />
+                </div>
+                <div className="flex items-center">
+                  <label className="form-side-label">
+                    사용여부
+                  </label>
+                  <FormControlLabel
+                    sx={{ marginLeft: '4px' }}
+                    control={
+                      <Switch
+                        checked={useStatus}
+                        onChange={(e) => setUseStatus(e.target.checked)}
+                        size="small"
+                      />
+                    }
+                    label=""
                   />
                 </div>
                 <div className="flex items-center">
                   <label className="form-side-label text-left">
-                    일시
+                    사용자 명
                   </label>
-                  <div>
-                    <DateRangePicker
-                      value={dateRangeValue}
-                      onChange={(newValue: [Date | null, Date | null]) => setDateRangeValue(newValue)}
-                      placeholder="날짜 범위를 선택하세요"
-                      size="small"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    상태
-                  </label>
-                  <FormControl sx={{ width: 160 }}>
-                    <Select
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                      displayEmpty
-                      className="bg-white"
-                      size="small"
-                    >
-                      <MenuItem value="">
-                        <span>선택</span>
-                      </MenuItem>
-                      {statusOptions.map((option) => (
-                        <MenuItem
-                          key={option.value}
-                          value={option.value}
-                        >
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    sx={{ width: '160px' }}
+                    placeholder="사용자명 입력"
+                  />
                 </div>
               </div>
             </div>

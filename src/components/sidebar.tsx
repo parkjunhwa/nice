@@ -69,7 +69,7 @@ const sidebarItems: MenuItem[] = [
     children: [
       {
         title: "사용자 관리",
-        href: "#",
+        href: "/published/adm001",
         icon: Users // 사용자(Users) 아이콘
       },
       {

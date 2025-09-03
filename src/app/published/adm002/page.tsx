@@ -43,15 +43,15 @@ export default function InterfaceLogPage() {
 
   // Select 옵션들
   const jobTypeOptions = [
-    { value: 'type1', label: 'Job Type 1' },
-    { value: 'type2', label: 'Job Type 2' },
-    { value: 'type3', label: 'Job Type 3' }
+    { value: 'option1', label: '옵션1' },
+    { value: 'option2', label: '옵션2' },
+    { value: 'option3', label: '옵션3' }
   ]
 
   const statusOptions = [
-    { value: 'success', label: '성공' },
-    { value: 'failed', label: '실패' },
-    { value: 'running', label: '실행중' }
+    { value: 'option1', label: '옵션1' },
+    { value: 'option2', label: '옵션2' },
+    { value: 'option3', label: '옵션3' }
   ]
 
   // 수평 드래그 핸들러
@@ -378,8 +378,8 @@ export default function InterfaceLogPage() {
                 <div className="flex-1 bg-gray-50 w-full min-h-0 overflow-auto">
                   <div className="flex items-center justify-center h-full w-full">
                     <span className="text-[14px] text-gray-400 text-center">table grid영역</span>
-                  </div>
-                </div>
+              </div>
+            </div>
               </CardContent>
             </Card>
           </div>
