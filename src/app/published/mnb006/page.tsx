@@ -2,19 +2,19 @@
 
 import { useState, useRef } from 'react'
 import {
-  Upload,
   Trash2,
   Download,
   Archive,
   CheckCircle,
   ArrowLeft,
   Check,
-  X
+  X,
+  Search,
+  Pencil
 } from 'lucide-react'
 import {
   Button,
   Typography,
-  Icons,
   Breadcrumb,
   Snackbar,
   Alert,
@@ -48,7 +48,7 @@ export default function NoticeDetailPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set())
   const [isEditable, setIsEditable] = useState(true)
-  
+
   // 필수 입력 검증 상태
   const [titleError, setTitleError] = useState('')
   const [contentError, setContentError] = useState('')
@@ -140,11 +140,11 @@ export default function NoticeDetailPage() {
     try {
       const JSZip = (await import('jszip')).default;
       const zip = new JSZip();
-      
+
       files.forEach((file, index) => {
         zip.file(file.name, file);
       });
-      
+
       const content = await zip.generateAsync({ type: 'blob' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(content);
@@ -165,7 +165,7 @@ export default function NoticeDetailPage() {
       alert('다운로드할 파일을 선택해주세요.');
       return;
     }
-    
+
     selectedFiles.forEach(index => {
       const file = files[index];
       const link = document.createElement('a');
@@ -198,7 +198,7 @@ export default function NoticeDetailPage() {
   // 필수 입력 검증 함수
   const validateRequiredFields = () => {
     let isValid = true;
-    
+
     // 수정가능 모드일 때만 검증
     if (isEditable) {
       // 공지 제목 검증
@@ -208,7 +208,7 @@ export default function NoticeDetailPage() {
       } else {
         setTitleError('');
       }
-      
+
       // 공지 내용 검증
       if (!contentInput.trim()) {
         setContentError('공지 내용은 필수 입력값입니다.');
@@ -221,7 +221,7 @@ export default function NoticeDetailPage() {
       setTitleError('');
       setContentError('');
     }
-    
+
     return isValid;
   };
 
@@ -257,7 +257,7 @@ export default function NoticeDetailPage() {
     }
   };
 
-    return (
+  return (
     <div
       className={`flex flex-col h-full min-h-0 layout-top-bottom ${isEditable ? 'editable' : 'readonly'}`}
       style={{
@@ -280,7 +280,7 @@ export default function NoticeDetailPage() {
       <div className="c-panel bottom-contents-pannel relative">
         <div className="bottom-contents-pannel__content mb-14" style={{ overflowY: 'auto', maxHeight: '100%' }}>
           <div className="flex items-center justify-between mb-2">
-            <Typography variant="subtitle1" className="font-semibold">
+            <Typography variant="subtitle1" className="font-semibold text-gray-900">
               기본 정보
             </Typography>
             <div className="flex items-center gap-2">
@@ -396,7 +396,7 @@ export default function NoticeDetailPage() {
                                   size="small"
                                   component="label"
                                   disabled={!isEditable}
-                                  startIcon={<Upload size={16} />}
+                                  startIcon={<Search size={16} />}
                                 >
                                   파일찾기
                                   <input
@@ -432,7 +432,7 @@ export default function NoticeDetailPage() {
                                 </Button>
                               </>
                             )}
-                            
+
                             {/* 읽기 전용 모드에서만 표시되는 버튼들 */}
                             {!isEditable && (
                               <>
@@ -515,7 +515,7 @@ export default function NoticeDetailPage() {
                               </div>
                             ))}
                           </div>
-                                                )}
+                        )}
                         {/* 하단: 드래그 앤 드롭 영역 (편집 모드에서만 표시) */}
                         {isEditable && (
                           <div
@@ -569,21 +569,23 @@ export default function NoticeDetailPage() {
             </TableContainer>
           </div>
         </div>
-        
+
         {/* 카드 하단 고정 버튼 영역 */}
         <div className="absolute bottom-0 left-0 right-0 bg-white p-6 rounded-b-lg">
           <div className="flex justify-between items-center">
             <div>
-              <Button
-                variant="contained"
-                size="medium"
-                color="error"
-                startIcon={<Trash2 size={16} />}
-              >
-                삭제
-              </Button>
+              {isEditable && (
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="error"
+                  startIcon={<Trash2 size={16} />}
+                >
+                  삭제
+                </Button>
+              )}
             </div>
-            <div className="flex gap-1">
+            <div className="flex gap-2">
               <Button
                 variant="outlined"
                 size="medium"
@@ -592,31 +594,43 @@ export default function NoticeDetailPage() {
               >
                 목록
               </Button>
-              <Button
-                variant="contained"
-                size="medium"
-                color="primary"
-                startIcon={<Check size={16} />}
-                onClick={() => {
-                  if (validateRequiredFields()) {
-                    // 저장 로직 실행
-                    setAlertMessage('저장되었습니다.');
-                    setAlertSeverity('success');
-                    setAlertOpen(true);
-                  } else {
-                    setAlertMessage('필수 입력값을 확인해주세요.');
-                    setAlertSeverity('error');
-                    setAlertOpen(true);
-                  }
-                }}
-              >
-                수정
-              </Button>
+              {isEditable ? (
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="primary"
+                  startIcon={<Check size={16} />}
+                  onClick={() => {
+                    if (validateRequiredFields()) {
+                      // 저장 로직 실행
+                      setAlertMessage('저장되었습니다.');
+                      setAlertSeverity('success');
+                      setAlertOpen(true);
+                    } else {
+                      setAlertMessage('필수 입력값을 확인해주세요.');
+                      setAlertSeverity('error');
+                      setAlertOpen(true);
+                    }
+                  }}
+                >
+                  저장
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="primary"
+                                     startIcon={<Pencil size={16} />}
+                  onClick={() => setIsEditable(true)}
+                >
+                  수정
+                </Button>
+              )}
             </div>
           </div>
         </div>
       </div>
-      
+
       {/* MUI Alert Snackbar */}
       <Snackbar
         open={alertOpen}
@@ -632,10 +646,10 @@ export default function NoticeDetailPage() {
           }
         }}
       >
-        <Alert 
-          onClose={() => setAlertOpen(false)} 
+        <Alert
+          onClose={() => setAlertOpen(false)}
           severity={alertSeverity}
-          sx={{ 
+          sx={{
             width: '100%',
             '& .MuiAlert-message': {
               fontWeight: 500

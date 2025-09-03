@@ -48,11 +48,16 @@ export default function NoticeListPage() {
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={12}>
           <div className="pt-4 pb-2 px-6">
-            <div className="flex flex-col gap-1">
-              {/* 첫 번째 줄: 기관, 지점 */}
+            <div
+              className="
+                flex flex-col gap-y-1 gap-x-4
+                2xl:flex-row
+              "
+            >
+              {/* 첫 번째 줄 */}
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
-                  <label className="form-side-label text-left" style={{ width: '50px', minWidth: '50px', maxWidth: '50px' }}>
+                  <label className="form-side-label text-left">
                     작성일
                   </label>
                   <DateRangePicker
@@ -70,10 +75,10 @@ export default function NoticeListPage() {
                   </ButtonGroup>
                 </div>
               </div>
-              {/* 두 번째 줄: 기기번호, 기기명 */}
+              {/* 두 번째 줄 */}
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
-                  <label className="form-side-label text-left" style={{ width: '50px', minWidth: '50px', maxWidth: '50px' }}>
+                  <label className="form-side-label text-left">
                     검색어
                   </label>
                   <TextField

@@ -15,7 +15,8 @@ import {
   UserCheck,
   FileImage,
   Eye,
-  Pencil
+  Pencil,
+  Shield
 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -42,6 +43,11 @@ const sidebarItems: MenuItem[] = [
     icon: Home
   },
   {
+    title: "공통팝업",
+    href: "/published/components/modal",
+    icon: FileText // FileText 아이콘 사용
+  },
+  {
     title: "공지사항",
     icon: Bell,
     children: [
@@ -54,6 +60,44 @@ const sidebarItems: MenuItem[] = [
         title: "공지사항 상세",
         href: "/published/mnb006",
         icon: Eye // 보기(상세) 아이콘
+      }
+    ]
+  },
+  {
+    title: "ADMIN",
+    icon: UserCheck,
+    children: [
+      {
+        title: "사용자 관리",
+        href: "#",
+        icon: Users // 사용자(Users) 아이콘
+      },
+      {
+        title: "권한 관리",
+        href: "/published/adm002",
+        icon: Shield // 권한(Shield) 아이콘
+      },
+      {
+        title: "I/F로그 관리",
+        href: "#",
+        icon: FileText, // 로그(FileText) 아이콘
+        children: [
+          {
+            title: "I/F로그 관리 목록",
+            href: "/published/adm003",
+            icon: FileText // 목록(리스트) 아이콘
+          },
+          {
+            title: "I/F로그 관리 상세",
+            href: "/published/adm004",
+            icon: Eye // 보기(상세) 아이콘
+          }
+        ]
+      },
+      {
+        title: "공통코드 관리",
+        href: "#",
+        icon: Settings // 설정(Settings) 아이콘
       }
     ]
   },
@@ -75,11 +119,6 @@ const sidebarItems: MenuItem[] = [
         title: "검색02",
         href: "/published/components/search02",
         icon: Settings
-      },
-      {
-        title: "모달팝업",
-        href: "/published/components/modal",
-        icon: Calendar
       }
     ]
   }

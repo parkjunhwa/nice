@@ -65,9 +65,6 @@ export default function Search01Page() {
                   size="small"
                   placeholder="검색어를 입력하세요"
                   fullWidth
-                  InputProps={{
-                    startAdornment: <Icons.SearchIcon size={18} className="text-gray-400" />
-                  }}
                 />
               </div>
               <div>

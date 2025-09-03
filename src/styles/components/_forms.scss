@@ -775,6 +775,14 @@
     }
   }
 
+  /* 텍스트 줄바꿈 방지 - 그룹버튼, 라디오, 체크박스 라벨 */
+  .MuiButtonGroup-root .MuiButton-root,
+  .MuiButton-root,
+  .MuiFormControlLabel-root .MuiFormControlLabel-label,
+  .MuiFormControlLabel-label {
+    white-space: nowrap !important;
+  }
+
   /* MUI OutlinedInput Small Size Padding Override */
   .MuiOutlinedInput-root.MuiAutocomplete-inputRoot {
     padding-left: 0px !important;
@@ -1041,7 +1049,7 @@
      }
      
      .MuiTableHead-root .MuiTableCell-root {
-       background-color: #f3f4f6 !important; /* gray-100 - component="th"와 동일한 배경색 */
+       background-color: #f1f5f9 !important;
        font-weight: 600 !important;
        font-size: 13px !important; /* body1 스타일, 13px */
        line-height: 1.5 !important;
