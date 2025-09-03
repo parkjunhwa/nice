@@ -5,16 +5,21 @@
 ## 사이트 구조
 
 ### Published Pages (`/app/published`)
-- **Analytics** (`/analytics`) - 데이터 분석 및 차트
-- **Calendar** (`/calendar`) - 캘린더 기능
-- **Documents** (`/documents`) - 문서 관리
-  - Media/Images/Profile - 프로필 이미지 관리
-- **Forms** (`/forms`) - 폼 관련
-  - Advanced, Basic, File Upload, Multi-step, Search, Validation
-- **Messages** (`/messages`) - 메시지 관리
-- **MUI** (`/mui`) - MUI 컴포넌트 데모
-- **Notifications** (`/notifications`) - 알림 관리
-- **Search** (`/search01`, `/search02`) - 검색 기능
+- **ADM001** (`/adm001`) - 관리 페이지 001
+- **ADM002** (`/adm002`) - 관리 페이지 002
+- **ADM003** (`/adm003`) - 관리 페이지 003
+- **ADM004** (`/adm004`) - 관리 페이지 004
+- **ADM005** (`/adm005`) - 관리 페이지 005
+- **MNB005** (`/mnb005`) - 메뉴 페이지 005
+- **MNB006** (`/mnb006`) - 메뉴 페이지 006
+- **Components** (`/components`) - 컴포넌트 데모 페이지들
+  - Modal (`/modal`) - 모달 컴포넌트 데모
+  - MUI (`/mui`) - MUI 컴포넌트 데모
+  - Search01 (`/search01`) - 검색 컴포넌트 데모 1
+  - Search02 (`/search02`) - 검색 컴포넌트 데모 2
+
+### 메뉴 페이지들
+- **MNB001** (`/mnb001`) - 메뉴 페이지 001
 
 ## 컴포넌트 구조
 
@@ -48,16 +53,222 @@
 
 ### 공통 컴포넌트
 - `index.ts`: 모든 컴포넌트 통합 export
-- `date-picker.tsx`: 날짜 선택 (Forms)
-- `time-picker.tsx`: 시간 선택 (Forms)
-- `date-time-picker.tsx`: 날짜/시간 선택 (Calendar)
-- `dashboard-layout.tsx`: 대시보드 레이아웃 (Analytics)
-- `dashboard-card.tsx`: 대시보드 카드 (Analytics)
+- `date-picker.tsx`: 날짜 선택 (MUI X Date Pickers)
+- `time-picker.tsx`: 시간 선택 (MUI X Date Pickers)
+- `date-time-picker.tsx`: 날짜/시간 선택 (MUI X Date Pickers)
+- `date-range-picker.tsx`: 날짜 범위 선택 (MUI X Date Pickers)
+- `dashboard-layout.tsx`: 대시보드 레이아웃 (Published Pages)
+- `dashboard-card.tsx`: 대시보드 카드 (통계 정보 표시)
 - `header.tsx`: 헤더 (공통)
 - `sidebar.tsx`: 사이드바 (공통)
 - `sidebar-toggle.tsx`: 사이드바 토글 (공통)
-- `chart.tsx`: 차트 (Analytics)
-- `tabulator-table.tsx`: Tabulator 테이블 (Documents)
+- `chart.tsx`: 차트 (Chart.js + Recharts)
+- `breadcrumb.tsx`: 브레드크럼 네비게이션
 - `mui-theme-provider.tsx`: MUI 테마 프로바이더 (공통)
 
+### 테이블 컴포넌트 (`/table`)
+- `index.ts`: 테이블 컴포넌트 export
+- `tabulator-table.tsx`: Tabulator.js 기반 고급 테이블
+- `sample-table.tsx`: 샘플 테이블 컴포넌트
+- `table-common.scss`: 공통 테이블 스타일
+- `README.md`: 테이블 컴포넌트 가이드
+
+### 모달 컴포넌트 (`/modal`)
+- `index.ts`: 모달 컴포넌트 export
+- `basic-modal.tsx`: 기본 모달
+- `confirm-modal.tsx`: 확인 모달
+- `cmn001.tsx` ~ `cmn012.tsx`: 공통 모달 컴포넌트들
+- `mui-basic-modal.tsx`: MUI 기본 모달
+- `mui-confirm-modal.tsx`: MUI 확인 모달
+- `mui-form-modal.tsx`: MUI 폼 모달
+- `mui-fullscreen-modal.tsx`: MUI 전체화면 모달
+
 ## 사용법
+
+### 기본 컴포넌트 사용
+
+```tsx
+import { 
+  DashboardLayout, 
+  DashboardCard, 
+  Chart,
+  DatePicker,
+  TabulatorTable 
+} from '@/components'
+
+// 대시보드 레이아웃
+<DashboardLayout>
+  <div className="c-section">
+    <DashboardCard 
+      title="총 사용자"
+      value="12,345"
+      description="활성 사용자 수"
+    />
+  </div>
+</DashboardLayout>
+```
+
+### MUI 컴포넌트 사용
+
+```tsx
+import { 
+  TextField, 
+  Button, 
+  Typography,
+  Icons 
+} from '@/components'
+
+// MUI 컴포넌트
+<TextField label="이메일" variant="outlined" />
+<Button variant="contained" color="primary">저장</Button>
+
+// 아이콘 사용
+<Icons.SearchIcon size={24} />
+<Icons.CalendarIcon size={20} />
+```
+
+### 날짜/시간 선택기 사용
+
+```tsx
+import { 
+  DatePicker, 
+  DateTimePicker, 
+  DateRangePicker 
+} from '@/components'
+
+// 기본 날짜 선택
+<DatePicker
+  label="날짜 선택"
+  value={selectedDate}
+  onChange={handleDateChange}
+/>
+
+// 날짜/시간 선택
+<DateTimePicker
+  label="날짜/시간 선택"
+  value={selectedDateTime}
+  onChange={handleDateTimeChange}
+/>
+
+// 날짜 범위 선택
+<DateRangePicker
+  label="날짜 범위"
+  value={[startDate, endDate]}
+  onChange={handleDateRangeChange}
+/>
+```
+
+### 테이블 컴포넌트 사용
+
+```tsx
+import { TabulatorTable } from '@/components'
+
+<TabulatorTable
+  data={tableData}
+  columns={columns}
+  options={{
+    pagination: true,
+    movableColumns: true,
+    resizableRows: true
+  }}
+/>
+```
+
+### 모달 컴포넌트 사용
+
+```tsx
+import { 
+  BasicModal, 
+  ConfirmModal,
+  Cmn001,
+  MuiBasicModal 
+} from '@/components'
+
+// 기본 모달
+<BasicModal 
+  isOpen={isOpen}
+  onClose={handleClose}
+  title="모달 제목"
+>
+  모달 내용
+</BasicModal>
+
+// 확인 모달
+<ConfirmModal
+  isOpen={isOpen}
+  onClose={handleClose}
+  onConfirm={handleConfirm}
+  title="확인"
+  message="정말 삭제하시겠습니까?"
+/>
+```
+
+## 컴포넌트 개발 가이드
+
+### 새로운 컴포넌트 추가
+
+1. `src/components/` 디렉토리에 새 컴포넌트 파일 생성
+2. TypeScript 인터페이스 정의
+3. `src/components/index.ts`에 export 추가
+
+```tsx
+// src/components/new-component.tsx
+interface NewComponentProps {
+  title: string
+  value: string
+  className?: string
+}
+
+export function NewComponent({ title, value, className }: NewComponentProps) {
+  return (
+    <div className={`c-panel ${className || ''}`}>
+      <h3 className="c-section-title">{title}</h3>
+      <p className="c-stat-item__value">{value}</p>
+    </div>
+  )
+}
+```
+
+### 컴포넌트 스타일링
+
+- **SCSS 컴포넌트 클래스**: `c-` 접두사 사용
+- **Tailwind CSS**: 유틸리티 클래스 활용
+- **토큰 기반 시스템**: CSS 변수 활용
+- **반응형 디자인**: 브레이크포인트 지원
+
+```scss
+// 컴포넌트 스타일 예시
+.c-new-component {
+  @include card-base;
+  padding: var(--space-6);
+  
+  .c-new-component__title {
+    font-family: 'NICE', sans-serif;
+    font-weight: var(--font-weight-semibold);
+    color: hsl(var(--color-fg));
+  }
+}
+```
+
+### 컴포넌트 테스트
+
+각 컴포넌트는 해당하는 데모 페이지에서 테스트할 수 있습니다:
+
+- **MUI 컴포넌트**: `/published/components/mui`
+- **모달 컴포넌트**: `/published/components/modal`
+- **검색 컴포넌트**: `/published/components/search01`, `/published/components/search02`
+
+## 주의사항
+
+1. **타입 안전성**: 모든 컴포넌트는 TypeScript 인터페이스 정의 필수
+2. **접근성**: ARIA 속성과 키보드 네비게이션 지원
+3. **반응형**: 모바일, 태블릿, 데스크톱 모든 디바이스 지원
+4. **성능**: 불필요한 리렌더링 방지
+5. **일관성**: 프로젝트 전체에서 동일한 스타일 가이드라인 적용
+
+---
+
+**작성자**
+디자이너/퍼블리셔 박준화 수석 (최종수정일:2025-09-04)
+010-9479-3188
+junhwa.park@gmail.com

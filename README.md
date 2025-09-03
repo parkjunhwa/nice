@@ -38,19 +38,21 @@ nice/
 │       └── nice_ci.png
 ├── src/
 │   ├── app/                 # Next.js App Router
+│   │   ├── mnb001/          # 메뉴 페이지 001
+│   │   │   └── page.tsx
 │   │   ├── published/       # Published Pages (메인 페이지들)
+│   │   │   ├── adm001/      # 관리 페이지 001
+│   │   │   ├── adm002/      # 관리 페이지 002
+│   │   │   ├── adm003/      # 관리 페이지 003
+│   │   │   ├── adm004/      # 관리 페이지 004
+│   │   │   ├── adm005/      # 관리 페이지 005
 │   │   │   ├── components/  # 컴포넌트 데모 페이지들
 │   │   │   │   ├── modal/   # 모달 컴포넌트 데모
 │   │   │   │   ├── mui/     # MUI 컴포넌트 데모
 │   │   │   │   ├── search01/ # 검색 컴포넌트 데모 1
 │   │   │   │   └── search02/ # 검색 컴포넌트 데모 2
-│   │   │   ├── forms/       # 폼 관리 페이지들
-│   │   │   │   ├── advanced/    # 고급 폼
-│   │   │   │   ├── basic/       # 기본 폼
-│   │   │   │   ├── file-upload/ # 파일 업로드
-│   │   │   │   ├── multi-step/  # 다단계 폼
-│   │   │   │   ├── search/      # 검색 폼
-│   │   │   │   └── validation/  # 폼 검증
+│   │   │   ├── mnb005/      # 메뉴 페이지 005
+│   │   │   ├── mnb006/      # 메뉴 페이지 006
 │   │   │   ├── layout.tsx   # Published Pages 레이아웃
 │   │   │   └── page.tsx     # 메인 대시보드 페이지
 │   │   ├── globals.scss     # 전역 SCSS 스타일 (폰트 정의 포함)
@@ -76,7 +78,22 @@ nice/
 │   │   ├── modal/           # 모달 컴포넌트들
 │   │   │   ├── basic-modal.tsx # 기본 모달
 │   │   │   ├── confirm-modal.tsx # 확인 모달
-│   │   │   └── mui-*.tsx    # MUI 모달 컴포넌트들
+│   │   │   ├── cmn001.tsx   # 공통 모달 001
+│   │   │   ├── cmn002.tsx   # 공통 모달 002
+│   │   │   ├── cmn003.tsx   # 공통 모달 003
+│   │   │   ├── cmn004.tsx   # 공통 모달 004
+│   │   │   ├── cmn005.tsx   # 공통 모달 005
+│   │   │   ├── cmn006.tsx   # 공통 모달 006
+│   │   │   ├── cmn007.tsx   # 공통 모달 007
+│   │   │   ├── cmn008.tsx   # 공통 모달 008
+│   │   │   ├── cmn009.tsx   # 공통 모달 009
+│   │   │   ├── cmn010.tsx   # 공통 모달 010
+│   │   │   ├── cmn011.tsx   # 공통 모달 011
+│   │   │   ├── cmn012.tsx   # 공통 모달 012
+│   │   │   ├── mui-basic-modal.tsx # MUI 기본 모달
+│   │   │   ├── mui-confirm-modal.tsx # MUI 확인 모달
+│   │   │   ├── mui-form-modal.tsx # MUI 폼 모달
+│   │   │   └── mui-fullscreen-modal.tsx # MUI 전체화면 모달
 │   │   ├── mui-theme-provider.tsx # MUI 테마 프로바이더
 │   │   ├── index.ts         # 모든 컴포넌트 통합 export
 │   │   └── README.md        # 컴포넌트 구조 설명
@@ -92,7 +109,8 @@ nice/
 │       │   ├── _examples.scss # 예제 컴포넌트 스타일
 │       │   ├── _forms.scss   # 폼 컴포넌트 스타일 (MUI DatePicker 스타일 포함)
 │       │   ├── _layout.scss  # 레이아웃 컴포넌트 스타일
-│       │   └── _navigation.scss # 네비게이션 컴포넌트 스타일
+│       │   ├── _navigation.scss # 네비게이션 컴포넌트 스타일
+│       │   └── README.md     # 스타일 시스템 가이드
 │       ├── core/            # 핵심 스타일
 │       │   ├── _mixins.scss # SCSS 믹스인
 │       │   └── _tokens.scss # 디자인 토큰 (CSS 변수)
@@ -229,13 +247,17 @@ Published Pages의 공통 레이아웃 컴포넌트입니다.
 - **최근 활동**: 사용자 활동 및 시스템 활동 실시간 피드
 - **추가 통계**: 인기 상품, 지역별 매출, 시스템 상태 모니터링
 
-### Forms 페이지들 (`/published/forms`)
-- **Advanced** (`/advanced`): 고급 폼 컴포넌트 (DatePicker, DateTimePicker 포함)
-- **Basic** (`/basic`): 기본 폼 요소들
-- **File Upload** (`/file-upload`): 파일 업로드 폼
-- **Multi-step** (`/multi-step`): 다단계 폼 프로세스
-- **Search** (`/search`): 검색 폼 기능
-- **Validation** (`/validation`): 폼 유효성 검사
+### 관리 페이지들 (`/published/adm*`)
+- **ADM001** (`/adm001`): 관리 페이지 001
+- **ADM002** (`/adm002`): 관리 페이지 002
+- **ADM003** (`/adm003`): 관리 페이지 003
+- **ADM004** (`/adm004`): 관리 페이지 004
+- **ADM005** (`/adm005`): 관리 페이지 005
+
+### 메뉴 페이지들
+- **MNB001** (`/mnb001`): 메뉴 페이지 001
+- **MNB005** (`/published/mnb005`): 메뉴 페이지 005
+- **MNB006** (`/published/mnb006`): 메뉴 페이지 006
 
 ### Components 데모 페이지들 (`/published/components`)
 - **Modal** (`/modal`): 모달 컴포넌트 데모
@@ -450,4 +472,7 @@ MIT License
 
 ---
 
-**작성자**: 디자이너/퍼블리셔 박준화 수석
+**작성자**
+디자이너/퍼블리셔 박준화 수석 (최종수정일:2025-09-04)
+010-9479-3188
+junhwa.park@gmail.com

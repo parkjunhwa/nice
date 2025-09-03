@@ -11,6 +11,7 @@
 - **토큰 기반**: CSS 변수를 통한 중앙 집중식 디자인 값 관리
 - **믹스인 활용**: 반복되는 패턴을 믹스인으로 추상화
 - **코드 간소화**: 자주 사용되는 Tailwind 클래스 조합을 단순한 클래스로 대체
+- **NICE 폰트**: 한국어 최적화된 폰트 시스템 통합
 
 ## 📁 파일 구조
 
@@ -22,7 +23,7 @@ styles/
 ├── components/              # 컴포넌트별 클래스
 │   ├── _buttons.scss       # 버튼 관련 클래스
 │   ├── _cards.scss         # 카드 관련 클래스
-│   ├── _forms.scss         # 폼 관련 클래스
+│   ├── _forms.scss         # 폼 관련 클래스 (MUI DatePicker 포함)
 │   ├── _layout.scss        # 레이아웃 관련 클래스
 │   ├── _navigation.scss    # 네비게이션 관련 클래스
 │   ├── _data.scss          # 데이터 표시 관련 클래스
@@ -45,16 +46,27 @@ styles/
   --color-primary: 222 89% 52%;
   --color-success: 142 76% 36%;
   --color-error: 0 84% 60%;
+  --color-warning: 38 92% 50%;
+  --color-info: 199 89% 48%;
   
   /* 간격 시스템 */
   --space-4: 1rem;           /* 16px */
   --space-6: 1.5rem;         /* 24px */
   --space-8: 2rem;           /* 32px */
+  --space-component: 0.75rem; /* 12px */
+  --space-section: 1.5rem;   /* 24px */
+  --space-page: 2rem;        /* 32px */
   
   /* 타이포그래피 */
   --font-size-lg: 1.125rem;  /* 18px */
   --font-weight-semibold: 600;
   --line-height-tight: 1.25;
+  --font-family-nice: 'NICE', sans-serif;
+  
+  /* 그림자 */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
 ```
 
@@ -69,11 +81,40 @@ styles/
   justify-content: center;
 }
 
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 @mixin card-base {
   background-color: hsl(var(--color-bg-elevated));
   border: 1px solid hsl(var(--color-border));
   border-radius: var(--card-border-radius);
   padding: var(--card-padding);
+  box-shadow: var(--shadow-sm);
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  font-weight: var(--font-weight-medium);
+  transition: all var(--transition-duration);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+@mixin responsive-grid($columns: 1, $gap: var(--space-6)) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+  
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 }
 ```
 
@@ -244,6 +285,14 @@ styles/
 <div className="c-panel">              {/* 기본 패널 */}
 ```
 
+#### 대시보드 레이아웃
+```tsx
+<div className="c-dashboard-layout">
+  <aside className="c-sidebar">사이드바</aside>
+  <main className="c-main-content">메인 콘텐츠</main>
+</div>
+```
+
 ### 네비게이션 (`_navigation.scss`)
 
 #### 메뉴 아이템
@@ -258,6 +307,20 @@ styles/
   <div className="c-popover-menu-item">메뉴 항목</div>
   <div className="c-popover-arrow c-popover-arrow--level-2"></div>
 </div>
+```
+
+#### 브레드크럼
+```tsx
+<nav className="c-breadcrumb">
+  <ol className="c-breadcrumb__list">
+    <li className="c-breadcrumb__item">
+      <a href="/" className="c-breadcrumb__link">홈</a>
+    </li>
+    <li className="c-breadcrumb__item">
+      <span className="c-breadcrumb__current">현재 페이지</span>
+    </li>
+  </ol>
+</nav>
 ```
 
 ### 데이터 표시 (`_data.scss`)
@@ -310,6 +373,28 @@ styles/
 </div>
 ```
 
+#### MUI DatePicker 스타일링
+```scss
+// DatePicker 커스텀 스타일
+.MuiDatePicker-root {
+  .MuiPickersDay-root {
+    &.Mui-selected {
+      background-color: hsl(var(--color-primary));
+      color: hsl(var(--color-primary-foreground));
+    }
+    
+    &.MuiPickersDay-today {
+      background-color: hsl(var(--color-muted));
+      border: none;
+    }
+    
+    &:hover {
+      background-color: hsl(var(--color-muted-hover));
+    }
+  }
+}
+```
+
 ### 카드 (`_cards.scss`)
 
 #### 기본 카드
@@ -321,6 +406,21 @@ styles/
   </div>
   <div className="c-card__body">카드 내용</div>
   <div className="c-card__footer">카드 푸터</div>
+</div>
+```
+
+#### 데이터 카드
+```tsx
+<div className="c-data-card">
+  <div className="c-data-card__header">
+    <h4 className="c-data-card__title">데이터 제목</h4>
+    <div className="c-data-card__actions">
+      <button className="c-btn c-btn--icon">액션</button>
+    </div>
+  </div>
+  <div className="c-data-card__content">
+    데이터 내용
+  </div>
 </div>
 ```
 
@@ -356,7 +456,7 @@ styles/
 .my-component {
   @include flex-center;           // 중앙 정렬
   @include flex-between;          // 양쪽 정렬
-  @include grid-fit(300px);       // 자동 맞춤 그리드
+  @include responsive-grid(3);    // 반응형 3열 그리드
   @include hover-lift;            // 호버 시 위로 이동
 }
 ```
@@ -423,7 +523,7 @@ styles/
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-wide);
+  font-family: var(--font-family-nice);
 }
 ```
 
@@ -433,6 +533,14 @@ styles/
 
 ```tsx
 <div className="c-grid c-grid--1 lg:c-grid--3">  {/* 모바일: 1열, 데스크톱: 3열 */}
+```
+
+### 브레이크포인트
+
+```scss
+// 모바일: 0px - 767px
+// 태블릿: 768px - 1023px
+// 데스크톱: 1024px+
 ```
 
 ## 🎨 테마 및 색상
@@ -445,6 +553,16 @@ styles/
   border-color: hsl(var(--color-border));
 }
 ```
+
+### 색상 팔레트
+
+- **Primary**: 주요 브랜드 색상
+- **Secondary**: 보조 색상
+- **Success**: 성공 상태
+- **Warning**: 경고 상태
+- **Error**: 오류 상태
+- **Info**: 정보 상태
+- **Muted**: 중성 색상
 
 ## 📝 네이밍 컨벤션
 
@@ -501,6 +619,7 @@ styles/
 3. **일관성**: 프로젝트 전체에서 동일한 클래스명 사용
 4. **의존성**: `_mixins.scss`와 `_tokens.scss` 파일에 의존
 5. **토큰 우선**: 하드코딩된 값 대신 토큰 사용
+6. **NICE 폰트**: 한국어 최적화된 폰트 사용
 
 ## 🔍 디버깅
 
@@ -525,6 +644,7 @@ styles/
 - **그림자 데모**: `c-shadow-showcase`
 - **반응형 데모**: `c-responsive-demo`
 - **애니메이션 데모**: `c-animation-demo`
+- **NICE 폰트 데모**: `c-font-showcase`
 
 ## 💡 코드 간소화 예시
 
@@ -554,4 +674,26 @@ styles/
 </div>
 ```
 
-이 가이드를 따라 사용하면 일관되고 유지보수하기 쉬운 컴포넌트를 만들 수 있으며, 코드도 훨씬 간결해집니다! 
+## 🎨 NICE 폰트 시스템
+
+### 폰트 두께
+- **Light (300)**: `font-light`
+- **Regular (400)**: `font-normal`
+- **SemiBold (600)**: `font-semibold`
+
+### 사용법
+```scss
+.my-component {
+  font-family: var(--font-family-nice);
+  font-weight: var(--font-weight-semibold);
+}
+```
+
+이 가이드를 따라 사용하면 일관되고 유지보수하기 쉬운 컴포넌트를 만들 수 있으며, 코드도 훨씬 간결해집니다!
+
+---
+
+**작성자**
+디자이너/퍼블리셔 박준화 수석 (최종수정일:2025-09-04)
+010-9479-3188
+junhwa.park@gmail.com 
