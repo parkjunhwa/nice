@@ -96,7 +96,7 @@ const sidebarItems: MenuItem[] = [
       },
       {
         title: "공통코드 관리",
-        href: "#",
+        href: "/published/adm005",
         icon: Settings // 설정(Settings) 아이콘
       }
     ]
