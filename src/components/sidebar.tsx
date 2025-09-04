@@ -299,7 +299,10 @@ function MenuItem({
               ) : (
                 <div 
                   className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
-                  onMouseEnter={() => setHoveredChildIndex(index)}
+                  onMouseEnter={() => {
+                    console.log('2depth menu onMouseEnter, index:', index, 'child:', child.title)
+                    setHoveredChildIndex(index)
+                  }}
                 >
                   {child.icon && <child.icon className="h-4 w-4 mr-3" />}
                   <span>{child.title}</span>
@@ -308,18 +311,27 @@ function MenuItem({
               )}
               
               {/* 3depth popover - 하위 메뉴가 있는 경우에만 해당 child에 마우스 오버 시 표시 */}
-              {child.children && child.children.length > 0 && hoveredChildIndex === index && (
+              {(() => {
+                const shouldShow = child.children && child.children.length > 0 && hoveredChildIndex === index
+                console.log('3depth popover check:', {
+                  childTitle: child.title,
+                  hasChildren: child.children && child.children.length > 0,
+                  hoveredChildIndex,
+                  index,
+                  shouldShow
+                })
+                return shouldShow
+              })() && (
                 <div 
-                  className="absolute left-full top-0 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99998]"
+                  className="absolute left-full top-0 ml-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99998]"
                   onMouseEnter={() => setHoveredChildIndex(index)}
                   onMouseLeave={() => {
-                    setHoveredChildIndex(null)
                     setHoveredGrandChildIndex(null)
                   }}
                 >
                   {/* 상위 메뉴를 가리키는 화살표 */}
-                  <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 transform -rotate-45 z-[10002]"></div>
-                  {child.children.map((grandChild, grandIndex) => (
+                  <div className="absolute -left-2 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 transform -rotate-45 z-[10002]"></div>
+                  {child.children?.map((grandChild, grandIndex) => (
                     <div key={grandIndex} className="relative group">
                       {grandChild.href ? (
                         <Link href={grandChild.href}>
@@ -332,7 +344,10 @@ function MenuItem({
                       ) : (
                         <div 
                           className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
-                          onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)}
+                          onMouseEnter={() => {
+                            console.log('3depth menu onMouseEnter, grandIndex:', grandIndex, 'grandChild:', grandChild.title)
+                            setHoveredGrandChildIndex(grandIndex)
+                          }}
                         >
                           {grandChild.icon && <grandChild.icon className="h-4 w-4 mr-3" />}
                           <span>{grandChild.title}</span>
@@ -343,12 +358,11 @@ function MenuItem({
                       {/* 4depth popover - 하위 메뉴가 있는 경우에만 해당 grandChild에 마우스 오버 시 표시 */}
                       {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildIndex === grandIndex && (
                         <div 
-                          className="absolute left-full top-0 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99997]"
+                          className="absolute left-full top-0 ml-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99997]"
                           onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)}
-                          onMouseLeave={() => setHoveredGrandChildIndex(null)}
                         >
                           {/* 상위 메뉴를 가리키는 화살표 */}
-                          <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 transform -rotate-45 z-[10002]"></div>
+                          <div className="absolute -left-2 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 transform -rotate-45 z-[10002]"></div>
                           {grandChild.children.map((greatGrandChild, greatGrandIndex) => (
                             <Link key={greatGrandIndex} href={greatGrandChild.href || '#'}>
                               <div className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
