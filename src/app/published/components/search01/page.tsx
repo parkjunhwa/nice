@@ -2,6 +2,11 @@
 
 import { useState } from 'react'
 import {
+  RefreshCw,
+  Search,
+  ChevronUp
+} from 'lucide-react'
+import {
   TextField,
   Button,
   FormControl,
@@ -9,7 +14,6 @@ import {
   MenuItem,
   Collapse,
   Typography,
-  Icons,
   TabulatorTable,
   Breadcrumb,
   Snackbar,
@@ -41,17 +45,21 @@ export default function Search01Page() {
         height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
       }}
     >
-      {/* Breadcrumb */}
-      <Breadcrumb
-        items={[
-          { label: '대메뉴', href: '/' },
-          { label: '중메뉴', href: '/' },
-          { label: '현재페이지', active: true }
-        ]}
-      />
-
-      {/* Page Title */}
-      <h1 className="text-2xl font-bold text-gray-900">Search01 검색 페이지</h1>
+      {/* Breadcrumb and Page Title */}
+      <div className="flex flex-row items-center justify-between mb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Search01 검색 페이지</h1>
+        </div>
+        <div>
+          <Breadcrumb
+            items={[
+              { label: '대메뉴', href: '/' },
+              { label: '중메뉴', href: '/' },
+              { label: '현재페이지', active: true }
+            ]}
+          />
+        </div>
+      </div>
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={12}>
           <div className="pt-4 pb-2 px-6">
@@ -103,10 +111,10 @@ export default function Search01Page() {
             </div>
             <div className="flex justify-center items-center pt-2">
               <div className="flex justify-center items-center gap-2">
-                <Button variant="outlined" size="small" startIcon={<Icons.RefreshCwIcon size={16} />}>
+                <Button variant="outlined" size="small" startIcon={<RefreshCw size={16} />}>
                   새로고침
                 </Button>
-                <Button variant="contained" size="small" startIcon={<Icons.SearchIcon size={16} />}>
+                <Button variant="contained" size="small" startIcon={<Search size={16} />}>
                   검색
                 </Button>
                 
@@ -124,12 +132,12 @@ export default function Search01Page() {
             onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
           >
             {searchPanelExpanded ? (
-              <Icons.ChevronUpIcon
+              <ChevronUp
                 size={16}
                 className="accordion-menu-button__icon"
               />
             ) : (
-              <Icons.SearchIcon
+              <Search
                 size={16}
                 className="accordion-menu-button__icon"
               />

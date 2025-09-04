@@ -175,17 +175,21 @@ export default function InterfaceLogPage() {
           height:24px !important;
         }
       `}</style>
-      {/* Breadcrumb */}
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'ADMIN', href: '/' },
-          { label: '공통코드 관리', active: true }
-        ]}
-      />
-
-      {/* Page Title */}
-      <h1 className="text-2xl font-bold text-gray-900">공통코드 관리</h1>
+      {/* Breadcrumb and Page Title */}
+      <div className="flex flex-row items-center justify-between mb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">공통코드 관리</h1>
+        </div>
+        <div>
+          <Breadcrumb
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'ADMIN', href: '/' },
+              { label: '공통코드 관리', active: true }
+            ]}
+          />
+        </div>
+      </div>
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={12}>
           <div className="pt-4 pb-2 px-6">

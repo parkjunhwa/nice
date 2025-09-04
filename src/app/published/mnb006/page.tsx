@@ -259,23 +259,26 @@ export default function NoticeDetailPage() {
 
   return (
     <div
-      className={`flex flex-col h-full min-h-0 layout-top-bottom ${isEditable ? 'editable' : 'readonly'}`}
+      className={`flex flex-col h-full min-h-0 ${isEditable ? 'editable' : 'readonly'}`}
       style={{
         height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
       }}
     >
-      {/* Breadcrumb */}
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: '공지사항', href: '/' },
-          { label: '공지사항 상세', active: true }
-        ]}
-      />
-
-      {/* Page Title */}
-      <h1 className="text-2xl font-bold text-gray-900 mb-4">공지사항 상세</h1>
-
+      {/* Breadcrumb and Page Title */}
+      <div className="flex flex-row items-center justify-between mb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">공지사항 상세</h1>
+        </div>
+        <div>
+          <Breadcrumb
+            items={[
+              { label: 'Home', href: '/' },
+              { label: '공지사항', href: '/' },
+              { label: '공지사항 상세', active: true }
+            ]}
+          />
+        </div>
+      </div>
       {/* bottom-contents-pannel */}
       <div className="c-panel bottom-contents-pannel relative">
         <div className="bottom-contents-pannel__content mb-14" style={{ overflowY: 'auto', maxHeight: '100%' }}>
@@ -620,7 +623,7 @@ export default function NoticeDetailPage() {
                   variant="contained"
                   size="medium"
                   color="primary"
-                                     startIcon={<Pencil size={16} />}
+                  startIcon={<Pencil size={16} />}
                   onClick={() => setIsEditable(true)}
                 >
                   수정

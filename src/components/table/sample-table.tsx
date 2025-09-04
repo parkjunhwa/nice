@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-// @ts-expect-error - Tabulator types are not fully compatible with current TypeScript version
 import { TabulatorFull as Tabulator } from 'tabulator-tables'
 import '@/components/table/table-common.scss'
 

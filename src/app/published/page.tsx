@@ -29,6 +29,12 @@ export default function DashboardPage() {
 
   return (
     <div className="bg-gray-50">
+      {/* Breadcrumb and Page Title */}
+      <div className="flex flex-row items-center justify-between mb-4" >
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">메인페이지</h1>
+        </div>
+      </div >
       {/* 카드들 (2:1로 3등분) */}
       <div className="grid grid-cols-3 gap-4 mb-4">
         {/* 첫 번째 2/3 영역: 카드 1개 */}

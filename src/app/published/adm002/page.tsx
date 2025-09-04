@@ -168,17 +168,22 @@ export default function InterfaceLogPage() {
           height:24px !important;
         }
       `}</style>
-      {/* Breadcrumb */}
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'ADMIN', href: '/' },
-          { label: 'I/F로그 관리', active: true }
-        ]}
-      />
+      {/* Breadcrumb and Page Title */}
+      <div className="flex flex-row items-center justify-between mb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">I/F로그 관리</h1>
+        </div>
+        <div>
+          <Breadcrumb
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'ADMIN', href: '/' },
+              { label: 'I/F로그 관리', active: true }
+            ]}
+          />
+        </div>
+      </div>
 
-      {/* Page Title */}
-      <h1 className="text-2xl font-bold text-gray-900">I/F로그 관리</h1>
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={12}>
           <div className="pt-4 pb-2 px-6">

@@ -166,7 +166,8 @@ export default function TabulatorTable({
       const row = button.closest('.tabulator-row')
       if (!row) return
 
-      const rowData = tabulatorRef.current?.getRowFromElement(row)?.getData()
+      const rowIndex = Array.from(row.parentElement?.children || []).indexOf(row)
+      const rowData = tabulatorRef.current?.getRow(rowIndex)?.getData()
       if (!rowData) return
 
       if (button.classList.contains('view-btn')) {

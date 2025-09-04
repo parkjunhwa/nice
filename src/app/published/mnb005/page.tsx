@@ -8,7 +8,6 @@ import {
   Select,
   MenuItem,
   Collapse,
-  Typography,
   Icons,
   SampleTable,
   Breadcrumb,
@@ -35,16 +34,20 @@ export default function NoticeListPage() {
         height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
       }}
     >
-      {/* Breadcrumb */}
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: '공지사항', active: true }
-        ]}
-      />
-
-      {/* Page Title */}
-      <h1 className="text-2xl font-bold text-gray-900">공지사항</h1>
+      {/* Breadcrumb and Page Title */}
+      <div className="flex flex-row items-center justify-between mb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">공지사항</h1>
+        </div>
+        <div>
+          <Breadcrumb
+            items={[
+              { label: 'Home', href: '/' },
+              { label: '공지사항', active: true }
+            ]}
+          />
+        </div>
+      </div>
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={12}>
           <div className="pt-4 pb-2 px-6">

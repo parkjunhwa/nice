@@ -2,15 +2,17 @@
 
 import { useState } from 'react'
 import {
+  RefreshCw,
+  Search,
+  ChevronUp
+} from 'lucide-react'
+import {
   TextField,
   Button,
   FormControl,
   Select,
   MenuItem,
   Collapse,
-  Typography,
-  Snackbar,
-  Alert,
   Paper,
   Table,
   TableBody,
@@ -18,29 +20,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  IconButton,
-  InputAdornment,
-  Icons,
   Breadcrumb
 } from '@/components'
 
-export default function Search01Page() {
+export default function Search02Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
-
-  // Alert 상태 관리
-  const [alertOpen, setAlertOpen] = useState(false)
-  const [alertMessage, setAlertMessage] = useState('')
-  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('success')
 
   // TextField 값 상태 (이 페이지 한정 clear 기능)
   const [keyword, setKeyword] = useState('')
-
-  // Alert 표시 함수
-  const showAlert = (message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
-    setAlertMessage(message)
-    setAlertSeverity(severity)
-    setAlertOpen(true)
-  }
 
   return (
     <div
@@ -49,18 +36,21 @@ export default function Search01Page() {
         height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
       }}
     >
-
-      {/* Breadcrumb */}
-      <Breadcrumb
-        items={[
-          { label: '대메뉴', href: '/' },
-          { label: '중메뉴', href: '/' },
-          { label: '현재페이지', active: true }
-        ]}
-      />
-
-      {/* Page Title */}
-      <h1 className="text-2xl font-bold text-gray-900">Search02 검색 페이지</h1>
+      {/* Breadcrumb and Page Title */}
+      <div className="flex flex-row items-center justify-between mb-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Search02 검색 페이지</h1>
+        </div>
+        <div>
+          <Breadcrumb
+            items={[
+              { label: '대메뉴', href: '/' },
+              { label: '중메뉴', href: '/' },
+              { label: '현재페이지', active: true }
+            ]}
+          />
+        </div>
+      </div>
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={12}>
           <div className="py-4 px-6">
@@ -117,10 +107,10 @@ export default function Search01Page() {
               {/* 우측: 카테고리/상태/버튼 (width auto) */}
               <div className="flex flex-row items-center gap-2 flex-shrink-0">
 
-                <Button variant="outlined" size="small" startIcon={<Icons.RefreshCwIcon size={16} />}>
+                <Button variant="outlined" size="small" startIcon={<RefreshCw size={16} />}>
                   새로고침
                 </Button>
-                <Button variant="contained" size="small" startIcon={<Icons.SearchIcon size={16} />}>
+                <Button variant="contained" size="small" startIcon={<Search size={16} />}>
                   검색
                 </Button>
                 <Button variant="contained" size="small" color="primary">Primary</Button>
@@ -141,12 +131,12 @@ export default function Search01Page() {
             onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
           >
             {searchPanelExpanded ? (
-              <Icons.ChevronUpIcon
+              <ChevronUp
                 size={16}
                 className="accordion-menu-button__icon"
               />
             ) : (
-              <Icons.SearchIcon
+              <Search
                 size={16}
                 className="accordion-menu-button__icon"
               />
@@ -220,35 +210,6 @@ export default function Search01Page() {
 
         </div>
       </div>
-
-      {/* MUI Alert Snackbar */}
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={4000}
-        onClose={() => setAlertOpen(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        sx={{
-          top: '20px !important',
-          '& .MuiAlert-root': {
-            minWidth: '300px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-            borderRadius: '8px'
-          }
-        }}
-      >
-        <Alert
-          onClose={() => setAlertOpen(false)}
-          severity={alertSeverity}
-          sx={{
-            width: '100%',
-            '& .MuiAlert-message': {
-              fontWeight: 500
-            }
-          }}
-        >
-          {alertMessage}
-        </Alert>
-      </Snackbar>
     </div>
   )
 }
