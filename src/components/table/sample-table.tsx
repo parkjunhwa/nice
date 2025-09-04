@@ -66,7 +66,7 @@ export default function SampleTable({
         tabulatorRef.current = null
       }
     }
-  }, [height])
+  }, [height, columns, sampleData])
 
   return (
     <div className={`sample-table ${className}`}>

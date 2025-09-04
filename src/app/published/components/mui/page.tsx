@@ -7,46 +7,21 @@ import {
   Checkbox,
   FormControl,
   FormControlLabel,
-  FormLabel,
   Radio,
   RadioGroup,
-  Rating,
   Select,
   MenuItem,
   Slider,
   Switch,
-  ToggleButton,
-  ToggleButtonGroup,
   Chip,
-  Paper,
   Typography,
   Alert,
-  LinearProgress,
-  CircularProgress,
   Snackbar,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Card,
-  CardContent,
-  Tabs,
-  Tab,
   Box,
-  Stepper,
-  Step,
-  StepLabel,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Badge,
   IconButton,
   Autocomplete,
   InputAdornment,
   ListItemText,
-  DialogTitle,
   MuiBasicModal,
   MuiFormModal,
   MuiConfirmModal,
@@ -61,39 +36,19 @@ import {
 
 
 const {
-  MailIcon,
-  PhoneIcon,
-  StarIcon,
-  HomeIcon: GlobeIcon,
-  SmartphoneIcon,
-  ChevronDownIcon: ExpandMoreIcon,
-  BellIcon: NotificationsIcon,
   SearchIcon,
 } = Icons
 
 export default function MuiPage() {
-  const [rating, setRating] = useState<number | null>(2)
   const [sliderValue, setSliderValue] = useState<number>(30)
   const [switchValue, setSwitchValue] = useState<boolean>(false)
   const [toggleValue, setToggleValue] = useState<string>('web')
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false)
-  const [activeTab, setActiveTab] = useState(0)
-  const [expandedAccordion, setExpandedAccordion] = useState<string | false>('panel1')
-  const [activeStep, setActiveStep] = useState(0)
 
   // 다이얼로그 상태들
   const [openBasicDialog, setOpenBasicDialog] = useState<boolean>(false)
   const [openFormDialog, setOpenFormDialog] = useState<boolean>(false)
   const [openConfirmDialog, setOpenConfirmDialog] = useState<boolean>(false)
   const [openFullScreenDialog, setOpenFullScreenDialog] = useState<boolean>(false)
-
-  // 폼 다이얼로그 상태
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  })
 
   // Search, Autocomplete, Select 상태
   const [searchValue, setSearchValue] = useState('')
@@ -198,15 +153,6 @@ export default function MuiPage() {
     variant: "outlined" as const,
     className: "bg-white"
   }
-
-  const handleAccordionChange = (panel: string) => (
-    event: React.SyntheticEvent,
-    isExpanded: boolean
-  ) => {
-    setExpandedAccordion(isExpanded ? panel : false)
-  }
-
-  const steps = ['기본 정보', '주소 정보', '결제 정보', '확인']
 
   return (
     <div className="c-panel bottom-contents-pannel">
@@ -539,8 +485,14 @@ export default function MuiPage() {
             />
           </div>
 
-          {/* 빈 공간 */}
           <div className="flex flex-col">
+            <div className="flex items-center">
+              <ButtonGroup variant="outlined" color="secondary" size="small" className="bg-white">
+                <Button>오늘</Button>
+                <Button>최근 일주일</Button>
+                <Button>이번달</Button>
+              </ButtonGroup>
+            </div>
           </div>
         </div>
 
@@ -583,13 +535,7 @@ export default function MuiPage() {
 
           {/* 빈 공간 */}
           <div className="flex flex-col">
-            <div className="flex items-center">
-              <ButtonGroup variant="outlined" size="small" className="bg-white">
-                <Button>오늘</Button>
-                <Button>최근 일주일</Button>
-                <Button>이번달</Button>
-              </ButtonGroup>
-            </div>
+
           </div>
         </div>
 
@@ -1081,7 +1027,6 @@ export default function MuiPage() {
         title="문의하기"
         onSubmit={(data) => {
           console.log('폼 데이터:', data)
-          setFormData({ name: '', email: '', message: '' })
         }}
       />
 

@@ -1,11 +1,4 @@
-import { DashboardCard } from "@/components/dashboard-card"
 import { Chart } from "@/components/chart"
-import {
-  Users,
-  DollarSign,
-  ShoppingCart,
-  Target
-} from "lucide-react"
 
 export default function DashboardPage() {
   // 최근 7일간 매출 데이터 (건수, 금액)

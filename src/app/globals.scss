@@ -487,3 +487,58 @@ main.overflow-y-auto {
   }
 }
 
+/* MUI DatePicker disabled 색상 오버라이드 */
+.MuiDatePicker-root {
+  .MuiPickersDay-root.Mui-disabled {
+    color: rgba(0, 0, 0, 0.38) !important;
+  }
+  
+  .MuiPickersMonth-root.Mui-disabled {
+    color: rgba(0, 0, 0, 0.38) !important;
+  }
+  
+  .MuiPickersYear-yearButton.Mui-disabled {
+    color: rgba(0, 0, 0, 0.38) !important;
+  }
+  
+  /* 년도 선택 화면 폰트 크기 조정 */
+  .MuiPickersYear-yearButton {
+    font-size: 13px !important;
+  }
+  
+  /* 월 선택 화면 폰트 크기 조정 */
+  .MuiPickersMonth-monthButton {
+    font-size: 13px !important;
+  }
+  
+  /* 년도/월 선택 헤더 폰트 크기 조정 */
+  .MuiPickersCalendarHeader-root {
+    .MuiPickersCalendarHeader-label {
+      font-size: 13px !important;
+    }
+  }
+  
+  /* Readonly 상태 스타일 오버라이드 */
+  .MuiTextField-root.MuiInputBase-readOnly {
+    .MuiOutlinedInput-root {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+      border-color: rgba(0, 0, 0, 0.12) !important;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04) !important;
+        border-color: rgba(0, 0, 0, 0.12) !important;
+      }
+      
+      &.Mui-focused {
+        background-color: rgba(0, 0, 0, 0.04) !important;
+        border-color: rgba(0, 0, 0, 0.12) !important;
+      }
+    }
+    
+    .MuiInputBase-input {
+      -webkit-text-fill-color: rgba(0, 0, 0, 0.38) !important;
+      color: rgba(0, 0, 0, 0.38) !important;
+    }
+  }
+}
+

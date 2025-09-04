@@ -77,6 +77,10 @@ export function DateRangePicker({
             disabled={disabled}
             readOnly={readOnly}
             error={hasError || undefined}
+            shouldDisableDate={(date) => {
+              // 시작일이 선택되어 있고, 현재 날짜가 시작일보다 이전이면 disabled
+              return value[0] ? date < value[0] : false
+            }}
           />
         </div>
       </Box>

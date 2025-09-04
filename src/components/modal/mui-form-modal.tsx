@@ -29,13 +29,6 @@ export default function MuiFormModal({
     message: ''
   })
 
-  const handleInputChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: event.target.value
-    }))
-  }
-
   const handleSubmit = () => {
     if (onSubmit) {
       onSubmit(formData)

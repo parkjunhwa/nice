@@ -13,6 +13,7 @@ interface CustomDatePickerProps {
   readOnly?: boolean
   disabled?: boolean
   clearable?: boolean
+  shouldDisableDate?: (date: Date) => boolean
 }
 
 interface MonthPickerProps {
@@ -35,6 +36,7 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
   readOnly = false,
   disabled = false,
   clearable = true,
+  shouldDisableDate,
   ...props
 }) => {
   return (
@@ -44,6 +46,7 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
         onChange={onChange}
         format="yyyy-MM-dd"
         views={['year', 'month', 'day']}
+        shouldDisableDate={shouldDisableDate}
         localeText={{
           cancelButtonLabel: '취소',
           okButtonLabel: '확인',

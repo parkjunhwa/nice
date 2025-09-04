@@ -24,7 +24,6 @@ export default function Search01Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
   const [alertOpen, setAlertOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
-  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('info')
 
   return (
     <div
@@ -162,7 +161,7 @@ export default function Search01Page() {
       >
         <Alert
           onClose={() => setAlertOpen(false)}
-          severity={alertSeverity}
+          severity="info"
           sx={{
             width: '100%',
             '& .MuiAlert-message': {

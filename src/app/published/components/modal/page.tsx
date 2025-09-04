@@ -24,7 +24,7 @@ import {
   Cmn012,
   Icons
 } from '@/components'
-import { Grid, Alert, Snackbar } from '@mui/material'
+import { Alert, Snackbar } from '@mui/material'
 
 export default function ModalPage() {
   // 모달 상태 관리
