@@ -19,7 +19,7 @@ interface DateRangePickerProps {
 export function DateRangePicker({
   value,
   onChange,
-  placeholder = "날짜 범위를 선택하세요",
+  // placeholder = "날짜 범위를 선택하세요", // 사용하지 않음
   disabled = false,
   readOnly = false,
   className = "",

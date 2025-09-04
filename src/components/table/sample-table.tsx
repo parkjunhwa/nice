@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useMemo } from 'react'
 import { TabulatorFull as Tabulator } from 'tabulator-tables'
 import '@/components/table/table-common.scss'
 
@@ -17,20 +17,20 @@ export default function SampleTable({
   const tabulatorRef = useRef<Tabulator | null>(null)
 
   // 샘플 데이터
-  const sampleData = [
+  const sampleData = useMemo(() => [
     { header1: '예시', header2: '예시', header3: '예시' },
     { header1: '예시', header2: '예시', header3: '예시' },
     { header1: '예시', header2: '예시', header3: '예시' },
     { header1: '예시', header2: '예시', header3: '예시' },
     { header1: '예시', header2: '예시', header3: '예시' }
-  ]
+  ], [])
 
   // 컬럼 정의
-  const columns = [
+  const columns = useMemo(() => [
     { title: '헤더1', field: 'header1', width: 150, headerSort: true, headerSortTristate: true },
     { title: '헤더2', field: 'header2', width: 150, headerSort: true, headerSortTristate: true },
     { title: '헤더3', field: 'header3', width: 150, headerSort: true, headerSortTristate: true }
-  ]
+  ], [])
 
   useEffect(() => {
     if (!tableRef.current) return

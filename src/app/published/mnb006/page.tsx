@@ -118,7 +118,7 @@ export default function NoticeDetailPage() {
 
   // 전체 파일 다운로드 (개별)
   const handleDownloadAll = () => {
-    files.forEach((file, index) => {
+    files.forEach((file, _index) => { // 사용하지 않는 매개변수
       const link = document.createElement('a');
       link.href = URL.createObjectURL(file);
       link.download = file.name;
@@ -136,7 +136,7 @@ export default function NoticeDetailPage() {
       const JSZip = (await import('jszip')).default;
       const zip = new JSZip();
 
-      files.forEach((file, index) => {
+      files.forEach((file, _index) => { // 사용하지 않는 매개변수
         zip.file(file.name, file);
       });
 

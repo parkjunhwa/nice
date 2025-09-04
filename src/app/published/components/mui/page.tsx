@@ -54,7 +54,7 @@ export default function MuiPage() {
   const [searchValue, setSearchValue] = useState('')
   const [autocompleteValue, setAutocompleteValue] = useState<{ label: string; value: string } | null>(null)
   const [selectValue, setSelectValue] = useState('')
-  const [multiSelectValue, setMultiSelectValue] = useState<string[]>([])
+  // const [multiSelectValue, setMultiSelectValue] = useState<string[]>([]) // 사용하지 않음
   const [interestAreas, setInterestAreas] = useState<string[]>([])
 
   // Excel 업로드 툴바 - 선택된 파일 상태
@@ -503,7 +503,7 @@ export default function MuiPage() {
             <label className="form-top-label">DatePicker (Readonly)</label>
             <DatePicker
               value={null}
-              onChange={(newValue: Date | null) => { }}
+              onChange={(_newValue: Date | null) => { }} // 사용하지 않는 매개변수
               readOnly
               clearable={false}
               placeholder="읽기 전용 날짜"
