@@ -16,8 +16,14 @@ import {
   FileImage,
   Eye,
   Pencil,
-  Shield
+  Shield,
+  User,
+  LogOut
 } from "lucide-react"
+import {
+  Tooltip,
+  IconButton
+} from "@mui/material"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState, useEffect, useCallback, useMemo, memo } from "react"
@@ -607,10 +613,70 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
           />
         ))}
       </nav>
+      <div
+        className={cn(
+          "flex gap-0 border-t border-gray-200 p-2 mt-auto sticky bottom-0 bg-white ",
+          isOpen
+            ? "flex items-center justify-between"
+            : "flex flex-col items-center justify-center space-y-2"
+        )}
+      >
+        <button
+          type="button"
+          className={cn(
+            "flex items-center space-x-3 focus:outline-none hover:bg-gray-100 rounded-full transition flex-1 min-w-0",
+            isOpen ? "px-2 py-1" : "p-0"
+          )}
+          aria-label="프로필"
+          style={{ flex: 1, minWidth: 0 }}
+        >
+          {isOpen ? (
+            <div className="h-8 w-8 rounded-full bg-gray-100 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+              <User className="h-5 w-5 text-gray-600" />
+            </div>
+          ) : (
+            <Tooltip title="홍길동 / 소속부서명 정보" placement="right" arrow>
+              <div className="h-8 w-8 rounded-full bg-gray-100 hover:bg-gray-100 flex items-center justify-center flex-shrink-0">
+                <User className="h-5 w-5 text-gray-600" />
+              </div>
+            </Tooltip>
+          )}
+          {isOpen && (
+            <>
+              <div className="text-left pr-2 flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-700 truncate whitespace-nowrap">홍길동</p>
+                <p className="text-xs text-gray-500 truncate whitespace-nowrap">소속부서명 정보</p>
+              </div>
+            </>
+          )}
+        </button>
+
+        <Tooltip title="로그아웃" placement="top" arrow>
+          <IconButton
+            aria-label="로그아웃"
+            onClick={() => {
+              // 로그아웃 로직 추가
+              console.log('로그아웃 클릭')
+            }}
+            className={
+              cn(
+                "text-gray-600 p-4 flex-shrink-0",
+                isOpen
+                  ? "hover:text-gray-600 hover:bg-gray-100"
+                  : "bg-gray-100 hover:bg-gray-100"
+              )
+            }
+          >
+            <LogOut className="h-5 w-5 text-gray-600" />
+          </IconButton>
+        </Tooltip>
+      </div>
       {isOpen && (
-        <div className="border-t border-gray-200 p-4 space-y-3 mt-auto sticky bottom-0 bg-white">
-          <p className="text-[11px] text-gray-400 text-center">Copyright NICE Infra. All Right Reserved.</p>
-        </div>
+        <>
+          <div className="border-t border-gray-200 p-4 space-y-3 mt-auto sticky bottom-0 bg-white">
+            <p className="text-[11px] text-gray-400 text-center">Copyright NICE Infra. All Right Reserved.</p>
+          </div>
+        </>
       )}
     </div>
   )
