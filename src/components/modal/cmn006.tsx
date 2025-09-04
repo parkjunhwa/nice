@@ -47,7 +47,7 @@ export default function Cmn006({ open, onClose }: Cmn006Props) {
         }
       }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
         <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
           ATM 기기 검색
@@ -63,7 +63,7 @@ export default function Cmn006({ open, onClose }: Cmn006Props) {
         </div>
       </DialogTitle>
 
-      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-6 border-t border-b border-blue-100">
+      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-4 border-t border-b border-blue-100">
         {/* 좌측: 키워드 검색 */}
         <div className="flex flex-col gap-1">
           {/* 첫 번째 줄: 기관, 지점 */}
@@ -179,11 +179,14 @@ export default function Cmn006({ open, onClose }: Cmn006Props) {
           </Button>
         </div>
       </div>
-      <div style={{ padding: '0px' }}>
-        <SampleTable height={300} />
-      </div>
+      
+      <DialogContent>
+        <div className="pt-4">
+          <SampleTable height={300} />
+        </div>
+      </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           취소
         </Button>

@@ -20,12 +20,10 @@ export function DateRangePicker({
   value,
   onChange,
   placeholder = "날짜 범위를 선택하세요",
-  size = "small",
   disabled = false,
   readOnly = false,
   className = "",
-  label,
-  clearable = true
+  label
 }: DateRangePickerProps) {
   const handleStartDateChange = (newValue: Date | null) => {
     // 시작 날짜가 종료 날짜보다 늦으면 종료 날짜를 null로 설정
@@ -44,28 +42,7 @@ export function DateRangePicker({
     onChange([value[0], newValue])
   }
 
-  // 날짜 범위 표시 텍스트
-  const getRangeDisplayText = () => {
-    if (!value[0] && !value[1]) return placeholder
-    
-    const startDate = value[0] ? value[0].toLocaleDateString('ko-KR') : ''
-    const endDate = value[1] ? value[1].toLocaleDateString('ko-KR') : ''
-    
-    if (startDate && endDate) {
-      return `${startDate} ~ ${endDate}`
-    } else if (startDate) {
-      return `${startDate} ~ `
-    } else if (endDate) {
-      return ` ~ ${endDate}`
-    }
-    
-    return placeholder
-  }
-
   // 날짜 범위가 유효한지 확인
-  const isRangeValid = value[0] && value[1] && value[0] <= value[1]
-  
-  // 에러 상태 확인
   const hasError = value[0] && value[1] && value[0] > value[1]
 
   return (

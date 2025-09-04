@@ -45,7 +45,7 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
         }
       }}
     >
-            <DialogTitle>
+            <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
             상품 코드 검색
@@ -61,7 +61,7 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
         </div>
       </DialogTitle>
 
-      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-6 border-t border-b border-blue-100">
+      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-4 border-t border-b border-blue-100">
         {/* 좌측: 키워드 검색 */}
         <div className="flex items-center gap-4">
           <div className="flex items-center">
@@ -120,13 +120,14 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
           </Button>
         </div>
       </div>
-      <div style={{ padding: '0px' }}>
-        <SampleTable height={300} />
-      </div>
-      {/* <DialogContent>
-      </DialogContent> */}
+      
+      <DialogContent>
+        <div className="pt-4">
+          <SampleTable height={300} />
+        </div>
+      </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           취소
         </Button>

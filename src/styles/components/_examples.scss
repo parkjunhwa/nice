@@ -11,6 +11,24 @@
     flex-shrink: 0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     margin-bottom: 1rem;
+    position: relative;
+    
+    /* 접힘 상태에서 padding 제거 */
+    .MuiCollapse-root.MuiCollapse-hidden {
+      padding: 0;
+    }
+    
+    /* 접힘 상태에서 아코디언 버튼 위치 조정 */
+    .MuiCollapse-root.MuiCollapse-hidden + .flex .accordion-menu-button {
+      margin-top: -1rem;
+      transition: margin-top 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* 펼쳐진 상태에서 아코디언 버튼 위치 */
+    .MuiCollapse-root:not(.MuiCollapse-hidden) + .flex .accordion-menu-button {
+      margin-top: 0;
+      transition: margin-top 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
   }
   
   /* 아코디언 메뉴 버튼 */
@@ -24,7 +42,6 @@
     border: 1px solid #111827;
     background-color: white;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    transition: all 0.2s;
     margin-bottom: -1rem;
     
     &:hover {
@@ -33,7 +50,6 @@
     
     .accordion-menu-button__icon {
       color: #4b5563;
-      transition: transform 0.2s;
     }
   }
   
@@ -45,7 +61,6 @@
     flex-direction: column;
     
     .bottom-contents-pannel__content {
-      padding: 0;
       flex: 1;
       min-height: 0;
     }

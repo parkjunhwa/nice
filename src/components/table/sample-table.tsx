@@ -14,7 +14,7 @@ export default function SampleTable({
   height = 300
 }: SampleTableProps) {
   const tableRef = useRef<HTMLDivElement>(null)
-  const tabulatorRef = useRef<any>(null)
+  const tabulatorRef = useRef<Tabulator | null>(null)
 
   // 샘플 데이터
   const sampleData = [
@@ -50,10 +50,11 @@ export default function SampleTable({
       sortMode: 'local',
       initialSort: [{ column: 'header1', dir: 'asc' }],
       pagination: false,
-      rowFormatter: (row: any) => {
+      rowFormatter: (row: { getElement: () => HTMLElement; getPosition: () => number | false }) => {
         const element = row.getElement()
         element.style.transition = 'all 0.2s ease'
-        if (row.getPosition() % 2 === 0) {
+        const position = row.getPosition()
+        if (typeof position === 'number' && position % 2 === 0) {
           element.style.backgroundColor = '#f9fafb'
         }
       }

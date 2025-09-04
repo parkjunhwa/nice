@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogActions, Button, Typography, IconButton } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton } from '@mui/material'
 import { Icons } from '@/components'
 
 interface Cmn007Props {
@@ -23,7 +23,7 @@ export default function Cmn007({ open, onClose }: Cmn007Props) {
         }
       }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
             키오스크 기기 검색
@@ -39,13 +39,13 @@ export default function Cmn007({ open, onClose }: Cmn007Props) {
         </div>
       </DialogTitle>
 
-      <div style={{ padding: '20px' }}>
+      <DialogContent>
         <Typography variant="body1" color="textSecondary">
           키오스크 기기 검색 기능이 준비 중입니다.
         </Typography>
-      </div>
+      </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           취소
         </Button>

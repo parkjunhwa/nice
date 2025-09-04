@@ -30,7 +30,7 @@ export default function DashboardPage() {
   return (
     <div className="bg-gray-50">
       {/* Breadcrumb and Page Title */}
-      <div className="flex flex-row items-center justify-between mb-4" >
+      <div className="flex flex-row items-center justify-between mt-2 mb-2" >
         <div>
           <h1 className="text-2xl font-bold text-gray-900">메인페이지</h1>
         </div>
@@ -39,7 +39,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-3 gap-4 mb-4">
         {/* 첫 번째 2/3 영역: 카드 1개 */}
         <div className="col-span-2">
-          <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm h-full">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm h-full">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">섹션1</h3>
@@ -50,7 +50,7 @@ export default function DashboardPage() {
         {/* 두 번째 1/3 영역: 나머지 카드 2개를 세로로 배치 */}
         <div className="flex flex-col gap-4">
           {/* 공지사항 섹션 */}
-          <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">공지사항</h3>
             <div className="space-y-3">
               {[
@@ -69,7 +69,7 @@ export default function DashboardPage() {
             </div>
           </div>
           {/* 고객센터 섹션 */}
-          <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
 
           </div>
         </div>
@@ -78,7 +78,7 @@ export default function DashboardPage() {
       {/* 차트 섹션 */}
       <div className="grid grid-cols-2 gap-4 mb-4">
         {/* 첫 번째 차트 카드 */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm h-full flex flex-col">
+        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm h-full flex flex-col">
           <div className="flex items-center space-x-2">
             <h3 className="text-lg font-semibold text-gray-900 inline-block">매출현황</h3>
             <p className="text-[12px] text-gray-600 inline-block align-middle">최근 7일간의 매출</p>
@@ -97,7 +97,7 @@ export default function DashboardPage() {
           />
         </div>
         {/* 두 번째 차트 카드 */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm h-full flex flex-col">
+        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm h-full flex flex-col">
           <div className="flex items-center space-x-2">
             <h3 className="text-lg font-semibold text-gray-900 inline-block">매출현황</h3>
             <p className="text-[12px] text-gray-600 inline-block align-middle">최근 3개월간의 매출</p>

@@ -38,7 +38,7 @@ export default function MuiConfirmModal({
       maxWidth="xs"
       fullWidth
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         {title}
       </DialogTitle>
       <DialogContent>
@@ -52,7 +52,7 @@ export default function MuiConfirmModal({
           이 작업은 되돌릴 수 없습니다.
         </Alert>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           {cancelText}
         </Button>

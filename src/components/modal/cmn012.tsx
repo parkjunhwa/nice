@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogActions, Button, Typography, IconButton, FormControl, Select, MenuItem } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, FormControl, Select, MenuItem } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -35,7 +35,7 @@ export default function Cmn012({ open, onClose }: Cmn012Props) {
         }
       }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
             계약마스터 검색
@@ -87,11 +87,14 @@ export default function Cmn012({ open, onClose }: Cmn012Props) {
           </Button>
         </div>
       </div>
-      <div style={{ padding: '0px' }}>
-        <SampleTable height={300} />
-      </div>
+      
+      <DialogContent>
+        <div className="pt-4">
+          <SampleTable height={300} />
+        </div>
+      </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           취소
         </Button>

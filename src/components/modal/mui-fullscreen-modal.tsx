@@ -38,7 +38,7 @@ export default function MuiFullscreenModal({
       onClose={onClose}
       fullScreen
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           {title}
           <IconButton

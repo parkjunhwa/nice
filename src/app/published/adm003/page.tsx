@@ -3,8 +3,7 @@
 import { useState } from 'react'
 import {
   RefreshCw,
-  Search,
-  ChevronUp
+  Search
 } from 'lucide-react'
 import {
   TextField,
@@ -15,7 +14,8 @@ import {
   Collapse,
   SampleTable,
   Breadcrumb,
-  DateRangePicker
+  DateRangePicker,
+  AccordionToggleButton
 } from '@/components'
 
 export default function InterfaceLogPage() {
@@ -25,7 +25,6 @@ export default function InterfaceLogPage() {
   const [interfaceType, setInterfaceType] = useState('')
   const [interfaceId, setInterfaceId] = useState('')
   const [status, setStatus] = useState('')
-  const [dateValue, setDateValue] = useState<Date | null>(null)
   const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
 
   // Select 옵션들
@@ -45,11 +44,11 @@ export default function InterfaceLogPage() {
     <div
       className="flex flex-col h-full min-h-0 layout-top-bottom"
       style={{
-        height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
+        height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
       }}
     >
       {/* Breadcrumb and Page Title */}
-      <div className="flex flex-row items-center justify-between mb-4">
+      <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">I/F로그 관리</h1>
         </div>
@@ -64,8 +63,8 @@ export default function InterfaceLogPage() {
         </div>
       </div>
       <div className="top-search-panel">
-        <Collapse in={searchPanelExpanded} collapsedSize={12}>
-          <div className="pt-4 pb-2 px-6">
+        <Collapse in={searchPanelExpanded} collapsedSize={0}>
+          <div className="pt-4 px-4 pb-5">
             <div
               className="
                 flex flex-col gap-y-1 gap-x-4
@@ -167,36 +166,16 @@ export default function InterfaceLogPage() {
           </div>
         </Collapse>
         {/* 아코디언 토글 버튼 */}
-        <div className="flex justify-center items-center">
-          <button
-            type="button"
-            className="accordion-menu-button"
-            onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
-          >
-            {searchPanelExpanded ? (
-              <ChevronUp
-                size={16}
-                className="accordion-menu-button__icon"
-              />
-            ) : (
-              <Search
-                size={16}
-                className="accordion-menu-button__icon"
-              />
-            )}
-          </button>
-        </div>
+        <AccordionToggleButton
+          expanded={searchPanelExpanded}
+          onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
+        />
       </div>
 
       {/* bottom-contents-pannel */}
       <div className="c-panel bottom-contents-pannel">
         <div className="bottom-contents-pannel__content">
-          <div
-            className="flex-1 min-h-0"
-            style={{
-              margin: "-24px",
-            }}
-          >
+          <div className="flex-1 min-h-0">
             <div className="h-full w-full overflow-hidden" style={{ borderRadius: 8 }}>
               <div className="h-full w-full">
                 <SampleTable height={300} />

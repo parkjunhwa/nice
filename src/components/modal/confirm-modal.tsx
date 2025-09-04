@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material'
 
 interface ConfirmModalProps {
@@ -54,7 +53,7 @@ export default function ConfirmModal({
         }
       }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
           {title}
         </Typography>
@@ -66,7 +65,7 @@ export default function ConfirmModal({
         </Typography>
       </DialogContent>
       
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
                        <Button
                  onClick={onClose}
                  variant="outlined"

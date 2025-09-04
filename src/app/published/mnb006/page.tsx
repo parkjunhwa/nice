@@ -261,11 +261,11 @@ export default function NoticeDetailPage() {
     <div
       className={`flex flex-col h-full min-h-0 ${isEditable ? 'editable' : 'readonly'}`}
       style={{
-        height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
+        height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
       }}
     >
       {/* Breadcrumb and Page Title */}
-      <div className="flex flex-row items-center justify-between mb-4">
+      <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">공지사항 상세</h1>
         </div>
@@ -574,7 +574,7 @@ export default function NoticeDetailPage() {
         </div>
 
         {/* 카드 하단 고정 버튼 영역 */}
-        <div className="absolute bottom-0 left-0 right-0 bg-white p-6 rounded-b-lg">
+        <div className="absolute bottom-0 left-0 right-0 bg-white p-4 rounded-b-lg">
           <div className="flex justify-between items-center">
             <div>
               {isEditable && (

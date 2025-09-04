@@ -4,9 +4,6 @@ import { useState } from 'react'
 import {
   TextField,
   Button,
-  FormControl,
-  Select,
-  MenuItem,
   Collapse,
   Icons,
   SampleTable,
@@ -16,7 +13,8 @@ import {
   Checkbox,
   FormControlLabel,
   DateRangePicker,
-  ButtonGroup
+  ButtonGroup,
+  AccordionToggleButton
 } from '@/components'
 
 export default function NoticeListPage() {
@@ -24,18 +22,17 @@ export default function NoticeListPage() {
 
   // 폼 상태 변수들
   const [deviceNumber, setDeviceNumber] = useState('')
-  const [deviceName, setDeviceName] = useState('')
   const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
 
   return (
     <div
       className="flex flex-col h-full min-h-0 layout-top-bottom"
       style={{
-        height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
+        height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
       }}
     >
       {/* Breadcrumb and Page Title */}
-      <div className="flex flex-row items-center justify-between mb-4">
+      <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">공지사항</h1>
         </div>
@@ -49,8 +46,8 @@ export default function NoticeListPage() {
         </div>
       </div>
       <div className="top-search-panel">
-        <Collapse in={searchPanelExpanded} collapsedSize={12}>
-          <div className="pt-4 pb-2 px-6">
+        <Collapse in={searchPanelExpanded} collapsedSize={0}>
+          <div className="pt-4 px-4 pb-5">
             <div
               className="
                 flex flex-col gap-y-1 gap-x-4
@@ -142,25 +139,10 @@ export default function NoticeListPage() {
           </div>
         </Collapse>
         {/* 아코디언 토글 버튼 */}
-        <div className="flex justify-center items-center">
-          <button
-            type="button"
-            className="accordion-menu-button"
-            onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
-          >
-            {searchPanelExpanded ? (
-              <Icons.ChevronUpIcon
-                size={16}
-                className="accordion-menu-button__icon"
-              />
-            ) : (
-              <Icons.SearchIcon
-                size={16}
-                className="accordion-menu-button__icon"
-              />
-            )}
-          </button>
-        </div>
+        <AccordionToggleButton
+          expanded={searchPanelExpanded}
+          onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
+        />
       </div>
 
       {/* bottom-contents-pannel */}
@@ -192,12 +174,7 @@ export default function NoticeListPage() {
               공지등록
             </Button>
           </div>
-          <div
-            className="flex-1 min-h-0"
-            style={{
-              margin: "0 -24px -24px -24px",
-            }}
-          >
+          <div className="flex-1 min-h-0">
             <div className="h-full w-full overflow-hidden">
               <div className="h-full w-full">
                 <SampleTable height={300} />

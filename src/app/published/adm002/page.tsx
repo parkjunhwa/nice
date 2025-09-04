@@ -1,23 +1,20 @@
 "use client"
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import {
   Search,
-  ChevronUp,
   Plus,
   Minus
 } from 'lucide-react'
 import {
-  TextField,
   Button,
   FormControl,
   Select,
   MenuItem,
   Collapse,
   Typography,
-  SampleTable,
   Breadcrumb,
-  DateRangePicker
+  AccordionToggleButton
 } from '@/components'
 import { Card, CardContent } from '@mui/material'
 
@@ -26,10 +23,6 @@ export default function InterfaceLogPage() {
 
   // 폼 상태 변수들
   const [jobType, setJobType] = useState('')
-  const [jobId, setJobId] = useState('')
-  const [status, setStatus] = useState('')
-  const [dateValue, setDateValue] = useState<Date | null>(null)
-  const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
 
   // 패널 크기 조절 상태
   const [leftPanelWidth, setLeftPanelWidth] = useState(234)
@@ -43,12 +36,6 @@ export default function InterfaceLogPage() {
 
   // Select 옵션들
   const jobTypeOptions = [
-    { value: 'option1', label: '옵션1' },
-    { value: 'option2', label: '옵션2' },
-    { value: 'option3', label: '옵션3' }
-  ]
-
-  const statusOptions = [
     { value: 'option1', label: '옵션1' },
     { value: 'option2', label: '옵션2' },
     { value: 'option3', label: '옵션3' }
@@ -129,7 +116,7 @@ export default function InterfaceLogPage() {
     <div
       className="flex flex-col h-full min-h-0 layout-top-bottom"
       style={{
-        height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
+        height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
       }}
     >
       {/* xsmallbtn 스타일 오버라이드 */}
@@ -169,7 +156,7 @@ export default function InterfaceLogPage() {
         }
       `}</style>
       {/* Breadcrumb and Page Title */}
-      <div className="flex flex-row items-center justify-between mb-4">
+      <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">I/F로그 관리</h1>
         </div>
@@ -185,8 +172,8 @@ export default function InterfaceLogPage() {
       </div>
 
       <div className="top-search-panel">
-        <Collapse in={searchPanelExpanded} collapsedSize={12}>
-          <div className="pt-4 pb-2 px-6">
+        <Collapse in={searchPanelExpanded} collapsedSize={0}>
+          <div className="pt-4 px-4 pb-5">
             <div className="flex items-center gap-4">
               {/* 검색 조건들 */}
               <div className="flex items-center gap-4 flex-1">
@@ -227,25 +214,10 @@ export default function InterfaceLogPage() {
           </div>
         </Collapse>
         {/* 아코디언 토글 버튼 */}
-        <div className="flex justify-center items-center">
-          <button
-            type="button"
-            className="accordion-menu-button"
-            onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
-          >
-            {searchPanelExpanded ? (
-              <ChevronUp
-                size={16}
-                className="accordion-menu-button__icon"
-              />
-            ) : (
-              <Search
-                size={16}
-                className="accordion-menu-button__icon"
-              />
-            )}
-          </button>
-        </div>
+        <AccordionToggleButton
+          expanded={searchPanelExpanded}
+          onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
+        />
       </div>
 
       {/* bottom-contents-pannel */}
@@ -320,7 +292,7 @@ export default function InterfaceLogPage() {
                     사용자 정보
                   </Typography>
                   <div className="flex gap-1">
-                  <Button
+                    <Button
                       variant="outlined"
                       size="small"
                     >
@@ -383,8 +355,8 @@ export default function InterfaceLogPage() {
                 <div className="flex-1 bg-gray-50 w-full min-h-0 overflow-auto">
                   <div className="flex items-center justify-center h-full w-full">
                     <span className="text-[14px] text-gray-400 text-center">table grid영역</span>
-              </div>
-            </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </div>

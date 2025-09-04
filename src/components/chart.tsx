@@ -144,8 +144,8 @@ export function Chart({
           size: 13,
         },
         callbacks: {
-          label: function(context: any) {
-            return `${context.dataset.label}: ${context.parsed.y.toLocaleString()}`
+          label: function(this: unknown, tooltipItem: { dataset: { label?: string }, parsed: { y: number } }) {
+            return `${tooltipItem.dataset.label || ''}: ${tooltipItem.parsed.y.toLocaleString()}`
           }
         }
       },
@@ -182,8 +182,8 @@ export function Chart({
             family: 'Inter, system-ui, sans-serif',
           },
           padding: 8,
-          callback: function(value: any) {
-            return value.toLocaleString()
+          callback: function(this: unknown, tickValue: string | number) {
+            return typeof tickValue === 'number' ? tickValue.toLocaleString() : tickValue
           }
         },
         border: {

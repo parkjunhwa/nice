@@ -53,6 +53,7 @@ import {
   MuiFullscreenModal,
   Icons,
   DatePicker,
+  MonthPicker,
   DateTimePicker,
   DateRangePicker,
   ButtonGroup
@@ -106,6 +107,7 @@ export default function MuiPage() {
 
   // Date Picker 상태
   const [dateValue, setDateValue] = useState<Date | null>(null)
+  const [monthValue, setMonthValue] = useState<Date | null>(null)
   const [dateTimeValue, setDateTimeValue] = useState<Date | null>(null)
   const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
 
@@ -527,8 +529,14 @@ export default function MuiPage() {
             />
           </div>
 
-          {/* 빈 공간 */}
+          {/* MonthPicker */}
           <div className="flex flex-col">
+            <label className="form-top-label">MonthPicker</label>
+            <MonthPicker
+              value={monthValue}
+              onChange={(newValue: Date | null) => setMonthValue(newValue)}
+              placeholder="월을 선택하세요"
+            />
           </div>
 
           {/* 빈 공간 */}

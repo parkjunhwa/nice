@@ -26,7 +26,7 @@ export default function MuiBasicModal({
       maxWidth={maxWidth}
       fullWidth={fullWidth}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         {title}
       </DialogTitle>
       <DialogContent>
@@ -42,7 +42,7 @@ export default function MuiBasicModal({
           다이얼로그는 모달 형태로 표시되어 사용자의 주의를 집중시킵니다.
         </Typography>
       </DialogContent>
-                   <DialogActions>
+                   <DialogActions sx={{ padding: '16px' }}>
                <Button onClick={onClose} variant="outlined" color="secondary">
                  취소
                </Button>

@@ -7,14 +7,13 @@ import {
   DialogContent, 
   DialogActions, 
   Button, 
-  TextField,
-  Typography
+  TextField
 } from '@mui/material'
 
 interface MuiFormModalProps {
   open: boolean
   onClose: () => void
-  onSubmit?: (data: any) => void
+  onSubmit?: (data: { name: string; email: string; message: string }) => void
   title?: string
 }
 
@@ -30,7 +29,7 @@ export default function MuiFormModal({
     message: ''
   })
 
-  const handleInputChange = (field: string) => (event: any) => {
+  const handleInputChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
       ...prev,
       [field]: event.target.value
@@ -66,7 +65,7 @@ export default function MuiFormModal({
       maxWidth="md"
       fullWidth
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         {title}
       </DialogTitle>
       <DialogContent>
@@ -116,7 +115,7 @@ export default function MuiFormModal({
           </div>
         </div>
       </DialogContent>
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={handleClose} variant="outlined" color="secondary">
           취소
         </Button>

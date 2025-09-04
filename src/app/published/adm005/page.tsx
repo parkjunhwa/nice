@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import {
   Search,
-  ChevronUp,
   Plus,
   Minus,
   RefreshCw,
@@ -12,18 +11,14 @@ import {
 import {
   TextField,
   Button,
-  FormControl,
-  Select,
-  MenuItem,
   Collapse,
   Typography,
-  SampleTable,
   Breadcrumb,
-  DateRangePicker,
   InputAdornment,
   IconButton,
   FormControlLabel,
-  Switch
+  Switch,
+  AccordionToggleButton
 } from '@/components'
 import { Card, CardContent } from '@mui/material'
 
@@ -33,10 +28,7 @@ export default function InterfaceLogPage() {
   // 폼 상태 변수들
   const [groupCode, setGroupCode] = useState('')
   const [groupName, setGroupName] = useState('')
-  const [useStatus, setUseStatus] = useState('')
   const [switchValue, setSwitchValue] = useState(false)
-  const [dateValue, setDateValue] = useState<Date | null>(null)
-  const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
 
   // 패널 크기 조절 상태
   const [leftPanelWidth, setLeftPanelWidth] = useState(234)
@@ -49,17 +41,6 @@ export default function InterfaceLogPage() {
   const [dragStartTopHeight, setDragStartTopHeight] = useState(0)
 
   // Select 옵션들
-  const jobTypeOptions = [
-    { value: 'option1', label: '옵션1' },
-    { value: 'option2', label: '옵션2' },
-    { value: 'option3', label: '옵션3' }
-  ]
-
-  const statusOptions = [
-    { value: 'option1', label: '옵션1' },
-    { value: 'option2', label: '옵션2' },
-    { value: 'option3', label: '옵션3' }
-  ]
 
   // 수평 드래그 핸들러
   const handleHorizontalDragStart = useCallback((e: React.MouseEvent) => {
@@ -136,7 +117,7 @@ export default function InterfaceLogPage() {
     <div
       className="flex flex-col h-full min-h-0 layout-top-bottom"
       style={{
-        height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
+        height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
       }}
     >
       {/* xsmallbtn 스타일 오버라이드 */}
@@ -176,7 +157,7 @@ export default function InterfaceLogPage() {
         }
       `}</style>
       {/* Breadcrumb and Page Title */}
-      <div className="flex flex-row items-center justify-between mb-4">
+      <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">공통코드 관리</h1>
         </div>
@@ -191,8 +172,8 @@ export default function InterfaceLogPage() {
         </div>
       </div>
       <div className="top-search-panel">
-        <Collapse in={searchPanelExpanded} collapsedSize={12}>
-          <div className="pt-4 pb-2 px-6">
+        <Collapse in={searchPanelExpanded} collapsedSize={0}>
+          <div className="pt-4 px-4 pb-5">
             <div className="flex items-center gap-4">
               {/* 검색 조건들 */}
               <div className="flex items-center gap-4 flex-1">
@@ -278,25 +259,10 @@ export default function InterfaceLogPage() {
           </div>
         </Collapse>
         {/* 아코디언 토글 버튼 */}
-        <div className="flex justify-center items-center">
-          <button
-            type="button"
-            className="accordion-menu-button"
-            onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
-          >
-            {searchPanelExpanded ? (
-              <ChevronUp
-                size={16}
-                className="accordion-menu-button__icon"
-              />
-            ) : (
-              <Search
-                size={16}
-                className="accordion-menu-button__icon"
-              />
-            )}
-          </button>
-        </div>
+        <AccordionToggleButton
+          expanded={searchPanelExpanded}
+          onClick={() => setSearchPanelExpanded(!searchPanelExpanded)}
+        />
       </div>
 
       {/* bottom-contents-pannel */}

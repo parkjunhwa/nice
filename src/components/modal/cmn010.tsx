@@ -81,7 +81,7 @@ export default function Cmn010({ open, onClose, onSuccess }: Cmn010Props) {
         }
       }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 560 }}>
             비밀번호 변경
@@ -302,7 +302,7 @@ export default function Cmn010({ open, onClose, onSuccess }: Cmn010Props) {
         </Alert>
       </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={handleClose} variant="outlined" color="secondary">
           취소
         </Button>

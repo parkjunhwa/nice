@@ -392,6 +392,11 @@ main.overflow-y-auto {
   }
 }
 
+/* MUI DialogContent 스타일 오버라이드 */
+.MuiDialogContent-root {
+  padding: 0 16px !important;
+}
+
 /* MUI Toggle Button 스타일 조정 - small 크기와 동일하게 */
 .MuiToggleButton-root {
   box-shadow: none !important;

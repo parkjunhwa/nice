@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogActions, Button, Typography, IconButton } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -26,7 +26,7 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
         }
       }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
             엑셀 업로드 결과
@@ -41,9 +41,9 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
           </IconButton>
         </div>
       </DialogTitle>
-      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-6 border-t border-b border-blue-100">
+      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-4 border-t border-b border-blue-100">
         {/* 좌측: 파일 선택 버튼과 파일명 표시 */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <label htmlFor="excel-upload-input">
             <input
               id="excel-upload-input"
@@ -91,11 +91,13 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
           </div>
         </div>
       </div>
-      <div style={{ padding: '0px' }}>
-        <SampleTable height={300} />
-      </div>
+      <DialogContent>
+        <div className="pt-4">
+          <SampleTable height={300} />
+        </div>
+      </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           취소
         </Button>

@@ -124,7 +124,7 @@ styles/
 
 ```tsx
 // 기존 Tailwind 클래스
-<div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
+<div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
 
 // 새로운 컴포넌트 클래스
 <div className="c-stat-card">
@@ -650,7 +650,7 @@ styles/
 
 ### Before (기존 Tailwind 클래스)
 ```tsx
-<div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+<div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
   <h3 className="mb-4 text-lg font-semibold text-gray-900">제목</h3>
   <div className="space-y-4">
     <div className="flex items-center justify-between">

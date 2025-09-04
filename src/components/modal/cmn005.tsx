@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogActions, Button, Typography, TextField, InputAdornment, IconButton } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, TextField, InputAdornment, IconButton } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -28,7 +28,7 @@ export default function Cmn005({ open, onClose }: Cmn005Props) {
         }
       }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
             EV충전소 검색
@@ -44,7 +44,7 @@ export default function Cmn005({ open, onClose }: Cmn005Props) {
         </div>
       </DialogTitle>
 
-      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-6 border-t border-b border-blue-100">
+      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-4 border-t border-b border-blue-100">
         {/* 좌측: 키워드 검색 */}
         <div className="flex items-center gap-4">
           <div className="flex items-center">
@@ -106,11 +106,14 @@ export default function Cmn005({ open, onClose }: Cmn005Props) {
           </Button>
         </div>
       </div>
-      <div style={{ padding: '0px' }}>
-        <SampleTable height={300} />
-      </div>
+      
+      <DialogContent>
+        <div className="pt-4">
+          <SampleTable height={300} />
+        </div>
+      </DialogContent>
 
-      <DialogActions>
+      <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           취소
         </Button>

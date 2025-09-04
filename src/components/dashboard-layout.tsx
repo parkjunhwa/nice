@@ -51,7 +51,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         "flex flex-1 flex-col min-h-0 transition-all duration-300 ease-in-out",
         isSidebarOpen ? "ml-0" : "ml-0"
       )}>
-        <main className="flex-1 overflow-y-auto p-6 min-h-0">
+        <main className="flex-1 p-4 min-h-0 overflow-y-auto">
           <div className="mx-auto">
             {children}
           </div>

@@ -3,19 +3,13 @@
 import { cn } from "@/lib/utils"
 import {
   Home,
-  BarChart3,
   Users,
   Settings,
   FileText,
-  Calendar,
-  Mail,
   Bell,
   ChevronDown,
   ChevronRight,
-  UserCheck,
-  FileImage,
   Eye,
-  Pencil,
   Shield,
   User,
   LogOut
@@ -26,13 +20,13 @@ import {
 } from "@mui/material"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState, useEffect, useCallback, useMemo, memo } from "react"
+import { useState, useEffect, memo } from "react"
 import { SidebarToggle } from "./sidebar-toggle"
 
 interface MenuItem {
   title: string
   href?: string
-  icon?: any
+  icon?: React.ComponentType<{ size?: number; className?: string }>
   children?: MenuItem[]
   badge?: string
 }
@@ -179,7 +173,6 @@ function MenuItem({
   const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 })
   const [hoveredChildIndex, setHoveredChildIndex] = useState<number | null>(null)
   const [hoveredGrandChildIndex, setHoveredGrandChildIndex] = useState<number | null>(null)
-  const [hoveredGreatGrandChildIndex, setHoveredGreatGrandChildIndex] = useState<number | null>(null)
 
   // 각 depth별로 독립적인 hover 상태 관리
   const [hoveredChildFor3Depth, setHoveredChildFor3Depth] = useState<number | null>(null)
@@ -244,7 +237,7 @@ function MenuItem({
   const paddingLeft = level * 16 + (isOpen ? 12 : 0)
 
   // Popover 메뉴 렌더링 함수 (4depth까지 지원)
-  const renderPopoverMenu = (children: MenuItem[], level: number) => (
+  const renderPopoverMenu = (children: MenuItem[]) => (
     <div
       className="fixed bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[99999]"
       style={{
@@ -374,7 +367,6 @@ function MenuItem({
           setActivePopover(null)
           setHoveredChildIndex(null)
           setHoveredGrandChildIndex(null)
-          setHoveredGreatGrandChildIndex(null)
           setHoveredChildFor3Depth(null)
           setHoveredGrandChildFor4Depth(null)
         }
@@ -551,7 +543,6 @@ function MenuItem({
 }
 
 const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
-  const pathname = usePathname()
   const [activePopover, setActivePopover] = useState<string | null>(null)
 
   return (
@@ -615,10 +606,10 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
       </nav>
       <div
         className={cn(
-          "flex gap-0 border-t border-gray-200 p-2 mt-auto sticky bottom-0 bg-white ",
+          "flex gap-0 border-t border-gray-200 mt-auto sticky bottom-0 bg-white",
           isOpen
-            ? "flex items-center justify-between"
-            : "flex flex-col items-center justify-center space-y-2"
+            ? "flex items-center justify-between p-2"
+            : "flex flex-col items-center justify-center space-y-2 p-4"
         )}
       >
         <button
