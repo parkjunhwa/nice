@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react"
 import { Sidebar } from "./sidebar"
-import { Header } from "./header"
 import { cn } from "@/lib/utils"
 
 interface DashboardLayoutProps {
@@ -52,7 +51,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         "flex flex-1 flex-col min-h-0 transition-all duration-300 ease-in-out",
         isSidebarOpen ? "ml-0" : "ml-0"
       )}>
-        <Header isSidebarOpen={isSidebarOpen} onToggleSidebar={toggleSidebar} />
         <main className="flex-1 overflow-y-auto p-6 min-h-0">
           <div className="mx-auto">
             {children}

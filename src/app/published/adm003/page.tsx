@@ -46,7 +46,7 @@ export default function InterfaceLogPage() {
     <div
       className="flex flex-col h-full min-h-0 layout-top-bottom"
       style={{
-        height: 'calc(100vh - 64px - 3rem)', // 64px topbar + 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
+        height: 'calc(100vh - 3rem)', // 1.5rem top + 1.5rem bottom (space-y-6 = 1.5rem*2)
       }}
     >
       {/* Breadcrumb */}
