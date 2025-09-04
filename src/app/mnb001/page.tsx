@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import {
   TextField,
   Button,
@@ -58,15 +59,19 @@ export default function LoginPage() {
           {/* 로고 및 제목 */}
           <div className="text-center mb-8">
             <div className="inline-block mb-2">
-              <img
+              <Image
                 src="/images/ci.png"
                 alt="NICE 로고"
+                width={64}
+                height={64}
                 className="h-16 w-auto mx-auto"
               />
             </div>
-            <img
+            <Image
               src="/images/logo.png"
               alt="NICE 로고"
+              width={120}
+              height={18}
               className="h-[18px] w-auto mx-auto mb-2"
             />
             <Typography variant="body2" className="text-gray-400 text-sm font-['NICE']">

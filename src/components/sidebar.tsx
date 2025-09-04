@@ -20,6 +20,7 @@ import { usePathname } from "next/navigation"
 import React, { useState, useEffect, memo, useCallback, useRef } from "react"
 import { createPortal } from "react-dom"
 import { SidebarToggle } from "./sidebar-toggle"
+import Image from 'next/image'
 
 interface MenuItem {
   title: string
@@ -415,7 +416,13 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
       <div className={cn("flex h-16 items-center justify-between border-b border-gray-200", isOpen ? "pl-4 pr-2" : "px-4")}>
         <div className="flex items-center h-16">
           {isOpen ? (
-            <img src="/images/logo.png" alt="나이스 인프라" style={{ height: 18, width: "auto", display: "block", maxHeight: "18px" }} />
+            <Image 
+              src="/images/logo.png" 
+              alt="나이스 인프라" 
+              width={120}
+              height={18}
+              style={{ height: 18, width: "auto", display: "block", maxHeight: "18px" }} 
+            />
           ) : null}
         </div>
         <SidebarToggle isOpen={isOpen} onToggle={onToggle} />

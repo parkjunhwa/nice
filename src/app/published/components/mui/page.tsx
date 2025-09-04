@@ -503,7 +503,7 @@ export default function MuiPage() {
             <label className="form-top-label">DatePicker (Readonly)</label>
             <DatePicker
               value={null}
-              onChange={(_newValue: Date | null) => { }} // 사용하지 않는 매개변수
+              onChange={() => { }} // 사용하지 않는 매개변수 제거
               readOnly
               clearable={false}
               placeholder="읽기 전용 날짜"
