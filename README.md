@@ -1,19 +1,19 @@
-# Next.js Published Pages 대시보드
+# NICE Dashboard System
 
-Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적인 Published Pages 대시보드 환경입니다. 다양한 기능별 페이지들을 포함한 완전한 관리 시스템을 제공합니다.
+Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적인 대시보드 시스템입니다. 다양한 관리 페이지와 컴포넌트 데모를 포함한 완전한 관리 시스템을 제공합니다.
 
 ## 🚀 주요 기능
 
-- **Published Pages 구조**: Analytics, Calendar, Documents, Forms, Messages, MUI, Notifications, Search 등 다양한 기능별 페이지
+- **Published Pages 구조**: 관리 페이지(ADM001-005), 메뉴 페이지(MNB001, MNB005-006) 등 다양한 기능별 페이지
 - **MUI 통합**: Material-UI 컴포넌트를 체계적으로 분류하여 제공
-- **NICE 폰트**: 한국어 최적화된 폰트 시스템 (Light, Regular, SemiBold)
-- **고급 테이블**: Tabulator.js 기반의 강력한 데이터 테이블 컴포넌트
-- **다양한 차트**: Chart.js와 Recharts를 활용한 데이터 시각화
+- **고급 차트**: Chart.js와 Recharts를 활용한 데이터 시각화
 - **날짜/시간 선택기**: MUI X Date Pickers를 활용한 고급 날짜/시간 선택 기능
+- **모달 시스템**: 다양한 모달 컴포넌트 (기본, 확인, 폼, 전체화면)
+- **테이블 컴포넌트**: Tabulator.js 기반의 강력한 데이터 테이블
 - **반응형 디자인**: 모바일, 태블릿, 데스크톱 모든 디바이스 지원
 - **TypeScript**: 타입 안전성을 보장하는 TypeScript 지원
 - **컴포넌트 기반**: 재사용 가능한 컴포넌트 구조
-- **토큰 기반 디자인 시스템**: SCSS와 CSS 변수를 활용한 일관된 디자인 관리
+- **SCSS 스타일링**: 토큰 기반 디자인 시스템과 SCSS 컴포넌트 클래스
 - **Lucide React 아이콘**: 200+ 아이콘을 카테고리별로 체계화
 
 ## 📁 프로젝트 구조
@@ -21,21 +21,6 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 ```
 nice/
 ├── public/                   # 정적 파일들
-│   ├── fonts/               # NICE 폰트 파일들
-│   │   ├── NICEGtNeobUni-bLt.woff2
-│   │   ├── NICEGtNeobUni-bLt.otf
-│   │   ├── NICEGtNeobUniTTF-bLt.ttf
-│   │   ├── NICEGtNeobUni-cRg.woff2
-│   │   ├── NICEGtNeobUni-cRg.otf
-│   │   ├── NICEGtNeobUniTTF-cRg.ttf
-│   │   ├── NICEGtNeobUni-eSb.woff2
-│   │   ├── NICEGtNeobUni-eSb.otf
-│   │   └── NICEGtNeobUniTTF-eSb.ttf
-│   └── images/              # 이미지 파일들
-│       ├── background_login.png
-│       ├── ci.png
-│       ├── logo.png
-│       └── nice_ci.png
 ├── src/
 │   ├── app/                 # Next.js App Router
 │   │   ├── mnb001/          # 메뉴 페이지 001
@@ -55,45 +40,36 @@ nice/
 │   │   │   ├── mnb006/      # 메뉴 페이지 006
 │   │   │   ├── layout.tsx   # Published Pages 레이아웃
 │   │   │   └── page.tsx     # 메인 대시보드 페이지
-│   │   ├── globals.scss     # 전역 SCSS 스타일 (폰트 정의 포함)
+│   │   ├── globals.scss     # 전역 SCSS 스타일
 │   │   ├── layout.tsx       # 루트 레이아웃
-│   │   └── page.tsx         # 홈페이지
+│   │   └── page.tsx         # 홈페이지 (redirect to /published)
 │   ├── components/          # 재사용 가능한 컴포넌트들
 │   │   ├── mui/             # MUI 컴포넌트 분류
 │   │   │   └── index.ts     # MUI 컴포넌트 카테고리별 export
 │   │   ├── icons/           # Lucide React 아이콘 분류
 │   │   │   └── index.ts     # 아이콘 카테고리별 export
+│   │   ├── modal/           # 모달 컴포넌트들
+│   │   │   ├── basic-modal.tsx
+│   │   │   ├── confirm-modal.tsx
+│   │   │   ├── cmn001.tsx ~ cmn012.tsx
+│   │   │   ├── mui-basic-modal.tsx
+│   │   │   ├── mui-confirm-modal.tsx
+│   │   │   ├── mui-form-modal.tsx
+│   │   │   └── mui-fullscreen-modal.tsx
+│   │   ├── table/           # 테이블 컴포넌트들
+│   │   │   ├── sample-table.tsx
+│   │   │   └── table-common.scss
 │   │   ├── chart.tsx        # Chart.js 기반 차트 컴포넌트
 │   │   ├── dashboard-card.tsx # 대시보드 카드 컴포넌트
 │   │   ├── dashboard-layout.tsx # 대시보드 레이아웃
-│   │   ├── date-picker.tsx  # 날짜 선택 컴포넌트 (MUI X Date Pickers)
+│   │   ├── date-picker.tsx  # 날짜 선택 컴포넌트
 │   │   ├── date-range-picker.tsx # 날짜 범위 선택 컴포넌트
 │   │   ├── date-time-picker.tsx # 날짜/시간 선택 컴포넌트
-│   │   ├── header.tsx       # 헤더 컴포넌트
+│   │   ├── time-picker.tsx  # 시간 선택 컴포넌트
 │   │   ├── sidebar.tsx      # 사이드바 컴포넌트
 │   │   ├── sidebar-toggle.tsx # 사이드바 토글 컴포넌트
-│   │   ├── table/           # 테이블 컴포넌트들
-│   │   │   ├── tabulator-table.tsx # Tabulator.js 테이블 컴포넌트
-│   │   │   └── sample-table.tsx # 샘플 테이블 컴포넌트
-│   │   ├── modal/           # 모달 컴포넌트들
-│   │   │   ├── basic-modal.tsx # 기본 모달
-│   │   │   ├── confirm-modal.tsx # 확인 모달
-│   │   │   ├── cmn001.tsx   # 공통 모달 001
-│   │   │   ├── cmn002.tsx   # 공통 모달 002
-│   │   │   ├── cmn003.tsx   # 공통 모달 003
-│   │   │   ├── cmn004.tsx   # 공통 모달 004
-│   │   │   ├── cmn005.tsx   # 공통 모달 005
-│   │   │   ├── cmn006.tsx   # 공통 모달 006
-│   │   │   ├── cmn007.tsx   # 공통 모달 007
-│   │   │   ├── cmn008.tsx   # 공통 모달 008
-│   │   │   ├── cmn009.tsx   # 공통 모달 009
-│   │   │   ├── cmn010.tsx   # 공통 모달 010
-│   │   │   ├── cmn011.tsx   # 공통 모달 011
-│   │   │   ├── cmn012.tsx   # 공통 모달 012
-│   │   │   ├── mui-basic-modal.tsx # MUI 기본 모달
-│   │   │   ├── mui-confirm-modal.tsx # MUI 확인 모달
-│   │   │   ├── mui-form-modal.tsx # MUI 폼 모달
-│   │   │   └── mui-fullscreen-modal.tsx # MUI 전체화면 모달
+│   │   ├── accordion-toggle-button.tsx # 아코디언 토글 버튼
+│   │   ├── Breadcrumb.tsx   # 브레드크럼 네비게이션
 │   │   ├── mui-theme-provider.tsx # MUI 테마 프로바이더
 │   │   ├── index.ts         # 모든 컴포넌트 통합 export
 │   │   └── README.md        # 컴포넌트 구조 설명
@@ -102,22 +78,22 @@ nice/
 │   │   └── utils.ts         # 공통 유틸리티 함수
 │   └── styles/              # SCSS 스타일 파일들
 │       ├── components/      # 컴포넌트별 스타일
-│       │   ├── _buttons.scss # 버튼 컴포넌트 스타일
-│       │   ├── _cards.scss   # 카드 컴포넌트 스타일
-│       │   ├── _common.scss  # 공통 컴포넌트 스타일
-│       │   ├── _data.scss    # 데이터 표시 컴포넌트 스타일
-│       │   ├── _examples.scss # 예제 컴포넌트 스타일
-│       │   ├── _forms.scss   # 폼 컴포넌트 스타일 (MUI DatePicker 스타일 포함)
-│       │   ├── _layout.scss  # 레이아웃 컴포넌트 스타일
-│       │   ├── _navigation.scss # 네비게이션 컴포넌트 스타일
-│       │   └── README.md     # 스타일 시스템 가이드
+│       │   ├── _buttons.scss
+│       │   ├── _cards.scss
+│       │   ├── _common.scss
+│       │   ├── _data.scss
+│       │   ├── _examples.scss
+│       │   ├── _forms.scss
+│       │   ├── _layout.scss
+│       │   ├── _navigation.scss
+│       │   └── README.md
 │       ├── core/            # 핵심 스타일
-│       │   ├── _mixins.scss # SCSS 믹스인
-│       │   └── _tokens.scss # 디자인 토큰 (CSS 변수)
+│       │   ├── _mixins.scss
+│       │   └── _tokens.scss
 │       ├── layers/          # 레이어 스타일
-│       │   └── _base.scss   # 기본 스타일
-│       └── utilities/       # 유틸리티 스타일
-│           └── _helpers.scss # 헬퍼 유틸리티
+│       │   └── _base.scss
+│       └── utilities/        # 유틸리티 스타일
+│           └── _helpers.scss
 ├── eslint.config.mjs        # ESLint 설정
 ├── next.config.ts           # Next.js 설정
 ├── package.json             # 프로젝트 의존성 및 스크립트
@@ -142,30 +118,73 @@ npm run dev
 
 ### 3. 브라우저에서 확인
 
-[http://localhost:3000]에서 데시보드를 확인할 수 있습니다.
+[http://localhost:3000](http://localhost:3000)에서 대시보드를 확인할 수 있습니다.
+
+## 📄 페이지 구성
+
+### 메인 대시보드 (`/published`)
+- **매출 현황**: 최근 7일간과 3개월간 매출 차트
+- **공지사항**: 실시간 활동 피드
+- **고객센터**: 고객 지원 섹션
+
+### 관리 페이지들 (`/published/adm*`)
+- **ADM001** (`/adm001`): 관리 페이지 001
+- **ADM002** (`/adm002`): 관리 페이지 002
+- **ADM003** (`/adm003`): 관리 페이지 003
+- **ADM004** (`/adm004`): 관리 페이지 004
+- **ADM005** (`/adm005`): 관리 페이지 005
+
+### 메뉴 페이지들
+- **MNB001** (`/mnb001`): 메뉴 페이지 001
+- **MNB005** (`/published/mnb005`): 메뉴 페이지 005
+- **MNB006** (`/published/mnb006`): 메뉴 페이지 006
+
+### Components 데모 페이지들 (`/published/components`)
+- **Modal** (`/modal`): 모달 컴포넌트 데모
+- **MUI** (`/mui`): MUI 컴포넌트 데모 및 예제
+- **Search01** (`/search01`): 검색 컴포넌트 데모 1
+- **Search02** (`/search02`): 검색 컴포넌트 데모 2
+
+## 🎯 사용된 기술 스택
+
+### Core Framework
+- **Next.js 15**: App Router 기반 React 프레임워크
+- **React 19.1.0**: 최신 React 버전
+- **TypeScript 5**: 타입 안전성 보장
+
+### Styling & UI
+- **Tailwind CSS v4**: 유틸리티 퍼스트 CSS 프레임워크
+- **SCSS**: CSS 전처리기
+- **Material-UI (MUI) v7**: React UI 컴포넌트 라이브러리
+- **MUI X Date Pickers v8**: 고급 날짜/시간 선택기
+- **Lucide React**: 200+ 아이콘 라이브러리
+
+### Data Visualization & Tables
+- **Chart.js v4**: 차트 라이브러리
+- **react-chartjs-2 v5**: Chart.js React 래퍼
+- **Recharts v3**: React 차트 라이브러리
+- **Tabulator.js v6**: 고급 테이블 컴포넌트
+
+### Utilities & Tools
+- **clsx**: 조건부 클래스명 유틸리티
+- **tailwind-merge**: Tailwind 클래스 병합
+- **class-variance-authority**: 컴포넌트 변형 관리
+- **date-fns v4**: 날짜 유틸리티
+- **jszip v3**: ZIP 파일 처리
+
+### Development Tools
+- **ESLint 9**: 코드 품질 관리
+- **PostCSS**: CSS 후처리기
+- **Autoprefixer**: CSS 벤더 프리픽스 자동 추가
 
 ## 🎨 주요 컴포넌트 설명
 
-### DashboardCard
-통계 정보를 표시하는 카드 컴포넌트입니다.
-
-```tsx
-<DashboardCard
-  title="총 사용자"
-  value="12,345"
-  description="활성 사용자 수"
-  icon={Users}
-  trend={{ value: 12, isPositive: true }}
-/>
-```
-
-### Chart
+### Chart 컴포넌트
 Chart.js와 Recharts 기반의 다양한 차트를 표시하는 컴포넌트입니다.
 
 ```tsx
 <Chart
-  title="월별 매출 추이"
-  data={monthlyData}
+  data={salesData}
   type="line"
   colors={{
     value1: '#3b82f6',
@@ -174,21 +193,6 @@ Chart.js와 Recharts 기반의 다양한 차트를 표시하는 컴포넌트입�
   labels={{
     value1: '건수',
     value2: '금액 (억원)'
-  }}
-/>
-```
-
-### TabulatorTable
-Tabulator.js 기반의 고급 테이블 컴포넌트입니다.
-
-```tsx
-<TabulatorTable
-  data={tableData}
-  columns={columns}
-  options={{
-    pagination: true,
-    movableColumns: true,
-    resizableRows: true
   }}
 />
 ```
@@ -227,59 +231,47 @@ import {
   Icons 
 } from '@/components'
 
+// MUI 컴포넌트 사용
+<TextField 
+  label="입력 필드" 
+  variant="outlined" 
+  size="small"
+/>
+
 // 아이콘 사용
 <Icons.SearchIcon size={24} />
 <Icons.CalendarIcon size={20} />
 ```
 
-### DashboardLayout
-Published Pages의 공통 레이아웃 컴포넌트입니다.
-- **사이드바 네비게이션**: 접힘/펼침 기능 지원
-- **헤더**: 상단 헤더 컴포넌트
-- **메인 콘텐츠**: 페이지별 콘텐츠 영역
-- **반응형 디자인**: 모바일/태블릿/데스크톱 지원
+### 모달 컴포넌트 시스템
+다양한 모달 컴포넌트를 제공합니다.
 
-## 📄 페이지 구성
+```tsx
+import { 
+  BasicModal, 
+  ConfirmModal,
+  Cmn001,
+  MuiBasicModal 
+} from '@/components'
 
-### 메인 대시보드 (`/published`)
-- **통계 카드**: 총 사용자, 매출, 주문, 전환율
-- **차트 시각화**: 최근 7일간 매출, 3개월간 매출, 제품별 매출, 월별 매출
-- **최근 활동**: 사용자 활동 및 시스템 활동 실시간 피드
-- **추가 통계**: 인기 상품, 지역별 매출, 시스템 상태 모니터링
+// 기본 모달
+<BasicModal 
+  isOpen={isOpen}
+  onClose={handleClose}
+  title="모달 제목"
+>
+  모달 내용
+</BasicModal>
 
-### 관리 페이지들 (`/published/adm*`)
-- **ADM001** (`/adm001`): 관리 페이지 001
-- **ADM002** (`/adm002`): 관리 페이지 002
-- **ADM003** (`/adm003`): 관리 페이지 003
-- **ADM004** (`/adm004`): 관리 페이지 004
-- **ADM005** (`/adm005`): 관리 페이지 005
-
-### 메뉴 페이지들
-- **MNB001** (`/mnb001`): 메뉴 페이지 001
-- **MNB005** (`/published/mnb005`): 메뉴 페이지 005
-- **MNB006** (`/published/mnb006`): 메뉴 페이지 006
-
-### Components 데모 페이지들 (`/published/components`)
-- **Modal** (`/modal`): 모달 컴포넌트 데모
-- **MUI** (`/mui`): MUI 컴포넌트 데모 및 예제
-- **Search01** (`/search01`): 검색 컴포넌트 데모 1
-- **Search02** (`/search02`): 검색 컴포넌트 데모 2
-
-## 🎯 사용된 기술 스택
-
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4 + SCSS
-- **UI Library**: Material-UI (MUI) v7
-- **Icons**: Lucide React (200+ 아이콘)
-- **Charts**: Chart.js + react-chartjs-2, Recharts
-- **Tables**: Tabulator.js (고급 테이블)
-- **Date Pickers**: MUI X Date Pickers (DatePicker, DateTimePicker, DateRangePicker)
-- **Fonts**: NICE (한국어 최적화)
-- **State Management**: React useState, useEffect
-- **Utilities**: clsx, tailwind-merge, class-variance-authority
-- **Storage**: LocalStorage (메뉴 상태 저장)
-- **Design System**: 토큰 기반 CSS 변수 시스템
+// 확인 모달
+<ConfirmModal
+  isOpen={isOpen}
+  onClose={handleClose}
+  onConfirm={handleConfirm}
+  title="확인"
+  message="정말 삭제하시겠습니까?"
+/>
+```
 
 ## 🔧 개발 가이드
 
@@ -287,22 +279,19 @@ Published Pages의 공통 레이아웃 컴포넌트입니다.
 
 1. `src/app/published/` 디렉토리에 새 폴더 생성
 2. `page.tsx` 파일 생성
-3. `DashboardLayout` 컴포넌트로 감싸기
+3. 필요한 경우 레이아웃 컴포넌트 사용
 
 ```tsx
-import { DashboardLayout } from "@/components/dashboard-layout"
-
 export default function NewPage() {
   return (
-    <DashboardLayout>
-      <div className="c-section">
-        <div className="c-page-header">
-          <h1 className="c-page-header__title">새 페이지</h1>
-          <p className="c-page-header__description">페이지 설명</p>
+    <div className="bg-gray-50">
+      <div className="flex flex-row items-center justify-between mt-2 mb-2">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">새 페이지</h1>
         </div>
-        {/* 페이지 내용 */}
       </div>
-    </DashboardLayout>
+      {/* 페이지 내용 */}
+    </div>
   )
 }
 ```
@@ -318,66 +307,17 @@ export default function NewPage() {
 interface NewComponentProps {
   title: string
   value: string
+  className?: string
 }
 
-export function NewComponent({ title, value }: NewComponentProps) {
+export function NewComponent({ title, value, className }: NewComponentProps) {
   return (
-    <div className="c-panel">
-      <h3 className="c-section-title">{title}</h3>
-      <p className="c-stat-item__value">{value}</p>
+    <div className={`bg-white rounded-lg border border-gray-200 p-4 shadow-sm ${className || ''}`}>
+      <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+      <p className="text-sm text-gray-600">{value}</p>
     </div>
   )
 }
-```
-
-### MUI 컴포넌트 사용
-
-```tsx
-import { 
-  TextField, 
-  Button, 
-  Typography,
-  Icons 
-} from '@/components'
-
-// MUI 컴포넌트 사용
-<TextField 
-  label="입력 필드" 
-  variant="outlined" 
-  size="small"
-/>
-
-// 아이콘 사용
-<Icons.SearchIcon size={24} />
-```
-
-### DatePicker 사용
-
-```tsx
-import { DatePicker, DateTimePicker, DateRangePicker } from '@/components'
-
-// 기본 날짜 선택
-<DatePicker
-  label="날짜 선택"
-  value={selectedDate}
-  onChange={handleDateChange}
-  inputFormat="yyyy-MM-dd"
-/>
-
-// 날짜/시간 선택
-<DateTimePicker
-  label="날짜/시간 선택"
-  value={selectedDateTime}
-  onChange={handleDateTimeChange}
-  inputFormat="yyyy-MM-dd HH:mm"
-/>
-
-// 날짜 범위 선택
-<DateRangePicker
-  label="날짜 범위"
-  value={[startDate, endDate]}
-  onChange={handleDateRangeChange}
-/>
 ```
 
 ### 스타일링 가이드
@@ -385,7 +325,6 @@ import { DatePicker, DateTimePicker, DateRangePicker } from '@/components'
 - **Tailwind CSS**: 유틸리티 클래스 사용
 - **SCSS 컴포넌트 클래스**: `c-` 접두사 사용
 - **토큰 기반 시스템**: CSS 변수 활용
-- **NICE**: 한국어 폰트 사용
 - **반응형 디자인**: 브레이크포인트 활용
 
 ```scss
@@ -397,36 +336,17 @@ import { DatePicker, DateTimePicker, DateRangePicker } from '@/components'
 }
 
 .c-section-title {
-  font-family: 'NICE', sans-serif;
   font-weight: var(--font-weight-semibold);
   color: hsl(var(--color-fg));
 }
 ```
 
-### 폰트 사용 가이드
-
-```tsx
-// 폰트 두께 클래스 사용
-<div className="font-light">Light (300)</div>
-<div className="font-normal">Regular (400)</div>
-<div className="font-semibold">SemiBold (600)</div>
-
-// 모노스페이스 폰트
-<div className="font-mono">Monospace</div>
-```
-
 ## 🎨 디자인 시스템
-
-### NICE 폰트 시스템
-- **Light (300)**: 가벼운 두께
-- **Regular (400)**: 기본 두께
-- **SemiBold (600)**: 중간-굵은 두께
-- **Mono**: 모노스페이스 폰트 (코드, 데이터 표시용)
 
 ### 토큰 기반 시스템
 - **색상**: primary, secondary, accent, status, neutral, background
 - **간격**: 컴포넌트, 섹션, 페이지별 세분화된 spacing
-- **타이포그래피**: NICE 폰트 패밀리, 크기, 굵기, 줄 높이
+- **타이포그래피**: 폰트 패밀리, 크기, 굵기, 줄 높이
 - **그림자**: elevation, depth별 shadow 시스템
 - **Z-index**: 컴포넌트별 계층 구조
 - **애니메이션**: duration, easing 함수
@@ -443,13 +363,7 @@ import { DatePicker, DateTimePicker, DateRangePicker } from '@/components'
 - **컴포넌트 분류**: Layout, Forms, Data Display, Feedback, Navigation
 - **테마 통합**: MUI 테마와 SCSS 토큰 시스템 연동
 - **아이콘 시스템**: Lucide React 200+ 아이콘 카테고리별 분류
-- **날짜/시간**: MUI X Date Pickers 통합 (DatePicker, DateTimePicker, DateRangePicker)
-
-### DatePicker 스타일링
-- **오늘 날짜**: gray-100 배경색, 테두리 제거
-- **호버 효과**: gray-200 배경색
-- **선택된 날짜**: MUI 기본 선택 스타일 유지
-- **아이콘**: Lucide React CalendarIcon 사용
+- **날짜/시간**: MUI X Date Pickers 통합
 
 ### 믹스인 시스템
 - **레이아웃**: flexbox, grid, positioning
@@ -472,7 +386,7 @@ MIT License
 
 ---
 
-**작성자**
-디자이너/퍼블리셔 박준화 수석 (최종수정일:2025-09-04)
-010-9479-3188
+**작성자**  
+디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-01-27)  
+010-9479-3188  
 junhwa.park@gmail.com
