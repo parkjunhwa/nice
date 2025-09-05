@@ -267,7 +267,10 @@ export default function InterfaceLogPage() {
       </div>
 
       {/* bottom-contents-pannel */}
-      <div className="bottom-contents-pannel__content flex gap-1.5 h-full">
+      <div
+        className="bottom-contents-pannel__content flex gap-1.5"
+        style={{ height: 'calc(100vh - 166px)', flex: 1 }}
+      >
         {/* 왼쪽 카드 1 (폭 가변) */}
         <div style={{ width: leftPanelWidth }} className="flex-shrink-0">
           <Card className="h-full">
