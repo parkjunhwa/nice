@@ -174,11 +174,15 @@ export default function NoticeListPage() {
               공지등록
             </Button>
           </div>
-          <div className="flex-1 min-h-0">
-            <div className="h-full w-full overflow-hidden">
-              <div className="h-full w-full">
-                <SampleTable height={300} />
-              </div>
+          {/* 세로 꽉차는 테이블 샘플 */}
+          <div style={{ height: 'calc(100% - 40px)' }}>
+            {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
+            {/* 기본 설정: 좌우 스크롤 활성화 */}
+            <div className="grid grid-cols-1 h-full overflow-hidden">
+              <SampleTable
+                showPagination={true}
+                pageSize={20}
+              />
             </div>
           </div>
         </div>

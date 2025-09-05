@@ -1,7 +1,7 @@
 'use client'
 
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton } from '@mui/material'
-import { Icons } from '@/components'
+import { Icons, SampleTable } from '@/components'
 
 interface Cmn007Props {
   open: boolean
@@ -40,9 +40,17 @@ export default function Cmn007({ open, onClose }: Cmn007Props) {
       </DialogTitle>
 
       <DialogContent>
-        <Typography variant="body1" color="textSecondary">
-          키오스크 기기 검색 기능이 준비 중입니다.
-        </Typography>
+        {/* 세로 꽉차는 테이블 샘플 */}
+        <div style={{ height: 'calc(100% - 0px)' }}>
+          {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
+          {/* 기본 설정: 좌우 스크롤 활성화 */}
+          <div className="grid grid-cols-1 h-full overflow-hidden">
+            <SampleTable
+              showPagination={false}
+              pageSize={20}
+            />
+          </div>
+        </div>
       </DialogContent>
 
       <DialogActions sx={{ padding: '16px' }}>

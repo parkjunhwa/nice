@@ -122,8 +122,16 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
       </div>
       
       <DialogContent>
-        <div className="pt-4">
-          <SampleTable height={300} />
+        {/* 세로 꽉차는 테이블 샘플 */}
+        <div style={{ height: 'calc(100% - 0px)' }}>
+          {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
+          {/* 기본 설정: 좌우 스크롤 활성화 */}
+          <div className="grid grid-cols-1 h-full overflow-hidden">
+            <SampleTable
+              showPagination={false}
+              pageSize={20}
+            />
+          </div>
         </div>
       </DialogContent>
 

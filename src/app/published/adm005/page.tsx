@@ -8,6 +8,7 @@ import {
   RefreshCw,
   X
 } from 'lucide-react'
+import { SampleTable } from '@/components'
 import {
   TextField,
   Button,
@@ -311,9 +312,15 @@ export default function InterfaceLogPage() {
                   </Button>
                 </div>
               </div>
-              <div className="flex-1 bg-gray-50 w-full min-h-0 overflow-auto">
-                <div className="flex items-center justify-center h-full w-full">
-                  <span className="text-[14px] text-gray-400 text-center">table grid영역</span>
+              {/* 세로 꽉차는 테이블 샘플 */}
+              <div style={{ height: 'calc(100% - 40px)' }}>
+                {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
+                {/* 기본 설정: 좌우 스크롤 활성화 */}
+                <div className="grid grid-cols-1 h-full overflow-hidden">
+                  <SampleTable
+                    showPagination={false}
+                    pageSize={20}
+                  />
                 </div>
               </div>
             </CardContent>
@@ -370,9 +377,15 @@ export default function InterfaceLogPage() {
                     </Button>
                   </div>
                 </div>
-                <div className="flex-1 bg-gray-50 w-full min-h-0 overflow-auto">
-                  <div className="flex items-center justify-center h-full w-full">
-                    <span className="text-[14px] text-gray-400 text-center">table grid영역</span>
+                {/* 세로 꽉차는 테이블 샘플 */}
+                <div style={{ height: 'calc(100% - 40px)' }}>
+                  {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
+                  {/* 기본 설정: 좌우 스크롤 활성화 */}
+                  <div className="grid grid-cols-1 h-full overflow-hidden">
+                    <SampleTable
+                      showPagination={false}
+                      pageSize={20}
+                    />
                   </div>
                 </div>
               </CardContent>
@@ -389,9 +402,15 @@ export default function InterfaceLogPage() {
           <div className="flex-1 min-h-0">
             <Card className="h-full">
               <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
-                <div className="flex-1 bg-gray-50 w-full min-h-0 overflow-auto">
-                  <div className="flex items-center justify-center h-full w-full">
-                    <span className="text-[14px] text-gray-400 text-center">table grid영역</span>
+                {/* 세로 꽉차는 테이블 샘플 */}
+                <div style={{ height: 'calc(100% - 0px)' }}>
+                  {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
+                  {/* 기본 설정: 좌우 스크롤 활성화 */}
+                  <div className="grid grid-cols-1 h-full overflow-hidden">
+                    <SampleTable
+                      showPagination={false}
+                      pageSize={20}
+                    />
                   </div>
                 </div>
               </CardContent>
