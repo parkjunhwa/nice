@@ -15,15 +15,11 @@ import {
   Typography,
   SampleTable,
   Breadcrumb,
-  Snackbar,
-  Alert,
   AccordionToggleButton
 } from '@/components'
 
 export default function Search01Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
-  const [alertOpen, setAlertOpen] = useState(false)
-  const [alertMessage, setAlertMessage] = useState('')
 
   return (
     <div
@@ -101,11 +97,7 @@ export default function Search01Page() {
                 <Button variant="outlined" size="small" startIcon={<RefreshCw size={16} />}>
                   새로고침
                 </Button>
-                <Button variant="contained" size="small" startIcon={<Search size={16} />}
-                  onClick={() => {
-                  setAlertMessage('검색이 완료되었습니다.')
-                  setAlertOpen(true)
-                }}>
+                <Button variant="contained" size="small" startIcon={<Search size={16} />}>
                   검색
                 </Button>
               </div>
@@ -130,49 +122,19 @@ export default function Search01Page() {
               등록된 사용자 정보를 확인하고 관리할 수 있습니다.
             </Typography>
           </div>
-          <div
-            className="flex-1 min-h-0"
-          >
-            <div className="h-full w-full overflow-hidden">
-              <div className="h-full w-full">
-                <SampleTable
-                  className="h-full"
-                  height="100%"
-                />
-              </div>
+          {/* 세로 꽉차는 테이블 샘플 */}
+          <div style={{ height: 'calc(100% - 68px)' }}>
+            {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
+            {/* 기본 설정: 좌우 스크롤 활성화 */}
+            <div className="grid grid-cols-1 h-full overflow-hidden">
+              <SampleTable
+                showPagination={true}
+                pageSize={20}
+              />
             </div>
           </div>
         </div>
       </div>
-
-      {/* MUI Alert Snackbar */}
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={4000}
-        onClose={() => setAlertOpen(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        sx={{
-          top: '20px !important',
-          '& .MuiAlert-root': {
-            minWidth: '300px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-            borderRadius: '8px'
-          }
-        }}
-      >
-        <Alert
-          onClose={() => setAlertOpen(false)}
-          severity="info"
-          sx={{
-            width: '100%',
-            '& .MuiAlert-message': {
-              fontWeight: 500
-            }
-          }}
-        >
-          {alertMessage}
-        </Alert>
-      </Snackbar>
     </div>
   )
 } 

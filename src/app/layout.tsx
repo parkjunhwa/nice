@@ -3,7 +3,7 @@ import "./globals.scss";
 import { MuiThemeProvider } from "@/components/mui-theme-provider";
 
 export const metadata: Metadata = {
-  title: "NICE정신시스템",
+  title: "NICE 정산시스템",
   description: "나이스인프라 정산시스템",
   icons: {
     icon: '/favicon.ico',
