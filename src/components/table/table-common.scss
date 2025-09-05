@@ -31,7 +31,7 @@
     .tabulator-col {
       background-color: #1e3a8a; /* blue-800 */
       border-right: 1px solid #1e40af; /* blue-700 */
-      padding: 6px 12px;
+      padding: 6px 8px;
       font-weight: 400;
       color: #ffffff; /* white */
       font-size: 13px;
@@ -187,19 +187,6 @@
   font-size: 12px;
 }
 
-// 반응형 스타일
-@media (max-width: 768px) {
-  .tabulator .tabulator-header .tabulator-col {
-    padding: 8px 12px;
-    font-size: 12px;
-  }
-
-  .tabulator .tabulator-tableholder .tabulator-table .tabulator-row .tabulator-cell {
-    padding: 4px 8px;
-    font-size: 12px;
-  }
-}
-
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element:hover {
   background: none;
 }
@@ -261,3 +248,5 @@
   outline: none;
   padding: 0;
 }
+
+.tabulator-col-title {padding-top:2px;}
