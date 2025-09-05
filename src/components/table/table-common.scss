@@ -99,6 +99,7 @@
   .tabulator-row {
     border-bottom: 1px solid #f3f4f6; /* gray-100 */
     transition: all 0.2s ease;
+    width:fit-content !important;
 
     &:hover {
       background-color: #dbeafe !important; /* blue-50 - hover 시 모든 라인에 적용 */
@@ -186,6 +187,8 @@
   color: #6b7280; /* gray-500 */
   font-size: 12px;
 }
+
+.tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element {padding:3px 8px 0px 8px;}
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element:hover {
   background: none;
