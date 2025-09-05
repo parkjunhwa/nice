@@ -199,7 +199,8 @@
 }
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort=none] .tabulator-col-sorter .tabulator-arrow::before {
-  opacity: 0.5;
+  opacity: 0.2;
+  transform: translate(-50%, -50%) rotate(180deg);
 }
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort=ascending] .tabulator-col-sorter .tabulator-arrow::before {
