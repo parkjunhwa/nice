@@ -565,7 +565,7 @@ export default function MuiPage() {
             variant="outlined"
             size="small"
             className="bg-white"
-            color="success"
+            color="secondary"
             onClick={() => {
               showAlert('처리 완료!', 'success')
             }}

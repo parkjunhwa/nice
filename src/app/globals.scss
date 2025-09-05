@@ -542,3 +542,72 @@ main.overflow-y-auto {
   }
 }
 
+/* MUI Alert 스타일 오버라이드 - 타입별 배경색과 흰색 텍스트 */
+.MuiAlert-root {
+  color: white !important;
+  
+  .MuiAlert-icon {
+    color: white !important;
+  }
+  
+  .MuiAlert-action {
+    color: white !important;
+  }
+  
+  /* Error 타입 - 빨간색 배경 */
+  &.MuiAlert-standardError {
+    background-color: #dc2626 !important; /* 빨간색 배경 */
+    color: white !important;
+    
+    .MuiAlert-icon {
+      color: white !important;
+    }
+    
+    .MuiAlert-action {
+      color: white !important;
+    }
+  }
+  
+  /* Info 타입 - 파란색 배경 */
+  &.MuiAlert-standardInfo {
+    background-color: #2563eb !important; /* 파란색 배경 */
+    color: white !important;
+    
+    .MuiAlert-icon {
+      color: white !important;
+    }
+    
+    .MuiAlert-action {
+      color: white !important;
+    }
+  }
+  
+  /* Success 타입 - 검정색 배경 */
+  &.MuiAlert-standardSuccess {
+    background-color: #1f2937 !important; /* 검정색 배경 */
+    color: white !important;
+    
+    .MuiAlert-icon {
+      color: white !important;
+    }
+    
+    .MuiAlert-action {
+      color: white !important;
+    }
+  }
+  
+  /* Warning 타입 - 주황색 배경 */
+  &.MuiAlert-standardWarning {
+    background-color: #ea580c !important; /* 주황색 배경 */
+    color: white !important;
+    
+    .MuiAlert-icon {
+      color: white !important;
+    }
+    
+    .MuiAlert-action {
+      color: white !important;
+    }
+  }
+}
+
