@@ -542,8 +542,8 @@ main.overflow-y-auto {
   }
 }
 
-/* MUI Alert 스타일 오버라이드 - 타입별 배경색과 흰색 텍스트 */
-.MuiAlert-root {
+/* MUI Alert 스타일 오버라이드 - Snackbar 내부 Alert만 타입별 배경색과 흰색 텍스트 적용 */
+.MuiSnackbar-root .MuiAlert-root {
   color: white !important;
   
   .MuiAlert-icon {
