@@ -113,11 +113,6 @@ export default function Search02Page() {
                 <Button variant="contained" size="small" startIcon={<Search size={16} />}>
                   검색
                 </Button>
-                <Button variant="contained" size="small" color="primary">Primary</Button>
-                <Button variant="contained" size="small" color="secondary">Secondary</Button>
-                <Button variant="outlined" size="small">Outlined</Button>
-                <Button variant="outlined" size="small" color="secondary">Outlined</Button>
-                <Button variant="text" size="small">Text</Button>
               </div>
             </div>
           </div>

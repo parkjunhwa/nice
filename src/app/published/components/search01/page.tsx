@@ -101,15 +101,13 @@ export default function Search01Page() {
                 <Button variant="outlined" size="small" startIcon={<RefreshCw size={16} />}>
                   새로고침
                 </Button>
-                <Button variant="contained" size="small" startIcon={<Search size={16} />} onClick={() => {
+                <Button variant="contained" size="small" startIcon={<Search size={16} />}
+                  onClick={() => {
                   setAlertMessage('검색이 완료되었습니다.')
                   setAlertOpen(true)
                 }}>
                   검색
                 </Button>
-
-                <Button variant="contained" size="small" color="primary">Primary</Button>
-                <Button variant="contained" size="small" color="secondary">Secondary</Button>
               </div>
             </div>
           </div>

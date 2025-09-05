@@ -1014,10 +1014,10 @@
     padding-left: 8px !important;
   }
 
-  // Autocomplete 메뉴 리스트 좌우 패딩 12px 설정
+  // Autocomplete 메뉴 리스트 좌우 패딩 0px 설정
   .MuiAutocomplete-popper .MuiAutocomplete-listbox {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .MuiAutocomplete-popper .MuiAutocomplete-option {
