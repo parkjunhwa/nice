@@ -220,7 +220,7 @@ export default function LoginPage() {
           {/* 저작권 */}
           <div className="text-center">
             <Typography variant="caption" className="text-gray-400 text-xs">
-              Copyright NICE Infra Service. All Right Reserved.
+              Copyright(c) NICE Infra Service. All Rights Reserved
             </Typography>
           </div>
         </div>
