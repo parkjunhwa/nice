@@ -489,7 +489,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
 
       {isOpen && (
         <div className="border-t border-gray-200 p-4 space-y-3 mt-auto sticky bottom-0 bg-white">
-          <p className="text-[11px] text-gray-400 text-center">
+          <p className="text-[11px] text-gray-400 text-center" style={{ lineHeight: "14px" }}>
             Copyright(c) NICE Infra Service.<br />
             All Rights Reserved.
           </p>
