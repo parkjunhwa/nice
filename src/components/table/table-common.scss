@@ -1,7 +1,9 @@
 // Tabulator 테이블 전용 스타일 (Tailwind와 호환)
 // 기본 레이아웃은 Tailwind 클래스로 처리하고, Tabulator 라이브러리 전용 스타일만 여기에 정의
 
-// SampleTable 컨테이너 기본 스타일
+// ==========================================
+// 기본 컨테이너 및 레이아웃
+// ==========================================
 .sample-table-container {
   display: flex;
   flex-direction: column;
@@ -9,7 +11,9 @@
   overflow: hidden;
 }
 
-// Tabulator 라이브러리 전용 스타일
+// ==========================================
+// Tabulator 기본 스타일
+// ==========================================
 .tabulator {
   width: 100%;
   height: 100%;
@@ -31,7 +35,7 @@
     .tabulator-col {
       background-color: #1e3a8a; /* blue-800 */
       border-right: 1px solid #1e40af; /* blue-700 */
-      padding: 6px 8px;
+      padding: 2px 8px;
       font-weight: 400;
       color: #ffffff; /* white */
       font-size: 13px;
@@ -99,7 +103,7 @@
   .tabulator-row {
     border-bottom: 1px solid #f3f4f6; /* gray-100 */
     transition: all 0.2s ease;
-    width:fit-content !important;
+    width: fit-content !important;
 
     &:hover {
       background-color: #dbeafe !important; /* blue-50 - hover 시 모든 라인에 적용 */
@@ -118,99 +122,26 @@
       border-right: 1px solid #f3f4f6; /* gray-100 */
       color: #374151; /* gray-700 */
       font-size: 13px;
-      line-height: 1.5;
-
-      // 액션 버튼 스타일
-      .action-buttons {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-
-        .action-btn {
-          padding: 6px;
-          border-radius: 6px;
-          transition: all 0.2s ease;
-          border: none;
-          background: transparent;
-          cursor: pointer;
-
-          &:hover {
-            transform: scale(1.05);
-          }
-
-          svg {
-            width: 16px;
-            height: 16px;
-          }
-
-          // 보기 버튼
-          &.view-btn {
-            color: #2563eb; /* blue-600 */
-
-            &:hover {
-              background-color: #dbeafe; /* blue-100 */
-            }
-          }
-
-          // 편집 버튼
-          &.edit-btn {
-            color: #16a34a; /* green-600 */
-
-            &:hover {
-              background-color: #dcfce7; /* green-100 */
-            }
-          }
-
-          // 삭제 버튼
-          &.delete-btn {
-            color: #dc2626; /* red-600 */
-
-            &:hover {
-              background-color: #fee2e2; /* red-100 */
-            }
-          }
-        }
-      }
+      vertical-align: middle;
+      height: 34px !important;
+      line-height: 22px !important; /* 34px - 12px(padding) = 22px */
     }
   }
 }
 
-// 테이블 상태별 스타일
-.table-loading .tabulator-table {
-  opacity: 0.6;
-  pointer-events: none;
+// ==========================================
+// 정렬 아이콘 스타일
+// ==========================================
+.tabulator-col-title {
+  padding-top: 1px;
 }
 
-.table-empty .tabulator-table .tabulator-placeholder {
-  padding: 40px 20px;
-  text-align: center;
-  color: #6b7280; /* gray-500 */
-  font-size: 12px;
+.tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element {
+  padding: 3px 8px 0px 8px;
 }
-
-.tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element {padding:3px 8px 0px 8px;}
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element:hover {
   background: none;
-}
-
-.tabulator .tabulator-header .tabulator-col.tabulator-sortable:hover .tabulator-col-sorter .tabulator-arrow::before {
-  opacity: 0.8;
-}
-
-.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort=none] .tabulator-col-sorter .tabulator-arrow::before {
-  opacity: 0.2;
-  transform: translate(-50%, -50%) rotate(180deg);
-}
-
-.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort=ascending] .tabulator-col-sorter .tabulator-arrow::before {
-  opacity: 1;
-  transform: translate(-50%, -50%) rotate(180deg);
-}
-
-.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort=descending] .tabulator-col-sorter .tabulator-arrow::before {
-  opacity: 1;
-  transform: translate(-50%, -50%) rotate(0deg);
 }
 
 // 정렬 화살표 기본 모양 - Lucide 아이콘 위쪽 화살표
@@ -247,10 +178,300 @@
   transform: translate(-50%, -50%);
 }
 
+// 정렬 상태별 화살표 회전
+.tabulator .tabulator-header .tabulator-col.tabulator-sortable:hover .tabulator-col-sorter .tabulator-arrow::before {
+  opacity: 0.8;
+}
+
+.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort=none] .tabulator-col-sorter .tabulator-arrow::before {
+  opacity: 0.2;
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort=ascending] .tabulator-col-sorter .tabulator-arrow::before {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(180deg);
+}
+
+.tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort=descending] .tabulator-col-sorter .tabulator-arrow::before {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+// ==========================================
+// 행 선택 및 편집 스타일
+// ==========================================
+.tabulator .tabulator-row.tabulator-selected {
+  background-color: #dbeafe !important; /* blue-100 */
+  border-left: 2px solid #2563eb; /* blue-600 */
+  
+  &:hover {
+    background-color: #bfdbfe !important; /* blue-200 */
+  }
+  
+  .tabulator-cell {
+    background-color: transparent !important;
+  }
+}
+
+.tabulator .tabulator-row.tabulator-selectable:hover {
+  background-color: #f3f4f6 !important; /* gray-100 */
+  cursor: pointer;
+}
+
 .tabulator-row .tabulator-cell.tabulator-editing {
-  border: 2px solid #2563eb !important; // textfield focus color (blue-600)
+  border: 2px solid #2563eb !important; /* blue-600 */
   outline: none;
   padding: 0;
 }
 
-.tabulator-col-title {padding-top:2px;}
+// ==========================================
+// MUI 체크박스 스타일
+// ==========================================
+.mui-checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 40px;
+}
+
+.mui-checkbox-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mui-checkbox-input {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #1976d2;
+  border-radius: 2px;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  
+  &:checked {
+    background-color: #1976d2;
+    border-color: #1976d2;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 4px;
+      height: 8px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+  
+  &:hover {
+    border-color: #1565c0;
+  }
+  
+  &:checked:hover {
+    background-color: #1565c0;
+    border-color: #1565c0;
+  }
+  
+  &:focus {
+    outline: 2px solid rgba(25, 118, 210, 0.2);
+    outline-offset: 2px;
+  }
+}
+
+// 헤더 메뉴용 MUI 체크박스 아이콘
+.mui-checkbox-icon {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #1976d2;
+  border-radius: 4px;
+  background-color: transparent;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  flex-shrink: 0;
+  
+  &.checked {
+    background-color: #1976d2;
+    border-color: #1976d2;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 4px;
+      height: 8px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+  
+  &.unchecked {
+    background-color: transparent;
+    border-color: #1976d2;
+  }
+}
+
+// 체크박스 컬럼 스타일링
+.tabulator .tabulator-header .tabulator-col[data-field="select"],
+.tabulator .tabulator-row .tabulator-cell[data-field="select"] {
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+  
+  &:hover {
+    background-color: rgba(25, 118, 210, 0.04);
+  }
+}
+
+// 체크박스 셀 상하 중앙 정렬
+.tabulator .tabulator-row .tabulator-cell[data-field="select"],
+.tabulator .tabulator-header .tabulator-col[data-field="select"],
+.tabulator .tabulator-row .tabulator-cell input[type=checkbox][aria-label="Select Row"],
+.tabulator .tabulator-header .tabulator-col input[type=checkbox][aria-label="Select All"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  line-height: 1 !important;
+}
+
+// 헤더 체크박스 컨테이너 스타일
+.tabulator .tabulator-header .tabulator-col[data-field="select"] .tabulator-col-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+}
+
+// 헤더 체크박스 제목 영역 스타일
+.tabulator .tabulator-header .tabulator-col[data-field="select"] .tabulator-col-title-holder {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+}
+
+.tabulator .tabulator-header .tabulator-col[data-field="select"] .tabulator-col-title {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+}
+
+// Tabulator 기본 체크박스 스타일
+.tabulator .tabulator-row .tabulator-cell input[type="checkbox"][aria-label="Select Row"],
+.tabulator .tabulator-header .tabulator-col input[type="checkbox"][aria-label="Select All"] {
+  height: 18px !important;
+  width: 18px !important;
+  line-height: 1 !important;
+}
+
+// ==========================================
+// 컨텍스트 메뉴 스타일
+// ==========================================
+.tabulator-menu {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  padding: 4px 0;
+  min-width: 200px;
+  z-index: 1000;
+  
+  .tabulator-menu-item {
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #333;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+    &:hover {
+      background-color: #f5f5f5;
+    }
+    
+    &.tabulator-menu-item-separator {
+      height: 1px;
+      background-color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      cursor: default;
+      
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
+    
+    &.tabulator-menu-item-disabled {
+      color: #999;
+      cursor: not-allowed;
+      
+      &:hover {
+        background-color: transparent;
+      }
+    }
+    
+    // span 요소들의 상하 정렬 가운데
+    span {
+      display: flex;
+      align-items: center;
+      vertical-align: middle;
+      margin-right:0 !important;
+    }
+  }
+  
+  // 서브메뉴 스타일링
+  .tabulator-menu-submenu {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 4px 0;
+    min-width: 120px;
+    z-index: 1001;
+  }
+}
+
+// 헤더 팝업 버튼 패딩 오버라이드
+.tabulator-header-popup-button {
+  padding: 0 !important;
+  opacity: 0.2;
+  transition: opacity 0.2s ease;
+  
+  &:hover {
+    opacity: 1 !important;
+  }
+}
+
+// ==========================================
+// 테이블 상태별 스타일
+// ==========================================
+.table-loading .tabulator-table {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.table-empty .tabulator-table .tabulator-placeholder {
+  padding: 40px 20px;
+  text-align: center;
+  color: #6b7280; /* gray-500 */
+  font-size: 12px;
+}

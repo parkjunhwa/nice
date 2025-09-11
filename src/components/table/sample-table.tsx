@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useMemo, useState } from 'react'
+import { useEffect, useRef, useMemo, useState, useCallback } from 'react'
 import { TabulatorFull as Tabulator, ColumnDefinition } from 'tabulator-tables'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import '@/components/table/table-common.scss'
@@ -36,48 +36,133 @@ export default function SampleTable({
   const [pageSize, setPageSize] = useState(initialPageSize)
   const [totalPages, setTotalPages] = useState(1)
   const [totalRecords, setTotalRecords] = useState(0)
+  const [isAllSelected, setIsAllSelected] = useState(false)
+  
+  // Lucide 아이콘 렌더링 함수
+  const renderLucideIcon = (iconName: string) => {
+    const iconMap: Record<string, string> = {
+      'check-square': '<div class="mui-checkbox-icon checked"></div>',
+      'square': '<div class="mui-checkbox-icon unchecked"></div>'
+    }
+    return iconMap[iconName] || ''
+  }
+
+  // 헤더 메뉴 정의 (컬럼 표시/숨김 토글)
+  const headerMenu = useCallback(function(this: { getColumns: () => Array<{ isVisible: () => boolean; toggle: () => void; getDefinition: () => { title: string } }> }) {
+    const menu: Array<{ label: HTMLElement; action: (e: Event) => void }> = [];
+    const columns = this.getColumns();
+
+    for(const column of columns){
+      // create checkbox element using lucide icons
+      const icon = document.createElement("span");
+      icon.innerHTML = column.isVisible() ? renderLucideIcon('check-square') : renderLucideIcon('square');
+      icon.style.marginRight = "8px";
+
+      // build label
+      const label = document.createElement("span");
+      const title = document.createElement("span");
+
+      title.textContent = " " + column.getDefinition().title;
+
+      label.appendChild(icon);
+      label.appendChild(title);
+
+      // create menu item
+      menu.push({
+        label: label,
+        action: function(e: Event) {
+          // prevent menu closing
+          e.stopPropagation();
+
+          // toggle current column visibility
+          column.toggle();
+
+          // change menu item icon
+          if(column.isVisible()){
+            icon.innerHTML = renderLucideIcon('check-square');
+          } else {
+            icon.innerHTML = renderLucideIcon('square');
+          }
+        }
+      });
+    }
+
+    return menu;
+  }, []);
+  
 
   // 데이터 (커스텀 데이터가 있으면 사용, 없으면 샘플 데이터)
   const tableData = useMemo(() => {
     if (customData) return customData
 
     const data = []
+    const names = ['김철수', '이영희', '박민수', '최지영', '정현우', '한소영', '윤태호', '강미래', '임동현', '서유진']
+    const statuses = ['활성', '비활성', '대기', '완료', '진행중']
+    const categories = ['개발', '디자인', '마케팅', '영업', '관리', '고객지원', '품질관리', '운영']
+    
     for (let i = 1; i <= 50; i++) {
+      const randomDate = new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1)
       data.push({
         id: i,
-        header1: `데이터 ${i}`,
-        header2: `값 ${i}`,
-        header3: `정보 ${i}`,
-        header4: `상태 ${i}`,
-        header5: `날짜 ${i}`,
-        header6: `사용자 ${i}`,
-        header7: `카테고리 ${i}`,
-        header8: `추가데이터 ${i}`,
-        header9: `추가값 ${i}`,
-        header10: `추가정보 ${i}`
+        header1: names[i % names.length],
+        header2: `${Math.floor(Math.random() * 1000) + 100}만원`,
+        header3: categories[i % categories.length],
+        header4: statuses[i % statuses.length],
+        header5: randomDate.toLocaleDateString('ko-KR'),
+        header6: `user${i}@company.com`,
+        header7: categories[Math.floor(Math.random() * categories.length)],
+        header8: `프로젝트 ${i}`,
+        header9: `${Math.floor(Math.random() * 100)}%`,
+        header10: `부서 ${Math.floor(i / 10) + 1}`
       })
     }
     return data
   }, [customData])
 
+  // 전체선택 핸들러
+  const handleSelectAll = useCallback(() => {
+    if (tabulatorRef.current) {
+      if (isAllSelected) {
+        // 전체 선택 해제
+        tabulatorRef.current.deselectRow()
+        setIsAllSelected(false)
+      } else {
+        // 전체 선택
+        tabulatorRef.current.selectRow()
+        setIsAllSelected(true)
+      }
+    }
+  }, [isAllSelected])
+
   // 컬럼 정의 (커스텀 컬럼이 있으면 사용, 없으면 기본 컬럼)
   const tableColumns = useMemo(() => {
     if (customColumns) return customColumns
 
-    return [
-      { title: 'ID', field: 'id', width: 80, headerSort: true, headerSortTristate: true },
-      { title: '헤더1', field: 'header1', width: 150, headerSort: true, headerSortTristate: true, editor: 'input' as const },
-      { title: '헤더2', field: 'header2', width: 150, headerSort: true, headerSortTristate: true },
-      { title: '헤더3', field: 'header3', width: 150, headerSort: true, headerSortTristate: true },
-      { title: '상태', field: 'header4', width: 120, headerSort: true, headerSortTristate: true },
-      { title: '날짜', field: 'header5', width: 180, headerSort: true, headerSortTristate: true },
-      { title: '사용자', field: 'header6', width: 140, headerSort: true, headerSortTristate: true },
-      { title: '카테고리', field: 'header7', width: 160, headerSort: true, headerSortTristate: true },
-      { title: '추가컬럼1', field: 'header8', width: 150, headerSort: true, headerSortTristate: true },
-      { title: '추가컬럼2', field: 'header9', width: 150, headerSort: true, headerSortTristate: true },
-      { title: '추가컬럼3', field: 'header10', width: 150, headerSort: true, headerSortTristate: true }
+    const allColumns = [
+      {
+        title: `<input type="checkbox" aria-label="Select All" class="select-all-checkbox" ${isAllSelected ? 'checked' : ''} style="height: 18px; width: 18px;">`,
+        field: 'select',
+        width: 50,
+        headerSort: false,
+        formatter: 'rowSelection',
+        headerClick: handleSelectAll,
+        hozAlign: 'center'
+      },
+      { title: 'ID', field: 'id', width: 100, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '헤더1', field: 'header1', width: 150, headerSort: true, headerSortTristate: true, editor: 'input' as const, headerMenu: headerMenu },
+      { title: '헤더2', field: 'header2', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '헤더3', field: 'header3', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '상태', field: 'header4', width: 120, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '날짜', field: 'header5', width: 180, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '사용자', field: 'header6', width: 140, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '카테고리', field: 'header7', width: 160, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '추가컬럼1', field: 'header8', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '추가컬럼2', field: 'header9', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '추가컬럼3', field: 'header10', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu }
     ]
-  }, [customColumns])
+
+    return allColumns
+  }, [customColumns, headerMenu, handleSelectAll, isAllSelected])
 
   // 페이지네이션된 데이터 계산
   const paginatedData = useMemo(() => {
@@ -109,6 +194,17 @@ export default function SampleTable({
       sortMode: 'local',
       initialSort: [{ column: 'id', dir: 'asc' }],
       pagination: false, // 커스텀 페이지네이션 사용
+      rowSelection: true, // 행 선택 체크박스 활성화
+      rowSelectionCheck: () => {
+        // 모든 행 선택 가능
+        return true
+      },
+      rowSelectionChanged: (data: unknown[], rows: unknown[]) => {
+        // 전체선택 상태 업데이트
+        const allRows = data.length
+        const selectedRows = rows.length
+        setIsAllSelected(allRows > 0 && selectedRows === allRows)
+      },
       rowFormatter: (row: { getElement: () => HTMLElement; getPosition: () => number | false }) => {
         const element = row.getElement()
         element.style.transition = 'all 0.2s ease'
@@ -117,7 +213,7 @@ export default function SampleTable({
           element.style.backgroundColor = '#f9fafb'
         }
       }
-    })
+    } as Record<string, unknown>)
 
     // 정렬 아이콘을 회전하는 화살표로 교체
     setTimeout(() => {
@@ -179,6 +275,7 @@ export default function SampleTable({
 
   return (
     <div className={`sample-table-container ${className} relative w-full h-full ${layout === 'fitDataFill' ? 'fit-data-fill' : ''}`} style={{ height: height, maxHeight: '100%', overflow: 'hidden' }}>
+
       {/* 테이블 영역 - 페이지네이션 여부에 따라 높이 조정 */}
       <div
         className={`table-area w-full ${showPagination ? 'h-[calc(100%-40px)]' : 'h-full'}`}
