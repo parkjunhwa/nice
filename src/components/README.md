@@ -77,7 +77,7 @@
 - `index.ts`: 모달 컴포넌트 export
 - `basic-modal.tsx`: 기본 모달
 - `confirm-modal.tsx`: 확인 모달
-- `cmn001.tsx` ~ `cmn012.tsx`: 공통 모달 컴포넌트들
+- `cmn001.tsx` ~ `cmn013.tsx`: 공통 모달 컴포넌트들 (cmn013: 리치 텍스트 에디터)
 - `mui-basic-modal.tsx`: MUI 기본 모달
 - `mui-confirm-modal.tsx`: MUI 확인 모달
 - `mui-form-modal.tsx`: MUI 폼 모달
@@ -181,6 +181,7 @@ import {
   BasicModal, 
   ConfirmModal,
   Cmn001,
+  Cmn012, // 정산기준정보 검색 모달
   MuiBasicModal 
 } from '@/components'
 
@@ -202,6 +203,30 @@ import {
   message="정말 삭제하시겠습니까?"
 />
 ```
+
+### 리치 텍스트 에디터 (MD Editor) 사용
+
+```tsx
+import dynamic from 'next/dynamic'
+
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
+
+// MD Editor 사용
+<MDEditor
+  value={content}
+  onChange={(val) => setContent(val || '')}
+  height={300}
+  data-color-mode="light"
+  placeholder="본문 내용을 입력하세요..."
+/>
+```
+
+**MD Editor 특징:**
+- 마크다운 문법 지원
+- 실시간 미리보기
+- React 19 완전 호환
+- 이미지 및 링크 삽입 지원
+- 한국어 환경 최적화
 
 ## 컴포넌트 개발 가이드
 
@@ -269,6 +294,6 @@ export function NewComponent({ title, value, className }: NewComponentProps) {
 ---
 
 **작성자**
-디자이너/퍼블리셔 박준화 수석 (최종수정일:2025-09-04)
+디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-01-27)
 010-9479-3188
 junhwa.park@gmail.com

@@ -19,4 +19,4 @@ export * from './modal'
 export * from './mui'
 
 // 아이콘들을 공통으로 export
-export * as Icons from './icons' 
+export * as Icons from './icons'

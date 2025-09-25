@@ -11,35 +11,24 @@ interface Cmn009Props {
 }
 
 export default function Cmn009({ open, onClose }: Cmn009Props) {
-  const [departmentName, setDepartmentName] = useState('')
-  const [userName, setUserName] = useState('')
-  const [employeeId, setEmployeeId] = useState('')
+  const [contractName, setContractName] = useState('')
+  const [contractNumber, setContractNumber] = useState('')
 
-  // 부서명 샘플 데이터
-  const departmentOptions = [
-    { value: 'dept1', label: '개발팀' },
-    { value: 'dept2', label: '디자인팀' },
-    { value: 'dept3', label: '기획팀' },
-    { value: 'dept4', label: '마케팅팀' },
-    { value: 'dept5', label: '인사팀' }
+  // 계약명 샘플 데이터
+  const contractNameOptions = [
+    { value: 'contract1', label: '월정산' },
+    { value: 'contract2', label: '일정산' },
+    { value: 'contract3', label: '실시간정산' },
+    { value: 'contract4', label: '주간정산' },
+    { value: 'contract5', label: '분기정산' }
   ]
 
-  // 사용자명 샘플 데이터
-  const userOptions = [
-    { value: 'user1', label: '김철수' },
-    { value: 'user2', label: '이영희' },
-    { value: 'user3', label: '박민수' },
-    { value: 'user4', label: '정수진' },
-    { value: 'user5', label: '최지원' }
-  ]
-
-  // 사번 샘플 데이터
-  const employeeOptions = [
-    { value: 'emp1', label: 'EMP001' },
-    { value: 'emp2', label: 'EMP002' },
-    { value: 'emp3', label: 'EMP003' },
-    { value: 'emp4', label: 'EMP004' },
-    { value: 'emp5', label: 'EMP005' }
+  const contractNumberOptions = [
+    { value: 'number1', label: 'CT001' },
+    { value: 'number2', label: 'CT002' },
+    { value: 'number3', label: 'CT003' },
+    { value: 'number4', label: 'CT004' },
+    { value: 'number5', label: 'CT005' }
   ]
   return (
     <Dialog
@@ -58,7 +47,7 @@ export default function Cmn009({ open, onClose }: Cmn009Props) {
       <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
-            사용자 검색
+            정산기준정보 검색
           </Typography>
           <IconButton
             aria-label="닫기"
@@ -71,17 +60,17 @@ export default function Cmn009({ open, onClose }: Cmn009Props) {
         </div>
       </DialogTitle>
 
-      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-4 border-t border-b border-blue-100">
+      <div className="flex flex-row items-center w-full justify-between flex-1 bg-gray-50 py-2 px-6 border-t border-b border-blue-100">
         {/* 좌측: 키워드 검색 */}
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <label className="form-side-label">
-              부서명
+              계약명
             </label>
             <FormControl fullWidth>
               <Select
-                value={departmentName}
-                onChange={(e) => setDepartmentName(e.target.value)}
+                value={contractName}
+                onChange={(e) => setContractName(e.target.value)}
                 displayEmpty
                 className="bg-white"
                 size="small"
@@ -90,7 +79,7 @@ export default function Cmn009({ open, onClose }: Cmn009Props) {
                 <MenuItem value="">
                   <span>선택</span>
                 </MenuItem>
-                {departmentOptions.map((option) => (
+                {contractNameOptions.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -100,12 +89,12 @@ export default function Cmn009({ open, onClose }: Cmn009Props) {
           </div>
           <div className="flex items-center">
             <label className="form-side-label">
-              사용자명
+              계약번호
             </label>
             <FormControl fullWidth>
               <Select
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
+                value={contractNumber}
+                onChange={(e) => setContractNumber(e.target.value)}
                 displayEmpty
                 className="bg-white"
                 size="small"
@@ -114,31 +103,7 @@ export default function Cmn009({ open, onClose }: Cmn009Props) {
                 <MenuItem value="">
                   <span>선택</span>
                 </MenuItem>
-                {userOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-          <div className="flex items-center">
-            <label className="form-side-label">
-              사번
-            </label>
-            <FormControl fullWidth>
-              <Select
-                value={employeeId}
-                onChange={(e) => setEmployeeId(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {employeeOptions.map((option) => (
+                {contractNumberOptions.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -154,7 +119,7 @@ export default function Cmn009({ open, onClose }: Cmn009Props) {
           </Button>
         </div>
       </div>
-      
+
       <DialogContent>
         {/* 세로 꽉차는 테이블 샘플 */}
         <div style={{ height: 'calc(100% - 0px)', marginTop: '16px' }}>

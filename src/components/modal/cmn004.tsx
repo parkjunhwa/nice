@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, TextField, InputAdornment, IconButton, FormControl, Select, MenuItem } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, TextField, InputAdornment, IconButton } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -11,18 +11,9 @@ interface Cmn004Props {
 }
 
 export default function Cmn004({ open, onClose }: Cmn004Props) {
-  const [siteCode, setSiteCode] = useState('')
-  const [siteName, setSiteName] = useState('')
-  const [selectValue, setSelectValue] = useState('')
-
-  // 샘플 데이터
-  const selectOptions = [
-    { value: 'option1', label: '옵션 1' },
-    { value: 'option2', label: '옵션 2' },
-    { value: 'option3', label: '옵션 3' },
-    { value: 'option4', label: '옵션 4' },
-    { value: 'option5', label: '옵션 5' }
-  ]
+  const [chargingStationName, setChargingStationName] = useState('')
+  const [chargingStationId, setChargingStationId] = useState('')
+  
   return (
     <Dialog
       open={open}
@@ -40,7 +31,7 @@ export default function Cmn004({ open, onClose }: Cmn004Props) {
       <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
-            주차장 검색
+            EV충전소 검색
           </Typography>
           <IconButton
             aria-label="닫기"
@@ -58,20 +49,20 @@ export default function Cmn004({ open, onClose }: Cmn004Props) {
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <label className="form-side-label">
-              주차장명
+              충전소 명
             </label>
             <TextField
               variant="outlined"
               size="small"
-              value={siteCode}
-              onChange={(e) => setSiteCode(e.target.value)}
-              sx={{ width: '150px' }}
+              value={chargingStationName}
+              onChange={(e) => setChargingStationName(e.target.value)}
+              sx={{ width: '160px' }}
               InputProps={{
-                endAdornment: siteCode && (
+                endAdornment: chargingStationName && (
                   <InputAdornment position="end">
                     <IconButton
                       size="small"
-                      onClick={() => setSiteCode('')}
+                      onClick={() => setChargingStationName('')}
                       sx={{
                         '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
                       }}
@@ -85,20 +76,20 @@ export default function Cmn004({ open, onClose }: Cmn004Props) {
           </div>
           <div className="flex items-center">
             <label className="form-side-label">
-              주차장 코드
+              충전소ID
             </label>
             <TextField
               variant="outlined"
               size="small"
-              value={siteName}
-              onChange={(e) => setSiteName(e.target.value)}
-              sx={{ width: '150px' }}
+              value={chargingStationId}
+              onChange={(e) => setChargingStationId(e.target.value)}
+              sx={{ width: '160px' }}
               InputProps={{
-                endAdornment: siteName && (
+                endAdornment: chargingStationId && (
                   <InputAdornment position="end">
                     <IconButton
                       size="small"
-                      onClick={() => setSiteName('')}
+                      onClick={() => setChargingStationId('')}
                     >
                       <Icons.XIcon size={14} />
                     </IconButton>
@@ -106,30 +97,6 @@ export default function Cmn004({ open, onClose }: Cmn004Props) {
                 )
               }}
             />
-          </div>
-          <div className="flex items-center">
-            <label className="form-side-label">
-              계약형태
-            </label>
-            <FormControl fullWidth>
-              <Select
-                value={selectValue}
-                onChange={(e) => setSelectValue(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {selectOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
           </div>
         </div>
         {/* 우측: 카테고리/상태/버튼 (width auto) */}

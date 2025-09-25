@@ -10,6 +10,7 @@ import {
   MuiFormModal,
   MuiConfirmModal,
   MuiFullscreenModal,
+  Mnb002,
   Cmn001,
   Cmn002,
   Cmn003,
@@ -38,7 +39,9 @@ export default function ModalPage() {
   const [muiConfirmModalOpen, setMuiConfirmModalOpen] = useState(false)
   const [muiFullscreenModalOpen, setMuiFullscreenModalOpen] = useState(false)
 
-  // Modal001-010 상태 관리
+  // Modal001-012 상태 관리
+
+  const [modalmnb002Open, setModalmnb002Open] = useState(false)
   const [modal001Open, setModal001Open] = useState(false)
   const [modal002Open, setModal002Open] = useState(false)
   const [modal003Open, setModal003Open] = useState(false)
@@ -56,8 +59,6 @@ export default function ModalPage() {
   const [alertOpen, setAlertOpen] = useState(false)
   const [alertMessage, setAlertMessage] = useState('')
   const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('success')
-
-
 
   // 확인 모달 핸들러
   const handleConfirm = () => {
@@ -105,7 +106,6 @@ export default function ModalPage() {
             >
               삭제 확인 모달
             </Button>
-
           </div>
 
           <div className="h-6" />
@@ -141,7 +141,6 @@ export default function ModalPage() {
               MUI 전체화면 다이얼로그
             </Button>
           </div>
-
         </div>
         <div className="mt-4 pb-4">
           <Typography variant="h6" className="text-gray-800 font-semibold">
@@ -151,14 +150,29 @@ export default function ModalPage() {
             기획안 참조
           </Typography>
         </div>
-        <div className="flex-1 min-h-0">
+
+        <div className="flex-1 min-h-0 gap-2 mb-4">
+          {/* 퍼블된 프로젝트 모달 */}
+          <div className="flex flex-row items-center gap-2 flex-wrap">
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setModalmnb002Open(true)}
+              startIcon={<Icons.CheckIcon size={16} />}
+            >
+              비밀번호 변경
+            </Button>
+          </div>
+        </div>
+
+        <div className="flex-1 min-h-0 gap-2">
           {/* 퍼블된 프로젝트 모달 */}
           <div className="flex flex-row items-center gap-2 flex-wrap">
             <Button
               variant="outlined"
               size="small"
               onClick={() => setModal001Open(true)}
-              startIcon={<Icons.SettingsIcon size={16} />}
+              startIcon={<Icons.CheckIcon size={16} />}
             >
               엑셀 업로드 결과
             </Button>
@@ -176,7 +190,7 @@ export default function ModalPage() {
               onClick={() => setModal003Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              사이트 검색
+              주차장 검색
             </Button>
             <Button
               variant="outlined"
@@ -184,7 +198,7 @@ export default function ModalPage() {
               onClick={() => setModal004Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              주차장 검색
+              EV충전소 검색
             </Button>
             <Button
               variant="outlined"
@@ -192,7 +206,7 @@ export default function ModalPage() {
               onClick={() => setModal005Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              EV충전소 검색
+              ATM기기 검색
             </Button>
             <Button
               variant="outlined"
@@ -200,14 +214,15 @@ export default function ModalPage() {
               onClick={() => setModal006Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              ATM 기기 검색
+              키오스크 검색
             </Button>
             <Button
               variant="outlined"
               size="small"
               onClick={() => setModal007Open(true)}
+              startIcon={<Icons.CheckIcon size={16} />}
             >
-              키오스크 기기 검색
+              상품 검색
             </Button>
             <Button
               variant="outlined"
@@ -215,7 +230,7 @@ export default function ModalPage() {
               onClick={() => setModal008Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              상품 코드 검색
+              사용자 검색
             </Button>
             <Button
               variant="outlined"
@@ -223,7 +238,7 @@ export default function ModalPage() {
               onClick={() => setModal009Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              사용자 검색
+              정산기준정보 검색
             </Button>
             <Button
               variant="outlined"
@@ -231,14 +246,15 @@ export default function ModalPage() {
               onClick={() => setModal010Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              비밀번호 변경
+              결재작성
             </Button>
             <Button
               variant="outlined"
               size="small"
               onClick={() => setModal011Open(true)}
+              startIcon={<Icons.CheckIcon size={16} />}
             >
-              충전소 검색
+              사이트 검색
             </Button>
             <Button
               variant="outlined"
@@ -246,11 +262,16 @@ export default function ModalPage() {
               onClick={() => setModal012Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              계약마스터 검색
+              세금계산서 대사
             </Button>
           </div>
 
           {/* Cmn001-Cmn012 컴포넌트들 */}
+          <Mnb002
+            open={modalmnb002Open}
+            onClose={() => setModalmnb002Open(false)}
+          />
+
           <Cmn001
             open={modal001Open}
             onClose={() => setModal001Open(false)}
@@ -299,9 +320,6 @@ export default function ModalPage() {
           <Cmn010
             open={modal010Open}
             onClose={() => setModal010Open(false)}
-            onSuccess={(message) => {
-              showAlert(message, 'success')
-            }}
           />
 
           <Cmn011
@@ -356,7 +374,7 @@ export default function ModalPage() {
         open={muiFormModalOpen}
         onClose={() => setMuiFormModalOpen(false)}
         title="MUI 폼 다이얼로그"
-        onSubmit={(data) => {
+        onSubmit={(data: Record<string, unknown>) => {
           console.log('MUI 폼 데이터:', data)
           showAlert('MUI 폼이 제출되었습니다!', 'success')
         }}
@@ -387,8 +405,6 @@ export default function ModalPage() {
         }}
       />
 
-
-
       {/* MUI Alert Snackbar */}
       <Snackbar
         open={alertOpen}
@@ -404,10 +420,10 @@ export default function ModalPage() {
           }
         }}
       >
-        <Alert 
-          onClose={() => setAlertOpen(false)} 
+        <Alert
+          onClose={() => setAlertOpen(false)}
           severity={alertSeverity}
-          sx={{ 
+          sx={{
             width: '100%',
             '& .MuiAlert-message': {
               fontWeight: 500

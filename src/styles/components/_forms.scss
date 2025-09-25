@@ -44,7 +44,8 @@
     /* Required asterisk for "required" class */
     &.required::after {
       content: " *";
-      color: hsl(var(--color-error)); /* MUI error color */
+      color: hsl(var(--color-error));
+      /* MUI error color */
     }
   }
 
@@ -70,7 +71,8 @@
     /* Required asterisk for "required" class */
     &.required::after {
       content: " *";
-      color: hsl(var(--color-error)); /* MUI error color */
+      color: hsl(var(--color-error));
+      /* MUI error color */
     }
   }
 
@@ -386,6 +388,7 @@
       font-size: var(--font-size-base) !important;
     }
   }
+
   /* MUI TextField 크기별 스타일 - 적용 확인용 outline 추가 (특히 medium) */
   .MuiTextField-root .MuiInputBase-root.MuiInputBase-sizeSmall {
     height: 32px !important;
@@ -403,13 +406,15 @@
       height: 36px !important;
       font-size: 13px !important;
     }
+
     .MuiInputBase-input {
       height: 36px !important;
       padding: var(--input-padding-y-base) var(--input-padding-x-base) !important;
       font-size: 13px !important;
     }
+
     .MuiInputAdornment-root {
-      margin-right: 8px !important;      // 아이콘 간격 8px (small과 동일)
+      margin-right: 8px !important; // 아이콘 간격 8px (small과 동일)
     }
   }
 
@@ -871,12 +876,14 @@
 
   /* MUI DatePicker 오늘 날짜 셀 스타일 (변수 사용) */
   .MuiPickersDay-root.MuiPickersDay-today:not(.Mui-selected) {
-    background-color: #f3f4f6 !important; /* gray-100 */
+    background-color: #f3f4f6 !important;
+    /* gray-100 */
     border: 0 !important;
   }
 
   .MuiPickersDay-root.MuiPickersDay-today:not(.Mui-selected):hover {
-    background-color: #e5e7eb !important; /* gray-200 */
+    background-color: #e5e7eb !important;
+    /* gray-200 */
   }
 
   /* MUI DatePicker 헤더 요일 색상 */
@@ -913,7 +920,7 @@
   .MuiPickersActionBar-root .MuiButton-root[data-mui-test="ok-button"] {
     background-color: hsl(var(--color-primary)) !important;
     color: white !important;
-    
+
     &:hover {
       background-color: hsl(var(--color-primary) / 0.9) !important;
     }
@@ -925,7 +932,7 @@
     background-color: hsl(var(--color-primary)) !important;
     color: white !important;
     border: 1px solid hsl(var(--color-primary)) !important;
-    
+
     &:hover {
       background-color: hsl(var(--color-primary) / 0.9) !important;
       border-color: hsl(var(--color-primary) / 0.9) !important;
@@ -940,7 +947,7 @@
   /* 취소 버튼 스타일 */
   .MuiPickersActionBar-root .MuiButton-root[data-mui-test="cancel-button"] {
     color: hsl(var(--color-muted-foreground)) !important;
-    
+
     &:hover {
       background-color: hsl(var(--color-muted) / 0.1) !important;
     }
@@ -949,7 +956,7 @@
   /* 지우기 버튼 스타일 */
   .MuiPickersActionBar-root .MuiButton-root[data-mui-test="clear-button"] {
     color: hsl(var(--color-error)) !important;
-    
+
     &:hover {
       background-color: hsl(var(--color-error) / 0.1) !important;
     }
@@ -958,7 +965,7 @@
   /* 오늘 버튼 스타일 */
   .MuiPickersActionBar-root .MuiButton-root[data-mui-test="today-button"] {
     color: hsl(var(--color-primary)) !important;
-    
+
     &:hover {
       background-color: hsl(var(--color-primary) / 0.1) !important;
     }
@@ -970,7 +977,7 @@
     background-color: white !important;
     border: 1px solid hsl(var(--color-border)) !important;
     color: hsl(var(--color-muted-foreground)) !important;
-    
+
     &:hover {
       background-color: hsl(var(--color-muted) / 0.1) !important;
       border-color: hsl(var(--color-border)) !important;
@@ -987,7 +994,7 @@
     background-color: white !important;
     border: 1px solid hsl(var(--color-error)) !important;
     color: hsl(var(--color-error)) !important;
-    
+
     &:hover {
       background-color: hsl(var(--color-error) / 0.1) !important;
       border-color: hsl(var(--color-error)) !important;
@@ -1002,16 +1009,67 @@
   /* 오늘 버튼만 primary 색상 텍스트 유지 */
   .MuiPickersActionBar-root .MuiButton-root[data-mui-test="today-button"] {
     color: hsl(var(--color-primary)) !important;
-    
+
     &:hover {
       background-color: hsl(var(--color-primary) / 0.1) !important;
     }
   }
 
   // MuiListItemText span 폰트 크기 13px 전역 설정
-  .MuiListItemText-root > span {
+  .MuiListItemText-root>span {
     font-size: 13px !important;
     padding-left: 8px !important;
+  }
+
+  /* 작은 버튼 스타일 */
+  .xsmallbtn1 {
+    padding: 0px !important;
+    min-width: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+    max-width: 32px;
+  }
+
+  .xsmallbtn1 .MuiButton-startIcon {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+  }
+
+  .xsmallbtn2 {
+    padding: 0px !important;
+    min-width: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+  }
+
+  .xsmallbtn2 .MuiButton-startIcon {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+  }
+
+  .xsmallbtn3 {
+    padding: 0px !important;
+    min-width: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+    max-width: 32px !important;
+  }
+
+  .xsmallbtn3 .MuiButton-startIcon {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
   }
 
   // Autocomplete 메뉴 리스트 좌우 패딩 0px 설정
@@ -1025,39 +1083,44 @@
     padding-right: 12px !important;
   }
 
-     /* 공통 테이블 스타일 */
-   .table-header-top,
-   .table-header-left {
-     box-shadow: none !important;
-     border: 1px solid hsl(var(--color-border)) !important; /* TextField와 동일한 border 색상 */
-     
-     .MuiTable-root {
-       border-collapse: collapse !important;
-     }
-     
-     .MuiTableCell-root {
-       border-right: 1px solid hsl(var(--color-border)) !important; /* TextField와 동일한 border 색상 */
-       border-bottom: 1px solid hsl(var(--color-border)) !important; /* TextField와 동일한 border 색상 */
-       font-size: 13px !important; /* body1 스타일, 13px */
-       font-weight: 400 !important;
-       line-height: 1.5 !important;
-       padding: 8px 16px !important;
-       
-       &:last-child {
-         border-right: none !important;
-       }
-     }
-     
-     .MuiTableHead-root .MuiTableCell-root {
-       background-color: #f1f5f9 !important;
-       font-weight: 600 !important;
-       font-size: 13px !important; /* body1 스타일, 13px */
-       line-height: 1.5 !important;
-       padding: 8px 16px !important;
-     }
-     
-     .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root {
-       border-bottom: none !important;
-     }
-   }
+  /* 공통 테이블 스타일 */
+  .table-header-top,
+  .table-header-left {
+    box-shadow: none !important;
+    border: 1px solid hsl(var(--color-border)) !important;
+    /* TextField와 동일한 border 색상 */
+
+    .MuiTable-root {
+      border-collapse: collapse !important;
+    }
+
+    .MuiTableCell-root {
+      border-right: 1px solid hsl(var(--color-border)) !important;
+      /* TextField와 동일한 border 색상 */
+      border-bottom: 1px solid hsl(var(--color-border)) !important;
+      /* TextField와 동일한 border 색상 */
+      font-size: 13px !important;
+      /* body1 스타일, 13px */
+      font-weight: 400 !important;
+      line-height: 1.5 !important;
+      padding: 8px 16px !important;
+
+      &:last-child {
+        border-right: none !important;
+      }
+    }
+
+    .MuiTableHead-root .MuiTableCell-root {
+      background-color: #f1f5f9 !important;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+      /* body1 스타일, 13px */
+      line-height: 1.5 !important;
+      padding: 8px 16px !important;
+    }
+
+    .MuiTableBody-root .MuiTableRow-root:last-child .MuiTableCell-root {
+      border-bottom: none !important;
+    }
+  }
 }

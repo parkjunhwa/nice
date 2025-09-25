@@ -20,3 +20,6 @@ export { default as Cmn009 } from './cmn009'
 export { default as Cmn010 } from './cmn010'
 export { default as Cmn011 } from './cmn011'
 export { default as Cmn012 } from './cmn012'
+
+// Mnb002 모달 컴포넌트
+export { default as Mnb002 } from './mnb002'

@@ -12,7 +12,7 @@ interface Cmn012Props {
 
 export default function Cmn012({ open, onClose }: Cmn012Props) {
   const [contractNumber, setContractNumber] = useState('')
-  
+
   // 계약번호 샘플 데이터
   const contractNumberOptions = [
     { value: 'contract1', label: 'CT001' },
@@ -31,14 +31,14 @@ export default function Cmn012({ open, onClose }: Cmn012Props) {
         sx: {
           borderRadius: 2,
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-          width: '800px'
+          width: '900px'
         }
       }}
     >
       <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
-            계약마스터 검색
+            세금계산서 대사
           </Typography>
           <IconButton
             aria-label="닫기"
@@ -56,7 +56,7 @@ export default function Cmn012({ open, onClose }: Cmn012Props) {
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <label className="form-side-label">
-              계약번호
+              일치여부
             </label>
             <FormControl fullWidth>
               <Select
@@ -68,7 +68,7 @@ export default function Cmn012({ open, onClose }: Cmn012Props) {
                 sx={{ width: '150px' }}
               >
                 <MenuItem value="">
-                  <span>선택</span>
+                  <span>전체</span>
                 </MenuItem>
                 {contractNumberOptions.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -81,13 +81,16 @@ export default function Cmn012({ open, onClose }: Cmn012Props) {
 
         </div>
         {/* 우측: 카테고리/상태/버튼 (width auto) */}
-        <div className="flex flex-row items-center gap-2 flex-shrink-0">
-          <Button variant="outlined" size="small" color="secondary">
-            조회
+        <div className="flex flex-row items-center gap-4 flex-shrink-0">
+          <Typography variant="subtitle2" sx={{ fontWeight: 400 }}>
+            불일치 건수: 5건
+          </Typography>
+          <Button variant="contained" size="small">
+            조정(일단위)
           </Button>
         </div>
       </div>
-      
+
       <DialogContent>
         {/* 세로 꽉차는 테이블 샘플 */}
         <div style={{ height: 'calc(100% - 0px)', marginTop: '16px' }}>
@@ -104,11 +107,8 @@ export default function Cmn012({ open, onClose }: Cmn012Props) {
       </DialogContent>
 
       <DialogActions sx={{ padding: '16px' }}>
-        <Button onClick={onClose} variant="outlined" color="secondary">
-          취소
-        </Button>
         <Button variant="contained" onClick={onClose}>
-          선택
+          저장
         </Button>
       </DialogActions>
     </Dialog>

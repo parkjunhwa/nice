@@ -8,13 +8,14 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 - **MUI 통합**: Material-UI 컴포넌트를 체계적으로 분류하여 제공
 - **고급 차트**: Chart.js와 Recharts를 활용한 데이터 시각화
 - **날짜/시간 선택기**: MUI X Date Pickers를 활용한 고급 날짜/시간 선택 기능
-- **모달 시스템**: 다양한 모달 컴포넌트 (기본, 확인, 폼, 전체화면)
+- **모달 시스템**: 다양한 모달 컴포넌트 (기본, 확인, 폼, 전체화면, 프로젝트 모달)
 - **테이블 컴포넌트**: Tabulator.js 기반의 강력한 데이터 테이블
 - **반응형 디자인**: 모바일, 태블릿, 데스크톱 모든 디바이스 지원
 - **TypeScript**: 타입 안전성을 보장하는 TypeScript 지원
 - **컴포넌트 기반**: 재사용 가능한 컴포넌트 구조
 - **SCSS 스타일링**: 토큰 기반 디자인 시스템과 SCSS 컴포넌트 클래스
 - **Lucide React 아이콘**: 200+ 아이콘을 카테고리별로 체계화
+- **React 19 호환**: 최신 React 버전과 완전 호환
 
 ## 📁 프로젝트 구조
 
@@ -52,6 +53,7 @@ nice/
 │   │   │   ├── basic-modal.tsx
 │   │   │   ├── confirm-modal.tsx
 │   │   │   ├── cmn001.tsx ~ cmn012.tsx
+│   │   │   ├── mnb002.tsx   # 비밀번호 변경 모달
 │   │   │   ├── mui-basic-modal.tsx
 │   │   │   ├── mui-confirm-modal.tsx
 │   │   │   ├── mui-form-modal.tsx
@@ -149,7 +151,7 @@ npm run dev
 
 ### Core Framework
 - **Next.js 15**: App Router 기반 React 프레임워크
-- **React 19.1.0**: 최신 React 버전
+- **React 19.1.0**: 최신 React 버전 (findDOMNode 제거로 인한 호환성 개선)
 - **TypeScript 5**: 타입 안전성 보장
 
 ### Styling & UI
@@ -164,6 +166,11 @@ npm run dev
 - **react-chartjs-2 v5**: Chart.js React 래퍼
 - **Recharts v3**: React 차트 라이브러리
 - **Tabulator.js v6**: 고급 테이블 컴포넌트
+
+### Modal Components
+- **기본 모달**: BasicModal, ConfirmModal
+- **MUI 모달**: MuiBasicModal, MuiFormModal, MuiConfirmModal, MuiFullscreenModal
+- **프로젝트 모달**: Cmn001-Cmn012 (검색, 업로드, 폼 등), Mnb002 (비밀번호 변경)
 
 ### Utilities & Tools
 - **clsx**: 조건부 클래스명 유틸리티
@@ -251,6 +258,8 @@ import {
   BasicModal, 
   ConfirmModal,
   Cmn001,
+  Cmn012, // 정산기준정보 검색 모달
+  Mnb002, // 비밀번호 변경 모달
   MuiBasicModal 
 } from '@/components'
 
@@ -271,7 +280,21 @@ import {
   title="확인"
   message="정말 삭제하시겠습니까?"
 />
+
+// 프로젝트 모달
+<Cmn001
+  open={isOpen}
+  onClose={handleClose}
+/>
+
+// 비밀번호 변경 모달
+<Mnb002
+  open={isOpen}
+  onClose={handleClose}
+  onSuccess={(message) => console.log(message)}
+/>
 ```
+
 
 ## 🔧 개발 가이드
 

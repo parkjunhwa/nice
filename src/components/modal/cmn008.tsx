@@ -11,25 +11,35 @@ interface Cmn008Props {
 }
 
 export default function Cmn008({ open, onClose }: Cmn008Props) {
-  const [productName, setProductName] = useState('')
-  const [productCode, setProductCode] = useState('')
+  const [departmentName, setDepartmentName] = useState('')
+  const [userName, setUserName] = useState('')
+  const [employeeId, setEmployeeId] = useState('')
 
-  // 상품명 샘플 데이터
-  const productNameOptions = [
-    { value: 'prod1', label: '노트북' },
-    { value: 'prod2', label: '스마트폰' },
-    { value: 'prod3', label: '태블릿' },
-    { value: 'prod4', label: '모니터' },
-    { value: 'prod5', label: '키보드' }
+  // 부서명 샘플 데이터
+  const departmentOptions = [
+    { value: 'dept1', label: '개발팀' },
+    { value: 'dept2', label: '디자인팀' },
+    { value: 'dept3', label: '기획팀' },
+    { value: 'dept4', label: '마케팅팀' },
+    { value: 'dept5', label: '인사팀' }
   ]
 
-  // 상품코드 샘플 데이터
-  const productCodeOptions = [
-    { value: 'code1', label: 'P001' },
-    { value: 'code2', label: 'P002' },
-    { value: 'code3', label: 'P003' },
-    { value: 'code4', label: 'P004' },
-    { value: 'code5', label: 'P005' }
+  // 사용자명 샘플 데이터
+  const userOptions = [
+    { value: 'user1', label: '김철수' },
+    { value: 'user2', label: '이영희' },
+    { value: 'user3', label: '박민수' },
+    { value: 'user4', label: '정수진' },
+    { value: 'user5', label: '최지원' }
+  ]
+
+  // 사번 샘플 데이터
+  const employeeOptions = [
+    { value: 'emp1', label: 'EMP001' },
+    { value: 'emp2', label: 'EMP002' },
+    { value: 'emp3', label: 'EMP003' },
+    { value: 'emp4', label: 'EMP004' },
+    { value: 'emp5', label: 'EMP005' }
   ]
   return (
     <Dialog
@@ -45,10 +55,10 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
         }
       }}
     >
-            <DialogTitle sx={{ padding: '16px 16px' }}>
+      <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
-            상품 코드 검색
+            사용자 검색
           </Typography>
           <IconButton
             aria-label="닫기"
@@ -66,12 +76,12 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <label className="form-side-label">
-              상품 명
+              부서명
             </label>
             <FormControl fullWidth>
               <Select
-                value={productName}
-                onChange={(e) => setProductName(e.target.value)}
+                value={departmentName}
+                onChange={(e) => setDepartmentName(e.target.value)}
                 displayEmpty
                 className="bg-white"
                 size="small"
@@ -80,7 +90,7 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
                 <MenuItem value="">
                   <span>선택</span>
                 </MenuItem>
-                {productNameOptions.map((option) => (
+                {departmentOptions.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -90,12 +100,12 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
           </div>
           <div className="flex items-center">
             <label className="form-side-label">
-              상품코드
+              사용자명
             </label>
             <FormControl fullWidth>
               <Select
-                value={productCode}
-                onChange={(e) => setProductCode(e.target.value)}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
                 displayEmpty
                 className="bg-white"
                 size="small"
@@ -104,7 +114,31 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
                 <MenuItem value="">
                   <span>선택</span>
                 </MenuItem>
-                {productCodeOptions.map((option) => (
+                {userOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </div>
+          <div className="flex items-center">
+            <label className="form-side-label">
+              사번
+            </label>
+            <FormControl fullWidth>
+              <Select
+                value={employeeId}
+                onChange={(e) => setEmployeeId(e.target.value)}
+                displayEmpty
+                className="bg-white"
+                size="small"
+                sx={{ width: '150px' }}
+              >
+                <MenuItem value="">
+                  <span>선택</span>
+                </MenuItem>
+                {employeeOptions.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>

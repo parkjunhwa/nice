@@ -11,6 +11,11 @@ import {
   ChevronRight,
   Eye,
   Shield,
+  BarChart3,
+  TrendingUp,
+  ShoppingCart,
+  Wallet,
+  Receipt,
   User as UserIcon,
   LogOut
 } from "lucide-react"
@@ -41,6 +46,35 @@ const sidebarItems: MenuItem[] = [
     children: [
       { title: "공지사항 목록", href: "/published/mnb005", icon: FileText },
       { title: "공지사항 상세", href: "/published/mnb006", icon: Eye }
+    ]
+  },
+  {
+    title: "매출",
+    icon: BarChart3,
+    children: [
+      { title: "매출 집계(일)", href: "/published/inc001", icon: BarChart3 },
+      { title: "매출 집계(월)", href: "/published/inc002", icon: TrendingUp },
+    ]
+  },
+  {
+    title: "매입",
+    icon: ShoppingCart,
+    children: [
+      { title: "매입 집계(일)", href: "/published/cst001", icon: ShoppingCart },
+    ]
+  },
+  {
+    title: "수납",
+    icon: Wallet,
+    children: [
+      { title: "수납 집계(일)", href: "/published/pmt001", icon: Wallet },
+    ]
+  },
+  {
+    title: "정산",
+    icon: Receipt,
+    children: [
+      { title: "정산 내역", href: "/published/stl001", icon: Receipt },
     ]
   },
   {

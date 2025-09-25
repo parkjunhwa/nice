@@ -120,53 +120,17 @@ export default function InterfaceLogPage() {
         height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
       }}
     >
-      {/* xsmallbtn 스타일 오버라이드 */}
-      <style jsx global>{`
-        .xsmallbtn1 {
-          padding: 0px !important;
-          min-width: auto !important;
-          align-items: center !important;
-          justify-content: center !important;
-          height:24px !important;
-          max-width:32px;
-        }
-        }
-        
-        .xsmallbtn1 .MuiButton-startIcon {
-          margin: 0 !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          height:24px !important;
-        }
-        .xsmallbtn2 {
-          padding: 0px !important;
-          min-width: auto !important;
-          align-items: center !important;
-          justify-content: center !important;
-          height:24px !important;
-          max-width:20px;
-        }
-        
-        .xsmallbtn2 .MuiButton-startIcon {
-          margin: 0 !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          height:24px !important;
-        }
-      `}</style>
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">I/F로그 관리</h1>
+          <h1 className="text-2xl font-bold text-gray-900">권한 관리</h1>
         </div>
         <div>
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
               { label: 'ADMIN', href: '/' },
-              { label: 'I/F로그 관리', active: true }
+              { label: '권한 관리', active: true }
             ]}
           />
         </div>

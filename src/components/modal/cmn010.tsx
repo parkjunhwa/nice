@@ -1,94 +1,95 @@
 'use client'
 
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  Typography,
-  IconButton,
-  Alert,
-  TextField,
-  InputAdornment
-} from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, TextField, Box } from '@mui/material'
 import { Icons } from '@/components'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
+import { X } from 'lucide-react'
+import dynamic from 'next/dynamic'
+
+// MD Editor를 동적으로 import (SSR 문제 방지)
+const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
 
 interface Cmn010Props {
   open: boolean
   onClose: () => void
-  onSuccess?: (message: string) => void
 }
 
-export default function Cmn010({ open, onClose, onSuccess }: Cmn010Props) {
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
-  const [showNewPassword, setShowNewPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [passwordError, setPasswordError] = useState('')
+export default function Cmn010({ open, onClose }: Cmn010Props) {
+  // 폼 상태 변수들
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [attachments, setAttachments] = useState<File[]>([])
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleSubmit = () => {
-    // 현재 비밀번호 검증 (간단한 예시 - 실제로는 서버에서 검증)
-    if (!currentPassword) {
-      setPasswordError('현재 비밀번호를 입력해주세요.')
-      return
+
+  // 파일 첨부 함수
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (files) {
+      setAttachments(Array.from(files))
     }
-    
-    // 새 비밀번호 검증
-    if (newPassword !== confirmPassword) {
-      setPasswordError('새 비밀번호가 일치하지 않습니다.')
-      return
-    }
-    
-    if (newPassword.length < 8) {
-      setPasswordError('비밀번호는 8자 이상이어야 합니다.')
-      return
-    }
-    
-    // 에러 초기화
-    setPasswordError('')
-    
-    // 성공 처리
-    onSuccess?.('저장되었습니다.')
-    handleClose()
   }
 
-  const handleClose = () => {
-    // 상태 초기화
-    setCurrentPassword('')
-    setNewPassword('')
-    setConfirmPassword('')
-    setShowCurrentPassword(false)
-    setShowNewPassword(false)
-    setShowConfirmPassword(false)
-    setPasswordError('')
+  // 파일 삭제 함수
+  const handleRemoveFile = (index: number) => {
+    setAttachments(attachments.filter((_, i) => i !== index))
+  }
+
+  // 파일 크기 계산 함수
+  const getFileSize = (bytes: number) => {
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+  }
+
+  // 총 파일 크기 계산
+  const totalFileSize = attachments.reduce((total, file) => total + file.size, 0)
+
+  // 폼 제출 함수
+  const handleSubmit = () => {
+    // 여기에 실제 제출 로직 구현
+    console.log('제출된 데이터:', {
+      title,
+      content,
+      attachments
+    })
+    
+    // 폼 초기화
+    handleReset()
     onClose()
+  }
+
+  // 폼 초기화 함수
+  const handleReset = () => {
+    setTitle('')
+    setContent('')
+    setAttachments([])
   }
 
   return (
     <Dialog
       open={open}
-      onClose={handleClose}
-      maxWidth="sm"
+      onClose={onClose}
+      maxWidth={false}
       fullWidth
       PaperProps={{
         sx: {
           borderRadius: 2,
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          width: '640px'
         }
       }}
     >
       <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
-          <Typography variant="h6" component="div" sx={{ fontWeight: 560 }}>
-            비밀번호 변경
+          <Typography variant="h6" component="div" sx={{ fontWeight: 400 }}>
+            결재상신 본문 등록
           </Typography>
           <IconButton
             aria-label="닫기"
-            onClick={handleClose}
+            onClick={onClose}
             size="small"
             edge="end"
           >
@@ -97,214 +98,126 @@ export default function Cmn010({ open, onClose, onSuccess }: Cmn010Props) {
         </div>
       </DialogTitle>
 
-      <DialogContent>
-        <div className='mb-4'>
-          <Typography variant="body2" color="textSecondary">
-            새로운 비밀번호로 변경해주세요.
-          </Typography>
-        </div>
-
-        <div className="flex flex-col gap-4 px-20 py-4 mb-6">
-          <div>
-            <label className="form-top-label">현재 비밀번호</label>
+      <DialogContent sx={{ padding: '16px 16px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {/* 제목 입력 */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 400, minWidth: '60px' }}>
+              제목
+            </Typography>
             <TextField
               fullWidth
-              size="medium"
               variant="outlined"
-              type={showCurrentPassword ? 'text' : 'password'}
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              placeholder="현재 비밀번호 입력"
-              required
+              size="small"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="제목을 입력하세요"
               sx={{
                 '& .MuiInputBase-root': {
-                  height: '36px',
-                  fontSize: '13px'
-                },
-                '& .MuiInputBase-input': {
-                  height: '36px',
-                  padding: '8px 12px',
                   fontSize: '14px'
-                },
-                '& .MuiInputAdornment-root': {
-                  marginRight: '8px'
                 }
               }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Icons.LockIcon className="w-4 h-4 text-gray-400" />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {currentPassword && (
-                      <IconButton
-                        onClick={() => setCurrentPassword('')}
-                        edge="end"
-                        size="small"
-                        className="text-gray-400 hover:text-gray-600"
-                      >
-                        <Icons.XIcon className="w-4 h-4" />
-                      </IconButton>
-                    )}
-                    <IconButton
-                      onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                      edge="end"
-                      size="small"
-                    >
-                      {showCurrentPassword ? (
-                        <Icons.EyeOffIcon className="w-4 h-4 text-gray-400" />
-                      ) : (
-                        <Icons.EyeIcon className="w-4 h-4 text-gray-400" />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
             />
-          </div>
-          <div>
-            <label className="form-top-label">새 비밀번호</label>
-            <TextField
-              fullWidth
-              size="medium"
-              variant="outlined"
-              type={showNewPassword ? 'text' : 'password'}
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="새 비밀번호 입력"
-              required
-              sx={{
-                '& .MuiInputBase-root': {
-                  height: '36px',
-                  fontSize: '13px'
-                },
-                '& .MuiInputBase-input': {
-                  height: '36px',
-                  padding: '8px 12px',
-                  fontSize: '14px'
-                },
-                '& .MuiInputAdornment-root': {
-                  marginRight: '8px'
-                }
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Icons.LockIcon className="w-4 h-4 text-gray-400" />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {newPassword && (
-                      <IconButton
-                        onClick={() => setNewPassword('')}
-                        edge="end"
-                        size="small"
-                        className="text-gray-400 hover:text-gray-600"
-                      >
-                        <Icons.XIcon className="w-4 h-4" />
-                      </IconButton>
-                    )}
-                    <IconButton
-                      onClick={() => setShowNewPassword(!showNewPassword)}
-                      edge="end"
-                      size="small"
-                    >
-                      {showNewPassword ? (
-                        <Icons.EyeOffIcon className="w-4 h-4 text-gray-400" />
-                      ) : (
-                        <Icons.EyeIcon className="w-4 h-4 text-gray-400" />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </div>
-          <div>
-            <label className="form-top-label">새 비밀번호 확인</label>
-            <TextField
-              fullWidth
-              size="medium"
-              variant="outlined"
-              type={showConfirmPassword ? 'text' : 'password'}
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="새 비밀번호 확인"
-              required
-              sx={{
-                '& .MuiInputBase-root': {
-                  height: '36px',
-                  fontSize: '13px'
-                },
-                '& .MuiInputBase-input': {
-                  height: '36px',
-                  padding: '8px 12px',
-                  fontSize: '14px'
-                },
-                '& .MuiInputAdornment-root': {
-                  marginRight: '8px'
-                }
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Icons.LockIcon className="w-4 h-4 text-gray-400" />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    {confirmPassword && (
-                      <IconButton
-                        onClick={() => setConfirmPassword('')}
-                        edge="end"
-                        size="small"
-                        className="text-gray-400 hover:text-gray-600"
-                      >
-                        <Icons.XIcon className="w-4 h-4" />
-                      </IconButton>
-                    )}
-                    <IconButton
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      edge="end"
-                      size="small"
-                    >
-                      {showConfirmPassword ? (
-                        <Icons.EyeOffIcon className="w-4 h-4 text-gray-400" />
-                      ) : (
-                        <Icons.EyeIcon className="w-4 h-4 text-gray-400" />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </div>
-        </div>
+          </Box>
 
-        {/* 비밀번호 에러 메시지 */}
-        {passwordError && (
-          <Alert severity="error" className="mb-4">
-            {passwordError}
-          </Alert>
-        )}
 
-        <Alert severity="warning">
-          <Typography variant="subtitle2" gutterBottom>
-            비밀번호 변경 조건 안내
-          </Typography>
-          <Typography variant="body2" sx={{ fontSize: '13px' }}>
-            • 비밀번호는 <span style={{ color: '#ef4444' }}>영문 + 숫자 + 특수문자 8자 이상으로 조합</span> 되어야 합니다.<br />
-            • 비밀번호는 <span style={{ color: '#ef4444' }}>90일마다 변경되어야</span> 합니다.
-          </Typography>
-        </Alert>
+          {/* 본문 입력 (MD Editor) */}
+          <Box>
+            <Typography variant="subtitle2" sx={{ marginBottom: '8px', fontWeight: 400 }}>
+              본문내용
+            </Typography>
+            <Box
+              sx={{
+                border: '1px solid #e0e0e0',
+                borderRadius: '4px',
+                backgroundColor: 'white',
+                '&:focus-within': {
+                  borderColor: '#1976d2'
+                },
+                '& .w-md-editor': {
+                  backgroundColor: 'white'
+                },
+                '& .w-md-editor-text': {
+                  fontSize: '14px',
+                  fontFamily: 'inherit',
+                  lineHeight: '1.5'
+                },
+                '& .w-md-editor-text-input': {
+                  fontSize: '14px',
+                  fontFamily: 'inherit',
+                  lineHeight: '1.5'
+                }
+              }}
+            >
+              <MDEditor
+                value={content}
+                onChange={(val) => setContent(val || '')}
+                height={300}
+                data-color-mode="light"
+              />
+            </Box>
+          </Box>
+
+          {/* 파일 첨부 */}
+          <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 400 }}>
+                첨부파일 : ({attachments.length}개, {getFileSize(totalFileSize)})
+              </Typography>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                파일선택
+              </Button>
+            </Box>
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileUpload}
+              multiple
+              style={{ display: 'none' }}
+            />
+            {attachments.length > 0 && (
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, justifyContent: 'flex-start' }}>
+                {attachments.map((file, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 1,
+                      padding: '4px 4px 4px 12px',
+                      border: '1px solid #e0e0e0',
+                      borderRadius: '20px',
+                      backgroundColor: '#f5f5f5',
+                      fontSize: '13px'
+                    }}
+                  >
+                    <Typography variant="body2" sx={{ fontSize: '13px', color: '#666' }}>
+                      {file.name}
+                    </Typography>
+                    <IconButton
+                      size="small"
+                      onClick={() => handleRemoveFile(index)}
+                    >
+                      <X size={16} color="#999" />
+                    </IconButton>
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </Box>
+        </Box>
       </DialogContent>
 
       <DialogActions sx={{ padding: '16px' }}>
-        <Button onClick={handleClose} variant="outlined" color="secondary">
+        <Button onClick={onClose} variant="outlined" color="secondary">
           취소
+        </Button>
+        <Button onClick={handleReset} variant="outlined" color="secondary">
+          초기화
         </Button>
         <Button variant="contained" onClick={handleSubmit}>
           저장
