@@ -48,14 +48,14 @@ export default function UserManagementPage() {
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">사용자 관리</h1>
+          <h1 className="text-2xl font-bold text-gray-900">정산 내역(준비중)</h1>
         </div>
         <div>
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
-              { label: 'ADMIN', href: '/' },
-              { label: '사용자 관리', active: true }
+              { label: '정산', href: '/' },
+              { label: '정산 내역', active: true }
             ]}
           />
         </div>

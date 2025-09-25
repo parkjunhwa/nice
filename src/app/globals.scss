@@ -487,6 +487,60 @@ main.overflow-y-auto {
   }
 }
 
+  
+  /* 작은 버튼 스타일 */
+  .xsmallbtn1 {
+    padding: 0px !important;
+    min-width: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+    max-width: 32px;
+  }
+
+  .xsmallbtn1 .MuiButton-startIcon {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+  }
+
+  .xsmallbtn2 {
+    padding: 0px !important;
+    min-width: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+    max-width: 24px;
+  }
+
+  .xsmallbtn2 .MuiButton-startIcon {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+  }
+
+  .xsmallbtn3 {
+    padding: 0px !important;
+    min-width: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+    max-width: 32px !important;
+  }
+
+  .xsmallbtn3 .MuiButton-startIcon {
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 24px !important;
+  }
+
+
 /* MUI DatePicker disabled 색상 오버라이드 */
 .MuiDatePicker-root {
   .MuiPickersDay-root.Mui-disabled {
