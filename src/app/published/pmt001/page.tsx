@@ -37,6 +37,53 @@ export default function UserManagementPage() {
   const [status, setStatus] = useState('')
   const [depositCategory, setDepositCategory] = useState('')
 
+  // 날짜 계산 함수들
+  const getYesterdayRange = (): [Date, Date] => {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    const startDate = new Date(yesterday)
+    startDate.setHours(0, 0, 0, 0)
+    const endDate = new Date(yesterday)
+    endDate.setHours(23, 59, 59, 999)
+    return [startDate, endDate]
+  }
+
+  const getLastWeekRange = (): [Date, Date] => {
+    const today = new Date()
+    const lastWeek = new Date()
+    lastWeek.setDate(today.getDate() - 7)
+    const startDate = new Date(lastWeek)
+    startDate.setHours(0, 0, 0, 0)
+    const endDate = new Date(today)
+    endDate.setHours(23, 59, 59, 999)
+    return [startDate, endDate]
+  }
+
+  const getThisMonthRange = (): [Date, Date] => {
+    const today = new Date()
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+    firstDayOfMonth.setHours(0, 0, 0, 0)
+    const endDate = new Date(today)
+    endDate.setHours(23, 59, 59, 999)
+    return [firstDayOfMonth, endDate]
+  }
+
+  // 버튼 클릭 핸들러들
+  const handleYesterdayClick = () => {
+    const [startDate, endDate] = getYesterdayRange()
+    setDateRangeValue([startDate, endDate])
+  }
+
+  const handleLastWeekClick = () => {
+    const [startDate, endDate] = getLastWeekRange()
+    setDateRangeValue([startDate, endDate])
+  }
+
+  const handleThisMonthClick = () => {
+    const [startDate, endDate] = getThisMonthRange()
+    setDateRangeValue([startDate, endDate])
+  }
+
   // Select 옵션들
   const departmentOptions = [
     { value: 'option1', label: '옵션1' },
@@ -116,9 +163,9 @@ export default function UserManagementPage() {
                 </div>
                 <div className="flex items-center">
                   <ButtonGroup variant="outlined" size="small" className="bg-white" color="secondary">
-                    <Button disabled>전일</Button>
-                    <Button>최근 일주일</Button>
-                    <Button>이번달</Button>
+                    <Button onClick={handleYesterdayClick}>전일</Button>
+                    <Button onClick={handleLastWeekClick}>최근 일주일</Button>
+                    <Button onClick={handleThisMonthClick}>이번달</Button>
                   </ButtonGroup>
                 </div>
               </div>

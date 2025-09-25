@@ -35,6 +35,13 @@ export default function UserManagementPage() {
   const [deviceNumber, setDeviceNumber] = useState('')
   const [status, setStatus] = useState('')
 
+  // 이번달 버튼 클릭 핸들러
+  const handleThisMonthClick = () => {
+    const today = new Date()
+    const thisMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+    setMonthValue(thisMonth)
+  }
+
   // Select 옵션들
   const departmentOptions = [
     { value: 'option1', label: '옵션1' },
@@ -111,7 +118,7 @@ export default function UserManagementPage() {
                       onChange={(newValue: Date | null) => setMonthValue(newValue)}
                       placeholder="월을 선택하세요"
                     />
-                    <Button variant="outlined" size="small" className="bg-white" color="secondary">이번달</Button>
+                    <Button variant="outlined" size="small" className="bg-white" color="secondary" onClick={handleThisMonthClick}>이번달</Button>
                   </div>
                 </div>
               </div>

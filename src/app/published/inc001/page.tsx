@@ -39,6 +39,53 @@ export default function UserManagementPage() {
   const [deviceNumber, setDeviceNumber] = useState('')
   const [status, setStatus] = useState('')
 
+  // 날짜 계산 함수들
+  const getYesterdayRange = (): [Date, Date] => {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    const startDate = new Date(yesterday)
+    startDate.setHours(0, 0, 0, 0)
+    const endDate = new Date(yesterday)
+    endDate.setHours(23, 59, 59, 999)
+    return [startDate, endDate]
+  }
+
+  const getLastWeekRange = (): [Date, Date] => {
+    const today = new Date()
+    const lastWeek = new Date()
+    lastWeek.setDate(today.getDate() - 7)
+    const startDate = new Date(lastWeek)
+    startDate.setHours(0, 0, 0, 0)
+    const endDate = new Date(today)
+    endDate.setHours(23, 59, 59, 999)
+    return [startDate, endDate]
+  }
+
+  const getThisMonthRange = (): [Date, Date] => {
+    const today = new Date()
+    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
+    firstDayOfMonth.setHours(0, 0, 0, 0)
+    const endDate = new Date(today)
+    endDate.setHours(23, 59, 59, 999)
+    return [firstDayOfMonth, endDate]
+  }
+
+  // 버튼 클릭 핸들러들
+  const handleYesterdayClick = () => {
+    const [startDate, endDate] = getYesterdayRange()
+    setDateRangeValue([startDate, endDate])
+  }
+
+  const handleLastWeekClick = () => {
+    const [startDate, endDate] = getLastWeekRange()
+    setDateRangeValue([startDate, endDate])
+  }
+
+  const handleThisMonthClick = () => {
+    const [startDate, endDate] = getThisMonthRange()
+    setDateRangeValue([startDate, endDate])
+  }
+
   // Select 옵션들
   const departmentOptions = [
     { value: 'option1', label: '옵션1' },
@@ -53,24 +100,7 @@ export default function UserManagementPage() {
         height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
       }}
     >
-      {/* xsmallbtn 스타일 오버라이드 */}
-      <style jsx global>{`
-        .xsmallbtn3 {
-          padding: 0px !important;
-          min-width: auto !important;
-          align-items: center !important;
-          justify-content: center !important;
-          height:24px !important;
-          max-width:32px !important;
-        }
-        .xsmallbtn3 .MuiButton-startIcon {
-          margin: 0 !important;
-          display: flex !important;
-          align-items: center !important;
-          justify-content: center !important;
-          height:24px !important;
-        }
-      `}</style>
+      
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
@@ -135,9 +165,9 @@ export default function UserManagementPage() {
                 </div>
                 <div className="flex items-center">
                   <ButtonGroup variant="outlined" size="small" className="bg-white" color="secondary">
-                    <Button disabled>전일</Button>
-                    <Button>최근 일주일</Button>
-                    <Button>이번달</Button>
+                    <Button onClick={handleYesterdayClick}>전일</Button>
+                    <Button onClick={handleLastWeekClick}>최근 일주일</Button>
+                    <Button onClick={handleThisMonthClick}>이번달</Button>
                   </ButtonGroup>
                 </div>
               </div>
