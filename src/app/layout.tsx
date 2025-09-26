@@ -5,11 +5,6 @@ import { MuiThemeProvider } from "@/components/mui-theme-provider";
 export const metadata: Metadata = {
   title: "NICE 정산시스템",
   description: "나이스인프라 정산시스템",
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
-  },
 };
 
 export default function RootLayout({
