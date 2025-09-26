@@ -17,7 +17,9 @@ import {
   Wallet,
   Receipt,
   User as UserIcon,
-  LogOut
+  LogOut,
+  Box,
+  BadgeCheck
 } from "lucide-react"
 import { Tooltip, IconButton } from "@mui/material"
 import Link from "next/link"
@@ -50,7 +52,7 @@ const sidebarItems: MenuItem[] = [
   },
   {
     title: "매출",
-    icon: BarChart3,
+    icon: Box,
     children: [
       { title: "매출 집계(일)", href: "/published/inc001", icon: BarChart3 },
       { title: "매출 집계(월)", href: "/published/inc002", icon: TrendingUp },
@@ -60,19 +62,19 @@ const sidebarItems: MenuItem[] = [
     title: "매입",
     icon: ShoppingCart,
     children: [
-      { title: "매입 집계(일)", href: "/published/cst001", icon: ShoppingCart },
+      { title: "매입 집계(일)", href: "/published/cst001", icon: BarChart3 },
     ]
   },
   {
     title: "수납",
     icon: Wallet,
     children: [
-      { title: "수납 집계(일)", href: "/published/pmt001", icon: Wallet },
+      { title: "수납 집계(일)", href: "/published/pmt001", icon: BarChart3 },
     ]
   },
   {
     title: "정산",
-    icon: Receipt,
+    icon: BadgeCheck,
     children: [
       { title: "정산 내역", href: "/published/stl001", icon: Receipt },
     ]
