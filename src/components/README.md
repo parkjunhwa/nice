@@ -54,21 +54,19 @@
 ### 공통 컴포넌트
 - `index.ts`: 모든 컴포넌트 통합 export
 - `date-picker.tsx`: 날짜 선택 (MUI X Date Pickers)
-- `time-picker.tsx`: 시간 선택 (MUI X Date Pickers)
+- `time-picker.tsx`: 시간 선택 (MUI X Date Pickers) - 향후 사용 예정
 - `date-time-picker.tsx`: 날짜/시간 선택 (MUI X Date Pickers)
 - `date-range-picker.tsx`: 날짜 범위 선택 (MUI X Date Pickers)
 - `dashboard-layout.tsx`: 대시보드 레이아웃 (Published Pages)
-- `dashboard-card.tsx`: 대시보드 카드 (통계 정보 표시)
-- `header.tsx`: 헤더 (공통)
 - `sidebar.tsx`: 사이드바 (공통)
 - `sidebar-toggle.tsx`: 사이드바 토글 (공통)
+- `accordion-toggle-button.tsx`: 아코디언 토글 버튼
 - `chart.tsx`: 차트 (Chart.js + Recharts)
-- `breadcrumb.tsx`: 브레드크럼 네비게이션
+- `Breadcrumb.tsx`: 브레드크럼 네비게이션
 - `mui-theme-provider.tsx`: MUI 테마 프로바이더 (공통)
 
 ### 테이블 컴포넌트 (`/table`)
 - `index.ts`: 테이블 컴포넌트 export
-- `tabulator-table.tsx`: Tabulator.js 기반 고급 테이블
 - `sample-table.tsx`: 샘플 테이블 컴포넌트
 - `table-common.scss`: 공통 테이블 스타일
 - `README.md`: 테이블 컴포넌트 가이드
@@ -77,11 +75,13 @@
 - `index.ts`: 모달 컴포넌트 export
 - `basic-modal.tsx`: 기본 모달
 - `confirm-modal.tsx`: 확인 모달
-- `cmn001.tsx` ~ `cmn013.tsx`: 공통 모달 컴포넌트들 (cmn013: 리치 텍스트 에디터)
+- `cmn001.tsx` ~ `cmn012.tsx`: 공통 모달 컴포넌트들
+  - `cmn010.tsx`: 결재상신 본문 등록 모달 (MD Editor 포함)
 - `mui-basic-modal.tsx`: MUI 기본 모달
 - `mui-confirm-modal.tsx`: MUI 확인 모달
 - `mui-form-modal.tsx`: MUI 폼 모달
 - `mui-fullscreen-modal.tsx`: MUI 전체화면 모달
+- `mnb002.tsx`: MNB002 모달 컴포넌트
 
 ## 사용법
 
@@ -90,20 +90,15 @@
 ```tsx
 import { 
   DashboardLayout, 
-  DashboardCard, 
   Chart,
   DatePicker,
-  TabulatorTable 
+  SampleTable 
 } from '@/components'
 
 // 대시보드 레이아웃
 <DashboardLayout>
   <div className="c-section">
-    <DashboardCard 
-      title="총 사용자"
-      value="12,345"
-      description="활성 사용자 수"
-    />
+    {/* 대시보드 내용 */}
   </div>
 </DashboardLayout>
 ```
@@ -161,16 +156,12 @@ import {
 ### 테이블 컴포넌트 사용
 
 ```tsx
-import { TabulatorTable } from '@/components'
+import { SampleTable } from '@/components'
 
-<TabulatorTable
+<SampleTable
   data={tableData}
   columns={columns}
-  options={{
-    pagination: true,
-    movableColumns: true,
-    resizableRows: true
-  }}
+  // 추가 옵션들
 />
 ```
 
@@ -204,11 +195,24 @@ import {
 />
 ```
 
+### 시간 선택기 사용
+
+```tsx
+import { TimePicker } from '@/components'
+
+<TimePicker
+  label="시간 선택"
+  value={selectedTime}
+  onChange={handleTimeChange}
+/>
+```
+
 ### 리치 텍스트 에디터 (MD Editor) 사용
 
 ```tsx
 import dynamic from 'next/dynamic'
 
+// MD Editor를 동적으로 import (SSR 문제 방지)
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
 
 // MD Editor 사용
@@ -227,6 +231,8 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
 - React 19 완전 호환
 - 이미지 및 링크 삽입 지원
 - 한국어 환경 최적화
+- SSR 문제 방지를 위한 동적 import
+- 결재상신 본문 등록 모달에서 사용
 
 ## 컴포넌트 개발 가이드
 

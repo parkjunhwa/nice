@@ -9,7 +9,7 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 - **고급 차트**: Chart.js와 Recharts를 활용한 데이터 시각화
 - **날짜/시간 선택기**: MUI X Date Pickers를 활용한 고급 날짜/시간 선택 기능
 - **모달 시스템**: 다양한 모달 컴포넌트 (기본, 확인, 폼, 전체화면, 프로젝트 모달)
-- **테이블 컴포넌트**: Tabulator.js 기반의 강력한 데이터 테이블
+- **테이블 컴포넌트**: SampleTable 기반의 데이터 테이블
 - **반응형 디자인**: 모바일, 태블릿, 데스크톱 모든 디바이스 지원
 - **TypeScript**: 타입 안전성을 보장하는 TypeScript 지원
 - **컴포넌트 기반**: 재사용 가능한 컴포넌트 구조
@@ -33,10 +33,16 @@ nice/
 │   │   │   ├── adm004/      # 관리 페이지 004
 │   │   │   ├── adm005/      # 관리 페이지 005
 │   │   │   ├── components/  # 컴포넌트 데모 페이지들
+│   │   │   │   ├── enhanced-table/ # 향상된 테이블 데모
 │   │   │   │   ├── modal/   # 모달 컴포넌트 데모
 │   │   │   │   ├── mui/     # MUI 컴포넌트 데모
 │   │   │   │   ├── search01/ # 검색 컴포넌트 데모 1
 │   │   │   │   └── search02/ # 검색 컴포넌트 데모 2
+│   │   │   ├── cst001/      # 고객 관리 페이지
+│   │   │   ├── inc001/      # 수입 관리 페이지
+│   │   │   ├── inc002/      # 수입 관리 페이지 2
+│   │   │   ├── pmt001/      # 결제 관리 페이지
+│   │   │   ├── stl001/      # 정산 관리 페이지
 │   │   │   ├── mnb005/      # 메뉴 페이지 005
 │   │   │   ├── mnb006/      # 메뉴 페이지 006
 │   │   │   ├── layout.tsx   # Published Pages 레이아웃
@@ -62,7 +68,6 @@ nice/
 │   │   │   ├── sample-table.tsx
 │   │   │   └── table-common.scss
 │   │   ├── chart.tsx        # Chart.js 기반 차트 컴포넌트
-│   │   ├── dashboard-card.tsx # 대시보드 카드 컴포넌트
 │   │   ├── dashboard-layout.tsx # 대시보드 레이아웃
 │   │   ├── date-picker.tsx  # 날짜 선택 컴포넌트
 │   │   ├── date-range-picker.tsx # 날짜 범위 선택 컴포넌트
@@ -136,12 +141,20 @@ npm run dev
 - **ADM004** (`/adm004`): 관리 페이지 004
 - **ADM005** (`/adm005`): 관리 페이지 005
 
+### 비즈니스 페이지들 (`/published/*`)
+- **CST001** (`/cst001`): 고객 관리 페이지
+- **INC001** (`/inc001`): 수입 관리 페이지
+- **INC002** (`/inc002`): 수입 관리 페이지 2
+- **PMT001** (`/pmt001`): 결제 관리 페이지
+- **STL001** (`/stl001`): 정산 관리 페이지
+
 ### 메뉴 페이지들
 - **MNB001** (`/mnb001`): 메뉴 페이지 001
 - **MNB005** (`/published/mnb005`): 메뉴 페이지 005
 - **MNB006** (`/published/mnb006`): 메뉴 페이지 006
 
 ### Components 데모 페이지들 (`/published/components`)
+- **Enhanced Table** (`/enhanced-table`): 향상된 테이블 데모
 - **Modal** (`/modal`): 모달 컴포넌트 데모
 - **MUI** (`/mui`): MUI 컴포넌트 데모 및 예제
 - **Search01** (`/search01`): 검색 컴포넌트 데모 1
@@ -165,12 +178,14 @@ npm run dev
 - **Chart.js v4**: 차트 라이브러리
 - **react-chartjs-2 v5**: Chart.js React 래퍼
 - **Recharts v3**: React 차트 라이브러리
-- **Tabulator.js v6**: 고급 테이블 컴포넌트
+- **SampleTable**: 기본 테이블 컴포넌트
+- **Tabulator.js v6**: 고급 테이블 라이브러리 (향후 사용 예정)
 
 ### Modal Components
 - **기본 모달**: BasicModal, ConfirmModal
 - **MUI 모달**: MuiBasicModal, MuiFormModal, MuiConfirmModal, MuiFullscreenModal
 - **프로젝트 모달**: Cmn001-Cmn012 (검색, 업로드, 폼 등), Mnb002 (비밀번호 변경)
+- **리치 텍스트 에디터**: MD Editor (@uiw/react-md-editor) - 결재상신 본문 등록 모달에서 사용
 
 ### Utilities & Tools
 - **clsx**: 조건부 클래스명 유틸리티
@@ -178,6 +193,7 @@ npm run dev
 - **class-variance-authority**: 컴포넌트 변형 관리
 - **date-fns v4**: 날짜 유틸리티
 - **jszip v3**: ZIP 파일 처리
+- **@uiw/react-md-editor v4**: 마크다운 에디터
 
 ### Development Tools
 - **ESLint 9**: 코드 품질 관리
