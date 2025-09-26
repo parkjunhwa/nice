@@ -146,7 +146,6 @@ export default function Cmn010({ open, onClose }: Cmn010Props) {
                 onChange={(val) => setContent(val || '')}
                 height={300}
                 data-color-mode="light"
-                visibleDragBar={false}
                 preview="edit"
               />
             </Box>
