@@ -56,17 +56,9 @@ export default function Cmn010({ open, onClose }: Cmn010Props) {
       attachments
     })
     
-    // 폼 초기화
-    handleReset()
     onClose()
   }
 
-  // 폼 초기화 함수
-  const handleReset = () => {
-    setTitle('')
-    setContent('')
-    setAttachments([])
-  }
 
   return (
     <Dialog
@@ -101,8 +93,8 @@ export default function Cmn010({ open, onClose }: Cmn010Props) {
       <DialogContent sx={{ padding: '16px 16px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {/* 제목 입력 */}
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Typography variant="subtitle2" sx={{ fontWeight: 400, minWidth: '60px' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="subtitle2" sx={{ minWidth: '60px' }}>
               제목
             </Typography>
             <TextField
@@ -123,7 +115,7 @@ export default function Cmn010({ open, onClose }: Cmn010Props) {
 
           {/* 본문 입력 (MD Editor) */}
           <Box>
-            <Typography variant="subtitle2" sx={{ marginBottom: '8px', fontWeight: 400 }}>
+            <Typography variant="subtitle2" sx={{ marginBottom: '4px'}}>
               본문내용
             </Typography>
             <Box
@@ -154,14 +146,16 @@ export default function Cmn010({ open, onClose }: Cmn010Props) {
                 onChange={(val) => setContent(val || '')}
                 height={300}
                 data-color-mode="light"
+                visibleDragBar={false}
+                preview="edit"
               />
             </Box>
           </Box>
 
           {/* 파일 첨부 */}
           <Box>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 400 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+              <Typography variant="subtitle2">
                 첨부파일 : ({attachments.length}개, {getFileSize(totalFileSize)})
               </Typography>
               <Button
@@ -195,14 +189,14 @@ export default function Cmn010({ open, onClose }: Cmn010Props) {
                       fontSize: '13px'
                     }}
                   >
-                    <Typography variant="body2" sx={{ fontSize: '13px', color: '#666' }}>
+                    <Typography variant="body2">
                       {file.name}
                     </Typography>
                     <IconButton
                       size="small"
                       onClick={() => handleRemoveFile(index)}
                     >
-                      <X size={16} color="#999" />
+                      <X size={16} />
                     </IconButton>
                   </Box>
                 ))}
@@ -215,9 +209,6 @@ export default function Cmn010({ open, onClose }: Cmn010Props) {
       <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
           취소
-        </Button>
-        <Button onClick={handleReset} variant="outlined" color="secondary">
-          초기화
         </Button>
         <Button variant="contained" onClick={handleSubmit}>
           저장

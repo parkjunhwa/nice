@@ -221,6 +221,8 @@ const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false })
   onChange={(val) => setContent(val || '')}
   height={300}
   data-color-mode="light"
+  visibleDragBar={false}
+  preview="edit"
   placeholder="본문 내용을 입력하세요..."
 />
 ```
