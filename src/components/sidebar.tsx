@@ -25,7 +25,7 @@ import {
   FilePen,
   HelpCircle as InfoCircle
 } from "lucide-react"
-import { Tooltip, IconButton } from "@mui/material"
+import { Tooltip, IconButton, Select, MenuItem as MuiMenuItem, FormControl } from "@mui/material"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import React, { useState, useEffect, memo, useCallback, useRef } from "react"
@@ -41,6 +41,15 @@ interface MenuItem {
   badge?: string
   section?: string
 }
+
+// 사업 선택 옵션
+const businessOptions = [
+  { value: "parking", label: "주차" },
+  { value: "ev", label: "EV" },
+  { value: "video", label: "영상" },
+  { value: "cash", label: "현금" },
+  { value: "kiosk", label: "키오스크" }
+]
 
 const sidebarItems: MenuItem[] = [
   { title: "로그인", href: "/mnb001", icon: Users },
@@ -451,6 +460,40 @@ function MenuItem({
 
 const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const [activePopover, setActivePopover] = useState<string | null>(null)
+  const [selectedBusiness, setSelectedBusiness] = useState<string>("")
+
+  // 사업 선택 상태를 localStorage에서 로드하거나 기본값 설정
+  useEffect(() => {
+    const loadBusinessSelection = () => {
+      try {
+        if (typeof window !== "undefined") {
+          const saved = localStorage.getItem("selectedBusiness")
+          if (saved && businessOptions.find(option => option.value === saved)) {
+            setSelectedBusiness(saved)
+          } else {
+            setSelectedBusiness("") // 기본값: "-사업-"
+          }
+        }
+      } catch (error) {
+        console.warn("Failed to load business selection:", error)
+        setSelectedBusiness("")
+      }
+    }
+
+    loadBusinessSelection()
+  }, [])
+
+  // 사업 선택값 저장
+  const handleBusinessChange = (value: string) => {
+    setSelectedBusiness(value)
+    try {
+      if (typeof window !== "undefined") {
+        localStorage.setItem("selectedBusiness", value)
+      }
+    } catch (error) {
+      console.warn("Failed to save business selection:", error)
+    }
+  }
 
   return (
     <div
@@ -542,6 +585,36 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
           </IconButton>
         </Tooltip>
       </div>
+
+      {/* 사업 선택 영역 */}
+      {isOpen && (
+        <div className="p-3 pt-0 bg-white">
+          <FormControl size="small" fullWidth>
+            <Select
+              value={selectedBusiness}
+              onChange={(e) => handleBusinessChange(e.target.value)}
+              displayEmpty
+              sx={{
+                fontSize: '13px',
+                height: '32px',
+                '& .MuiSelect-select': {
+                  padding: '6px 12px',
+                  fontSize: '13px'
+                }
+              }}
+            >
+              <MuiMenuItem value="" disabled>
+                <div>--사업--</div>
+              </MuiMenuItem>
+              {businessOptions.map((option) => (
+                <MuiMenuItem key={option.value} value={option.value} sx={{ fontSize: '12px' }}>
+                  {option.label}
+                </MuiMenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
+      )}
 
       {isOpen && (
         <div className="border-t border-gray-200 p-4 space-y-3 mt-auto sticky bottom-0 bg-white">
