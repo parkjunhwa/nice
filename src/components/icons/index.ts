@@ -12,6 +12,7 @@ export {
   ArrowDown as ArrowDownIcon,
   Home as HomeIcon,
   MapPin as MapPinIcon,
+  Menu as MenuIcon,
 } from 'lucide-react'
 
 // Search & Actions
@@ -36,6 +37,11 @@ export {
   EyeOff as EyeOffIcon,
   Settings as SettingsIcon,
   Bell as BellIcon,
+  Users as UsersIcon,
+  Shield as ShieldIcon,
+  LogOut as LogOutIcon,
+  Box as BoxIcon,
+  BadgeCheck as BadgeCheckIcon,
 } from 'lucide-react'
 
 // Content & Media
@@ -58,7 +64,8 @@ export {
   MessageCircle as MessageCircleIcon,
 } from 'lucide-react'
 
-// Status & Feedback
+    
+// Status & Feedback  
 export {
   Check as CheckIcon,
   X as XIcon,
@@ -87,6 +94,20 @@ export {
 export {
   Calendar as CalendarIcon,
   Clock as ClockIcon,
+} from 'lucide-react'
+
+// Business & Finance (추가 아이콘들)
+export {
+  Wallet as WalletIcon,
+  Receipt as ReceiptIcon,
+} from 'lucide-react'
+
+// Content & Media (추가 아이콘들)
+export {
+  ClipboardPaste as ClipboardPasteIcon,
+  StretchVertical as StretchVerticalIcon,
+  List as ListIcon,
+  FilePen as FilePenIcon,
 } from 'lucide-react'
 
 // Technology & Devices

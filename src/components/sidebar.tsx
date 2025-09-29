@@ -19,7 +19,11 @@ import {
   User as UserIcon,
   LogOut,
   Box,
-  BadgeCheck
+  BadgeCheck,
+  List,
+  ShieldCheck,
+  FilePen,
+  HelpCircle as InfoCircle
 } from "lucide-react"
 import { Tooltip, IconButton } from "@mui/material"
 import Link from "next/link"
@@ -77,6 +81,22 @@ const sidebarItems: MenuItem[] = [
     icon: BadgeCheck,
     children: [
       { title: "정산 내역", href: "/published/stl001", icon: Receipt },
+    ]
+  },
+  {
+    title: "정산기준정보",
+    icon: InfoCircle,
+    children: [
+      { title: "정산기준정보 목록", href: "/published/con001", icon: List },
+      { title: "정산기준정보 상세/등록/수정", href: "/published/con002", icon: FilePen },
+    ]
+  },
+  {
+    title: "정산규칙",
+    icon: ShieldCheck,
+    children: [
+      { title: "정산규칙 목록", href: "/published/rul001", icon: List },
+      { title: "정산규칙 상세/등록/수정", href: "/published/rul002", icon: FilePen },
     ]
   },
   {
