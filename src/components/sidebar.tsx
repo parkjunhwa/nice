@@ -535,13 +535,15 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
       <div className={cn("flex h-16 items-center justify-between border-b border-gray-200", isOpen ? "pl-4 pr-2" : "px-4")}>
         <div className="flex items-center h-16">
           {isOpen ? (
-            <Image 
-              src="/images/logo.png" 
-              alt="나이스 인프라" 
-              width={120}
-              height={18}
-              style={{ height: 18, width: "auto", display: "block", maxHeight: "18px" }} 
-            />
+            <Link href="/published">
+              <Image 
+                src="/images/logo.png" 
+                alt="나이스 인프라" 
+                width={120}
+                height={18}
+                style={{ height: 18, width: "auto", display: "block", maxHeight: "18px", cursor: "pointer" }} 
+              />
+            </Link>
           ) : null}
         </div>
         <SidebarToggle isOpen={isOpen} onToggle={onToggle} />
