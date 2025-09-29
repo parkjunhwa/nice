@@ -349,7 +349,7 @@ function MenuItem({
                   }}
                   onMouseLeave={() => scheduleClose(() => setHoveredChildIndex(null))}
                 >
-                  <div className="absolute -left-2 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 -rotate-45" />
+                  <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 -rotate-45" />
                   {child.children.map((grandChild, grandIndex) => (
                     <div key={grandIndex} className="relative">
                       {grandChild.href ? (
@@ -378,7 +378,7 @@ function MenuItem({
                           onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)}
                           onMouseLeave={() => scheduleClose(() => setHoveredGrandChildIndex(null))}
                         >
-                          <div className="absolute -left-2 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 -rotate-45" />
+                          <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 -rotate-45" />
                           {grandChild.children.map((greatGrandChild, greatGrandIndex) => (
                             <Link key={greatGrandIndex} href={greatGrandChild.href || "#"}>
                               <div className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
