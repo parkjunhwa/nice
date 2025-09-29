@@ -23,7 +23,8 @@ import {
   List,
   ShieldCheck,
   FilePen,
-  HelpCircle as InfoCircle
+  HelpCircle as InfoCircle,
+  AppWindow
 } from "lucide-react"
 import { Tooltip, IconButton, Select, MenuItem as MuiMenuItem, FormControl } from "@mui/material"
 import Link from "next/link"
@@ -52,17 +53,6 @@ const businessOptions = [
 ]
 
 const sidebarItems: MenuItem[] = [
-  { title: "로그인", href: "/mnb001", icon: Users },
-  { title: "메인", href: "/published", icon: Home },
-  { title: "공통팝업", href: "/published/components/modal", icon: FileText },
-  {
-    title: "공지사항",
-    icon: Bell,
-    children: [
-      { title: "공지사항 목록", href: "/published/mnb005", icon: FileText },
-      { title: "공지사항 상세", href: "/published/mnb006", icon: Eye }
-    ]
-  },
   {
     title: "매출",
     icon: Box,
@@ -133,6 +123,17 @@ const sidebarItems: MenuItem[] = [
       { title: "MUI 컴포넌트", href: "/published/components/mui", icon: FileText },
       { title: "검색01", href: "/published/components/search01", icon: Settings },
       { title: "검색02", href: "/published/components/search02", icon: Settings }
+    ]
+  },
+  { title: "공통팝업", href: "/published/components/modal", icon: AppWindow },
+  { title: "로그인", href: "/mnb001", icon: Users },
+  { title: "메인", href: "/published", icon: Home },
+  {
+    title: "공지사항",
+    icon: Bell,
+    children: [
+      { title: "공지사항 목록", href: "/published/mnb005", icon: FileText },
+      { title: "공지사항 상세", href: "/published/mnb006", icon: Eye }
     ]
   }
 ]
