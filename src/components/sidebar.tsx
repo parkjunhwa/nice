@@ -95,15 +95,8 @@ const sidebarItems: MenuItem[] = [
     children: [
       { title: "사용자 관리", href: "/published/adm001" },
       { title: "권한 관리", href: "/published/adm002" },
-      {
-        title: "I/F로그 관리",
-        href: "#",
-        icon: FileText,
-        children: [
-          { title: "I/F로그 관리 목록", href: "/published/adm003" },
-          { title: "I/F로그 관리 상세", href: "/published/adm004" }
-        ]
-      },
+      { title: "I/F로그 관리", href: "/published/adm003" },
+      { title: "I/F로그 상세", href: "/published/adm004" },
       { title: "공통코드 관리", href: "/published/adm005" }
     ]
   },
@@ -132,9 +125,9 @@ const sidebarItems: MenuItem[] = [
       { title: "검색02", href: "/published/components/search02" }
     ]
   },
-  { title: "공통팝업", href: "/published/components/modal" },
-  { title: "로그인", href: "/mnb001" },
-  { title: "메인", href: "/published" },
+  { title: "공통팝업", href: "/published/components/modal", icon: Settings },
+  { title: "로그인", href: "/mnb001", icon: Settings },
+  { title: "메인", href: "/published", icon: Settings },
   {
     title: "공지사항",
     icon: Bell,
