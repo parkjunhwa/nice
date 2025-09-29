@@ -14,7 +14,7 @@ import {
   Box,
   BadgeCheck,
   ShieldCheck,
-  HelpCircle as InfoCircle
+  BadgeInfo
 } from "lucide-react"
 import { Tooltip, IconButton, Select, MenuItem as MuiMenuItem, FormControl } from "@mui/material"
 import Link from "next/link"
@@ -75,7 +75,7 @@ const sidebarItems: MenuItem[] = [
   },
   {
     title: "정산기준정보",
-    icon: InfoCircle,
+    icon: BadgeInfo,
     children: [
       { title: "정산기준정보 목록", href: "/published/con001" },
       { title: "정산기준정보 상세/등록/수정", href: "/published/con002" },
