@@ -2,29 +2,19 @@
 
 import { cn } from "@/lib/utils"
 import {
-  Home,
-  Users,
   Settings,
   FileText,
   Bell,
   ChevronDown,
   ChevronRight,
-  Eye,
-  Shield,
-  BarChart3,
-  TrendingUp,
   ShoppingCart,
   Wallet,
-  Receipt,
   User as UserIcon,
   LogOut,
   Box,
   BadgeCheck,
-  List,
   ShieldCheck,
-  FilePen,
-  HelpCircle as InfoCircle,
-  AppWindow
+  HelpCircle as InfoCircle
 } from "lucide-react"
 import { Tooltip, IconButton, Select, MenuItem as MuiMenuItem, FormControl } from "@mui/material"
 import Link from "next/link"
@@ -58,63 +48,63 @@ const sidebarItems: MenuItem[] = [
     title: "매출",
     icon: Box,
     children: [
-      { title: "매출 집계(일)", href: "/published/inc001", icon: BarChart3 },
-      { title: "매출 집계(월)", href: "/published/inc002", icon: TrendingUp },
+      { title: "매출 집계(일)", href: "/published/inc001" },
+      { title: "매출 집계(월)", href: "/published/inc002" },
     ]
   },
   {
     title: "매입",
     icon: ShoppingCart,
     children: [
-      { title: "매입 집계(일)", href: "/published/cst001", icon: BarChart3 },
+      { title: "매입 집계(일)", href: "/published/cst001" },
     ]
   },
   {
     title: "수납",
     icon: Wallet,
     children: [
-      { title: "수납 집계(일)", href: "/published/pmt001", icon: BarChart3 },
+      { title: "수납 집계(일)", href: "/published/pmt001" },
     ]
   },
   {
     title: "정산",
     icon: BadgeCheck,
     children: [
-      { title: "정산 내역", href: "/published/stl001", icon: Receipt },
+      { title: "정산 내역", href: "/published/stl001" },
     ]
   },
   {
     title: "정산기준정보",
     icon: InfoCircle,
     children: [
-      { title: "정산기준정보 목록", href: "/published/con001", icon: List },
-      { title: "정산기준정보 상세/등록/수정", href: "/published/con002", icon: FilePen },
+      { title: "정산기준정보 목록", href: "/published/con001" },
+      { title: "정산기준정보 상세/등록/수정", href: "/published/con002" },
     ]
   },
   {
     title: "정산규칙",
     icon: ShieldCheck,
     children: [
-      { title: "정산규칙 목록", href: "/published/rul001", icon: List },
-      { title: "정산규칙 상세/등록/수정", href: "/published/rul002", icon: FilePen },
+      { title: "정산규칙 목록", href: "/published/rul001" },
+      { title: "정산규칙 상세/등록/수정", href: "/published/rul002" },
     ]
   },
   {
     title: "ADMIN",
     icon: Settings,
     children: [
-      { title: "사용자 관리", href: "/published/adm001", icon: Users },
-      { title: "권한 관리", href: "/published/adm002", icon: Shield },
+      { title: "사용자 관리", href: "/published/adm001" },
+      { title: "권한 관리", href: "/published/adm002" },
       {
         title: "I/F로그 관리",
         href: "#",
         icon: FileText,
         children: [
-          { title: "I/F로그 관리 목록", href: "/published/adm003", icon: FileText },
-          { title: "I/F로그 관리 상세", href: "/published/adm004", icon: Eye }
+          { title: "I/F로그 관리 목록", href: "/published/adm003" },
+          { title: "I/F로그 관리 상세", href: "/published/adm004" }
         ]
       },
-      { title: "공통코드 관리", href: "/published/adm005", icon: Settings }
+      { title: "공통코드 관리", href: "/published/adm005" }
     ]
   },
   { title: "", separator: true },
@@ -122,20 +112,35 @@ const sidebarItems: MenuItem[] = [
     title: "컴포넌트 예시",
     icon: FileText,
     children: [
-      { title: "MUI 컴포넌트", href: "/published/components/mui", icon: FileText },
-      { title: "검색01", href: "/published/components/search01", icon: Settings },
-      { title: "검색02", href: "/published/components/search02", icon: Settings }
+      { title: "MUI 컴포넌트", href: "/published/components/mui" },
+      { title: "검색01", href: "/published/components/search01" },
+      { 
+        title: "3Depth 예시", 
+        href: "#",
+        children: [
+          { title: "3Depth 메뉴1", href: "#" },
+          { 
+            title: "4Depth 예시", 
+            href: "#",
+            children: [
+              { title: "4Depth 메뉴1", href: "#" },
+              { title: "4Depth 메뉴2", href: "#" }
+            ]
+          }
+        ]
+      },
+      { title: "검색02", href: "/published/components/search02" }
     ]
   },
-  { title: "공통팝업", href: "/published/components/modal", icon: AppWindow },
-  { title: "로그인", href: "/mnb001", icon: Users },
-  { title: "메인", href: "/published", icon: Home },
+  { title: "공통팝업", href: "/published/components/modal" },
+  { title: "로그인", href: "/mnb001" },
+  { title: "메인", href: "/published" },
   {
     title: "공지사항",
     icon: Bell,
     children: [
-      { title: "공지사항 목록", href: "/published/mnb005", icon: FileText },
-      { title: "공지사항 상세", href: "/published/mnb006", icon: Eye }
+      { title: "공지사항 목록", href: "/published/mnb005" },
+      { title: "공지사항 상세", href: "/published/mnb006" }
     ]
   }
 ]
@@ -268,7 +273,11 @@ function MenuItem({
     }
   }
 
-  const paddingLeft = level * 16 + (isOpen ? 12 : 0)
+  const paddingLeft = level === 0 ? (isOpen ? 12 : 0) : 
+                      level === 1 ? (isOpen ? 44 : 0) : 
+                      level === 2 ? (isOpen ? 52 : 0) :
+                      level === 3 ? (isOpen ? 64 : 0) :
+                      (isOpen ? 52 + (level - 2) * 12 : 0)
 
   /**
    * 접힘 상태 popover: 2/3/4뎁스가 연속적으로 열리도록
