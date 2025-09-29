@@ -41,6 +41,7 @@ interface MenuItem {
   children?: MenuItem[]
   badge?: string
   section?: string
+  separator?: boolean
 }
 
 // 사업 선택 옵션
@@ -116,6 +117,7 @@ const sidebarItems: MenuItem[] = [
       { title: "공통코드 관리", href: "/published/adm005", icon: Settings }
     ]
   },
+  { title: "", separator: true },
   {
     title: "컴포넌트 예시",
     icon: FileText,
@@ -248,6 +250,15 @@ function MenuItem({
       setIsExpanded(savedState)
     }
   }, [pathname, item, loadMenuState, saveMenuState])
+
+  // 구분선인 경우 간단한 구분선 렌더링
+  if (item.separator) {
+    return (
+      <div className={cn("my-2", isOpen ? "mx-3" : "mx-2")}>
+        <div className="border-t border-gray-200" />
+      </div>
+    )
+  }
 
   const handleClick = () => {
     if (hasChildren) {
