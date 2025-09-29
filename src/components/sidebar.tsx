@@ -170,7 +170,7 @@ function PopoverLayer({ children }: { children: React.ReactNode }) {
 /**
  * 마우스 나갔다가 들어올 때 순간 끊김/깜빡임 방지용 타이머 훅
  */
-function useHoverDelay(closeDelay = 160) {
+function useHoverDelay(closeDelay = 300) {
   const closeTimer = useRef<number | null>(null)
   const scheduleClose = (fn: () => void) => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current)
@@ -342,7 +342,7 @@ function MenuItem({
               {/* 3depth */}
               {child.children && child.children.length > 0 && hoveredChildIndex === index && (
                 <div
-                  className="absolute top-0 left-full ml-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48"
+                  className="absolute top-0 left-full ml-2 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48"
                   onMouseEnter={() => {
                     cancelClose()
                     setHoveredChildIndex(index)
@@ -374,7 +374,7 @@ function MenuItem({
                       {/* 4depth */}
                       {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildIndex === grandIndex && (
                         <div
-                          className="absolute top-0 left-full ml-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48"
+                          className="absolute top-0 left-full ml-2 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48"
                           onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)}
                           onMouseLeave={() => scheduleClose(() => setHoveredGrandChildIndex(null))}
                         >
@@ -412,6 +412,12 @@ function MenuItem({
       onClick={handleClick}
       title={!isOpen ? item.title : undefined}
       onMouseEnter={() => {
+        if (!isOpen && hasChildren) {
+          cancelClose()
+          setActivePopover(item.title)
+        }
+      }}
+      onMouseMove={() => {
         if (!isOpen && hasChildren) {
           cancelClose()
           setActivePopover(item.title)
