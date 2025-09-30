@@ -30,7 +30,7 @@ export default function Cmn013({ open, onClose }: Cmn013Props) {
       <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
-            정산기준정보 검색
+            정산기준품목 검색
           </Typography>
           <IconButton
             aria-label="닫기"

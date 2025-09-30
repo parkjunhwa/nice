@@ -272,7 +272,7 @@ export default function ModalPage() {
               onClick={() => setModal013Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              정산기준정보 검색
+              정산기준품목 검색
             </Button>
           </div>
 

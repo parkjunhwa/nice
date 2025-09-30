@@ -181,7 +181,7 @@ import {
   BasicModal, 
   ConfirmModal,
   Cmn001,
-  Cmn012, // 정산기준정보 검색 모달
+  Cmn012,
   MuiBasicModal 
 } from '@/components'
 
