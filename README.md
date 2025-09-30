@@ -49,7 +49,7 @@ nice/
 │   │   │   ├── inc001/      # 매출 집계(일)
 │   │   │   ├── inc002/      # 매출유형
 │   │   │   ├── pmt001/      # 매출 집계(일)
-│   │   │   ├── stl001/      # 정산 내역(준비중)
+│   │   │   ├── stl001/      # 정산 집계(월)
 │   │   │   ├── con001/      # 정산기준정보 목록 (준비중)
 │   │   │   ├── con002/      # 정산기준정보 상세/등록/수정 (준비중)
 │   │   │   ├── rul001/      # 정산규칙 목록 (준비중)
@@ -202,7 +202,7 @@ npm run dev
 ### Modal Components
 - **기본 모달**: BasicModal, ConfirmModal
 - **MUI 모달**: MuiBasicModal, MuiFormModal, MuiConfirmModal, MuiFullscreenModal
-- **프로젝트 모달**: Cmn001-Cmn012 (검색, 업로드, 폼 등), Mnb002 (비밀번호 변경)
+- **프로젝트 모달**: Cmn001-Cmn013 (검색, 업로드, 폼 등), Mnb002 (비밀번호 변경), Stl002 (정산 실행 월)
 - **리치 텍스트 에디터**: MD Editor (@uiw/react-md-editor) - 결재상신 본문 등록 모달에서 사용
 
 ### Utilities & Tools
@@ -293,7 +293,9 @@ import {
   ConfirmModal,
   Cmn001,
   Cmn012, // 정산기준정보 검색 모달
+  Cmn013, // 정산기준정보 검색 모달
   Mnb002, // 비밀번호 변경 모달
+  Stl002, // 정산 실행 월 모달
   MuiBasicModal 
 } from '@/components'
 

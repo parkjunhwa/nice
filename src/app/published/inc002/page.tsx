@@ -75,12 +75,9 @@ export default function UserManagementPage() {
 
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={0}>
-          <div className="pt-4 px-4 pb-5">
-            <div
-              className="flex flex-col gap-y-1 gap-x-4"
-            >
+          <div className="pt-4 px-4 pb-5 gap-y-2">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center mb-1">
               {/* 검색 조건들 */}
-              {/* 첫 번째 줄 */}
               <div className="flex items-center gap-4">
                 <div className="flex items-center">
                   <label className="form-side-label text-left">
@@ -113,181 +110,90 @@ export default function UserManagementPage() {
                     조회년월
                   </label>
                   <div className="flex items-center gap-2">
-                    <MonthPicker
-                      value={monthValue}
-                      onChange={(newValue: Date | null) => setMonthValue(newValue)}
-                      placeholder="월을 선택하세요"
-                    />
+                    <div style={{ width: '120px' }}>
+                      <MonthPicker
+                        value={monthValue}
+                        onChange={(newValue: Date | null) => setMonthValue(newValue)}
+                        placeholder="월을 선택하세요"
+                      />
+                    </div>
                     <Button variant="outlined" size="small" className="bg-white" color="secondary" onClick={handleThisMonthClick}>이번달</Button>
                   </div>
                 </div>
               </div>
-
             </div>
-            <div
-              className="
-                flex flex-col gap-y-1 gap-x-4 mt-1
-                2xl:flex-row
-              "
-            >
-              {/* 두번째 줄 */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    거래처
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <TextField
-                      variant="outlined"
-                      size="small"
-                      value={customerCode}
-                      onChange={(e) => setCustomerCode(e.target.value)}
-                      sx={{ width: '120px' }}
-                      InputProps={{
-                        endAdornment: customerCode && (
-                          <InputAdornment position="end">
-                            <IconButton
-                              size="small"
-                              onClick={() => setCustomerCode('')}
-                              sx={{
-                                '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                              }}
-                            >
-                              <Icons.XIcon size={14} />
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      color="secondary"
-                      className="xsmallbtn3"
-                      startIcon={<SearchIcon size={16} />}
-                    >
-                      <span style={{ display: "none" }}>+</span>
-                    </Button>
-                    <TextField
-                      variant="outlined"
-                      size="small"
-                      value={deviceNumber}
-                      onChange={(e) => setDeviceNumber(e.target.value)}
-                      sx={{ width: '120px' }}
-                      disabled
-                      InputProps={{
-
-                        endAdornment: deviceNumber && (
-                          <InputAdornment position="end">
-                            <IconButton
-                              size="small"
-                              onClick={() => setDeviceNumber('')}
-                              sx={{
-                                '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                              }}
-                            >
-                              <Icons.XIcon size={14} />
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    매출품목
-                  </label>
-                  <div className="flex items-center gap-2">
-                    <FormControl sx={{ width: '120px' }}>
-                      <Select
-                        value={salesItem}
-                        onChange={(e) => setSalesItem(e.target.value)}
-                        displayEmpty
-                        className="bg-white"
-                        size="small"
-                      >
-                        <MenuItem value="">
-                          <span>선택</span>
-                        </MenuItem>
-                        {departmentOptions.map((option) => (
-                          <MenuItem
-                            key={option.value}
-                            value={option.value}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  거래처
+                </label>
+                <div className="flex items-center gap-2">
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={customerCode}
+                    onChange={(e) => setCustomerCode(e.target.value)}
+                    sx={{ width: '120px' }}
+                    InputProps={{
+                      endAdornment: customerCode && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            size="small"
+                            onClick={() => setCustomerCode('')}
+                            sx={{
+                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                            }}
                           >
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    <TextField
-                      variant="outlined"
-                      size="small"
-                      value={customerCode}
-                      onChange={(e) => setCustomerCode(e.target.value)}
-                      sx={{ width: '120px' }}
-                      InputProps={{
-                        endAdornment: customerCode && (
-                          <InputAdornment position="end">
-                            <IconButton
-                              size="small"
-                              onClick={() => setCustomerCode('')}
-                              sx={{
-                                '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                              }}
-                            >
-                              <Icons.XIcon size={14} />
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      color="secondary"
-                      className="xsmallbtn3"
-                      startIcon={<SearchIcon size={16} />}
-                    >
-                      <span style={{ display: "none" }}>+</span>
-                    </Button>
-                    <TextField
-                      variant="outlined"
-                      size="small"
-                      value={deviceNumber}
-                      onChange={(e) => setDeviceNumber(e.target.value)}
-                      sx={{ width: '120px' }}
-                      disabled
-                      InputProps={{
+                            <Icons.XIcon size={14} />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    color="secondary"
+                    className="xsmallbtn3"
+                    startIcon={<SearchIcon size={16} />}
+                  >
+                    <span style={{ display: "none" }}>+</span>
+                  </Button>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={deviceNumber}
+                    onChange={(e) => setDeviceNumber(e.target.value)}
+                    sx={{ width: '120px' }}
+                    disabled
+                    InputProps={{
 
-                        endAdornment: deviceNumber && (
-                          <InputAdornment position="end">
-                            <IconButton
-                              size="small"
-                              onClick={() => setDeviceNumber('')}
-                              sx={{
-                                '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                              }}
-                            >
-                              <Icons.XIcon size={14} />
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }}
-                    />
-                  </div>
+                      endAdornment: deviceNumber && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            size="small"
+                            onClick={() => setDeviceNumber('')}
+                            sx={{
+                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                            }}
+                          >
+                            <Icons.XIcon size={14} />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
                 </div>
               </div>
-              {/* 세번째 줄 */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    매출유형
-                  </label>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  매출품목
+                </label>
+                <div className="flex items-center gap-2">
                   <FormControl sx={{ width: '120px' }}>
                     <Select
-                      value={salesType}
-                      onChange={(e) => setSalesType(e.target.value)}
+                      value={salesItem}
+                      onChange={(e) => setSalesItem(e.target.value)}
                       displayEmpty
                       className="bg-white"
                       size="small"
@@ -305,35 +211,115 @@ export default function UserManagementPage() {
                       ))}
                     </Select>
                   </FormControl>
-                </div>
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    결재유형
-                  </label>
-                  <FormControl sx={{ width: '120px' }}>
-                    <Select
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                      displayEmpty
-                      className="bg-white"
-                      size="small"
-                    >
-                      <MenuItem value="">
-                        <span>선택</span>
-                      </MenuItem>
-                      {departmentOptions.map((option) => (
-                        <MenuItem
-                          key={option.value}
-                          value={option.value}
-                        >
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={customerCode}
+                    onChange={(e) => setCustomerCode(e.target.value)}
+                    sx={{ width: '120px' }}
+                    InputProps={{
+                      endAdornment: customerCode && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            size="small"
+                            onClick={() => setCustomerCode('')}
+                            sx={{
+                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                            }}
+                          >
+                            <Icons.XIcon size={14} />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    color="secondary"
+                    className="xsmallbtn3"
+                    startIcon={<SearchIcon size={16} />}
+                  >
+                    <span style={{ display: "none" }}>+</span>
+                  </Button>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={deviceNumber}
+                    onChange={(e) => setDeviceNumber(e.target.value)}
+                    sx={{ width: '120px' }}
+                    disabled
+                    InputProps={{
+
+                      endAdornment: deviceNumber && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            size="small"
+                            onClick={() => setDeviceNumber('')}
+                            sx={{
+                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                            }}
+                          >
+                            <Icons.XIcon size={14} />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
                 </div>
               </div>
-
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  매출유형
+                </label>
+                <FormControl sx={{ width: '120px' }}>
+                  <Select
+                    value={salesType}
+                    onChange={(e) => setSalesType(e.target.value)}
+                    displayEmpty
+                    className="bg-white"
+                    size="small"
+                  >
+                    <MenuItem value="">
+                      <span>선택</span>
+                    </MenuItem>
+                    {departmentOptions.map((option) => (
+                      <MenuItem
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  결재유형
+                </label>
+                <FormControl sx={{ width: '120px' }}>
+                  <Select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    displayEmpty
+                    className="bg-white"
+                    size="small"
+                  >
+                    <MenuItem value="">
+                      <span>선택</span>
+                    </MenuItem>
+                    {departmentOptions.map((option) => (
+                      <MenuItem
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
             </div>
             <div className="flex justify-center items-center mt-2">
               <div className="flex justify-center items-center gap-2">

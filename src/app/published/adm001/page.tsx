@@ -63,83 +63,76 @@ export default function UserManagementPage() {
 
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={0}>
-          <div className="pt-4 px-4 pb-5">
-            <div
-              className="
-                flex flex-col gap-y-1 gap-x-4
-                xl:flex-row
-              "
-            >
-              {/* 검색 조건들 */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    부서명
-                  </label>
-                  <FormControl sx={{ width: '160px' }}>
-                    <Select
-                      value={departmentName}
-                      onChange={(e) => setDepartmentName(e.target.value)}
-                      displayEmpty
-                      className="bg-white"
-                      size="small"
-                    >
-                      <MenuItem value="">
-                        <span>선택</span>
+          <div className="pt-4 px-4 pb-5 gap-y-2">
+            {/* 검색 조건들 */}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  부서명
+                </label>
+                <FormControl sx={{ width: '160px' }}>
+                  <Select
+                    value={departmentName}
+                    onChange={(e) => setDepartmentName(e.target.value)}
+                    displayEmpty
+                    className="bg-white"
+                    size="small"
+                  >
+                    <MenuItem value="">
+                      <span>선택</span>
+                    </MenuItem>
+                    {departmentOptions.map((option) => (
+                      <MenuItem
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
                       </MenuItem>
-                      {departmentOptions.map((option) => (
-                        <MenuItem
-                          key={option.value}
-                          value={option.value}
-                        >
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    사용자ID
-                  </label>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                    sx={{ width: '160px' }}
-                    placeholder="사용자 ID 입력"
-                  />
-                </div>
-                <div className="flex items-center">
-                  <label className="form-side-label">
-                    사용여부
-                  </label>
-                  <FormControlLabel
-                    sx={{ marginLeft: '4px' }}
-                    control={
-                      <Switch
-                        checked={useStatus}
-                        onChange={(e) => setUseStatus(e.target.checked)}
-                        size="small"
-                      />
-                    }
-                    label=""
-                  />
-                </div>
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    사용자 명
-                  </label>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                    sx={{ width: '160px' }}
-                    placeholder="사용자명 입력"
-                  />
-                </div>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  사용자ID
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  value={userId}
+                  onChange={(e) => setUserId(e.target.value)}
+                  sx={{ width: '160px' }}
+                  placeholder="사용자 ID 입력"
+                />
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label">
+                  사용여부
+                </label>
+                <FormControlLabel
+                  sx={{ marginLeft: '4px' }}
+                  control={
+                    <Switch
+                      checked={useStatus}
+                      onChange={(e) => setUseStatus(e.target.checked)}
+                      size="small"
+                    />
+                  }
+                  label=""
+                />
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  사용자 명
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  sx={{ width: '160px' }}
+                  placeholder="사용자명 입력"
+                />
               </div>
             </div>
             <div className="flex justify-center items-center mt-2">

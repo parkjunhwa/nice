@@ -11,6 +11,7 @@ import {
   MuiConfirmModal,
   MuiFullscreenModal,
   Mnb002,
+  Stl002,
   Cmn001,
   Cmn002,
   Cmn003,
@@ -43,6 +44,7 @@ export default function ModalPage() {
   // Modal001-012 상태 관리
 
   const [modalmnb002Open, setModalmnb002Open] = useState(false)
+  const [modalstl002Open, setModalstl002Open] = useState(false)
   const [modal001Open, setModal001Open] = useState(false)
   const [modal002Open, setModal002Open] = useState(false)
   const [modal003Open, setModal003Open] = useState(false)
@@ -154,7 +156,6 @@ export default function ModalPage() {
         </div>
 
         <div className="flex-1 min-h-0 gap-2 mb-4">
-          {/* 퍼블된 프로젝트 모달 */}
           <div className="flex flex-row items-center gap-2 flex-wrap">
             <Button
               variant="outlined"
@@ -163,6 +164,14 @@ export default function ModalPage() {
               startIcon={<Icons.CheckIcon size={16} />}
             >
               비밀번호 변경
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setModalstl002Open(true)}
+              startIcon={<Icons.CheckIcon size={16} />}
+            >
+              정산 실행 월
             </Button>
           </div>
         </div>
@@ -280,6 +289,11 @@ export default function ModalPage() {
           <Mnb002
             open={modalmnb002Open}
             onClose={() => setModalmnb002Open(false)}
+          />
+
+          <Stl002
+            open={modalstl002Open}
+            onClose={() => setModalstl002Open(false)}
           />
 
           <Cmn001

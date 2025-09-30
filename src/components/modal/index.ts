@@ -24,3 +24,4 @@ export { default as Cmn013 } from './cmn013'
 
 // Mnb002 모달 컴포넌트
 export { default as Mnb002 } from './mnb002'
+export { default as Stl002 } from './stl002'

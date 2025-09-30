@@ -64,93 +64,86 @@ export default function InterfaceLogPage() {
       </div>
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={0}>
-          <div className="pt-4 px-4 pb-5">
-            <div
-              className="
-                flex flex-col gap-y-1 gap-x-4
-                xl:flex-row
-              "
-            >
-              {/* 검색 조건들 */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    인터페이스 타입
-                  </label>
-                  <FormControl sx={{ width: '160px' }}>
-                    <Select
-                      value={interfaceType}
-                      onChange={(e) => setInterfaceType(e.target.value)}
-                      displayEmpty
-                      className="bg-white"
-                      size="small"
-                    >
-                      <MenuItem value="">
-                        <span>선택</span>
-                      </MenuItem>
-                      {interfaceTypeOptions.map((option) => (
-                        <MenuItem
-                          key={option.value}
-                          value={option.value}
-                        >
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    인터페이스 ID
-                  </label>
-                  <TextField
-                    variant="outlined"
+          <div className="pt-4 px-4 pb-5 gap-y-2">
+            {/* 검색 조건들 */}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  인터페이스 타입
+                </label>
+                <FormControl sx={{ width: '160px' }}>
+                  <Select
+                    value={interfaceType}
+                    onChange={(e) => setInterfaceType(e.target.value)}
+                    displayEmpty
+                    className="bg-white"
                     size="small"
-                    value={interfaceId}
-                    onChange={(e) => setInterfaceId(e.target.value)}
-                    sx={{ width: '160px' }}
-                    placeholder="인터페이스 ID 입력"
+                  >
+                    <MenuItem value="">
+                      <span>선택</span>
+                    </MenuItem>
+                    {interfaceTypeOptions.map((option) => (
+                      <MenuItem
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  인터페이스 ID
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  value={interfaceId}
+                  onChange={(e) => setInterfaceId(e.target.value)}
+                  sx={{ width: '160px' }}
+                  placeholder="인터페이스 ID 입력"
+                />
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  일시
+                </label>
+                <div>
+                  <DateRangePicker
+                    value={dateRangeValue}
+                    onChange={(newValue: [Date | null, Date | null]) => setDateRangeValue(newValue)}
+                    placeholder="날짜 범위를 선택하세요"
+                    size="small"
                   />
                 </div>
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    일시
-                  </label>
-                  <div>
-                    <DateRangePicker
-                      value={dateRangeValue}
-                      onChange={(newValue: [Date | null, Date | null]) => setDateRangeValue(newValue)}
-                      placeholder="날짜 범위를 선택하세요"
-                      size="small"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    상태
-                  </label>
-                  <FormControl sx={{ width: 160 }}>
-                    <Select
-                      value={status}
-                      onChange={(e) => setStatus(e.target.value)}
-                      displayEmpty
-                      className="bg-white"
-                      size="small"
-                    >
-                      <MenuItem value="">
-                        <span>선택</span>
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  상태
+                </label>
+                <FormControl sx={{ width: 160 }}>
+                  <Select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    displayEmpty
+                    className="bg-white"
+                    size="small"
+                  >
+                    <MenuItem value="">
+                      <span>선택</span>
+                    </MenuItem>
+                    {statusOptions.map((option) => (
+                      <MenuItem
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
                       </MenuItem>
-                      {statusOptions.map((option) => (
-                        <MenuItem
-                          key={option.value}
-                          value={option.value}
-                        >
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
             </div>
             <div className="flex justify-center items-center mt-2">
