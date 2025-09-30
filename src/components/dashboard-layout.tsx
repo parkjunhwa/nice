@@ -157,7 +157,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   return (
-    <LoaderProvider isSidebarOpen={isSidebarOpen}>
+    <LoaderProvider>
       <DashboardLayoutContent 
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}

@@ -5,21 +5,19 @@ import { Loader2 } from "lucide-react"
 
 /**
  * 로더 오버레이 컴포넌트
- * - 사이드바를 제외한 메인 컨텐츠 영역에만 표시
+ * - 전체 화면을 덮어서 표시 (사이드바 포함)
  * - 모달 팝업보다 위에 표시 (z-index: 9999)
  * - 자동 완료 및 수동 중지 지원
- * - 사이드바 상태에 따른 동적 위치 조정
+ * - 사이드바 상태와 무관하게 전체 화면 덮음
  */
 interface LoaderOverlayProps {
   /** 로더 지속 시간 (밀리초, 기본값: 2000ms) */
   duration?: number
   /** 로더 완료 시 콜백 함수 */
   onComplete?: () => void
-  /** 사이드바 열림 상태 */
-  isSidebarOpen?: boolean
 }
 
-export function LoaderOverlay({ duration = 2000, onComplete, isSidebarOpen = true }: LoaderOverlayProps) {
+export function LoaderOverlay({ duration = 2000, onComplete }: LoaderOverlayProps) {
   const [isVisible, setIsVisible] = useState(true)
 
   useEffect(() => {
@@ -33,19 +31,12 @@ export function LoaderOverlay({ duration = 2000, onComplete, isSidebarOpen = tru
 
   if (!isVisible) return null
 
-  // 사이드바 상태에 따른 왼쪽 여백 계산
-  const leftMargin = isSidebarOpen ? '16rem' : '4rem' // 열림: 16rem (256px), 접힘: 4rem (64px)
-
   return (
     <div 
-      className="fixed bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
       style={{
-        // 사이드바를 제외한 메인 컨텐츠 영역에만 표시
-        top: '0rem', // 상단 여백
-        left: leftMargin, // 사이드바 상태에 따른 동적 왼쪽 여백
-        right: '0rem', // 오른쪽 여백
-        bottom: '0rem', // 하단 여백
-        zIndex: 9999, // 모달 팝업보다 위에 표시
+        // 전체 화면을 덮어서 표시 (사이드바 포함)
+        zIndex: 10001, // 사이드바 풍선(10000)보다 위에 표시
       }}
     >
       <div className="max-w-md w-full text-center">
