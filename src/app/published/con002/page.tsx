@@ -1,5 +1,6 @@
 "use client"
 
+import React from 'react'
 import { Breadcrumb } from '@/components'
 
 export default function Con002Page() {

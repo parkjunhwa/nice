@@ -23,6 +23,7 @@ import {
   Cmn010,
   Cmn011,
   Cmn012,
+  Cmn013,
   Icons
 } from '@/components'
 import { Alert, Snackbar } from '@mui/material'
@@ -54,6 +55,7 @@ export default function ModalPage() {
   const [modal010Open, setModal010Open] = useState(false)
   const [modal011Open, setModal011Open] = useState(false)
   const [modal012Open, setModal012Open] = useState(false)
+  const [modal013Open, setModal013Open] = useState(false)
 
   // Alert 상태 관리
   const [alertOpen, setAlertOpen] = useState(false)
@@ -264,6 +266,14 @@ export default function ModalPage() {
             >
               세금계산서 대사
             </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setModal013Open(true)}
+              startIcon={<Icons.CheckIcon size={16} />}
+            >
+              정산기준정보 검색
+            </Button>
           </div>
 
           {/* Cmn001-Cmn012 컴포넌트들 */}
@@ -330,6 +340,11 @@ export default function ModalPage() {
           <Cmn012
             open={modal012Open}
             onClose={() => setModal012Open(false)}
+          />
+
+          <Cmn013
+            open={modal013Open}
+            onClose={() => setModal013Open(false)}
           />
         </div>
       </div>

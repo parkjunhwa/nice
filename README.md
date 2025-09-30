@@ -10,6 +10,8 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 - **날짜/시간 선택기**: MUI X Date Pickers를 활용한 고급 날짜/시간 선택 기능
 - **모달 시스템**: 다양한 모달 컴포넌트 (기본, 확인, 폼, 전체화면, 프로젝트 모달)
 - **테이블 컴포넌트**: SampleTable 기반의 데이터 테이블
+- **전역 로더 시스템**: Context API 기반 전역 로더 상태 관리
+- **에러 페이지**: 401, 404 전용 에러 페이지 (사이드바 제외)
 - **반응형 디자인**: 모바일, 태블릿, 데스크톱 모든 디바이스 지원
 - **TypeScript**: 타입 안전성을 보장하는 TypeScript 지원
 - **컴포넌트 기반**: 재사용 가능한 컴포넌트 구조
@@ -24,31 +26,36 @@ nice/
 ├── public/                   # 정적 파일들
 ├── src/
 │   ├── app/                 # Next.js App Router
-│   │   ├── mnb001/          # 메뉴 페이지 001
+│   │   ├── err401/          # 401 에러 페이지 (사이드바 없음)
+│   │   │   └── page.tsx
+│   │   ├── err404/          # 404 에러 페이지 (사이드바 없음)
+│   │   │   └── page.tsx
+│   │   ├── mnb001/          # 공지사항 팝업 001
 │   │   │   └── page.tsx
 │   │   ├── published/       # Published Pages (메인 페이지들)
-│   │   │   ├── adm001/      # 관리 페이지 001
-│   │   │   ├── adm002/      # 관리 페이지 002
-│   │   │   ├── adm003/      # 관리 페이지 003
-│   │   │   ├── adm004/      # 관리 페이지 004
-│   │   │   ├── adm005/      # 관리 페이지 005
+│   │   │   ├── adm001/      # 사용자 관리
+│   │   │   ├── adm002/      # 권한 관리
+│   │   │   ├── adm003/      # I/F로그 관리
+│   │   │   ├── adm004/      # I/F로그 상세
+│   │   │   ├── adm005/      # 공통코드 관리
 │   │   │   ├── components/  # 컴포넌트 데모 페이지들
 │   │   │   │   ├── enhanced-table/ # 향상된 테이블 데모
+│   │   │   │   ├── loading/ # 로딩 중 컴포넌트 예시 페이지
 │   │   │   │   ├── modal/   # 모달 컴포넌트 데모
 │   │   │   │   ├── mui/     # MUI 컴포넌트 데모
 │   │   │   │   ├── search01/ # 검색 컴포넌트 데모 1
 │   │   │   │   └── search02/ # 검색 컴포넌트 데모 2
-│   │   │   ├── cst001/      # 고객 관리 페이지
-│   │   │   ├── inc001/      # 수입 관리 페이지
-│   │   │   ├── inc002/      # 수입 관리 페이지 2
-│   │   │   ├── pmt001/      # 결제 관리 페이지
-│   │   │   ├── stl001/      # 정산 관리 페이지
+│   │   │   ├── cst001/      # 매입 집계(월)
+│   │   │   ├── inc001/      # 매출 집계(일)
+│   │   │   ├── inc002/      # 매출유형
+│   │   │   ├── pmt001/      # 매출 집계(일)
+│   │   │   ├── stl001/      # 정산 내역(준비중)
 │   │   │   ├── con001/      # 정산기준정보 목록 (준비중)
 │   │   │   ├── con002/      # 정산기준정보 상세/등록/수정 (준비중)
 │   │   │   ├── rul001/      # 정산규칙 목록 (준비중)
 │   │   │   ├── rul002/      # 정산규칙 상세/등록/수정 (준비중)
-│   │   │   ├── mnb005/      # 메뉴 페이지 005
-│   │   │   ├── mnb006/      # 메뉴 페이지 006
+│   │   │   ├── mnb005/      # 공지사항 목록
+│   │   │   ├── mnb006/      # 공지사항 상세
 │   │   │   ├── layout.tsx   # Published Pages 레이아웃
 │   │   │   └── page.tsx     # 메인 대시보드 페이지
 │   │   ├── globals.scss     # 전역 SCSS 스타일
@@ -62,7 +69,7 @@ nice/
 │   │   ├── modal/           # 모달 컴포넌트들
 │   │   │   ├── basic-modal.tsx
 │   │   │   ├── confirm-modal.tsx
-│   │   │   ├── cmn001.tsx ~ cmn012.tsx
+│   │   │   ├── cmn001.tsx ~ cmn013.tsx
 │   │   │   ├── mnb002.tsx   # 비밀번호 변경 모달
 │   │   │   ├── mui-basic-modal.tsx
 │   │   │   ├── mui-confirm-modal.tsx
@@ -72,7 +79,8 @@ nice/
 │   │   │   ├── sample-table.tsx
 │   │   │   └── table-common.scss
 │   │   ├── chart.tsx        # Chart.js 기반 차트 컴포넌트
-│   │   ├── dashboard-layout.tsx # 대시보드 레이아웃
+│   │   ├── dashboard-layout.tsx # 대시보드 레이아웃 (LoaderProvider 포함)
+│   │   ├── loader-overlay.tsx # 전역 로더 오버레이 컴포넌트
 │   │   ├── date-picker.tsx  # 날짜 선택 컴포넌트
 │   │   ├── date-range-picker.tsx # 날짜 범위 선택 컴포넌트
 │   │   ├── date-time-picker.tsx # 날짜/시간 선택 컴포넌트
@@ -84,20 +92,22 @@ nice/
 │   │   ├── mui-theme-provider.tsx # MUI 테마 프로바이더
 │   │   ├── index.ts         # 모든 컴포넌트 통합 export
 │   │   └── README.md        # 컴포넌트 구조 설명
+│   ├── contexts/            # 전역 상태 관리 (React Context)
+│   │   └── loader-context.tsx # 로더 Context
 │   ├── lib/                 # 유틸리티 함수들
 │   │   ├── mui-theme.ts     # MUI 테마 설정
 │   │   └── utils.ts         # 공통 유틸리티 함수
 │   └── styles/              # SCSS 스타일 파일들
 │       ├── components/      # 컴포넌트별 스타일
-│       │   ├── _buttons.scss
-│       │   ├── _cards.scss
-│       │   ├── _common.scss
-│       │   ├── _data.scss
-│       │   ├── _examples.scss
-│       │   ├── _forms.scss
-│       │   ├── _layout.scss
-│       │   ├── _navigation.scss
-│       │   └── README.md
+│       │   ├── _buttons.scss      # 버튼 스타일(기본, 변형, 상태 등)
+│       │   ├── _cards.scss        # 카드 UI 컴포넌트 스타일
+│       │   ├── _common.scss       # 공통 유틸리티 및 리셋 스타일
+│       │   ├── _data.scss         # 데이터 시각화, 표, 리스트 등 데이터 관련 스타일
+│       │   ├── _examples.scss     # 예시/샘플 컴포넌트 스타일(테스트, 데모용)
+│       │   ├── _forms.scss        # 폼 요소(입력, 라벨, 검증 등) 스타일
+│       │   ├── _layout.scss       # 레이아웃(그리드, flex, 섹션 등) 스타일
+│       │   ├── _navigation.scss   # 네비게이션(사이드바, 메뉴, 탭 등) 스타일
+│       │   └── README.md          # components/styles 폴더 내 SCSS 파일 구조 및 역할 설명 문서
 │       ├── core/            # 핵심 스타일
 │       │   ├── _mixins.scss
 │       │   └── _tokens.scss
@@ -129,7 +139,7 @@ npm run dev
 
 ### 3. 브라우저에서 확인
 
-[http://localhost:3000](http://localhost:3000)에서 대시보드를 확인할 수 있습니다.
+(http://localhost:3000)에서 대시보드를 확인할 수 있습니다.
 
 ## 📄 페이지 구성
 
@@ -146,27 +156,27 @@ npm run dev
 - **ADM005** (`/adm005`): 관리 페이지 005
 
 ### 비즈니스 페이지들 (`/published/*`)
-- **CST001** (`/cst001`): 고객 관리 페이지
-- **INC001** (`/inc001`): 수입 관리 페이지
-- **INC002** (`/inc002`): 수입 관리 페이지 2
-- **PMT001** (`/pmt001`): 결제 관리 페이지
-- **STL001** (`/stl001`): 정산 관리 페이지
+- **CST001** (`/cst001`): 매입 집계(월)
+- **INC001** (`/inc001`): 매출 집계(일)
+- **INC002** (`/inc002`): 매출 집계(월)
+- **PMT001** (`/pmt001`): 수납 집계(일)
+- **STL001** (`/stl001`): 정산 내역 (준비중)
 - **CON001** (`/con001`): 정산기준정보 목록 (준비중)
 - **CON002** (`/con002`): 정산기준정보 상세/등록/수정 (준비중)
 - **RUL001** (`/rul001`): 정산규칙 목록 (준비중)
 - **RUL002** (`/rul002`): 정산규칙 상세/등록/수정 (준비중)
 
 ### 메뉴 페이지들
-- **MNB001** (`/mnb001`): 메뉴 페이지 001
-- **MNB005** (`/published/mnb005`): 메뉴 페이지 005
-- **MNB006** (`/published/mnb006`): 메뉴 페이지 006
+- **공지사항** (`/published/mnb005`): 공지사항 관리 페이지
+- **메뉴 관리** (`/published/mnb006`): 메뉴 관리 페이지
 
 ### Components 데모 페이지들 (`/published/components`)
-- **Enhanced Table** (`/enhanced-table`): 향상된 테이블 데모
-- **Modal** (`/modal`): 모달 컴포넌트 데모
-- **MUI** (`/mui`): MUI 컴포넌트 데모 및 예제
-- **Search01** (`/search01`): 검색 컴포넌트 데모 1
-- **Search02** (`/search02`): 검색 컴포넌트 데모 2
+- **추가 테이블** (`/enhanced-table`)
+- **로딩중** (`/loading`)
+- **모달** (`/modal`)
+- **MUI 컴포넌트** (`/mui`)
+- **검색01** (`/search01`)
+- **검색02** (`/search02`)
 
 ## 🎯 사용된 기술 스택
 
@@ -434,6 +444,6 @@ MIT License
 ---
 
 **작성자**  
-디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-09-29)  
+디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-09-30)  
 010-9479-3188  
 junhwa.park@gmail.com

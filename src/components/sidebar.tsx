@@ -14,7 +14,8 @@ import {
   Box,
   BadgeCheck,
   ShieldCheck,
-  BadgeInfo
+  BadgeInfo,
+  AlertTriangle
 } from "lucide-react"
 import { Tooltip, IconButton, Select, MenuItem as MuiMenuItem, FormControl } from "@mui/material"
 import Link from "next/link"
@@ -23,6 +24,7 @@ import React, { useState, useEffect, memo, useCallback, useRef } from "react"
 import { createPortal } from "react-dom"
 import { SidebarToggle } from "./sidebar-toggle"
 import Image from 'next/image'
+import { useLoader } from "@/contexts/loader-context"
 
 interface MenuItem {
   title: string
@@ -56,7 +58,7 @@ const sidebarItems: MenuItem[] = [
     title: "매입",
     icon: ShoppingCart,
     children: [
-      { title: "매입 집계(일)", href: "/published/cst001" },
+      { title: "매입 집계(월)", href: "/published/cst001" },
     ]
   },
   {
@@ -106,7 +108,9 @@ const sidebarItems: MenuItem[] = [
     icon: FileText,
     children: [
       { title: "MUI 컴포넌트", href: "/published/components/mui" },
+      { title: "로딩중", href: "/published/components/loading" },
       { title: "검색01", href: "/published/components/search01" },
+      { title: "검색02", href: "/published/components/search02" },
       { 
         title: "3Depth 예시", 
         href: "#",
@@ -121,8 +125,7 @@ const sidebarItems: MenuItem[] = [
             ]
           }
         ]
-      },
-      { title: "검색02", href: "/published/components/search02" }
+      }
     ]
   },
   { title: "공통팝업", href: "/published/components/modal", icon: Settings },
@@ -134,6 +137,14 @@ const sidebarItems: MenuItem[] = [
     children: [
       { title: "공지사항 목록", href: "/published/mnb005" },
       { title: "공지사항 상세", href: "/published/mnb006" }
+    ]
+  },
+  {
+    title: "에러",
+    icon: AlertTriangle,
+    children: [
+      { title: "401", href: "/err401" },
+      { title: "404", href: "/err404" }
     ]
   }
 ]
@@ -191,13 +202,15 @@ function MenuItem({
   level = 0,
   isOpen,
   activePopover,
-  setActivePopover
+  setActivePopover,
+  onMenuClick
 }: {
   item: MenuItem
   level?: number
   isOpen: boolean
   activePopover: string | null
   setActivePopover: (title: string | null) => void
+  onMenuClick: () => void
 }) {
   const pathname = usePathname()
   const [isExpanded, setIsExpanded] = useState(false)
@@ -321,7 +334,7 @@ function MenuItem({
           {item.children?.map((child, index) => (
             <div key={index} className="relative">
               {child.href ? (
-                <Link href={child.href} onMouseEnter={() => setHoveredChildIndex(index)}>
+                <Link href={child.href} onMouseEnter={() => setHoveredChildIndex(index)} onClick={onMenuClick}>
                   <div className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
                     {child.icon && <child.icon className="h-4 w-4 mr-3" />}
                     <span>{child.title}</span>
@@ -353,7 +366,7 @@ function MenuItem({
                   {child.children.map((grandChild, grandIndex) => (
                     <div key={grandIndex} className="relative">
                       {grandChild.href ? (
-                        <Link href={grandChild.href} onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)}>
+                        <Link href={grandChild.href} onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)} onClick={onMenuClick}>
                           <div className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
                             {grandChild.icon && <grandChild.icon className="h-4 w-4 mr-3" />}
                             <span>{grandChild.title}</span>
@@ -450,7 +463,7 @@ function MenuItem({
   return (
     <div>
       {item.href ? (
-        <Link href={item.href}>
+        <Link href={item.href} onClick={onMenuClick}>
           <MenuContent />
         </Link>
       ) : (
@@ -470,6 +483,7 @@ function MenuItem({
               isOpen={isOpen}
               activePopover={activePopover}
               setActivePopover={setActivePopover}
+              onMenuClick={onMenuClick}
             />
           ))}
         </div>
@@ -481,6 +495,14 @@ function MenuItem({
 const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const [activePopover, setActivePopover] = useState<string | null>(null)
   const [selectedBusiness, setSelectedBusiness] = useState<string>("")
+  const { showLoader } = useLoader()
+
+  /**
+   * 메뉴 클릭 시 로더 표시
+   */
+  const handleMenuClick = useCallback(() => {
+    showLoader(1000) // 1초간 로더 표시
+  }, [showLoader])
 
   // 사업 선택 상태를 localStorage에서 로드하거나 기본값 설정
   useEffect(() => {
@@ -535,7 +557,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
       <div className={cn("flex h-16 items-center justify-between border-b border-gray-200", isOpen ? "pl-4 pr-2" : "px-4")}>
         <div className="flex items-center h-16">
           {isOpen ? (
-            <Link href="/published">
+            <Link href="/published" onClick={handleMenuClick}>
               <Image 
                 src="/images/logo.png" 
                 alt="나이스 인프라" 
@@ -553,7 +575,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
         style={!isOpen ? { overflow: "visible" } : undefined}
       >
         {sidebarItems.map((item, index) => (
-          <MenuItem key={`menu-${index}`} item={item} isOpen={isOpen} activePopover={activePopover} setActivePopover={setActivePopover} />
+          <MenuItem key={`menu-${index}`} item={item} isOpen={isOpen} activePopover={activePopover} setActivePopover={setActivePopover} onMenuClick={handleMenuClick} />
         ))}
       </nav>
 
