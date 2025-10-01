@@ -27,7 +27,9 @@ export default function UserManagementPage() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
 
   // 폼 상태 변수들
-  const [businessUnitName, setBusinessUnitName] = useState('')
+  const [businessUnit1, setBusinessUnit1] = useState('')
+  const [businessUnit2, setBusinessUnit2] = useState('')
+  const [businessUnit3, setBusinessUnit3] = useState('')
   const [monthValue, setMonthValue] = useState<Date | null>(null)
   const [salesItem, setSalesItem] = useState('')
   const [salesType, setSalesType] = useState('')
@@ -83,10 +85,11 @@ export default function UserManagementPage() {
                   <label className="form-side-label text-left">
                     사업부
                   </label>
+                  <div className="flex items-center gap-2">
                   <FormControl sx={{ width: '120px' }}>
                     <Select
-                      value={businessUnitName}
-                      onChange={(e) => setBusinessUnitName(e.target.value)}
+                      value={businessUnit1}
+                      onChange={(e) => setBusinessUnit1(e.target.value)}
                       displayEmpty
                       className="bg-white"
                       size="small"
@@ -104,6 +107,43 @@ export default function UserManagementPage() {
                       ))}
                     </Select>
                   </FormControl>
+                  <FormControl sx={{ width: '120px' }}>
+                    <Select
+                      value={businessUnit2}
+                      onChange={(e) => setBusinessUnit2(e.target.value)}
+                      displayEmpty
+                      className="bg-white"
+                      size="small"
+                    >
+                      {departmentOptions.map((option) => (
+                        <MenuItem
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <FormControl sx={{ width: '120px' }}>
+                    <Select
+                      value={businessUnit3}
+                      onChange={(e) => setBusinessUnit3(e.target.value)}
+                      displayEmpty
+                      className="bg-white"
+                      size="small"
+                    >
+                      {departmentOptions.map((option) => (
+                        <MenuItem
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </div>
                 </div>
                 <div className="flex items-center">
                   <label className="form-side-label text-left">

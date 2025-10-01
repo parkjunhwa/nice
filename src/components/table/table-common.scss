@@ -474,3 +474,14 @@
   color: #6b7280; /* gray-500 */
   font-size: 12px;
 }
+
+// ==========================================
+// 테이블 페이지네이션 스타일
+// ==========================================
+.sample-table-container select {
+  &:focus,
+  &:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
