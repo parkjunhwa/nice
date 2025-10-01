@@ -90,7 +90,6 @@ export default function Stl002({ open, onClose, onSuccess }: Stl002Props) {
                 사업부
               </label>
               <div className="flex items-center gap-2">
-
                 <FormControl sx={{ width: '120px' }}>
                   <Select
                     value={businessUnit1}

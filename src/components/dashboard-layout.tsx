@@ -26,7 +26,7 @@ function DashboardLayoutContent({ children, isSidebarOpen, setIsSidebarOpen }: D
   isSidebarOpen: boolean
   setIsSidebarOpen: (value: boolean) => void 
 }) {
-  const { showLoader, hideLoader } = useLoader()
+  const { hideLoader } = useLoader()
 
   // 컴포넌트 마운트 시 저장된 상태 복원 (클라이언트에서만 실행)
   useEffect(() => {

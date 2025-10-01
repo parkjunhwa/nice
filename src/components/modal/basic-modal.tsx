@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, IconButton } from '@mui/material'
 import { Icons } from '@/components'
 
 interface BasicModalProps {
