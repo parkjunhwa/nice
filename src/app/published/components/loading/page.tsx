@@ -18,7 +18,7 @@ export default function LoadingPage() {
     setIsPageLoading(true)
     showLoader(5000) // 5초간 로더 표시
     startCountdown(5)
-    
+
     // 5초 후 자동으로 로더 제거
     setTimeout(() => {
       setIsPageLoading(false)
@@ -39,7 +39,7 @@ export default function LoadingPage() {
   /**
    * 카운트다운 시작
    */
-  const startCountdown = (seconds: number) => {
+  const startCountdown = useCallback((seconds: number) => {
     setCountdown(seconds)
     const interval = setInterval(() => {
       setCountdown(prev => {
@@ -50,15 +50,8 @@ export default function LoadingPage() {
         return prev - 1
       })
     }, 1000)
-  }
+  }, [])
 
-  /**
-   * 페이지 로드 시 자동으로 5초 로더 시작
-   */
-  useEffect(() => {
-    // 페이지 진입 시 자동으로 5초 로더 시작
-    handleShowLoader()
-  }, [handleShowLoader]) // handleShowLoader 의존성 추가
 
   return (
     <div className="flex flex-col h-full min-h-0 layout-top-bottom">
@@ -244,7 +237,7 @@ export default function LoadingPage() {
                       1. 기본 사용법
                     </Typography>
                     <pre className="text-xs bg-white p-2 rounded border overflow-x-auto">
-{`import { useLoader } from '@/contexts/loader-context'
+                      {`import { useLoader } from '@/contexts/loader-context'
 
 const { showLoader, hideLoader, isLoading } = useLoader()
 
