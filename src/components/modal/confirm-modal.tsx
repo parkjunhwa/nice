@@ -1,6 +1,7 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton } from '@mui/material'
+import { Icons } from '@/components'
 
 interface ConfirmModalProps {
   open: boolean
@@ -54,9 +55,19 @@ export default function ConfirmModal({
       }}
     >
       <DialogTitle sx={{ padding: '16px 16px' }}>
-        <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
+        <div className="flex items-center justify-between">
           {title}
-        </Typography>
+          <div className="flex items-center gap-2">
+            <IconButton
+              aria-label="닫기"
+              onClick={onClose}
+              size="small"
+              edge="end"
+            >
+              <Icons.XIcon size={20} />
+            </IconButton>
+          </div>
+        </div>
       </DialogTitle>
       
       <DialogContent>

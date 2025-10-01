@@ -1,6 +1,7 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Alert, IconButton } from '@mui/material'
+import { Icons } from '@/components'
 
 interface MuiBasicModalProps {
   open: boolean
@@ -27,7 +28,17 @@ export default function MuiBasicModal({
       fullWidth={fullWidth}
     >
       <DialogTitle sx={{ padding: '16px 16px' }}>
-        {title}
+        <div className="flex items-center justify-between">
+          {title}
+          <IconButton
+            aria-label="닫기"
+            onClick={onClose}
+            size="small"
+            edge="end"
+          >
+            <Icons.XIcon size={20} />
+          </IconButton>
+        </div>
       </DialogTitle>
       <DialogContent>
         <div className="mb-4">

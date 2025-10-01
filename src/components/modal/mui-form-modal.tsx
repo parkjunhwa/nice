@@ -7,8 +7,10 @@ import {
   DialogContent, 
   DialogActions, 
   Button, 
-  TextField
+  TextField,
+  IconButton
 } from '@mui/material'
+import { Icons } from '@/components'
 
 interface MuiFormModalProps {
   open: boolean
@@ -59,7 +61,17 @@ export default function MuiFormModal({
       fullWidth
     >
       <DialogTitle sx={{ padding: '16px 16px' }}>
-        {title}
+        <div className="flex items-center justify-between">
+          {title}
+          <IconButton
+            aria-label="닫기"
+            onClick={handleClose}
+            size="small"
+            edge="end"
+          >
+            <Icons.XIcon size={20} />
+          </IconButton>
+        </div>
       </DialogTitle>
       <DialogContent>
         <div className="space-y-4 pt-0">

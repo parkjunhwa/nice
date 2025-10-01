@@ -1,7 +1,7 @@
 'use client'
 
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton } from '@mui/material'
-import { X } from 'lucide-react'
+import { Icons } from '@/components'
 
 interface BasicModalProps {
   open: boolean
@@ -34,25 +34,18 @@ export default function BasicModal({
       }}
     >
       {title && (
-        <DialogTitle sx={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          pb: 1
-        }}>
-          <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
+        <DialogTitle sx={{ padding: '16px 16px' }}>
+          <div className="flex items-center justify-between">
             {title}
-          </Typography>
-          <IconButton
-            onClick={onClose}
-            size="small"
-            sx={{ 
-              color: 'text.secondary',
-              '&:hover': { backgroundColor: 'action.hover' }
-            }}
-          >
-            <X size={20} />
-          </IconButton>
+            <IconButton
+              aria-label="닫기"
+              onClick={onClose}
+              size="small"
+              edge="end"
+            >
+              <Icons.XIcon size={20} />
+            </IconButton>
+          </div>
         </DialogTitle>
       )}
       
