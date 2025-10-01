@@ -824,6 +824,11 @@
     background-color: white !important;
   }
 
+  /* MUI Select disabled 상태 배경색 */
+  .MuiSelect-root.Mui-disabled .MuiSelect-select {
+    background-color: hsl(var(--color-muted)) !important;
+  }
+
   /* MUI Autocomplete 배경색 */
   .MuiAutocomplete-root .MuiOutlinedInput-root {
     background-color: white !important;

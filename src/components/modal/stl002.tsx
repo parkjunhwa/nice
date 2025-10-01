@@ -21,6 +21,12 @@ interface Stl002Props {
   onSuccess?: (message: string) => void
 }
 
+interface DepartmentOption {
+  value: string
+  label: string
+  disabled: boolean
+}
+
 export default function Stl002({ open, onClose, onSuccess }: Stl002Props) {
   const [businessUnit1, setBusinessUnit1] = useState('')
   const [monthValue, setMonthValue] = useState<Date | null>(null)
@@ -45,10 +51,10 @@ export default function Stl002({ open, onClose, onSuccess }: Stl002Props) {
   }
 
   // 옵션 데이터
-  const departmentOptions = [
-    { value: 'option1', label: '옵션1' },
-    { value: 'option2', label: '옵션2' },
-    { value: 'option3', label: '옵션3' }
+  const departmentOptions: DepartmentOption[] = [
+    { value: 'option1', label: '옵션1', disabled: false },
+    { value: 'option2', label: '옵션2', disabled: true },
+    { value: 'option3', label: '옵션3', disabled: false }
   ]
 
 
@@ -97,14 +103,16 @@ export default function Stl002({ open, onClose, onSuccess }: Stl002Props) {
                     displayEmpty
                     className="bg-white"
                     size="small"
+                    disabled
                   >
                     <MenuItem value="">
-                      <span>선택</span>
+                      <span>주차</span>
                     </MenuItem>
                     {departmentOptions.map((option) => (
                       <MenuItem
                         key={option.value}
                         value={option.value}
+                        disabled={option.disabled}
                       >
                         {option.label}
                       </MenuItem>

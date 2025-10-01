@@ -93,7 +93,6 @@ export default function UserManagementPage() {
                   사업부
                 </label>
                 <div className="flex items-center gap-2">
-
                   <FormControl sx={{ width: '120px' }}>
                     <Select
                       value={businessUnit1}
@@ -115,7 +114,6 @@ export default function UserManagementPage() {
                       ))}
                     </Select>
                   </FormControl>
-
                   <FormControl sx={{ width: '120px' }}>
                     <Select
                       value={businessUnit2}
@@ -134,7 +132,6 @@ export default function UserManagementPage() {
                       ))}
                     </Select>
                   </FormControl>
-
                   <FormControl sx={{ width: '120px' }}>
                     <Select
                       value={businessUnit3}
