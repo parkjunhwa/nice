@@ -498,10 +498,12 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
   const { showLoader } = useLoader()
 
   /**
-   * 메뉴 클릭 시 로더 표시
+   * 메뉴 클릭 시 로더 표시 (최적화된 버전)
+   * - 로더 표시 시간을 1초에서 200ms로 단축
+   * - 빠른 페이지 전환을 위한 최소한의 로더 표시
    */
   const handleMenuClick = useCallback(() => {
-    showLoader(1000) // 1초간 로더 표시
+    showLoader(200) // 200ms간 로더 표시 (성능 개선)
   }, [showLoader])
 
   // 사업 선택 상태를 localStorage에서 로드하거나 기본값 설정
