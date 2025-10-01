@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Button, Typography, Box, Card, CardContent } from '@mui/material'
 import { Play, Square, Clock, Loader2 } from 'lucide-react'
 import { useLoader } from '@/contexts/loader-context'
@@ -10,31 +10,6 @@ export default function LoadingPage() {
   const { showLoader, hideLoader } = useLoader()
   const [countdown, setCountdown] = useState(0)
   const [isPageLoading, setIsPageLoading] = useState(false)
-
-  /**
-   * 5초간 로더 표시
-   */
-  const handleShowLoader = useCallback(() => {
-    setIsPageLoading(true)
-    showLoader(5000) // 5초간 로더 표시
-    startCountdown(5)
-
-    // 5초 후 자동으로 로더 제거
-    setTimeout(() => {
-      setIsPageLoading(false)
-      hideLoader()
-      setCountdown(0)
-    }, 5000)
-  }, [showLoader, hideLoader])
-
-  /**
-   * 로더 즉시 중지
-   */
-  const handleStopLoader = () => {
-    setIsPageLoading(false)
-    hideLoader()
-    setCountdown(0)
-  }
 
   /**
    * 카운트다운 시작
@@ -52,6 +27,30 @@ export default function LoadingPage() {
     }, 1000)
   }, [])
 
+  /**
+   * 5초간 로더 표시
+   */
+  const handleShowLoader = useCallback(() => {
+    setIsPageLoading(true)
+    showLoader(5000) // 5초간 로더 표시
+    startCountdown(5)
+
+    // 5초 후 자동으로 로더 제거
+    setTimeout(() => {
+      setIsPageLoading(false)
+      hideLoader()
+      setCountdown(0)
+    }, 5000)
+  }, [showLoader, hideLoader, startCountdown])
+
+  /**
+   * 로더 즉시 중지
+   */
+  const handleStopLoader = () => {
+    setIsPageLoading(false)
+    hideLoader()
+    setCountdown(0)
+  }
 
   return (
     <div className="flex flex-col h-full min-h-0 layout-top-bottom">
