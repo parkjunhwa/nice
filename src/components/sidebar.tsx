@@ -72,7 +72,7 @@ const sidebarItems: MenuItem[] = [
     title: "정산",
     icon: BadgeCheck,
     children: [
-      { title: "정산집계(월)", href: "/published/stl001" },
+      { title: "정산 집계(월)", href: "/published/stl001" },
     ]
   },
   {
