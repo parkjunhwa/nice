@@ -87,7 +87,8 @@ export default function UserManagementPage() {
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={0}>
           <div className="pt-4 px-4 pb-5 gap-y-2">
-            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center mb-1">
+            {/* 검색 조건들 */}
+            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
               <div className="flex items-center">
                 <label className="form-side-label text-left">
                   사업부
@@ -167,8 +168,6 @@ export default function UserManagementPage() {
                   <Button variant="outlined" size="small" className="bg-white" color="secondary" onClick={handleThisMonthClick}>이번달</Button>
                 </div>
               </div>
-            </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
               <div className="flex items-center">
                 <label className="form-side-label text-left">
                   거래처

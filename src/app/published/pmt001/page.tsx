@@ -118,47 +118,47 @@ export default function UserManagementPage() {
       <div className="top-search-panel">
         <Collapse in={searchPanelExpanded} collapsedSize={0}>
           <div className="pt-4 px-4 pb-5 gap-y-2">
-            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center mb-1">
+
+            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
               {/* 검색 조건들 */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    사업부
-                  </label>
-                  <FormControl sx={{ width: '120px' }}>
-                    <Select
-                      value={businessUnitName}
-                      onChange={(e) => setBusinessUnitName(e.target.value)}
-                      displayEmpty
-                      className="bg-white"
-                      size="small"
-                    >
-                      <MenuItem value="">
-                        <span>선택</span>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  사업부
+                </label>
+                <FormControl sx={{ width: '120px' }}>
+                  <Select
+                    value={businessUnitName}
+                    onChange={(e) => setBusinessUnitName(e.target.value)}
+                    displayEmpty
+                    className="bg-white"
+                    size="small"
+                    disabled
+                  >
+                    <MenuItem value="">
+                      <span>주차</span>
+                    </MenuItem>
+                    {departmentOptions.map((option) => (
+                      <MenuItem
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
                       </MenuItem>
-                      {departmentOptions.map((option) => (
-                        <MenuItem
-                          key={option.value}
-                          value={option.value}
-                        >
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </div>
-                <div className="flex items-center">
-                  <label className="form-side-label text-left">
-                    기간
-                  </label>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  기간
+                </label>
+                <div className="flex items-center gap-2">
                   <DateRangePicker
                     value={dateRangeValue}
                     onChange={(newValue: [Date | null, Date | null]) => setDateRangeValue(newValue)}
                     placeholder="날짜 범위를 선택하세요"
                     size="small"
                   />
-                </div>
-                <div className="flex items-center">
                   <ButtonGroup variant="outlined" size="small" className="bg-white" color="secondary">
                     <Button onClick={handleYesterdayClick}>전일</Button>
                     <Button onClick={handleLastWeekClick}>최근 일주일</Button>
@@ -166,8 +166,6 @@ export default function UserManagementPage() {
                   </ButtonGroup>
                 </div>
               </div>
-            </div>
-            <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
               <div className="flex items-center">
                 <label className="form-side-label text-left">
                   거래처
