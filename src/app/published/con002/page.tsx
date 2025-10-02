@@ -7,7 +7,8 @@ import {
   Search,
   HelpCircle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Banknote
 } from 'lucide-react'
 import {
   Button,
@@ -485,7 +486,14 @@ export default function Con002Page() {
                           inputMode: 'numeric',
                           pattern: '[0-9,]*'
                         }}
-                        placeholder="숫자만 입력"
+                        placeholder="금액 입력"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <Banknote size={16} style={{ color: '#6b7280' }} />
+                            </InputAdornment>
+                          )
+                        }}
                       />
                     </div>
                     <div>
