@@ -14,6 +14,7 @@ interface DateRangePickerProps {
   className?: string
   label?: string
   clearable?: boolean
+  datePickerWidth?: number
 }
 
 export function DateRangePicker({
@@ -23,7 +24,8 @@ export function DateRangePicker({
   disabled = false,
   readOnly = false,
   className = "",
-  label
+  label,
+  datePickerWidth = 140
 }: DateRangePickerProps) {
   const handleStartDateChange = (newValue: Date | null) => {
     // 시작 날짜가 종료 날짜보다 늦으면 종료 날짜를 null로 설정
@@ -54,7 +56,7 @@ export function DateRangePicker({
       )}
       
       <Box className="flex items-center gap-1">
-        <div style={{ width: 140 }}>
+        <div style={{ width: datePickerWidth }}>
           <DatePicker
             value={value[0]}
             onChange={handleStartDateChange}
@@ -69,7 +71,7 @@ export function DateRangePicker({
           <span className="text-lg font-medium px-0.5">~</span>
         </div>
         
-        <div style={{ width: 140 }}>
+        <div style={{ width: datePickerWidth }}>
           <DatePicker
             value={value[1]}
             onChange={handleEndDateChange}

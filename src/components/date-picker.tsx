@@ -14,6 +14,7 @@ interface CustomDatePickerProps {
   disabled?: boolean
   clearable?: boolean
   shouldDisableDate?: (date: Date) => boolean
+  width?: string | number
 }
 
 interface MonthPickerProps {
@@ -37,9 +38,10 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
   disabled = false,
   clearable = true,
   shouldDisableDate,
+  width,
   ...props
 }) => {
-  return (
+  const content = (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
       <MuiDatePicker
         value={value}
@@ -80,6 +82,10 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
       />
     </LocalizationProvider>
   )
+
+  return width ? (
+    <div style={{ width }}>{content}</div>
+  ) : content
 }
 
 export const MonthPicker: React.FC<MonthPickerProps> = ({
