@@ -685,13 +685,16 @@ export default function Con002Page() {
                             <label className="form-top-label">
                               나이스빌더회원아이디
                             </label>
-                            <Tooltip title="NICE페이먼트 더빌 CMS 거래처 회원아이디를 입력하세요. 입력하신 회원아이디 기준으로 더빌 정산내역이 집계됩니다.">
-                              <HelpCircle
-                                size={16}
-                                style={{ color: '#6b7280', marginBottom: '4px' }} // gray-500
-                                className="flex items-center justify-center"
-                              />
-                            </Tooltip>
+                        <Tooltip 
+                          title="NICE페이먼트 더빌 CMS 거래처 회원아이디를 입력하세요. 입력하신 회원아이디 기준으로 더빌 정산내역이 집계됩니다."
+                          arrow
+                        >
+                          <HelpCircle 
+                            size={16} 
+                            style={{ color: '#6b7280', marginBottom: '4px' }} // gray-500
+                            className="flex items-center justify-center"
+                          />
+                        </Tooltip>
                           </div>
                           <TextField
                             variant="outlined"
