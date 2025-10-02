@@ -639,7 +639,7 @@ export default function Con002Page() {
         <CardContent style={{ padding: 16 }}>
           <div className="flex items-center justify-between">
             <div className="flex gap-2">
-              <Button variant="outlined" color="error">
+              <Button variant="contained" color="error">
                 삭제
               </Button>
             </div>
