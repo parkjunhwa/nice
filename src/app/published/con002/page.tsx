@@ -231,14 +231,14 @@ export default function Con002Page() {
 
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">정산기준정보 상세/등록/수정</h1>
+          <h1 className="text-2xl font-bold text-gray-900">정산기준정보</h1>
         </div>
         <div>
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
               { label: '정산기준정보', href: '/' },
-              { label: '정산기준정보 상세/등록/수정', active: true }
+              { label: '정산기준정보', active: true }
             ]}
           />
         </div>

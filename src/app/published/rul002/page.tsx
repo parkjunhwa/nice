@@ -40,14 +40,14 @@ export default function Rul002Page() {
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">정산규칙 상세/등록/수정 (준비중)</h1>
+          <h1 className="text-2xl font-bold text-gray-900">정산규칙 (준비중)</h1>
         </div>
         <div>
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
               { label: '정산규칙', href: '/' },
-              { label: '정산규칙 상세/등록/수정', active: true }
+              { label: '정산규칙', active: true }
             ]}
           />
         </div>
