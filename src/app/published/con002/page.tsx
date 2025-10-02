@@ -513,9 +513,10 @@ export default function Con002Page() {
                     </div>
                     
                     {/* 접힘/펼침 영역 헤더 */}
-                    <div className="col-span-2">
+                    <div className="col-span-2 flex items-center justify-center my-2">
+                      <div className="flex-1 h-px bg-gray-200" />
                       <div 
-                        className="flex items-center cursor-pointer text-sm font-small text-gray-500 gap-1" 
+                        className="flex items-center cursor-pointer text-sm font-small text-gray-500 gap-1 px-3 select-none" 
                         onClick={() => setIsExpanded(!isExpanded)}
                       >
                         {isExpanded ? (
@@ -525,6 +526,7 @@ export default function Con002Page() {
                         )}
                         <span>추가 정보</span>
                       </div>
+                      <div className="flex-1 h-px bg-gray-200" />
                     </div>
                     
                     {isExpanded && (
