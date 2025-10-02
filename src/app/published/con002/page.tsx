@@ -4,7 +4,10 @@ import React, { useState } from 'react'
 import {
   Plus,
   Minus,
-  Search
+  Search,
+  HelpCircle,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react'
 import {
   Button,
@@ -21,7 +24,8 @@ import {
   MenuItem,
   DatePicker,
   DateRangePicker,
-  SampleTable
+  SampleTable,
+  Tooltip
 } from '@/components'
 
 export default function Con002Page() {
@@ -39,6 +43,9 @@ export default function Con002Page() {
   const [aggregationStandardDate, setAggregationStandardDate] = useState('')
   const [customerCode, setCustomerCode] = useState('')
   const [deviceNumber, setDeviceNumber] = useState('')
+  
+  // 접힘/펼침 상태
+  const [isExpanded, setIsExpanded] = useState(false)
   
   // 탭 상태
   const [activeTab, setActiveTab] = useState('품목')
@@ -504,44 +511,73 @@ export default function Con002Page() {
                         datePickerWidth={130}
                       />
                     </div>
-                    <div>
-                      <label className="form-top-label required">
-                        나이스빌더회원아이디
-                      </label>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={niceBuilderMemberId}
-                        onChange={(e) => setNiceBuilderMemberId(e.target.value)}
-                        sx={{ width: '100%' }}
-                      />
+                    
+                    {/* 접힘/펼침 영역 헤더 */}
+                    <div className="col-span-2">
+                      <div 
+                        className="flex items-center cursor-pointer text-sm font-small text-gray-500 gap-1" 
+                        onClick={() => setIsExpanded(!isExpanded)}
+                      >
+                        {isExpanded ? (
+                          <ChevronUp size={16} className="text-gray-500" />
+                        ) : (
+                          <ChevronDown size={16} className="text-gray-500" />
+                        )}
+                        <span>추가 정보</span>
+                      </div>
                     </div>
-                    <div>
-                      <label className="form-top-label required">
-                        집계기준일
-                      </label>
-                      <FormControl sx={{ width: '100%' }}>
-                        <Select
-                          value={aggregationStandardDate}
-                          onChange={(e) => setAggregationStandardDate(e.target.value)}
-                          displayEmpty
-                          className="bg-white"
-                          size="small"
-                        >
-                          <MenuItem value="">
-                            <span>선택</span>
-                          </MenuItem>
-                          {departmentOptions.map((option) => (
-                            <MenuItem
-                              key={option.value}
-                              value={option.value}
+                    
+                    {isExpanded && (
+                      <>
+                        <div>
+                          <div className="flex items-center gap-1">
+                            <label className="form-top-label">
+                              나이스빌더회원아이디
+                            </label>
+                            <Tooltip title="NICE페이먼트 더빌 CMS 거래처 회원아이디를 입력하세요. 입력하신 회원아이디 기준으로 더빌 정산내역이 집계됩니다.">
+                              <HelpCircle 
+                                size={16} 
+                                style={{ color: '#6b7280', marginBottom: '4px' }} // gray-500
+                                className="flex items-center justify-center"
+                              />
+                            </Tooltip>
+                          </div>
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            value={niceBuilderMemberId}
+                            onChange={(e) => setNiceBuilderMemberId(e.target.value)}
+                            sx={{ width: '100%' }}
+                          />
+                        </div>
+                        <div>
+                          <label className="form-top-label required">
+                            집계기준일
+                          </label>
+                          <FormControl sx={{ width: '100%' }}>
+                            <Select
+                              value={aggregationStandardDate}
+                              onChange={(e) => setAggregationStandardDate(e.target.value)}
+                              displayEmpty
+                              className="bg-white"
+                              size="small"
                             >
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </div>
+                              <MenuItem value="">
+                                <span>선택</span>
+                              </MenuItem>
+                              {departmentOptions.map((option) => (
+                                <MenuItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  {option.label}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
