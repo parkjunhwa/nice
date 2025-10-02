@@ -38,6 +38,7 @@ export default function Con002Page() {
   const [branch, setBranch] = useState('')
   const [contractName, setContractName] = useState('')
   const [contractNumber, setContractNumber] = useState('')
+  const [contractAmount, setContractAmount] = useState('')
   const [contractDate, setContractDate] = useState<Date | null>(null)
   const [contractPeriod, setContractPeriod] = useState<[Date | null, Date | null]>([null, null])
   const [niceBuilderMemberId, setNiceBuilderMemberId] = useState('')
@@ -47,6 +48,9 @@ export default function Con002Page() {
 
   // 접힘/펼침 상태
   const [isExpanded, setIsExpanded] = useState(true)
+
+  // 검증 상태 관리
+  const [validationMessages, setValidationMessages] = useState<{[key: string]: string}>({})
 
   // 탭 상태
   const [activeTab, setActiveTab] = useState('품목')
@@ -226,7 +230,65 @@ export default function Con002Page() {
   ]
 
   // 패널 크기 조절 상태
-  const leftPanelWidth = 600 // 고정 
+  const leftPanelWidth = 600 // 고정
+
+  // 필수 항목 검증 함수
+  const validateRequiredFields = () => {
+    const errors: {[key: string]: string} = {}
+    
+    if (!businessType.trim()) {
+      errors.businessType = '상을 선택해주세요.'
+    }
+    if (!businessDivision.trim()) {
+      errors.businessDivision = '사업부를 선택해주세요.'
+    }
+    if (!branch.trim()) {
+      errors.branch = '지사를 선택해주세요.'
+    }
+    if (!contractName.trim()) {
+      errors.contractName = '계약명을 입력해주세요.'
+    }
+    if (!contractNumber.trim()) {
+      errors.contractNumber = '계약번호를 입력해주세요.'
+    }
+    if (!contractAmount.trim()) {
+      errors.contractAmount = '계약금액을 입력해주세요.'
+    }
+    if (!customerCode.trim()) {
+      errors.customerCode = '거래처를 입력해주세요.'
+    }
+    if (!contractDate) {
+      errors.contractDate = '계약일자를 선택해주세요.'
+    }
+    if (!contractPeriod[0] || !contractPeriod[1]) {
+      errors.contractPeriod = '계약기간을 선택해주세요.'
+    }
+    if (!aggregationStandardDate.trim()) {
+      errors.aggregationStandardDate = '집계기준일을 선택해주세요.'
+    }
+    
+    setValidationMessages(errors)
+    return Object.keys(errors).length === 0
+  }
+
+  // 검증 메시지 제거 함수
+  const clearValidationMessage = (fieldName: string) => {
+    if (validationMessages[fieldName]) {
+      setValidationMessages(prev => {
+        const newMessages = { ...prev }
+        delete newMessages[fieldName]
+        return newMessages
+      })
+    }
+  }
+
+  // 저장 핸들러
+  const handleSave = () => {
+    if (validateRequiredFields()) {
+      // 검증 통과 시 실제 저장 로직 실행
+      alert('저장되었습니다.')
+    }
+  } 
 
 
   return (
@@ -288,10 +350,14 @@ export default function Con002Page() {
                       <FormControl sx={{ width: '100%' }}>
                         <Select
                           value={businessType}
-                          onChange={(e) => setBusinessType(e.target.value)}
+                          onChange={(e) => {
+                            setBusinessType(e.target.value)
+                            clearValidationMessage('businessType')
+                          }}
                           displayEmpty
                           className="bg-white"
                           size="small"
+                          error={!!validationMessages.businessType}
                         >
                           <MenuItem value="">
                             <span>선택</span>
@@ -306,6 +372,11 @@ export default function Con002Page() {
                           ))}
                         </Select>
                       </FormControl>
+                      {validationMessages.businessType && (
+                        <div className="text-red-500 text-xs mt-1">
+                          {validationMessages.businessType}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="form-top-label">
@@ -327,10 +398,14 @@ export default function Con002Page() {
                       <FormControl sx={{ width: '100%' }}>
                         <Select
                           value={businessDivision}
-                          onChange={(e) => setBusinessDivision(e.target.value)}
+                          onChange={(e) => {
+                            setBusinessDivision(e.target.value)
+                            clearValidationMessage('businessDivision')
+                          }}
                           displayEmpty
                           className="bg-white"
                           size="small"
+                          error={!!validationMessages.businessDivision}
                         >
                           <MenuItem value="">
                             <span>선택</span>
@@ -345,6 +420,11 @@ export default function Con002Page() {
                           ))}
                         </Select>
                       </FormControl>
+                      {validationMessages.businessDivision && (
+                        <div className="text-red-500 text-xs mt-1">
+                          {validationMessages.businessDivision}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="form-top-label required">
@@ -353,10 +433,14 @@ export default function Con002Page() {
                       <FormControl sx={{ width: '100%' }}>
                         <Select
                           value={branch}
-                          onChange={(e) => setBranch(e.target.value)}
+                          onChange={(e) => {
+                            setBranch(e.target.value)
+                            clearValidationMessage('branch')
+                          }}
                           displayEmpty
                           className="bg-white"
                           size="small"
+                          error={!!validationMessages.branch}
                         >
                           <MenuItem value="">
                             <span>선택</span>
@@ -371,6 +455,11 @@ export default function Con002Page() {
                           ))}
                         </Select>
                       </FormControl>
+                      {validationMessages.branch && (
+                        <div className="text-red-500 text-xs mt-1">
+                          {validationMessages.branch}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="form-top-label required">
@@ -380,9 +469,18 @@ export default function Con002Page() {
                         variant="outlined"
                         size="small"
                         value={contractName}
-                        onChange={(e) => setContractName(e.target.value)}
+                        onChange={(e) => {
+                          setContractName(e.target.value)
+                          clearValidationMessage('contractName')
+                        }}
                         sx={{ width: '100%' }}
+                        error={!!validationMessages.contractName}
                       />
+                      {validationMessages.contractName && (
+                        <div className="text-red-500 text-xs mt-1">
+                          {validationMessages.contractName}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="form-top-label required">
@@ -392,9 +490,18 @@ export default function Con002Page() {
                         variant="outlined"
                         size="small"
                         value={contractNumber}
-                        onChange={(e) => setContractNumber(e.target.value)}
+                        onChange={(e) => {
+                          setContractNumber(e.target.value)
+                          clearValidationMessage('contractNumber')
+                        }}
                         sx={{ width: '100%' }}
+                        error={!!validationMessages.contractNumber}
                       />
+                      {validationMessages.contractNumber && (
+                        <div className="text-red-500 text-xs mt-1">
+                          {validationMessages.contractNumber}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="form-top-label required">
@@ -405,8 +512,12 @@ export default function Con002Page() {
                           variant="outlined"
                           size="small"
                           value={customerCode}
-                          onChange={(e) => setCustomerCode(e.target.value)}
+                          onChange={(e) => {
+                            setCustomerCode(e.target.value)
+                            clearValidationMessage('customerCode')
+                          }}
                           sx={{ flex: 1 }}
+                          error={!!validationMessages.customerCode}
                           InputProps={{
                             endAdornment: customerCode && (
                               <InputAdornment position="end">
@@ -457,6 +568,11 @@ export default function Con002Page() {
                           }}
                         />
                       </div>
+                      {validationMessages.customerCode && (
+                        <div className="text-red-500 text-xs mt-1">
+                          {validationMessages.customerCode}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="form-top-label required">
@@ -467,14 +583,15 @@ export default function Con002Page() {
                         size="small"
                         type="text"
                         value={
-                          contractNumber
-                            ? Number(contractNumber.replace(/,/g, '')).toLocaleString()
+                          contractAmount
+                            ? Number(contractAmount.replace(/,/g, '')).toLocaleString()
                             : ''
                         }
                         onChange={(e) => {
                           // 숫자만 추출
                           const raw = e.target.value.replace(/[^0-9]/g, '');
-                          setContractNumber(raw);
+                          setContractAmount(raw);
+                          clearValidationMessage('contractAmount');
                         }}
                         sx={{
                           width: '100%',
@@ -494,7 +611,13 @@ export default function Con002Page() {
                             </InputAdornment>
                           )
                         }}
+                        error={!!validationMessages.contractAmount}
                       />
+                      {validationMessages.contractAmount && (
+                        <div className="text-red-500 text-xs mt-1">
+                          {validationMessages.contractAmount}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="form-top-label required">
@@ -502,10 +625,19 @@ export default function Con002Page() {
                       </label>
                       <DatePicker
                         value={contractDate}
-                        onChange={(newValue: Date | null) => setContractDate(newValue)}
+                        onChange={(newValue: Date | null) => {
+                          setContractDate(newValue)
+                          clearValidationMessage('contractDate')
+                        }}
                         placeholder="날짜를 선택하세요"
                         width="100%"
+                        error={!!validationMessages.contractDate}
                       />
+                      {validationMessages.contractDate && (
+                        <div className="text-red-500 text-xs mt-1">
+                          {validationMessages.contractDate}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <label className="form-top-label required">
@@ -513,11 +645,20 @@ export default function Con002Page() {
                       </label>
                       <DateRangePicker
                         value={contractPeriod}
-                        onChange={(newValue: [Date | null, Date | null]) => setContractPeriod(newValue)}
+                        onChange={(newValue: [Date | null, Date | null]) => {
+                          setContractPeriod(newValue)
+                          clearValidationMessage('contractPeriod')
+                        }}
                         placeholder="날짜 범위를 선택하세요"
                         size="small"
                         datePickerWidth={130}
+                        error={!!validationMessages.contractPeriod}
                       />
+                      {validationMessages.contractPeriod && (
+                        <div className="text-red-500 text-xs mt-1">
+                          {validationMessages.contractPeriod}
+                        </div>
+                      )}
                     </div>
 
                     {/* 접힘/펼침 영역 헤더 */}
@@ -567,10 +708,14 @@ export default function Con002Page() {
                           <FormControl sx={{ width: '100%' }}>
                             <Select
                               value={aggregationStandardDate}
-                              onChange={(e) => setAggregationStandardDate(e.target.value)}
+                              onChange={(e) => {
+                                setAggregationStandardDate(e.target.value)
+                                clearValidationMessage('aggregationStandardDate')
+                              }}
                               displayEmpty
                               className="bg-white"
                               size="small"
+                              error={!!validationMessages.aggregationStandardDate}
                             >
                               <MenuItem value="">
                                 <span>선택</span>
@@ -585,6 +730,11 @@ export default function Con002Page() {
                               ))}
                             </Select>
                           </FormControl>
+                          {validationMessages.aggregationStandardDate && (
+                            <div className="text-red-500 text-xs mt-1">
+                              {validationMessages.aggregationStandardDate}
+                            </div>
+                          )}
                         </div>
                       </>
                     )}
@@ -656,7 +806,7 @@ export default function Con002Page() {
               <Button variant="outlined" color="secondary">
                 취소
               </Button>
-              <Button variant="contained">
+              <Button variant="contained" onClick={handleSave}>
                 저장
               </Button>
             </div>

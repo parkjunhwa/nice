@@ -72,7 +72,14 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
             disabled: disabled,
             inputProps: {
               'aria-label': '날짜 입력',
-            }
+            },
+            sx: helperText ? {
+              '& .MuiFormHelperText-root': {
+                color: 'rgb(239 68 68)', // text-red-500
+                fontSize: '0.75rem', // text-xs
+                marginTop: '0.25rem', // mt-1
+              }
+            } : {}
           },
           actionBar: {
             actions: clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']
@@ -129,7 +136,14 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
             disabled: disabled,
             inputProps: {
               'aria-label': '월 선택',
-            }
+            },
+            sx: helperText ? {
+              '& .MuiFormHelperText-root': {
+                color: 'rgb(239 68 68)', // text-red-500
+                fontSize: '0.75rem', // text-xs
+                marginTop: '0.25rem', // mt-1
+              }
+            } : {}
           },
           actionBar: {
             actions: clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']

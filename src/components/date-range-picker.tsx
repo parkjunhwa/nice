@@ -15,6 +15,8 @@ interface DateRangePickerProps {
   label?: string
   clearable?: boolean
   datePickerWidth?: number
+  error?: boolean
+  helperText?: string
 }
 
 export function DateRangePicker({
@@ -25,7 +27,9 @@ export function DateRangePicker({
   readOnly = false,
   className = "",
   label,
-  datePickerWidth = 140
+  datePickerWidth = 140,
+  error = false,
+  helperText
 }: DateRangePickerProps) {
   const handleStartDateChange = (newValue: Date | null) => {
     // 시작 날짜가 종료 날짜보다 늦으면 종료 날짜를 null로 설정
@@ -63,7 +67,7 @@ export function DateRangePicker({
             placeholder="시작 날짜"
             disabled={disabled}
             readOnly={readOnly}
-            error={hasError || undefined}
+            error={hasError || error}
           />
         </div>
         
@@ -78,7 +82,7 @@ export function DateRangePicker({
             placeholder="종료 날짜"
             disabled={disabled}
             readOnly={readOnly}
-            error={hasError || undefined}
+            error={hasError || error}
             shouldDisableDate={(date) => {
               // 시작일이 선택되어 있고, 현재 날짜가 시작일보다 이전이면 disabled
               return value[0] ? date < value[0] : false
