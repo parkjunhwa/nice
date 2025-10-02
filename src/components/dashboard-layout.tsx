@@ -16,7 +16,6 @@ interface DashboardLayoutProps {
  * 대시보드 레이아웃 메인 컨텐츠 컴포넌트
  * 
  * 주요 특징:
- * - 사이드바 토글 시 자동으로 1초간 로더 표시
  * - 페이지 로드 완료 시 자동으로 로더 제거
  * - 사이드바 상태를 localStorage에 저장/복원
  * - 반응형 레이아웃 지원
@@ -82,12 +81,10 @@ function DashboardLayoutContent({ children, isSidebarOpen, setIsSidebarOpen }: D
 
   /**
    * 사이드바 토글 함수 (최적화된 버전)
-   * - 사이드바 상태 변경 시 로더 표시 제거 (성능 개선)
    * - 상태를 localStorage에 저장하여 다음 방문 시 복원
    * - useCallback으로 메모이제이션하여 성능 최적화
    * 
    * 성능 개선 효과:
-   * - 사이드바 토글 시 불필요한 로더 표시 제거
    * - 즉시 반응하는 사용자 경험 제공
    * - 페이지 전환 속도 향상
    */
@@ -139,7 +136,6 @@ function DashboardLayoutContent({ children, isSidebarOpen, setIsSidebarOpen }: D
  * 주요 특징:
  * - LoaderProvider로 전역 로더 상태 제공
  * - DashboardLayoutContent로 실제 레이아웃 렌더링
- * - 사이드바 토글 시 자동 로더 표시
  * - 페이지 로드 완료 시 자동 로더 제거
  * - 사이드바 상태 지속성 (localStorage)
  * - 반응형 및 성능 최적화

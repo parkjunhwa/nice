@@ -253,11 +253,11 @@ hideLoader()`}
                       2. 주요 특징
                     </Typography>
                     <ul className="list-disc list-inside space-y-1">
-                      <li>사이드바를 제외한 메인 컨텐츠 영역에만 표시</li>
-                      <li>모달 팝업보다 위에 표시 (z-index: 9999)</li>
+                      <li>전체 화면을 덮어서 표시 (사이드바 포함)</li>
+                      <li>모달 팝업보다 위에 표시 (z-index: 10001)</li>
                       <li>기본 지속 시간: 2초 (이 페이지는 5초)</li>
                       <li>수동 중지 기능 제공</li>
-                      <li>사이드바 토글 시 자동 1초 로더 표시</li>
+                      <li>자동 완료 및 수동 중지 지원</li>
                       <li>페이지 로드 완료 시 자동 제거</li>
                     </ul>
                   </div>
