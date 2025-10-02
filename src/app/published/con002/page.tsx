@@ -45,7 +45,7 @@ export default function Con002Page() {
   const [deviceNumber, setDeviceNumber] = useState('')
   
   // 접힘/펼침 상태
-  const [isExpanded, setIsExpanded] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(true)
   
   // 탭 상태
   const [activeTab, setActiveTab] = useState('품목')
