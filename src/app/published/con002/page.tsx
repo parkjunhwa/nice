@@ -43,16 +43,16 @@ export default function Con002Page() {
   const [aggregationStandardDate, setAggregationStandardDate] = useState('')
   const [customerCode, setCustomerCode] = useState('')
   const [deviceNumber, setDeviceNumber] = useState('')
-  
+
   // 접힘/펼침 상태
   const [isExpanded, setIsExpanded] = useState(true)
-  
+
   // 탭 상태
   const [activeTab, setActiveTab] = useState('품목')
-  
+
   // 품목 탭 상태 변수
   const [itemType, setItemType] = useState('')
-  
+
   // 품목 선택 옵션들
   const itemTypeOptions = [
     { value: 'option1', label: '옵션1' },
@@ -437,7 +437,7 @@ export default function Con002Page() {
                           value={deviceNumber}
                           onChange={(e) => setDeviceNumber(e.target.value)}
                           sx={{ width: '110px' }}
-                        disabled
+                          disabled
                           InputProps={{
 
                             endAdornment: deviceNumber && (
@@ -511,12 +511,12 @@ export default function Con002Page() {
                         datePickerWidth={130}
                       />
                     </div>
-                    
+
                     {/* 접힘/펼침 영역 헤더 */}
                     <div className="col-span-2 flex items-center justify-center my-2">
                       <div className="flex-1 h-px bg-gray-200" />
-                      <div 
-                        className="flex items-center cursor-pointer text-sm font-small text-gray-500 gap-1 px-3 select-none" 
+                      <div
+                        className="flex items-center cursor-pointer text-sm font-small text-gray-500 gap-1 px-3 select-none"
                         onClick={() => setIsExpanded(!isExpanded)}
                       >
                         {isExpanded ? (
@@ -528,7 +528,7 @@ export default function Con002Page() {
                       </div>
                       <div className="flex-1 h-px bg-gray-200" />
                     </div>
-                    
+
                     {isExpanded && (
                       <>
                         <div>
@@ -537,8 +537,8 @@ export default function Con002Page() {
                               나이스빌더회원아이디
                             </label>
                             <Tooltip title="NICE페이먼트 더빌 CMS 거래처 회원아이디를 입력하세요. 입력하신 회원아이디 기준으로 더빌 정산내역이 집계됩니다.">
-                              <HelpCircle 
-                                size={16} 
+                              <HelpCircle
+                                size={16}
                                 style={{ color: '#6b7280', marginBottom: '4px' }} // gray-500
                                 className="flex items-center justify-center"
                               />
@@ -631,9 +631,20 @@ export default function Con002Page() {
         <CardContent style={{ padding: 16 }}>
           <div className="flex items-center justify-between">
             <div className="flex gap-2">
-
+              <Button variant="outlined" color="error">
+                삭제
+              </Button>
             </div>
             <div className="flex gap-2">
+              <Button variant="outlined" color="secondary">
+                목록
+              </Button>
+              <Button variant="outlined" color="secondary">
+                결재요청
+              </Button>
+              <Button variant="contained">
+                확정
+              </Button>
               <Button variant="outlined" color="secondary">
                 취소
               </Button>
