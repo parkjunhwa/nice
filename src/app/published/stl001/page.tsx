@@ -28,7 +28,7 @@ import {
   Stl002
 } from '@/components'
 
-export default function UserManagementPage() {
+export default function Stl001Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
 
   // 폼 상태 변수들

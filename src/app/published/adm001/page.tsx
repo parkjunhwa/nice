@@ -21,7 +21,7 @@ import {
   AccordionToggleButton
 } from '@/components'
 
-export default function UserManagementPage() {
+export default function Adm001Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
 
   // 폼 상태 변수들

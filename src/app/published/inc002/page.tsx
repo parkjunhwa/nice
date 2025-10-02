@@ -23,7 +23,7 @@ import {
   Icons
 } from '@/components'
 
-export default function UserManagementPage() {
+export default function Inc002Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
 
   // 폼 상태 변수들
