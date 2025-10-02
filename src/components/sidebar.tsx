@@ -6,7 +6,6 @@ import {
   FileText,
   Bell,
   ChevronDown,
-  ChevronRight,
   ShoppingCart,
   Wallet,
   User as UserIcon,
@@ -111,21 +110,6 @@ const sidebarItems: MenuItem[] = [
       { title: "로딩중", href: "/published/components/loading" },
       { title: "검색01", href: "/published/components/search01" },
       { title: "검색02", href: "/published/components/search02" },
-      { 
-        title: "3Depth 예시", 
-        href: "#",
-        children: [
-          { title: "3Depth 메뉴1", href: "#" },
-          { 
-            title: "4Depth 예시", 
-            href: "#",
-            children: [
-              { title: "4Depth 메뉴1", href: "#" },
-              { title: "4Depth 메뉴2", href: "#" }
-            ]
-          }
-        ]
-      }
     ]
   },
   { title: "공통팝업", href: "/published/components/modal", icon: Settings },
@@ -206,7 +190,7 @@ function MenuItem({
   onMenuClick
 }: {
   item: MenuItem
-  level?: number
+  level?: 0 | 1 | 2
   isOpen: boolean
   activePopover: string | null
   setActivePopover: (title: string | null) => void
@@ -214,8 +198,6 @@ function MenuItem({
 }) {
   const pathname = usePathname()
   const [isExpanded, setIsExpanded] = useState(false)
-  const [hoveredChildIndex, setHoveredChildIndex] = useState<number | null>(null)
-  const [hoveredGrandChildIndex, setHoveredGrandChildIndex] = useState<number | null>(null)
   const hasChildren = !!(item.children && item.children.length > 0)
   const isActive = item.href ? pathname === item.href : false
   const isChildActive = hasChildren && item.children?.some(child => (child.href ? pathname === child.href : false))
@@ -281,12 +263,10 @@ function MenuItem({
 
   const paddingLeft = level === 0 ? (isOpen ? 12 : 0) : 
                       level === 1 ? (isOpen ? 44 : 0) : 
-                      level === 2 ? (isOpen ? 52 : 0) :
-                      level === 3 ? (isOpen ? 64 : 0) :
-                      (isOpen ? 52 + (level - 2) * 12 : 0)
+                      level === 2 ? (isOpen ? 52 : 0) : 0
 
   /**
-   * 접힘 상태 popover: 2/3/4뎁스가 연속적으로 열리도록
+   * 접힘 상태 popover: 2뎁스가 연속적으로 열리도록
    * - mouseleave 즉시 닫지 않고, 짧은 지연 후 닫기 (틈새에서 끊김 방지)
    * - 모든 popover를 body 포털로 렌더링 (overflow 잘림 방지)
    */
@@ -323,89 +303,30 @@ function MenuItem({
           onMouseLeave={() => {
             scheduleClose(() => {
               setActivePopover(null)
-              setHoveredChildIndex(null)
-              setHoveredGrandChildIndex(null)
             })
           }}
         >
           {/* 상위 메뉴를 가리키는 화살표 */}
           <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 -rotate-45" />
 
-          {item.children?.map((child, index) => (
+          {item.children?.map((child: MenuItem, index: number) => (
             <div key={index} className="relative">
               {child.href ? (
-                <Link href={child.href} onMouseEnter={() => setHoveredChildIndex(index)} onClick={onMenuClick}>
+                <Link href={child.href}  onClick={onMenuClick}>
                   <div className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
                     {child.icon && <child.icon className="h-4 w-4 mr-3" />}
                     <span>{child.title}</span>
-                    {child.children && child.children.length > 0 && <ChevronRight className="h-4 w-4 ml-auto" />}
                   </div>
                 </Link>
               ) : (
                 <div
                   className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
-                  onMouseEnter={() => setHoveredChildIndex(index)}
                 >
                   {child.icon && <child.icon className="h-4 w-4 mr-3" />}
                   <span>{child.title}</span>
-                  {child.children && child.children.length > 0 && <ChevronRight className="h-4 w-4 ml-auto" />}
                 </div>
               )}
 
-              {/* 3depth */}
-              {child.children && child.children.length > 0 && hoveredChildIndex === index && (
-                <div
-                  className="absolute top-0 left-full ml-2 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48"
-                  onMouseEnter={() => {
-                    cancelClose()
-                    setHoveredChildIndex(index)
-                  }}
-                  onMouseLeave={() => scheduleClose(() => setHoveredChildIndex(null))}
-                >
-                  <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 -rotate-45" />
-                  {child.children.map((grandChild, grandIndex) => (
-                    <div key={grandIndex} className="relative">
-                      {grandChild.href ? (
-                        <Link href={grandChild.href} onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)} onClick={onMenuClick}>
-                          <div className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
-                            {grandChild.icon && <grandChild.icon className="h-4 w-4 mr-3" />}
-                            <span>{grandChild.title}</span>
-                            {grandChild.children && grandChild.children.length > 0 && <ChevronRight className="h-4 w-4 ml-auto" />}
-                          </div>
-                        </Link>
-                      ) : (
-                        <div
-                          className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
-                          onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)}
-                        >
-                          {grandChild.icon && <grandChild.icon className="h-4 w-4 mr-3" />}
-                          <span>{grandChild.title}</span>
-                          {grandChild.children && grandChild.children.length > 0 && <ChevronRight className="h-4 w-4 ml-auto" />}
-                        </div>
-                      )}
-
-                      {/* 4depth */}
-                      {grandChild.children && grandChild.children.length > 0 && hoveredGrandChildIndex === grandIndex && (
-                        <div
-                          className="absolute top-0 left-full ml-2 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48"
-                          onMouseEnter={() => setHoveredGrandChildIndex(grandIndex)}
-                          onMouseLeave={() => scheduleClose(() => setHoveredGrandChildIndex(null))}
-                        >
-                          <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 -rotate-45" />
-                          {grandChild.children.map((greatGrandChild, greatGrandIndex) => (
-                            <Link key={greatGrandIndex} href={greatGrandChild.href || "#"}>
-                              <div className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
-                                {greatGrandChild.icon && <greatGrandChild.icon className="h-4 w-4 mr-3" />}
-                                <span>{greatGrandChild.title}</span>
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           ))}
         </div>
@@ -440,8 +361,6 @@ function MenuItem({
         if (!isOpen && hasChildren) {
           scheduleClose(() => {
             setActivePopover(null)
-            setHoveredChildIndex(null)
-            setHoveredGrandChildIndex(null)
           })
         }
       }}
@@ -473,13 +392,13 @@ function MenuItem({
       {/* 접힘 상태에서만 popover 렌더 */}
       {!isOpen && renderCollapsedPopovers()}
 
-      {hasChildren && isExpanded && isOpen && (
+      {hasChildren && isExpanded && isOpen && level < 2 && (
         <div className="mt-1 space-y-1">
-          {item.children?.map((child, index) => (
+          {item.children?.map((child: MenuItem, index: number) => (
             <MenuItem
               key={index}
               item={child}
-              level={level + 1}
+              level={(level + 1) as 0 | 1 | 2}
               isOpen={isOpen}
               activePopover={activePopover}
               setActivePopover={setActivePopover}
@@ -650,7 +569,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
               }}
             >
               <MuiMenuItem value="" disabled>
-                <div>--사업--</div>
+                <span>--사업--</span>
               </MuiMenuItem>
               {businessOptions.map((option) => (
                 <MuiMenuItem key={option.value} value={option.value} sx={{ fontSize: '12px' }}>
