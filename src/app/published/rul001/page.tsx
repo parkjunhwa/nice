@@ -30,12 +30,12 @@ export default function Rul001Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
 
   // 폼 상태 변수들
-  const [business, setBusiness] = useState('')
-  const [settlementStandard, setSettlementStandard] = useState('')
-  const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
-  const [deviceNumber, setDeviceNumber] = useState('')
-  const [salesType, setSalesType] = useState('')
+  const [businessType, setBusinessType] = useState('')
+  const [settlementCriteria, setSettlementCriteria] = useState('')
+  const [settlementInfo, setSettlementInfo] = useState('')
+  const [ruleStatus, setRuleStatus] = useState('')
   const [ruleName, setRuleName] = useState('')
+  const [validPeriod, setValidPeriod] = useState<[Date | null, Date | null]>([null, null])
 
 
   // Select 옵션들
@@ -83,8 +83,8 @@ export default function Rul001Page() {
                 <div className="flex items-center gap-2">
                   <FormControl sx={{ width: '120px' }}>
                     <Select
-                      value={business}
-                      onChange={(e) => setBusiness(e.target.value)}
+                      value={businessType}
+                      onChange={(e) => setBusinessType(e.target.value)}
                       displayEmpty
                       className="bg-white"
                       size="small"
@@ -109,27 +109,28 @@ export default function Rul001Page() {
                   정산기준정보
                 </label>
                 <div className="flex items-center gap-2">
-                  <FormControl sx={{ width: '120px' }}>
-                    <Select
-                      value={settlementStandard}
-                      onChange={(e) => setSettlementStandard(e.target.value)}
-                      displayEmpty
-                      className="bg-white"
-                      size="small"
-                    >
-                      <MenuItem value="">
-                        <span>선택</span>
-                      </MenuItem>
-                      {departmentOptions.map((option) => (
-                        <MenuItem
-                          key={option.value}
-                          value={option.value}
-                        >
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={settlementCriteria}
+                    onChange={(e) => setSettlementCriteria(e.target.value)}
+                    sx={{ width: '120px' }}
+                    InputProps={{
+                      endAdornment: settlementCriteria && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            size="small"
+                            onClick={() => setSettlementCriteria('')}
+                            sx={{
+                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                            }}
+                          >
+                            <Icons.XIcon size={14} />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
                   <Button
                     variant="outlined"
                     size="small"
@@ -142,16 +143,17 @@ export default function Rul001Page() {
                   <TextField
                     variant="outlined"
                     size="small"
-                    value={deviceNumber}
-                    onChange={(e) => setDeviceNumber(e.target.value)}
+                    value={settlementInfo}
+                    onChange={(e) => setSettlementInfo(e.target.value)}
                     sx={{ width: '120px' }}
                     disabled
                     InputProps={{
-                      endAdornment: deviceNumber && (
+
+                      endAdornment: settlementInfo && (
                         <InputAdornment position="end">
                           <IconButton
                             size="small"
-                            onClick={() => setDeviceNumber('')}
+                            onClick={() => setSettlementInfo('')}
                             sx={{
                               '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
                             }}
@@ -170,8 +172,8 @@ export default function Rul001Page() {
                 </label>
                 <FormControl sx={{ width: '120px' }}>
                   <Select
-                    value={salesType}
-                    onChange={(e) => setSalesType(e.target.value)}
+                    value={ruleStatus}
+                    onChange={(e) => setRuleStatus(e.target.value)}
                     displayEmpty
                     className="bg-white"
                     size="small"
@@ -222,8 +224,8 @@ export default function Rul001Page() {
                   유효기간
                 </label>
                 <DateRangePicker
-                  value={dateRangeValue}
-                  onChange={(newValue: [Date | null, Date | null]) => setDateRangeValue(newValue)}
+                  value={validPeriod}
+                  onChange={(newValue: [Date | null, Date | null]) => setValidPeriod(newValue)}
                   placeholder="날짜 범위를 선택하세요"
                   size="small"
                 />

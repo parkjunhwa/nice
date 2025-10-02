@@ -341,7 +341,7 @@ export default function Con001Page() {
                 확정
               </Button>
               <Button variant="contained" size="small" startIcon={<Check size={16} />}>
-                확정
+                등록
               </Button>
             </div>
           </div>
