@@ -98,10 +98,10 @@ export default function Con002Page() {
                   ))}
                 </Select>
               </FormControl>
-              <Button variant="outlined" size="small" color="secondary">
+              <Button variant="outlined" size="small">
                 추가
               </Button>
-              <Button variant="outlined" size="small" color="secondary">
+              <Button variant="outlined" size="small" color="error">
                 삭제
               </Button>
             </div>
