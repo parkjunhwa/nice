@@ -7,8 +7,7 @@ import {
   Search,
   HelpCircle,
   ChevronDown,
-  ChevronUp,
-  Banknote
+  ChevronUp
 } from 'lucide-react'
 import {
   Button,
@@ -389,6 +388,21 @@ export default function Con002Page() {
                         onChange={(e) => setStatus(e.target.value)}
                         sx={{ width: '100%' }}
                         disabled
+                        InputProps={{
+                          endAdornment: status && (
+                            <InputAdornment position="end">
+                              <IconButton
+                                size="small"
+                                onClick={() => setStatus('')}
+                                sx={{
+                                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                }}
+                              >
+                                <Icons.XIcon size={14} />
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
                       />
                     </div>
                     <div>
@@ -475,6 +489,21 @@ export default function Con002Page() {
                         }}
                         sx={{ width: '100%' }}
                         error={!!validationMessages.contractName}
+                        InputProps={{
+                          endAdornment: contractName && (
+                            <InputAdornment position="end">
+                              <IconButton
+                                size="small"
+                                onClick={() => setContractName('')}
+                                sx={{
+                                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                }}
+                              >
+                                <Icons.XIcon size={14} />
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
                       />
                       {validationMessages.contractName && (
                         <div className="text-red-500 text-xs mt-1">
@@ -491,11 +520,32 @@ export default function Con002Page() {
                         size="small"
                         value={contractNumber}
                         onChange={(e) => {
-                          setContractNumber(e.target.value)
+                          // 숫자만 추출
+                          const numericValue = e.target.value.replace(/[^0-9]/g, '')
+                          setContractNumber(numericValue)
                           clearValidationMessage('contractNumber')
                         }}
                         sx={{ width: '100%' }}
                         error={!!validationMessages.contractNumber}
+                        inputProps={{
+                          inputMode: 'numeric',
+                          pattern: '[0-9]*'
+                        }}
+                        InputProps={{
+                          endAdornment: contractNumber && (
+                            <InputAdornment position="end">
+                              <IconButton
+                                size="small"
+                                onClick={() => setContractNumber('')}
+                                sx={{
+                                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                }}
+                              >
+                                <Icons.XIcon size={14} />
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
                       />
                       {validationMessages.contractNumber && (
                         <div className="text-red-500 text-xs mt-1">
@@ -702,6 +752,21 @@ export default function Con002Page() {
                             value={niceBuilderMemberId}
                             onChange={(e) => setNiceBuilderMemberId(e.target.value)}
                             sx={{ width: '100%' }}
+                            InputProps={{
+                              endAdornment: niceBuilderMemberId && (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => setNiceBuilderMemberId('')}
+                                    sx={{
+                                      '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                    }}
+                                  >
+                                    <Icons.XIcon size={14} />
+                                  </IconButton>
+                                </InputAdornment>
+                              )
+                            }}
                           />
                         </div>
                         <div>
