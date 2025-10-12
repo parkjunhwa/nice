@@ -607,7 +607,7 @@ export default function Con002Page() {
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              <Banknote size={16} style={{ color: '#6b7280' }} />
+                              <span style={{fontSize: 16}}>₩</span>
                             </InputAdornment>
                           )
                         }}
