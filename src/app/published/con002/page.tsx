@@ -322,7 +322,7 @@ export default function Con002Page() {
         <div style={{ width: leftPanelWidth, maxWidth: leftPanelWidth }} className="flex-shrink-0">
           <Card className="h-full">
             <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
-              <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
+              <div className="flex items-center justify-between mb-4 gap-2" style={{ flex: 0 }}>
                 <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
                   기본정보
                 </Typography>
@@ -657,7 +657,7 @@ export default function Con002Page() {
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              <span style={{fontSize: 16}}>₩</span>
+                              <span className="text-secondary" style={{fontSize: 12}}>₩</span>
                             </InputAdornment>
                           )
                         }}
