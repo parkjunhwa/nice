@@ -18,7 +18,7 @@ const getTextFieldSx = (helperText?: string, disabled?: boolean) => ({
     '& .MuiInputBase-root': {
       backgroundColor: '#f5f5f5', // disabled 배경색
       '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'hsl(var(--color-border)) !important', // TextField의 disabled border와 통일, !important 처리
+        borderColor: 'hsl(var(--color-border)) !important', // disabled 상태의 border 컬러를 공통 변수로
       },
       '&:hover .MuiOutlinedInput-notchedOutline': {
         borderColor: 'hsl(var(--color-border)) !important'
@@ -79,6 +79,7 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
         format="yyyy-MM-dd"
         views={['year', 'month', 'day']}
         shouldDisableDate={shouldDisableDate}
+        disabled={disabled || readOnly} // disabled 또는 readOnly 상태에서 날짜 선택 비활성화
         localeText={{
           cancelButtonLabel: '취소',
           okButtonLabel: '확인',
@@ -137,6 +138,7 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
         onChange={onChange}
         format="yyyy-MM"
         views={['year', 'month']}
+        disabled={disabled || readOnly} // disabled 또는 readOnly 상태에서 날짜 선택 비활성화
         localeText={{
           cancelButtonLabel: '취소',
           okButtonLabel: '확인',
