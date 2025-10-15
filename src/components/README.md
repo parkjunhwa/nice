@@ -18,7 +18,7 @@
 - **CON001** (`/con001`) - 정산기준정보 목록
 - **CON002** (`/con002`) - 정산기준정보
 - **RUL001** (`/rul001`) - 정산규칙 목록
-- **RUL002** (`/rul002`) - 정산규칙 (준비중)
+- **RUL002** (`/rul002`) - 정산규칙
 - **MNB005** (`/mnb005`) - 공지사항 목록
 - **MNB006** (`/mnb006`) - 공지사항 상세
 - **Components** (`/components`) - 컴포넌트 데모 페이지들
@@ -310,6 +310,6 @@ export function NewComponent({ title, value, className }: NewComponentProps) {
 ---
 
 **작성자**
-디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-02)
+디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-15)  
 010-9479-3188
 junhwa.park@gmail.com

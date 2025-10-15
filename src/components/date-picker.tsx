@@ -73,13 +73,27 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
             inputProps: {
               'aria-label': '날짜 입력',
             },
-            sx: helperText ? {
-              '& .MuiFormHelperText-root': {
-                color: 'rgb(239 68 68)', // text-red-500
-                fontSize: '0.75rem', // text-xs
-                marginTop: '0.25rem', // mt-1
-              }
-            } : {}
+            sx: {
+              ...(helperText && {
+                '& .MuiFormHelperText-root': {
+                  color: 'rgb(239 68 68)', // text-red-500
+                  fontSize: '0.75rem', // text-xs
+                  marginTop: '0.25rem', // mt-1
+                }
+              }),
+              ...(disabled && {
+                '& .MuiInputBase-root': {
+                  backgroundColor: '#f5f5f5', // disabled 배경색
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#e0e0e0', // disabled 테두리색
+                  },
+                  '& .MuiInputBase-input': {
+                    color: '#9e9e9e', // disabled 텍스트색
+                    cursor: 'not-allowed',
+                  }
+                }
+              })
+            }
           },
           actionBar: {
             actions: clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']
@@ -137,13 +151,27 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
             inputProps: {
               'aria-label': '월 선택',
             },
-            sx: helperText ? {
-              '& .MuiFormHelperText-root': {
-                color: 'rgb(239 68 68)', // text-red-500
-                fontSize: '0.75rem', // text-xs
-                marginTop: '0.25rem', // mt-1
-              }
-            } : {}
+            sx: {
+              ...(helperText && {
+                '& .MuiFormHelperText-root': {
+                  color: 'rgb(239 68 68)', // text-red-500
+                  fontSize: '0.75rem', // text-xs
+                  marginTop: '0.25rem', // mt-1
+                }
+              }),
+              ...(disabled && {
+                '& .MuiInputBase-root': {
+                  backgroundColor: '#f5f5f5', // disabled 배경색
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#e0e0e0', // disabled 테두리색
+                  },
+                  '& .MuiInputBase-input': {
+                    color: '#9e9e9e', // disabled 텍스트색
+                    cursor: 'not-allowed',
+                  }
+                }
+              })
+            }
           },
           actionBar: {
             actions: clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']

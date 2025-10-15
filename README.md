@@ -18,6 +18,8 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 - **SCSS 스타일링**: 토큰 기반 디자인 시스템과 SCSS 컴포넌트 클래스
 - **Lucide React 아이콘**: 200+ 아이콘을 카테고리별로 체계화
 - **React 19 호환**: 최신 React 버전과 완전 호환
+- **동적 아코디언 시스템**: 정산규칙 페이지의 고정/정기, 고정/비정기, 정산 아코디언을 동적으로 추가/삭제
+- **FormulaInput 컴포넌트**: 수식 입력을 위한 전용 컴포넌트
 
 ## 📁 프로젝트 구조
 
@@ -53,7 +55,7 @@ nice/
 │   │   │   ├── con001/      # 정산기준정보 목록
 │   │   │   ├── con002/      # 정산기준정보
 │   │   │   ├── rul001/      # 정산규칙 목록
-│   │   │   ├── rul002/      # 정산규칙
+│   │   │   ├── rul002/      # 정산규칙 (동적 아코디언 시스템)
 │   │   │   ├── mnb005/      # 공지사항 목록
 │   │   │   ├── mnb006/      # 공지사항 상세
 │   │   │   ├── layout.tsx   # Published Pages 레이아웃
@@ -85,6 +87,7 @@ nice/
 │   │   ├── date-range-picker.tsx # 날짜 범위 선택 컴포넌트
 │   │   ├── date-time-picker.tsx # 날짜/시간 선택 컴포넌트
 │   │   ├── time-picker.tsx  # 시간 선택 컴포넌트
+│   │   ├── formula-input.tsx # 수식 입력 전용 컴포넌트
 │   │   ├── sidebar.tsx      # 사이드바 컴포넌트
 │   │   ├── sidebar-toggle.tsx # 사이드바 토글 컴포넌트
 │   │   ├── accordion-toggle-button.tsx # 아코디언 토글 버튼
@@ -164,7 +167,7 @@ npm run dev
 - **CON001** (`/con001`): 정산기준정보 목록
 - **CON002** (`/con002`): 정산기준정보
 - **RUL001** (`/rul001`): 정산규칙 목록
-- **RUL002** (`/rul002`): 정산규칙 (준비중)
+- **RUL002** (`/rul002`): 정산규칙 (완성)
 
 ### 메뉴 페이지들
 - **공지사항** (`/published/mnb005`): 공지사항 관리 페이지
@@ -181,23 +184,23 @@ npm run dev
 ## 🎯 사용된 기술 스택
 
 ### Core Framework
-- **Next.js 15**: App Router 기반 React 프레임워크
+- **Next.js 15.5.2**: App Router 기반 React 프레임워크
 - **React 19.1.0**: 최신 React 버전 (findDOMNode 제거로 인한 호환성 개선)
 - **TypeScript 5**: 타입 안전성 보장
 
 ### Styling & UI
 - **Tailwind CSS v4**: 유틸리티 퍼스트 CSS 프레임워크
 - **SCSS**: CSS 전처리기
-- **Material-UI (MUI) v7**: React UI 컴포넌트 라이브러리
-- **MUI X Date Pickers v8**: 고급 날짜/시간 선택기
-- **Lucide React**: 200+ 아이콘 라이브러리
+- **Material-UI (MUI) v7.3.1**: React UI 컴포넌트 라이브러리
+- **MUI X Date Pickers v8.10.2**: 고급 날짜/시간 선택기
+- **Lucide React v0.536.0**: 200+ 아이콘 라이브러리
 
 ### Data Visualization & Tables
-- **Chart.js v4**: 차트 라이브러리
-- **react-chartjs-2 v5**: Chart.js React 래퍼
-- **Recharts v3**: React 차트 라이브러리
+- **Chart.js v4.5.0**: 차트 라이브러리
+- **react-chartjs-2 v5.3.0**: Chart.js React 래퍼
+- **Recharts v3.1.2**: React 차트 라이브러리
 - **SampleTable**: 기본 테이블 컴포넌트
-- **Tabulator.js v6**: 고급 테이블 라이브러리 (향후 사용 예정)
+- **Tabulator.js v6.3.1**: 고급 테이블 라이브러리
 
 ### Modal Components
 - **기본 모달**: BasicModal, ConfirmModal
@@ -206,12 +209,12 @@ npm run dev
 - **리치 텍스트 에디터**: MD Editor (@uiw/react-md-editor) - 결재상신 본문 등록 모달에서 사용
 
 ### Utilities & Tools
-- **clsx**: 조건부 클래스명 유틸리티
-- **tailwind-merge**: Tailwind 클래스 병합
-- **class-variance-authority**: 컴포넌트 변형 관리
-- **date-fns v4**: 날짜 유틸리티
-- **jszip v3**: ZIP 파일 처리
-- **@uiw/react-md-editor v4**: 마크다운 에디터
+- **clsx v2.1.1**: 조건부 클래스명 유틸리티
+- **tailwind-merge v3.3.1**: Tailwind 클래스 병합
+- **class-variance-authority v0.7.1**: 컴포넌트 변형 관리
+- **date-fns v4.1.0**: 날짜 유틸리티
+- **jszip v3.10.1**: ZIP 파일 처리
+- **@uiw/react-md-editor v4.0.8**: 마크다운 에디터
 
 ### Development Tools
 - **ESLint 9**: 코드 품질 관리
@@ -331,6 +334,67 @@ import {
 />
 ```
 
+### FormulaInput 컴포넌트
+수식 입력을 위한 전용 컴포넌트입니다. 정산규칙 페이지에서 사용됩니다.
+
+```tsx
+import FormulaInput from '@/components/formula-input'
+
+<FormulaInput
+  value={formulaValue}
+  onChange={setFormulaValue}
+  disabled={isViewMode()}
+/>
+```
+
+### 동적 아코디언 시스템
+정산규칙 페이지에서 사용되는 동적 아코디언 컴포넌트 시스템입니다.
+
+```tsx
+// 아코디언 아이템 인터페이스
+interface AccordionItem {
+  id: string
+  type: 'fixed_regular' | 'fixed_irregular' | 'settlement'
+  title: string
+  data: Record<string, unknown>
+}
+
+// 동적 아코디언 렌더링
+{accordionItems.map((item) => {
+  switch (item.type) {
+    case 'fixed_regular':
+      return (
+        <FixedRegularAccordion
+          key={item.id}
+          item={item}
+          onRemove={removeAccordionItem}
+          pageMode={pageMode}
+        />
+      )
+    case 'fixed_irregular':
+      return (
+        <FixedIrregularAccordion
+          key={item.id}
+          item={item}
+          onRemove={removeAccordionItem}
+          pageMode={pageMode}
+        />
+      )
+    case 'settlement':
+      return (
+        <SettlementAccordion
+          key={item.id}
+          item={item}
+          onRemove={removeAccordionItem}
+          pageMode={pageMode}
+        />
+      )
+    default:
+      return null
+  }
+})}
+```
+
 
 ## 🔧 개발 가이드
 
@@ -446,6 +510,6 @@ MIT License
 ---
 
 **작성자**  
-디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-02)  
+디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-15)  
 010-9479-3188  
 junhwa.park@gmail.com
