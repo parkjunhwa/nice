@@ -17,19 +17,23 @@ const getTextFieldSx = (helperText?: string, disabled?: boolean) => ({
   ...(disabled && {
     '& .MuiInputBase-root': {
       backgroundColor: '#f5f5f5', // disabled 배경색
-      '& .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'hsl(var(--color-border)) !important', // disabled 상태의 border 컬러를 공통 변수로
-      },
-      '&:hover .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'hsl(var(--color-border)) !important'
-      },
-      '&.Mui-disabled .MuiOutlinedInput-notchedOutline': {
-        borderColor: 'hsl(var(--color-border)) !important'
-      },
       '& .MuiInputBase-input': {
         color: '#9e9e9e', // disabled 텍스트색
         cursor: 'not-allowed',
       }
+    },
+    // MUI DatePicker 특정 클래스명으로 정확한 타겟팅
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-disabled .MuiPickersOutlinedInput-notchedOutline': {
+      borderColor: 'hsl(var(--color-border)) !important', // TextField와 동일한 disabled border 컬러
+    },
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-disabled:hover .MuiPickersOutlinedInput-notchedOutline': {
+      borderColor: 'hsl(var(--color-border)) !important'
+    },
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-disabled.Mui-focused .MuiPickersOutlinedInput-notchedOutline': {
+      borderColor: 'hsl(var(--color-border)) !important'
+    },
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-disabled.Mui-hover .MuiPickersOutlinedInput-notchedOutline': {
+      borderColor: 'hsl(var(--color-border)) !important'
     }
   })
 })
