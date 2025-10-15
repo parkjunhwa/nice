@@ -359,9 +359,34 @@
     height: var(--input-height-sm) !important;
     min-height: var(--input-height-sm) !important;
     font-size: var(--font-size-xs) !important;
+    box-sizing: border-box !important;
 
     .MuiSelect-select {
       font-size: var(--font-size-xs) !important;
+      padding: 4px 8px !important; /* small 크기에 맞는 padding 조정 */
+      box-sizing: border-box !important;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      box-sizing: border-box !important;
+    }
+  }
+
+  /* MUI NativeSelect small 크기 스타일 */
+  .MuiNativeSelect-root.MuiInputBase-sizeSmall {
+    height: var(--input-height-sm) !important;
+    min-height: var(--input-height-sm) !important;
+    font-size: var(--font-size-xs) !important;
+    box-sizing: border-box !important;
+
+    .MuiNativeSelect-select {
+      font-size: var(--font-size-xs) !important;
+      padding: 4px 8px !important; /* small 크기에 맞는 padding 조정 */
+      box-sizing: border-box !important;
+    }
+
+    .MuiOutlinedInput-notchedOutline {
+      box-sizing: border-box !important;
     }
   }
 
@@ -826,6 +851,12 @@
   /* MUI Select disabled 상태 배경색 */
   .MuiSelect-root.Mui-disabled .MuiSelect-select {
     background-color: hsl(var(--color-muted)) !important;
+  }
+
+  /* MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input 구체적 스타일 */
+  .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input {
+    padding: 4px 14px !important;
+    box-sizing: border-box !important;
   }
 
   /* MUI Autocomplete 배경색 */

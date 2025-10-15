@@ -39,10 +39,10 @@ interface AccordionItem {
 }
 
 // 고정/정기 아코디언 컴포넌트
-const FixedRegularAccordion = ({ item, onRemove, pageMode }: { 
-  item: AccordionItem, 
-  onRemove: (id: string) => void, 
-  pageMode: PageMode 
+const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
+  item: AccordionItem,
+  onRemove: (id: string) => void,
+  pageMode: PageMode
 }) => {
   const [monthlyFixedAmount, setMonthlyFixedAmount] = useState((item.data.monthlyFixedAmount as string) || '200000')
   const [contractAmount, setContractAmount] = useState((item.data.contractAmount as string) || '')
@@ -59,8 +59,8 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
         id={`panel-${item.id}-header`}
         sx={{ '& .MuiAccordionSummary-expandIconWrapper': { display: 'none' } }}
       >
-        <div className="flex items-center justify-between w-full">
-          <Typography component="div">
+        <div className="flex items-center justify-between w-full gap-2">
+          <Typography component="div" sx={{ flex: 1 }}>
             <div className="flex items-center gap-2">
               <span className="px-2 py-0.5 border border-blue-400 text-blue-600 rounded-full text-xs font-semibold bg-white">
                 {item.title}
@@ -78,7 +78,7 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
                   }}
                   disabled={isViewMode()}
                   sx={{
-                    width: '200px',
+                    flex: 1,
                     '& .MuiInputBase-input': {
                       textAlign: 'left'
                     }
@@ -118,15 +118,11 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
               size="small"
               type="text"
               disabled={pageMode === 'view'}
-              value={
-                contractAmount
-                  ? Number(contractAmount.replace(/,/g, '')).toLocaleString()
-                  : ''
-              }
+              value={contractAmount}
               onChange={(e) => {
-                // 숫자만 추출
-                const raw = e.target.value.replace(/[^0-9]/g, '');
-                setContractAmount(raw);
+                // 숫자만 입력받기 (숫자 이외 제거)
+                const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                setContractAmount(onlyNumbers);
               }}
               sx={{
                 width: '100%',
@@ -136,9 +132,9 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
               }}
               inputProps={{
                 inputMode: 'numeric',
-                pattern: '[0-9,]*'
+                pattern: '[0-9]*'
               }}
-              placeholder="금액 입력"
+              placeholder="숫자만 입력"
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -335,10 +331,10 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
 }
 
 // 고정/비정기 아코디언 컴포넌트
-const FixedIrregularAccordion = ({ item, onRemove, pageMode }: { 
-  item: AccordionItem, 
-  onRemove: (id: string) => void, 
-  pageMode: PageMode 
+const FixedIrregularAccordion = ({ item, onRemove, pageMode }: {
+  item: AccordionItem,
+  onRemove: (id: string) => void,
+  pageMode: PageMode
 }) => {
   const [amount, setAmount] = useState((item.data.amount as string) || '')
   const [contractDate, setContractDate] = useState<Date | null>((item.data.contractDate as Date | null) || null)
@@ -350,8 +346,8 @@ const FixedIrregularAccordion = ({ item, onRemove, pageMode }: {
         id={`panel-${item.id}-header`}
         sx={{ '& .MuiAccordionSummary-expandIconWrapper': { display: 'none' } }}
       >
-        <div className="flex items-center justify-between w-full">
-          <Typography component="div">
+        <div className="flex items-center justify-between w-full gap-2">
+          <Typography component="div" sx={{ flex: 1 }}>
             <div className="flex items-center gap-2">
               <span className="px-2 py-0.5 border border-blue-400 text-blue-600 rounded-full text-xs font-semibold bg-white">
                 {item.title}
@@ -367,7 +363,7 @@ const FixedIrregularAccordion = ({ item, onRemove, pageMode }: {
                   onChange={(e) => setAmount(e.target.value)}
                   disabled={pageMode !== 'edit'}
                   sx={{
-                    width: '200px',
+                    flex: 1,
                     '& .MuiInputBase-input': {
                       textAlign: 'left'
                     }
@@ -439,10 +435,10 @@ const FixedIrregularAccordion = ({ item, onRemove, pageMode }: {
 }
 
 // 정산 아코디언 컴포넌트
-const SettlementAccordion = ({ item, onRemove, pageMode }: { 
-  item: AccordionItem, 
-  onRemove: (id: string) => void, 
-  pageMode: PageMode 
+const SettlementAccordion = ({ item, onRemove, pageMode }: {
+  item: AccordionItem,
+  onRemove: (id: string) => void,
+  pageMode: PageMode
 }) => {
   const [monthlySettlement, setMonthlySettlement] = useState((item.data.monthlySettlement as string) || '')
   const [formulaValue, setFormulaValue] = useState((item.data.formulaValue as string) || '')
@@ -459,10 +455,10 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
         id={`panel-${item.id}-header`}
         sx={{ '& .MuiAccordionSummary-expandIconWrapper': { display: 'none' } }}
       >
-        <div className="flex items-center justify-between w-full">
-          <Typography component="div">
+        <div className="flex items-center justify-between w-full gap-2">
+          <Typography component="div" sx={{ flex: 1 }}>
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 border border-green-400 text-green-600 rounded-full text-xs font-semibold bg-white">
+              <span className="px-2 py-0.5 border border-blue-400 text-blue-600 rounded-full text-xs font-semibold bg-white">
                 {item.title}
               </span>
               {pageMode === 'view' ? (
@@ -474,7 +470,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   value={monthlySettlement}
                   onChange={(e) => setMonthlySettlement(e.target.value)}
                   sx={{
-                    width: '120px',
+                    flex: 1,
                     '& input': {
                       textAlign: 'left'
                     }
@@ -1682,7 +1678,7 @@ export default function Rul002Page() {
                             />
                           )
                         case 'settlement':
-                            return (
+                          return (
                             <SettlementAccordion
                               key={item.id}
                               item={item}
@@ -1697,9 +1693,9 @@ export default function Rul002Page() {
                     {accordionItems.length === 0 && (
                       <div className="text-center text-gray-500 py-8">
                         수식을 추가해주세요.
-                            </div>
-                            )}
-                          </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </CardContent>
