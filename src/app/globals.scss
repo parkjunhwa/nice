@@ -541,8 +541,68 @@ main.overflow-y-auto {
   }
 
 
-/* MUI DatePicker disabled 색상 오버라이드 */
-.MuiDatePicker-root {
+/* MUI DatePicker 및 DateRangePicker disabled 스타일을 TextField와 동일하게 */
+.MuiDatePicker-root,
+.MuiDateRangePicker-root {
+  /* Disabled 상태 스타일 - TextField와 동일 */
+  .MuiTextField-root.Mui-disabled {
+    .MuiOutlinedInput-root {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+      border-color: hsl(var(--color-border)) !important;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04) !important;
+        border-color: hsl(var(--color-border)) !important;
+      }
+      
+      &.Mui-focused {
+        background-color: rgba(0, 0, 0, 0.04) !important;
+        border-color: hsl(var(--color-border)) !important;
+      }
+    }
+    
+    .MuiInputBase-input {
+      -webkit-text-fill-color: rgba(0, 0, 0, 0.38) !important;
+      color: rgba(0, 0, 0, 0.38) !important;
+    }
+    
+    .MuiInputAdornment-root {
+      .MuiIconButton-root {
+        color: rgba(0, 0, 0, 0.38) !important;
+      }
+    }
+  }
+  
+  /* Readonly 상태 스타일 - TextField와 동일 */
+  .MuiTextField-root.MuiInputBase-readOnly {
+    .MuiOutlinedInput-root {
+      background-color: rgba(0, 0, 0, 0.04) !important;
+      border-color: hsl(var(--color-border)) !important;
+      
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.04) !important;
+        border-color: hsl(var(--color-border)) !important;
+      }
+      
+      &.Mui-focused {
+        background-color: rgba(0, 0, 0, 0.04) !important;
+        border-color: hsl(var(--color-border)) !important;
+      }
+    }
+    
+    .MuiInputBase-input {
+      -webkit-text-fill-color: rgba(0, 0, 0, 0.38) !important;
+      color: rgba(0, 0, 0, 0.38) !important;
+    }
+    
+    .MuiInputAdornment-root {
+      .MuiIconButton-root {
+        color: rgba(0, 0, 0, 0.38) !important;
+      }
+    }
+  }
+  
+  /* DatePicker 내부 요소들의 disabled 상태 */
   .MuiPickersDay-root.Mui-disabled {
     color: rgba(0, 0, 0, 0.38) !important;
   }
@@ -569,29 +629,6 @@ main.overflow-y-auto {
   .MuiPickersCalendarHeader-root {
     .MuiPickersCalendarHeader-label {
       font-size: 13px !important;
-    }
-  }
-  
-  /* Readonly 상태 스타일 오버라이드 */
-  .MuiTextField-root.MuiInputBase-readOnly {
-    .MuiOutlinedInput-root {
-      background-color: rgba(0, 0, 0, 0.04) !important;
-      border-color: rgba(0, 0, 0, 0.12) !important;
-      
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.04) !important;
-        border-color: rgba(0, 0, 0, 0.12) !important;
-      }
-      
-      &.Mui-focused {
-        background-color: rgba(0, 0, 0, 0.04) !important;
-        border-color: rgba(0, 0, 0, 0.12) !important;
-      }
-    }
-    
-    .MuiInputBase-input {
-      -webkit-text-fill-color: rgba(0, 0, 0, 0.38) !important;
-      color: rgba(0, 0, 0, 0.38) !important;
     }
   }
 }

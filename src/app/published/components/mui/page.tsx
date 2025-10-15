@@ -248,7 +248,7 @@ export default function MuiPage() {
         </Accordion>
 
       </div>
-      
+
       <div className="c-panel">
         <div className="bottom-contents-pannel__content">
           <div className="grid grid-cols-4 gap-2">
