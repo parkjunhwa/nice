@@ -263,8 +263,8 @@ const FormulaInput: React.FC<FormulaInputProps> = ({
             ? '1px solid hsl(var(--color-border)) !important'
             : '1px solid rgba(0, 0, 0, 0.23)',
           borderRadius: '4px',
-          padding: '8px',
-          minHeight: '40px',
+          padding: '0px 8px',
+          height: '32px',
           backgroundColor: disabled
             ? 'rgb(241, 245, 249)'
             : 'white',
@@ -283,6 +283,7 @@ const FormulaInput: React.FC<FormulaInputProps> = ({
               ? 'hsl(var(--color-border)) !important'
               : '#1976d2',
             borderWidth: disabled ? '1px' : '2px',
+            padding: '0px 7px',
           },
           transition: 'border-color 0.2s',
         }}
