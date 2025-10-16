@@ -35,16 +35,17 @@
     .tabulator-col {
       background-color: #1e3a8a; /* blue-800 */
       border-right: 1px solid #1e40af; /* blue-700 */
-      padding: 2px 8px;
       font-weight: 400;
       color: #ffffff; /* white */
       font-size: 13px;
       position: relative;
       cursor: pointer;
       user-select: none;
+      box-sizing: border-box;
 
       &:hover {
         background-color: #1e40af; /* blue-700 */
+        border-right: 1px solid #1e40af; /* blue-700 */
       }
 
       &.tabulator-sortable {
@@ -131,16 +132,9 @@
 // ==========================================
 // 정렬 아이콘 스타일
 // ==========================================
-.tabulator-col-title {
-  padding-top: 1px;
-}
-
-.tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element {
-  padding: 3px 8px 0px 8px;
-}
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element:hover {
-  background: none;
+  background: none !important;
 }
 
 // 정렬 화살표 기본 모양 - Lucide 아이콘 위쪽 화살표
@@ -173,7 +167,7 @@
   transition: opacity 0.2s ease, transform 0.3s ease;
   position: absolute;
   top: 50%;
-  left: 50%;
+  right: calc(-100% + 4px);
   transform: translate(-50%, -50%);
 }
 
@@ -233,7 +227,6 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  min-height: 40px;
 }
 
 .mui-checkbox-wrapper {
@@ -355,12 +348,32 @@
   height: 100% !important;
 }
 
+// 모든 헤더 컬럼 컨텐츠 높이 상하 꽉차게
+.tabulator .tabulator-header .tabulator-col .tabulator-col-content {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  width: 100% !important;
+  vertical-align: middle !important;
+}
+
 // 헤더 체크박스 제목 영역 스타일
 .tabulator .tabulator-header .tabulator-col[data-field="select"] .tabulator-col-title-holder {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   height: 100% !important;
+  width: 100% !important;
+}
+
+// 모든 헤더 컬럼 제목 홀더 폭 100%
+.tabulator .tabulator-header .tabulator-col .tabulator-col-title-holder {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 100% !important;
+  width: 100% !important;
 }
 
 .tabulator .tabulator-header .tabulator-col[data-field="select"] .tabulator-col-title {
@@ -376,6 +389,13 @@
   height: 18px !important;
   width: 18px !important;
   line-height: 1 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+// 헤더 컬럼 제목 안의 체크박스만 왼쪽 여백 추가
+.tabulator .tabulator-header .tabulator-col .tabulator-col-title input[type="checkbox"][aria-label="Select All"] {
+  margin-left: 8px !important;
 }
 
 // ==========================================
@@ -454,7 +474,7 @@
   padding: 0 !important;
   opacity: 0.2;
   transition: opacity 0.2s ease;
-  
+  margin-left:-5px !important;
   &:hover {
     opacity: 1 !important;
   }
@@ -485,3 +505,26 @@
     box-shadow: none !important;
   }
 }
+
+// ==========================================
+// 컬럼 그룹 스타일
+// ==========================================
+.tabulator .tabulator-header .tabulator-col.tabulator-col-group > .tabulator-col-group-cols {
+  border-right: 1px solid #1e40af !important; /* blue-700 */
+  border-top: 1px solid #1e40af !important; /* blue-700 */
+}
+
+// 컬럼 그룹 헤더 높이 조정
+.tabulator .tabulator-header .tabulator-col.tabulator-col-group {
+  height: auto !important;
+  padding-top: 0 !important;
+}
+
+.tabulator .tabulator-header .tabulator-col.tabulator-col-group .tabulator-col-content {
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.tabulator .tabulator-header .tabulator-col:hover {background-color: #1c398e;}

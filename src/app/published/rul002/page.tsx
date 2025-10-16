@@ -495,7 +495,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       </AccordionSummary>
       <AccordionDetails>
         {/* 정산수식 섹션 */}
-        <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-2">
+        <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-0">
           <div className="flex items-center justify-between mb-2">
             <Typography component="div" className="font-semibold text-gray-900">
               정산수식
