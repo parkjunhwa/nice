@@ -1,56 +1,57 @@
 :root {
   /* ===== 색상 시스템 ===== */
   
-/* 기본 색상 */
---color-bg: 0 0% 100%;                     /* White */
---color-fg: 222 47% 11%;                   /* Gray-900 */
---color-muted: 210 40% 96%;                 /* Gray-100 */
---color-muted-foreground: 215 16% 47%;     /* Gray-500 */
+  /* 기본 색상 */
+  --color-bg: 0 0% 100%;                     /* White */
+  --color-fg: 222 47% 11%;                   /* Gray-900 */
+  --color-muted: 210 40% 96%;                /* Gray-100 */
+  --color-muted-foreground: 215 16% 47%;      /* Gray-500 */
 
-/* 메인 색상 */
---color-primary: 217 91% 60%;               /* #2563EB (Blue-600) */
---color-primary-foreground: 0 0% 100%;      /* White */
---color-primary-hover: 217 91% 53%;         /* Blue-700 (더 어두운 hover) */
---color-primary-light: 217 91% 97%;         /* Blue-50 (매우 밝은 light) */
+  /* 메인 색상 */
+  --color-primary: 217 91% 60%;               /* #2563EB (Blue-600) */
+  --color-primary-foreground: 0 0% 100%;      /* White */
+  --color-primary-hover: 217 91% 53%;         /* Blue-700 (더 어두운 hover) */
+  --color-primary-light: 217 91% 97%;         /* Blue-50 (매우 밝은 light) */
 
-/* 보조 색상 */
---color-secondary: 210 40% 96%;             /* Gray-100 */
---color-secondary-foreground: 222 47% 11%;  /* Gray-900 */
---color-secondary-hover: 210 40% 90%;       /* Gray-200 */
+  /* 보조 색상 */
+  --color-secondary: 210 40% 96%;             /* Gray-100 */
+  --color-secondary-foreground: 222 47% 11%;  /* Gray-900 */
+  --color-secondary-hover: 210 40% 90%;       /* Gray-200 */
 
-/* 강조 색상 */
---color-accent: 210 40% 96%;                /* Gray-100 */
---color-accent-foreground: 222 47% 11%;     /* Gray-900 */
---color-accent-hover: 210 40% 90%;          /* Gray-200 */
+  /* 강조 색상 */
+  --color-accent: 210 40% 96%;                /* Gray-100 */
+  --color-accent-foreground: 222 47% 11%;     /* Gray-900 */
+  --color-accent-hover: 210 40% 90%;          /* Gray-200 */
 
-/* 상태 색상 */
---color-success: 160 84% 39%;               /* #10b981 (emerald-500) */
---color-success-foreground: 0 0% 100%;      /* White */
---color-success-light: 160 84% 95%;         /* emerald-50 */
+  /* 상태 색상 */
+  --color-success: 160 84% 39%;               /* #10b981 (emerald-500) */
+  --color-success-foreground: 0 0% 100%;      /* White */
+  --color-success-light: 160 84% 95%;         /* emerald-50 */
 
---color-warning: 43 96% 48%;                 /* #f59e0b (amber-500) */
---color-warning-foreground: 0 0% 100%;      /* White */
---color-warning-light: 43 96% 95%;          /* amber-50 */
+  --color-warning: 43 96% 48%;                /* #f59e0b (amber-500) */
+  --color-warning-foreground: 0 0% 100%;      /* White */
+  --color-warning-light: 43 96% 95%;          /* amber-50 */
 
---color-error: 0 84% 60%;                    /* #ef4444 (red-500) */
---color-error-foreground: 0 0% 100%;        /* White */
---color-error-light: 0 84% 95%;             /* red-50 */
+  --color-error: 0 84% 60%;                   /* #ef4444 (red-500) */
+  --color-error-foreground: 0 0% 100%;        /* White */
+  --color-error-light: 0 84% 95%;             /* red-50 */
 
---color-info: 160 84% 39%;                   /* #10b981 (emerald-500, success와 동일) */
---color-info-foreground: 0 0% 100%;         /* White */
---color-info-light: 160 84% 95%;            /* emerald-50 */
+  --color-info: 160 84% 39%;                  /* #10b981 (emerald-500, success와 동일) */
+  --color-info-foreground: 0 0% 100%;         /* White */
+  --color-info-light: 160 84% 95%;            /* emerald-50 */
 
-/* 중립 색상 */
---color-border: 214 32% 91%;                 /* Gray-200 */
---color-border-hover: 214 32% 85%;           /* Gray-300 */
---color-input: 214 32% 91%;                  /* Gray-200 */
---color-ring: 222 89% 52%;                   /* Blue-600 */
+  /* 중립 색상 */
+  --color-border: 214 32% 91%;                /* Gray-200 */
+  --color-border-hover: 214 32% 85%;           /* Gray-300 */
+  --color-input: 214 32% 91%;                  /* Gray-200 */
+  --color-ring: 222 89% 52%;                   /* Blue-600 */
 
-/* 배경 레이어 */
---color-bg-secondary: 210 40% 98%;           /* Gray-50 */
---color-bg-tertiary: 210 40% 96%;            /* Gray-100 */
---color-bg-elevated: 0 0% 100%;              /* White */
---color-bg-overlay: 222 47% 11%;             /* Gray-900 */
+  /* 배경 레이어 */
+  --color-bg-secondary: 210 40% 98%;           /* Gray-50 */
+  --color-bg-tertiary: 210 40% 96%;            /* Gray-100 */
+  --color-bg-elevated: 0 0% 100%;              /* White */
+  --color-bg-overlay: 222 47% 11%;             /* Gray-900 */
+
   /* ===== 간격 시스템 ===== */
   
   /* 기본 간격 단위 (4px 기준) */
@@ -70,10 +71,9 @@
   --space-32: 8rem;      /* 128px */
   
   /* 컴포넌트별 간격 */
-  
   --space-component: var(--space-6);         /* 컴포넌트 간격 */
-  --space-section: var(--space-8);          /* 섹션 간격 */
-  --space-page: var(--space-12);            /* 페이지 간격 */
+  --space-section: var(--space-8);           /* 섹션 간격 */
+  --space-page: var(--space-12);             /* 페이지 간격 */
   
   /* ===== 타이포그래피 ===== */
   
@@ -217,7 +217,7 @@
   --button-padding-x-lg: var(--space-6);
 
   /* 입력 필드 (크기별) */
-  --input-height: 2rem;                    /* 32px - 기본 높이 */
+  --input-height: 2rem;                      /* 32px - 기본 높이 */
   --input-height-sm: 2rem;                   /* 32px */
   --input-height-base: 2.25rem;              /* 36px */
   --input-height-lg: 3rem;                   /* 48px */

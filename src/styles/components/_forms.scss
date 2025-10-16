@@ -759,6 +759,22 @@
         border-right: none !important;
       }
     }
+    // 테이블 정렬, 텍스트 줄바꿈 방지, 중앙정렬 퀵 스타일
+    .MuiTableCell-root {
+      vertical-align: middle !important;
+      white-space: nowrap !important;
+      text-align: left !important;
+      &.text-center {
+        text-align: center !important;
+      }
+      &.text-right {
+        text-align: right !important;
+      }
+      &.no-wrap {
+        white-space: nowrap !important;
+      }
+    }
+
 
     .MuiTableHead-root .MuiTableCell-root {
       background-color: #f1f5f9 !important;

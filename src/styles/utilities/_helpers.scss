@@ -1,289 +1,104 @@
 @use "../core/mixins" as *;
 
 @layer utilities {
-  /* 스크린 리더 전용 */
-  .u-sr-only {
-    @include sr-only;
-  }
+  /* 스크린리더 */
+  .u-sr-only { @include sr-only; }
 
   /* 컨테이너 */
   .u-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-4);
-    
-    @include mobile-up {
-      padding: 0 var(--space-6);
-    }
-    
-    @include tablet-up {
-      padding: 0 var(--space-8);
-    }
+    width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 var(--space-4);
+    @include mobile-up { padding: 0 var(--space-6); }
+    @include tablet-up { padding: 0 var(--space-8); }
   }
 
-  /* 플렉스 유틸리티 */
-  .u-flex-center {
-    @include flex-center;
-  }
+  /* 플렉스 */
+  .u-flex-center   { @include flex-center; }
+  .u-flex-between  { @include flex-between; }
 
-  .u-flex-between {
-    @include flex-between;
-  }
+  /* 간격 */
+  .u-space-y    > * + * { margin-top: var(--space-4); }
+  .u-space-y-sm > * + * { margin-top: var(--space-2); }
+  .u-space-y-lg > * + * { margin-top: var(--space-6); }
+  .u-space-x    > * + * { margin-left: var(--space-4); }
+  .u-space-x-sm > * + * { margin-left: var(--space-2); }
+  .u-space-x-lg > * + * { margin-left: var(--space-6); }
 
-  /* 간격 유틸리티 */
-  .u-space-y > * + * {
-    margin-top: var(--space-4);
-  }
+  /* 텍스트 */
+  .u-text-truncate { @include text-truncate; }
+  .u-text-balance  { @include text-balance; }
+  .u-text-center   { text-align: center; }
+  .u-text-left     { text-align: left; }
+  .u-text-right    { text-align: right; }
 
-  .u-space-y-sm > * + * {
-    margin-top: var(--space-2);
-  }
+  /* 색상 */
+  .u-text-primary  { color: hsl(var(--color-primary)); }
+  .u-text-muted    { color: hsl(var(--color-muted)); }
+  .u-bg-primary    { background: hsl(var(--color-primary)); }
+  .u-bg-muted      { background: hsl(var(--color-muted)); }
 
-  .u-space-y-lg > * + * {
-    margin-top: var(--space-6);
-  }
+  /* 그림자 */
+  .u-shadow-sm  { box-shadow: var(--shadow-sm); }
+  .u-shadow     { box-shadow: var(--shadow); }
+  .u-shadow-md  { box-shadow: var(--shadow-md); }
+  .u-shadow-lg  { box-shadow: var(--shadow-lg); }
+  .u-shadow-xl  { box-shadow: var(--shadow-xl); }
 
-  .u-space-x > * + * {
-    margin-left: var(--space-4);
-  }
+  /* 반응형 표시 */
+  .u-hidden-mobile   { @include mobile   { display: none;  } }
+  .u-hidden-tablet   { @include tablet   { display: none;  } }
+  .u-hidden-desktop  { @include desktop  { display: none;  } }
+  .u-block-mobile    { @include mobile   { display: block; } }
+  .u-block-tablet    { @include tablet   { display: block; } }
+  .u-block-desktop   { @include desktop  { display: block; } }
 
-  .u-space-x-sm > * + * {
-    margin-left: var(--space-2);
-  }
+  /* 포커스 */
+  .u-focus-ring { @include focus-visible; }
 
-  .u-space-x-lg > * + * {
-    margin-left: var(--space-6);
-  }
+  /* 트랜지션 */
+  .u-transition      { @include transition-base; }
+  .u-transition-fast { @include transition-fast; }
+  .u-transition-slow { @include transition-slow; }
 
-  /* 텍스트 유틸리티 */
-  .u-text-truncate {
-    @include text-truncate;
-  }
-
-  .u-text-balance {
-    @include text-balance;
-  }
-
-  .u-text-center {
-    text-align: center;
-  }
-
-  .u-text-left {
-    text-align: left;
-  }
-
-  .u-text-right {
-    text-align: right;
-  }
-
-  /* 색상 유틸리티 */
-  .u-text-primary {
-    color: hsl(var(--color-primary));
-  }
-
-  .u-text-muted {
-    color: hsl(var(--color-muted));
-  }
-
-  .u-bg-primary {
-    background: hsl(var(--color-primary));
-  }
-
-  .u-bg-muted {
-    background: hsl(var(--color-muted));
-  }
-
-  /* 그림자 유틸리티 */
-  .u-shadow-sm {
-    box-shadow: var(--shadow-sm);
-  }
-
-  .u-shadow {
-    box-shadow: var(--shadow);
-  }
-
-  .u-shadow-md {
-    box-shadow: var(--shadow-md);
-  }
-
-  .u-shadow-lg {
-    box-shadow: var(--shadow-lg);
-  }
-
-  .u-shadow-xl {
-    box-shadow: var(--shadow-xl);
-  }
-
-  /* 반응형 유틸리티 */
-  .u-hidden-mobile {
-    @include mobile {
-      display: none;
-    }
-  }
-
-  .u-hidden-tablet {
-    @include tablet {
-      display: none;
-    }
-  }
-
-  .u-hidden-desktop {
-    @include desktop {
-      display: none;
-    }
-  }
-
-  .u-block-mobile {
-    @include mobile {
-      display: block;
-    }
-  }
-
-  .u-block-tablet {
-    @include tablet {
-      display: block;
-    }
-  }
-
-  .u-block-desktop {
-    @include desktop {
-      display: block;
-    }
-  }
-
-  /* 포커스 유틸리티 */
-  .u-focus-ring {
-    @include focus-visible;
-  }
-
-  /* 트랜지션 유틸리티 */
-  .u-transition {
-    @include transition-base;
-  }
-
-  .u-transition-fast {
-    @include transition-fast;
-  }
-
-  .u-transition-slow {
-    @include transition-slow;
-  }
-
-  /* 그리드 유틸리티 */
-  .u-grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
-  }
-
-  .u-grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-4);
-  }
-
-  .u-grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-4);
-  }
-
+  /* 그리드 */
+  .u-grid-2 { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-4);}
+  .u-grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: var(--space-4);}
+  .u-grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: var(--space-4);}
   @include mobile {
-    .u-grid-2,
-    .u-grid-3,
-    .u-grid-4 {
-      grid-template-columns: 1fr;
-    }
+    .u-grid-2, .u-grid-3, .u-grid-4 { grid-template-columns: 1fr; }
   }
 
-  /* 위치 유틸리티 */
-  .u-relative {
-    position: relative;
-  }
+  /* 위치 */
+  .u-relative { position: relative; }
+  .u-absolute { position: absolute; }
+  .u-fixed    { position: fixed; }
+  .u-sticky   { position: sticky; }
 
-  .u-absolute {
-    position: absolute;
-  }
+  /* z-index */
+  .u-z-dropdown { z-index: var(--z-dropdown); }
+  .u-z-sticky   { z-index: var(--z-sticky); }
+  .u-z-fixed    { z-index: var(--z-fixed); }
+  .u-z-modal    { z-index: var(--z-modal); }
+  .u-z-popover  { z-index: var(--z-popover); }
+  .u-z-tooltip  { z-index: var(--z-tooltip); }
 
-  .u-fixed {
-    position: fixed;
-  }
+  /* 오버플로우 */
+  .u-overflow-hidden { overflow: hidden; }
+  .u-overflow-auto   { overflow: auto; }
+  .u-overflow-scroll { overflow: scroll; }
 
-  .u-sticky {
-    position: sticky;
-  }
+  /* 커서 */
+  .u-cursor-pointer     { cursor: pointer; }
+  .u-cursor-not-allowed { cursor: not-allowed; }
+  .u-cursor-help        { cursor: help; }
 
-  /* z-index 유틸리티 */
-  .u-z-dropdown {
-    z-index: var(--z-dropdown);
-  }
-
-  .u-z-sticky {
-    z-index: var(--z-sticky);
-  }
-
-  .u-z-fixed {
-    z-index: var(--z-fixed);
-  }
-
-  .u-z-modal {
-    z-index: var(--z-modal);
-  }
-
-  .u-z-popover {
-    z-index: var(--z-popover);
-  }
-
-  .u-z-tooltip {
-    z-index: var(--z-tooltip);
-  }
-
-  /* 오버플로우 유틸리티 */
-  .u-overflow-hidden {
-    overflow: hidden;
-  }
-
-  .u-overflow-auto {
-    overflow: auto;
-  }
-
-  .u-overflow-scroll {
-    overflow: scroll;
-  }
-
-  /* 커서 유틸리티 */
-  .u-cursor-pointer {
-    cursor: pointer;
-  }
-
-  .u-cursor-not-allowed {
-    cursor: not-allowed;
-  }
-
-  .u-cursor-help {
-    cursor: help;
-  }
-
-  /* 사용자 선택 유틸리티 */
+  /* 선택 */
   .u-select-none {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
   }
-
   .u-select-text {
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    -ms-user-select: text;
-    user-select: text;
+    -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text;
   }
-
   .u-select-all {
-    -webkit-user-select: all;
-    -moz-user-select: none;
-    -ms-user-select: all;
-    user-select: all;
+    -webkit-user-select: all; -moz-user-select: none; -ms-user-select: all; user-select: all;
   }
 } 
