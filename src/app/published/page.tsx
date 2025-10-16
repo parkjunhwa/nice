@@ -1,24 +1,4 @@
-import { Chart } from "@/components/chart"
-
 export default function DashboardPage() {
-  // 최근 7일간 매출 데이터 (건수, 금액)
-  const recentSalesData = [
-    { name: "08.13", value1: 14, value2: 7 },    // 2025.08.13 / 14건, 7억
-    { name: "08.14", value1: 15, value2: 8 },    // 2025.08.14 / 15건, 8억
-    { name: "08.15", value1: 8, value2: 6 },     // 2025.08.15 / 8건, 6억
-    { name: "08.16", value1: 9, value2: 6.5 },   // 2025.08.16 / 9건, 6.5억
-    { name: "08.17", value1: 10, value2: 8 },    // 2025.08.17 / 10건, 8억
-    { name: "08.18", value1: 12, value2: 9 },    // 2025.08.18 / 12건, 9억
-    { name: "08.19", value1: 13, value2: 11 },   // 2025.08.19 / 13건, 11억
-    { name: "08.20", value1: 14, value2: 12 }    // 2025.08.20 / 14건, 12억
-  ]
-
-  // 최근 3개월간 매출 데이터 (건수, 금액)
-  const monthlySalesData = [
-    { name: "2025.06", value1: 140, value2: 72 },   // 140건, 72억
-    { name: "2025.07", value1: 150, value2: 80 },   // 150건, 80억
-    { name: "2025.08", value1: 160, value2: 83 }    // 160건, 83억
-  ]
 
   return (
     <div className="bg-gray-50">
@@ -68,47 +48,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* 차트 섹션 */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
-        {/* 첫 번째 차트 카드 */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm h-full flex flex-col">
-          <div className="flex items-center space-x-2">
-            <h3 className="text-lg font-semibold text-gray-900 inline-block">매출현황</h3>
-            <p className="text-[12px] text-gray-600 inline-block align-middle">최근 7일간의 매출</p>
-          </div>
-          <Chart
-            data={recentSalesData}
-            type="line"
-            colors={{
-              value1: '#3b82f6', // blue-500 (파란색)
-              value2: '#fbbf24', // amber-400 (노란색)
-            }}
-            labels={{
-              value1: '건수',
-              value2: '금액 (억원)'
-            }}
-          />
-        </div>
-        {/* 두 번째 차트 카드 */}
-        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm h-full flex flex-col">
-          <div className="flex items-center space-x-2">
-            <h3 className="text-lg font-semibold text-gray-900 inline-block">매출현황</h3>
-            <p className="text-[12px] text-gray-600 inline-block align-middle">최근 3개월간의 매출</p>
-          </div>
-          <Chart
-            data={monthlySalesData}
-            type="line"
-            colors={{
-              value1: '#3b82f6', // blue-500 (파란색)
-              value2: '#fbbf24', // amber-400 (노란색)
-            }}
-            labels={{
-              value1: '건수',
-              value2: '금액 (억원)'
-            }}
-          />
-        </div>
-      </div>
 
     </div>
   )

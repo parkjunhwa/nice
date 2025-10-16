@@ -153,14 +153,6 @@ export {
   TrendingDown as TrendingDownIcon,
 } from 'lucide-react'
 
-// Charts & Analytics
-export {
-  BarChart3 as BarChart3Icon,
-  PieChart as PieChart3Icon,
-  LineChart as LineChartIcon,
-  Activity as ActivityIcon,
-  Target as TargetIcon,
-} from 'lucide-react'
 
 // Science & Education
 export {

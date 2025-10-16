@@ -53,7 +53,6 @@
   - **Time & Date**: Calendar, Clock 등
   - **Technology & Devices**: HardDrive, Database, Server, Wifi 등
   - **Business & Finance**: Building, Store, ShoppingCart, CreditCard 등
-  - **Charts & Analytics**: BarChart3, PieChart, LineChart, Activity 등
   - **Science & Education**: Rocket, Telescope, Microscope, BookOpen 등
   - **Health & Medicine**: Pill, Stethoscope, Syringe, HeartPulse 등
   - **Food & Nature**: Cake, Coffee, Apple, Leaf, Mountain 등
@@ -70,7 +69,6 @@
 - `sidebar.tsx`: 사이드바 (공통)
 - `sidebar-toggle.tsx`: 사이드바 토글 (공통)
 - `accordion-toggle-button.tsx`: 아코디언 토글 버튼
-- `chart.tsx`: 차트 (Chart.js + Recharts)
 - `Breadcrumb.tsx`: 브레드크럼 네비게이션
 - `mui-theme-provider.tsx`: MUI 테마 프로바이더 (공통)
 
@@ -99,7 +97,6 @@
 ```tsx
 import { 
   DashboardLayout, 
-  Chart,
   DatePicker,
   SampleTable 
 } from '@/components'
