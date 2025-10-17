@@ -37,11 +37,12 @@ interface MenuItem {
 
 // 사업 선택 옵션
 const businessOptions = [
+  { value: "cash", label: "현금" },
   { value: "parking", label: "주차" },
   { value: "ev", label: "EV" },
+  { value: "kiosk", label: "키오스크" },
   { value: "video", label: "영상" },
-  { value: "cash", label: "현금" },
-  { value: "kiosk", label: "키오스크" }
+  { value: "management", label: "경영" }
 ]
 
 const sidebarItems: MenuItem[] = [
