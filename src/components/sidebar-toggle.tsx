@@ -14,7 +14,8 @@ export function SidebarToggle({ isOpen, onToggle, className }: SidebarToggleProp
     <button
       onClick={onToggle}
       className={cn(
-        "relative flex h-10 w-10 items-center justify-center rounded-lg bg-white text-gray-600 transition-all duration-300 hover:bg-gray-50 hover:text-gray-900 focus:outline-none",
+        "relative flex h-10 items-center justify-center rounded-lg bg-white text-gray-600 transition-all duration-300 hover:bg-gray-50 hover:text-gray-900 focus:outline-none",
+        isOpen ? "w-10" : "w-full",
         className
       )}
       aria-label={isOpen ? "사이드바 닫기" : "사이드바 열기"}

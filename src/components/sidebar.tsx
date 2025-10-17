@@ -261,9 +261,9 @@ function MenuItem({
     }
   }
 
-  const paddingLeft = level === 0 ? (isOpen ? 12 : 0) : 
-                      level === 1 ? (isOpen ? 44 : 0) : 
-                      level === 2 ? (isOpen ? 52 : 0) : 0
+  const paddingLeft = level === 0 ? (isOpen ? 12 : 0) :
+    level === 1 ? (isOpen ? 44 : 0) :
+      level === 2 ? (isOpen ? 52 : 0) : 0
 
   /**
    * 접힘 상태 popover: 2뎁스가 연속적으로 열리도록
@@ -312,7 +312,7 @@ function MenuItem({
           {item.children?.map((child: MenuItem, index: number) => (
             <div key={index} className="relative">
               {child.href ? (
-                <Link href={child.href}  onClick={onMenuClick}>
+                <Link href={child.href} onClick={onMenuClick}>
                   <div className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
                     {child.icon && <child.icon className="h-4 w-4 mr-3" />}
                     <span>{child.title}</span>
@@ -475,20 +475,19 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
         a:visited { text-decoration: none !important; }
       `}</style>
 
-      <div className={cn("flex h-16 items-center justify-between border-b border-gray-200", isOpen ? "pl-4 pr-2" : "px-4")}>
-        <div className="flex items-center h-16">
-          {isOpen ? (
-            <Link href="/published" onClick={handleMenuClick}>
-              <Image 
-                src="/images/logo.png" 
-                alt="나이스 인프라" 
-                width={120}
-                height={18}
-                style={{ height: 18, width: "auto", display: "block", maxHeight: "18px", cursor: "pointer" }} 
-              />
-            </Link>
-          ) : null}
+      <div className={cn("flex h-16 items-center justify-between border-b border-gray-200", isOpen ? "pl-4 pr-2" : "px-2")}>
+        {isOpen ? (<div className="flex items-center h-16">
+          <Link href="/published" onClick={handleMenuClick}>
+            <Image
+              src="/images/logo.png"
+              alt="나이스 인프라"
+              width={120}
+              height={18}
+              style={{ height: 18, width: "auto", display: "block", maxHeight: "18px", cursor: "pointer" }}
+            />
+          </Link>
         </div>
+        ) : null}
         <SidebarToggle isOpen={isOpen} onToggle={onToggle} />
       </div>
 
