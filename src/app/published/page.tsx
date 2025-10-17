@@ -355,12 +355,12 @@ export default function DashboardPage() {
           {/* 이용문의 Card */}
           <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-4 flex-shrink-0">
             <h3 className="text-lg font-semibold text-gray-900 mb-0">이용문의</h3>
-            <p className="text-sm text-gray-600 mb-4">
+            <p className="text-gray-600 mb-4" style={{ fontSize: '13px' }}>
               이용 중 궁금하신 점이나 불편한 사항이 있으면 아래 연락처로 문의 바랍니다.
             </p>
-            <div className="flex items-center space-x-4 bg-blue-50 rounded-[12px] p-6">
-              <div className="w-[60px] h-[60px] bg-green-500 rounded-full flex items-center justify-center">
-                <Phone size={26} className="text-white" />
+            <div className="flex items-center space-x-4 bg-blue-50 rounded-[12px] p-4">
+              <div className="w-[40px] h-[40px] bg-green-500 rounded-full flex items-center justify-center">
+                <Phone size={16} className="text-white" />
               </div>
               <div>
                 <div className="text-2xl font-bold text-gray-900">1522-0741</div>
