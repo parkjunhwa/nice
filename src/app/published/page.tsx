@@ -58,8 +58,8 @@ export default function DashboardPage() {
       style={{ height: 'calc(100vh - 2rem)' }}>
       {/* Header */}
       <div className="flex-shrink-0 mb-3">
-          <h1 className="text-2xl font-bold text-gray-900">메인페이지</h1>
-        </div>
+        <h1 className="text-2xl font-bold text-gray-900">메인페이지</h1>
+      </div>
       {/* Main Content - Flex to fill remaining space */}
       <div className="flex gap-4 flex-1 min-h-0">
         {/* Left Column - 1/3 width with dark background */}
@@ -79,24 +79,179 @@ export default function DashboardPage() {
           ></div>
 
           {/* Text Overlay */}
-          <div className="relative z-10 pt-16 pl-8 text-white">
+          <div className="relative z-10 pt-8 pl-8 text-white">
             <Image
               src="/images/logo_w.png"
               alt="NICE인프라 로고"
+              height={20}
               width={120}
-              height={32}
-              style={{ height: 32, width: 'auto' }}
             />
             <div
-              className="font-normal mt-8"
+              className="font-normal mt-4"
               style={{
-                fontSize: '48px',
+                fontSize: '20px',
                 lineHeight: '120%',
               }}
             >
-              안녕하세요,<br />
-              오늘도 NICE한<br />
-              하루 보내세요.
+              안녕하세요.<br />
+              오늘도 NICE한 하루 보내세요.
+            </div>
+          </div>
+
+          {/* 집계카드 5개 */}
+          <div className="relative z-10 flex-1 flex flex-col min-h-0">
+            <div className="px-8 mt-4 pb-8 flex-1 overflow-y-auto scrollbar-transparent">
+              <div className="flex flex-col gap-4">
+                {/* 현금사업 카드 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-0 border border-white/20">
+                  <table className="w-full text-xs aggregation-table p-4">
+                    <thead className="bg-transparent">
+                      <tr className="text-white/70">
+                        <th className="text-left pb-2">현금사업</th>
+                        <th className="text-right pb-2">건수</th>
+                        <th className="text-right pb-2">금액(원)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="space-y-1">
+                      <tr>
+                        <td className="text-white/50 py-1">당일 매출 집계</td>
+                        <td className="text-white text-right py-1">13,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">전일 매출 집계</td>
+                        <td className="text-white text-right py-1">223,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">당월 누적 집계</td>
+                        <td className="text-white text-right py-1">123,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* 주차사업 카드 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-0 border border-white/20">
+                  <table className="w-full text-xs aggregation-table p-4">
+                    <thead className="bg-transparent">
+                      <tr className="text-white/70">
+                        <th className="text-left pb-2">주차사업</th>
+                        <th className="text-right pb-2">건수</th>
+                        <th className="text-right pb-2">금액(원)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="space-y-1">
+                      <tr>
+                        <td className="text-white/50 py-1">당일 매출 집계</td>
+                        <td className="text-white text-right py-1">13,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">전일 매출 집계</td>
+                        <td className="text-white text-right py-1">223,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">당월 누적 집계</td>
+                        <td className="text-white text-right py-1">123,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* EV사업 카드 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-0 border border-white/20">
+                  <table className="w-full text-xs aggregation-table p-4">
+                    <thead className="bg-transparent">
+                      <tr className="text-white/70">
+                        <th className="text-left pb-2">EV사업</th>
+                        <th className="text-right pb-2">건수</th>
+                        <th className="text-right pb-2">금액(원)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="space-y-1">
+                      <tr>
+                        <td className="text-white/50 py-1">당일 매출 집계</td>
+                        <td className="text-white text-right py-1">13,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">전일 매출 집계</td>
+                        <td className="text-white text-right py-1">223,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">당월 누적 집계</td>
+                        <td className="text-white text-right py-1">123,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* 키오스크사업 카드 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-0 border border-white/20">
+                  <table className="w-full text-xs aggregation-table p-4">
+                    <thead className="bg-transparent">
+                      <tr className="text-white/70">
+                        <th className="text-left pb-2">키오스크사업</th>
+                        <th className="text-right pb-2">건수</th>
+                        <th className="text-right pb-2">금액(원)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="space-y-1">
+                      <tr>
+                        <td className="text-white/50 py-1">당일 매출 집계</td>
+                        <td className="text-white text-right py-1">13,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">전일 매출 집계</td>
+                        <td className="text-white text-right py-1">223,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">당월 누적 집계</td>
+                        <td className="text-white text-right py-1">123,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* 영상사업 카드 */}
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-0 border border-white/20">
+                  <table className="w-full text-xs aggregation-table p-4">
+                    <thead className="bg-transparent">
+                      <tr className="text-white/70">
+                        <th className="text-left pb-2">영상사업</th>
+                        <th className="text-right pb-2">건수</th>
+                        <th className="text-right pb-2">금액(원)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="space-y-1">
+                      <tr>
+                        <td className="text-white/50 py-1">당일 매출 집계</td>
+                        <td className="text-white text-right py-1">13,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">전일 매출 집계</td>
+                        <td className="text-white text-right py-1">223,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                      <tr>
+                        <td className="text-white/50 py-1">당월 누적 집계</td>
+                        <td className="text-white text-right py-1">123,123</td>
+                        <td className="text-white text-right py-1">10,120,100,000</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -154,7 +309,7 @@ export default function DashboardPage() {
             <div className="flex-1 overflow-auto text-sm text-gray-700 leading-relaxed h-full">
               <div className="h-full">
                 <p className="mb-4">{notices[selectedNoticeIndex].content}</p>
-                
+
                 {/* 첨부파일 섹션 */}
                 {notices[selectedNoticeIndex].attachments && notices[selectedNoticeIndex].attachments.length > 0 && (
                   <div className="mt-6 pt-4 border-t border-gray-200">
@@ -165,7 +320,7 @@ export default function DashboardPage() {
                     </div>
                     <div className="space-y-2">
                       {notices[selectedNoticeIndex].attachments.map((attachment, index) => (
-                        <div 
+                        <div
                           key={index}
                           className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors cursor-pointer"
                           onClick={() => window.open(attachment.path, '_blank')}
@@ -179,7 +334,7 @@ export default function DashboardPage() {
                               <p className="text-xs text-gray-500">{attachment.size}</p>
                             </div>
                           </div>
-                          <button 
+                          <button
                             className="p-1 hover:bg-gray-200 rounded transition-colors flex-shrink-0"
                             onClick={(e) => {
                               e.stopPropagation();
