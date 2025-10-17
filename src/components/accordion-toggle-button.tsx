@@ -17,7 +17,7 @@ export function AccordionToggleButton({
     <div
       style={{
         position: 'absolute',
-        left: '50%',
+        left: 'calc(50% - 16px)',
         bottom: 0,
         zIndex: 10,
       }}
