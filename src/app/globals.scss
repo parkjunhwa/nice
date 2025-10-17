@@ -210,6 +210,7 @@ body {
 /* MUI 컴포넌트 기본 스타일 */
 .MuiButton-root {
   text-transform: none !important;
+  min-width: auto !important;
 }
 
 .MuiChip-root {
