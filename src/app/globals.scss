@@ -311,6 +311,39 @@ body {
   font-weight: 300 !important;
 }
 
+/* rul-table 헤더 스타일 */
+.rul-table thead th {
+  font-size: 13px !important;
+  color: #374151 !important;
+  font-weight: 500 !important;
+  background: transparent !important;
+}
+
+/* rul-table 전체 스타일 */
+.rul-table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+}
+
+.rul-table th,
+.rul-table td {
+  border: 1px solid #e5e7eb !important;
+  padding: 2px 4px !important;
+  min-height:24px !important;
+}
+
+.rul-table thead th {
+  background: #f3f4f6 !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.rul-table tbody td {
+  background: white !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+}
+
+
 /* 스크롤 시 하단 여백 문제 해결 */
 .overflow-y-auto {
   scroll-padding-bottom: 0;

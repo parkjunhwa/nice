@@ -24,11 +24,12 @@ import {
   RadioGroup,
   Radio,
 } from '@/components'
-import { Search } from 'lucide-react'
+import { Search, Minus } from 'lucide-react'
 import { Alert, Snackbar } from '@mui/material'
 import FormulaInput from '@/components/formula-input'
 
 type PageMode = 'view' | 'edit'
+type FormulaType = 'a' | 'b' | 'c' | 'd' | 'e'
 
 // 아코디언 아이템 인터페이스
 interface AccordionItem {
@@ -36,6 +37,7 @@ interface AccordionItem {
   type: 'fixed_regular' | 'fixed_irregular' | 'settlement'
   title: string
   data: Record<string, unknown>
+  formulaType?: FormulaType
 }
 
 // 고정/정기 아코디언 컴포넌트
@@ -50,7 +52,7 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
   const [includeStartDate, setIncludeStartDate] = useState((item.data.includeStartDate as boolean) || false)
   const [includeEndDate, setIncludeEndDate] = useState((item.data.includeEndDate as boolean) || false)
 
-  const isViewMode = () => pageMode === 'view'
+  const isViewMode = (mode: PageMode): mode is 'view' => mode === 'view'
 
   return (
     <Accordion>
@@ -76,7 +78,7 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
                   onChange={(e) => {
                     setMonthlyFixedAmount(e.target.value);
                   }}
-                  disabled={isViewMode()}
+                  disabled={isViewMode(pageMode)}
                   sx={{
                     flex: 1,
                     '& .MuiInputBase-input': {
@@ -263,14 +265,7 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
             };
 
             return (
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: 8,
-                  maxWidth: "100%",
-                }}
-              >
+              <div className="flex flex-wrap max-w-full gap-0">
                 {monthItems.map((label) => (
                   <FormControlLabel
                     key={label}
@@ -300,7 +295,7 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
           <label className="form-top-label">
             일할계산
           </label>
-          <div className="flex gap-1 mt-2">
+          <div className="flex gap-0 mt-2">
             <FormControlLabel
               control={
                 <Checkbox
@@ -440,13 +435,76 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
   onRemove: (id: string) => void,
   pageMode: PageMode
 }) => {
-  const [monthlySettlement, setMonthlySettlement] = useState((item.data.monthlySettlement as string) || '')
+  const [monthlySettlement] = useState((item.data.monthlySettlement as string) || '')
   const [formulaValue, setFormulaValue] = useState((item.data.formulaValue as string) || '')
   const [salesReflectionTiming, setSalesReflectionTiming] = useState((item.data.salesReflectionTiming as string) || '')
   const [salesPurchaseType, setSalesPurchaseType] = useState((item.data.salesPurchaseType as string) || '')
   const [salesPurchaseType2, setSalesPurchaseType2] = useState((item.data.salesPurchaseType2 as string) || '')
 
-  const isViewMode = () => pageMode === 'view'
+  // 추가수익 매출정보 데이터
+  const [salesData, setSalesData] = useState([
+    { id: 'regular_card', usage: false, ratio: '', amountType: '' },
+    { id: 'regular_cash', usage: false, ratio: '', amountType: '' },
+    { id: 'discount_card', usage: false, ratio: '', amountType: '' },
+    { id: 'discount_cash', usage: false, ratio: '', amountType: '' },
+    { id: 'socar', usage: false, ratio: '', amountType: '' },
+    { id: 'greencar', usage: false, ratio: '', amountType: '' },
+    { id: 'peoplecar', usage: false, ratio: '', amountType: '' },
+    { id: 'returnfree', usage: false, ratio: '', amountType: '' },
+    { id: 'modu_discount', usage: false, ratio: '', amountType: '' },
+    { id: 'modu_regular', usage: false, ratio: '', amountType: '' },
+    { id: 'kakao_discount', usage: false, ratio: '', amountType: '' },
+    { id: 'kakao_regular', usage: false, ratio: '', amountType: '' },
+    { id: 'tmap_discount', usage: false, ratio: '', amountType: '' },
+    { id: 'tmap_regular', usage: false, ratio: '', amountType: '' },
+    { id: 'parking_friends_discount', usage: false, ratio: '', amountType: '' },
+    { id: 'parking_box_discount', usage: false, ratio: '', amountType: '' },
+    { id: 'parking_box_regular', usage: false, ratio: '', amountType: '' },
+    { id: 'jumansa', usage: false, ratio: '', amountType: '' },
+    { id: 'post_settlement_card', usage: false, ratio: '', amountType: '' },
+    { id: 'post_settlement_cash', usage: false, ratio: '', amountType: '' },
+    { id: 'refund', usage: false, ratio: '', amountType: '' }
+  ])
+
+  // 임차료 산정카드 수수료 항목 상태
+  const [timeDiffCard, setTimeDiffCard] = useState(false)
+  const [timeDiffCash, setTimeDiffCash] = useState(false)
+  const [regularCard, setRegularCard] = useState(false)
+  const [regularCash, setRegularCash] = useState(false)
+  const [discountCard, setDiscountCard] = useState(false)
+  const [discountCash, setDiscountCash] = useState(false)
+  const [refundCard, setRefundCard] = useState(false)
+  const [refundCash, setRefundCash] = useState(false)
+  const [postSettlementCard, setPostSettlementCard] = useState(false)
+  const [postSettlementCash, setPostSettlementCash] = useState(false)
+  const [platformCash, setPlatformCash] = useState(false)
+
+  // 대표 주차장 데이터
+  const [parkingLotData, setParkingLotData] = useState([
+    { id: 1, representative: '대표', code: 'NP0510', name: '동탄 센타타워', status: '운영중' },
+    { id: 2, representative: '서브', code: 'NP0511', name: '풍한기업 주차장', status: '운영중' }
+  ])
+
+  // 추가 임차료, 수익 데이터
+  const [additionalRentData, setAdditionalRentData] = useState<Array<{
+    id: number
+    case: string
+    amount: string
+    reason: string
+    period: string[]
+  }>>([
+    { id: 1, case: 'CASE1', amount: '100000', reason: '추가사유1', period: ['', ''] },
+    { id: 2, case: 'CASE2', amount: '200000', reason: '추가사유2', period: ['', ''] }
+  ])
+
+  // Select 옵션들
+  const departmentOptions: Array<{ value: string, label: string }> = [
+    { value: 'option1', label: '옵션1' },
+    { value: 'option2', label: '옵션2' },
+    { value: 'option3', label: '옵션3' }
+  ]
+
+  const isViewMode = (mode: PageMode): mode is 'view' => mode === 'view'
 
   return (
     <Accordion>
@@ -461,22 +519,13 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
               <span className="px-2 py-0.5 border border-blue-400 text-blue-600 rounded-full text-xs font-semibold bg-white">
                 {item.title}
               </span>
-              {pageMode === 'view' ? (
-                monthlySettlement
-              ) : (
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  value={monthlySettlement}
-                  onChange={(e) => setMonthlySettlement(e.target.value)}
-                  sx={{
-                    flex: 1,
-                    '& input': {
-                      textAlign: 'left'
-                    }
-                  }}
-                />
+              {item.formulaType && (
+                <span className="px-2 py-0.5 border border-gray-300 text-gray-500 rounded-full text-xs font-semibold bg-white">
+                  {item.formulaType.toUpperCase()}타입
+                </span>
               )}
+              {/* 정산 제목은 읽기 전용 (edit 모드에서도 수정 불가) */}
+              {monthlySettlement || "제목"}
             </div>
           </Typography>
           <Button
@@ -494,347 +543,14 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
         </div>
       </AccordionSummary>
       <AccordionDetails>
-        {/* 정산수식 섹션 */}
-        <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-0">
-          <div className="flex items-center justify-between mb-2">
-            <Typography component="div" className="font-semibold text-gray-900">
-              정산수식
-            </Typography>
-            {pageMode === 'edit' && (
-              <Button
-                variant="outlined"
-                color="primary"
-                size="small"
-              >
-                추가
-              </Button>
-            )}
-          </div>
-          {/* 정산수식 block01 섹션 */}
-          <div className="mt-2 rounded-lg bg-white p-4 pb-2">
-            <div className="flex items-center justify-between">
+        {/* 정산수식 섹션 - A타입만 표시 */}
+        {item.formulaType === 'a' ? (
+          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-0">
+            <div className="flex items-center justify-between mb-2">
               <Typography component="div" className="font-semibold text-gray-900">
-                지급액
+                정산수식
               </Typography>
               {pageMode === 'edit' && (
-                <div className="flex items-center" style={{ gap: '8px' }}>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    size="small"
-                  >
-                    수정
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    size="small"
-                  >
-                    삭제
-                  </Button>
-                </div>
-              )}
-            </div>
-
-            {/* FormulaInput 컴포넌트 */}
-            <div className="mt-2">
-              <FormulaInput
-                value={formulaValue}
-                onChange={setFormulaValue}
-                disabled={isViewMode()}
-              />
-            </div>
-
-            {pageMode === 'edit' && (
-              <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
-                <label className="form-top-label">
-                  지급액 소수점계산 :
-                </label>
-                <RadioGroup row defaultValue="반올림" name="paymentDecimalCalculationType" style={{ marginLeft: 16 }}>
-                  <FormControlLabel value="반올림" control={<Radio />} label="반올림" />
-                  <FormControlLabel value="내림" control={<Radio />} label="내림" />
-                  <FormControlLabel value="올림" control={<Radio />} label="올림" />
-                </RadioGroup>
-              </div>
-            )}
-          </div>
-          {/* 정산수식 block02 섹션 */}
-          <div className="mt-2 rounded-lg bg-white p-4 pb-2">
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 8,
-              }}
-            >
-              <div>
-                <label className="form-top-label required">
-                  수식명
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  disabled={pageMode === 'view'}
-                  sx={{
-                    width: '100%',
-                    '& input': {
-                      textAlign: 'left'
-                    }
-                  }}
-                />
-              </div>
-              <div>
-                <label className="form-top-label required">
-                  수식키
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  disabled={pageMode === 'view'}
-                  sx={{
-                    width: '100%',
-                    '& input': {
-                      textAlign: 'left'
-                    }
-                  }}
-                />
-              </div>
-            </div>
-            {/* FormulaInput 컴포넌트 */}
-            <div className="mt-2">
-              <FormulaInput
-                value={formulaValue}
-                onChange={setFormulaValue}
-                disabled={isViewMode()}
-              />
-            </div>
-
-            {pageMode === 'edit' && (
-              <div className="flex items-center justify-between">
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
-                  <label className="form-top-label">
-                    정산 소수점계산 :
-                  </label>
-                  <RadioGroup row defaultValue="반올림" name="settlementDecimalCalculationType" style={{ marginLeft: 16 }}>
-                    <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
-                    <FormControlLabel value="내림" control={<Radio disabled={false} />} label="내림" />
-                    <FormControlLabel value="올림" control={<Radio disabled={false} />} label="올림" />
-                  </RadioGroup>
-                </div>
-                <div className="flex items-center" style={{ gap: '8px' }}>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    size="small"
-                  >
-                    취소
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    sx={{
-                      backgroundColor: 'white',
-                      '&:hover': {
-                        backgroundColor: 'white',
-                      }
-                    }}
-                  >
-                    작성완료
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
-          {/* 정산수식 block03 섹션 */}
-          <div className="mt-2 rounded-lg bg-white p-4 pb-2">
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 8,
-              }}
-            >
-              <div>
-                <label className="form-top-label required">
-                  수식명
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  disabled={pageMode === 'view'}
-                  sx={{
-                    width: '100%',
-                    '& input': {
-                      textAlign: 'left'
-                    },
-                    '& .MuiOutlinedInput-root': {
-                      height: '40px',
-                      boxSizing: 'border-box',
-                      '& fieldset': {
-                        borderWidth: '1px'
-                      },
-                      '&:hover fieldset': {
-                        borderWidth: '1px'
-                      },
-                      '&.Mui-focused fieldset': {
-                        borderWidth: '2px'
-                      }
-                    }
-                  }}
-                />
-              </div>
-              <div>
-                <label className="form-top-label required">
-                  수식키
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  disabled={pageMode === 'view'}
-                  sx={{
-                    width: '100%',
-                    '& input': {
-                      textAlign: 'left'
-                    },
-                    '& .MuiOutlinedInput-root': {
-                      height: '40px',
-                      boxSizing: 'border-box',
-                      '& fieldset': {
-                        borderWidth: '1px'
-                      },
-                      '&:hover fieldset': {
-                        borderWidth: '1px'
-                      },
-                      '&.Mui-focused fieldset': {
-                        borderWidth: '2px'
-                      }
-                    }
-                  }}
-                />
-              </div>
-            </div>
-            <div
-              className="mt-2"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 8,
-              }}
-            >
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <div style={{ display: 'flex', gap: 4, width: '100%' }}>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <label className="form-top-label required" style={{ marginBottom: 4 }}>
-                        정산기준
-                      </label>
-                      <Select
-                        value={salesReflectionTiming}
-                        onChange={e => setSalesReflectionTiming(e.target.value as string)}
-                        size="small"
-                        disabled={pageMode === 'view'}
-                        sx={{ width: '100%' }}
-                      >
-                        <MenuItem value=""><em>선택</em></MenuItem>
-                        <MenuItem value="옵션1">옵션1</MenuItem>
-                        <MenuItem value="옵션2">옵션2</MenuItem>
-                        <MenuItem value="옵션3">옵션3</MenuItem>
-                      </Select>
-                    </div>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <label className="form-top-label" style={{ marginBottom: 4 }}>
-                        기준 &gt;
-                      </label>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        disabled={pageMode === 'view'}
-                        value={salesPurchaseType}
-                        onChange={e => {
-                          // 숫자만 입력 가능하도록 처리
-                          const value = e.target.value.replace(/[^0-9.]/g, '');
-                          setSalesPurchaseType(value);
-                        }}
-                        type="number"
-                        sx={{
-                          width: '100%',
-                          '& input': { textAlign: 'left' }
-                        }}
-                      />
-                    </div>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <label className="form-top-label" style={{ marginBottom: 4 }}>
-                        기준 ≤
-                      </label>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        disabled={pageMode === 'view'}
-                        value={salesPurchaseType2}
-                        onChange={e => {
-                          // 숫자만 입력 가능하도록 처리
-                          const value = e.target.value.replace(/[^0-9.]/g, '');
-                          setSalesPurchaseType2(value);
-                        }}
-                        type="number"
-                        sx={{
-                          width: '100%',
-                          '& input': { textAlign: 'left' }
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <label className="form-top-label required">
-                  정산금액
-                </label>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                  <div style={{ display: 'flex', gap: 4, width: '100%' }}>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <Select
-                        value={salesReflectionTiming}
-                        onChange={e => setSalesReflectionTiming(e.target.value as string)}
-                        size="small"
-                        disabled={pageMode === 'view'}
-                        sx={{ width: '100%' }}
-                      >
-                        <MenuItem value=""><em>선택</em></MenuItem>
-                        <MenuItem value="옵션1">옵션1</MenuItem>
-                        <MenuItem value="옵션2">옵션2</MenuItem>
-                        <MenuItem value="옵션3">옵션3</MenuItem>
-                      </Select>
-                    </div>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        disabled={pageMode === 'view'}
-                        value={salesPurchaseType}
-                        onChange={e => {
-                          // 숫자만 입력 가능하도록 처리
-                          const value = e.target.value.replace(/[^0-9.]/g, '');
-                          setSalesPurchaseType(value);
-                        }}
-                        type="number"
-                        sx={{
-                          width: '100%',
-                          '& input': { textAlign: 'left' }
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {pageMode === 'edit' && (
-              <div className="flex items-center mt-2" style={{ gap: '8px' }}>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -842,21 +558,492 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 >
                   추가
                 </Button>
-              </div>
-            )}
-            {pageMode === 'edit' && (
+              )}
+            </div>
+            {/* 정산수식 block01 섹션 */}
+            <div className="mt-2 rounded-lg bg-white p-4 pb-2">
               <div className="flex items-center justify-between">
+                <Typography component="div" className="font-semibold text-gray-900">
+                  지급액
+                </Typography>
+                {pageMode === 'edit' && (
+                  <div className="flex items-center" style={{ gap: '8px' }}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      size="small"
+                    >
+                      수정
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      size="small"
+                    >
+                      삭제
+                    </Button>
+                  </div>
+                )}
+              </div>
+
+              {/* FormulaInput 컴포넌트 */}
+              <div className="mt-2">
+                <FormulaInput
+                  value={formulaValue}
+                  onChange={setFormulaValue}
+                  disabled={isViewMode(pageMode)}
+                />
+              </div>
+
+              {pageMode === 'edit' && (
                 <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
                   <label className="form-top-label">
-                    수식 소수점계산 :
+                    지급액 소수점계산 :
                   </label>
-                  <RadioGroup row defaultValue="반올림" name="formulaDecimalCalculationType" style={{ marginLeft: 16 }}>
-                    <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
-                    <FormControlLabel value="내림" control={<Radio disabled={false} />} label="내림" />
-                    <FormControlLabel value="올림" control={<Radio disabled={false} />} label="올림" />
+                  <RadioGroup row defaultValue="반올림" name="paymentDecimalCalculationType" style={{ marginLeft: 16 }}>
+                    <FormControlLabel value="반올림" control={<Radio />} label="반올림" />
+                    <FormControlLabel value="내림" control={<Radio />} label="내림" />
+                    <FormControlLabel value="올림" control={<Radio />} label="올림" />
                   </RadioGroup>
                 </div>
-                <div className="flex items-center" style={{ gap: '8px' }}>
+              )}
+            </div>
+            {/* 정산수식 block02 섹션 */}
+            <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 8,
+                }}
+              >
+                <div>
+                  <label className="form-top-label required">
+                    수식명
+                  </label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    type="text"
+                    disabled={pageMode === 'view'}
+                    sx={{
+                      width: '100%',
+                      '& input': {
+                        textAlign: 'left'
+                      }
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="form-top-label required">
+                    수식키
+                  </label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    type="text"
+                    disabled={pageMode === 'view'}
+                    sx={{
+                      width: '100%',
+                      '& input': {
+                        textAlign: 'left'
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+              {/* FormulaInput 컴포넌트 */}
+              <div className="mt-2">
+                <FormulaInput
+                  value={formulaValue}
+                  onChange={setFormulaValue}
+                  disabled={isViewMode(pageMode)}
+                />
+              </div>
+
+              {pageMode === 'edit' && (
+                <div className="flex items-center justify-between">
+                  <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
+                    <label className="form-top-label">
+                      정산 소수점계산 :
+                    </label>
+                    <RadioGroup row defaultValue="반올림" name="settlementDecimalCalculationType" style={{ marginLeft: 16 }}>
+                      <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
+                      <FormControlLabel value="내림" control={<Radio disabled={false} />} label="내림" />
+                      <FormControlLabel value="올림" control={<Radio disabled={false} />} label="올림" />
+                    </RadioGroup>
+                  </div>
+                  <div className="flex items-center" style={{ gap: '8px' }}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      size="small"
+                    >
+                      취소
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      sx={{
+                        backgroundColor: 'white',
+                        '&:hover': {
+                          backgroundColor: 'white',
+                        }
+                      }}
+                    >
+                      작성완료
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* 정산수식 block03 섹션 */}
+            <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 8,
+                }}
+              >
+                <div>
+                  <label className="form-top-label required">
+                    수식명
+                  </label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    type="text"
+                    disabled={pageMode === 'view'}
+                    sx={{
+                      width: '100%',
+                      '& input': {
+                        textAlign: 'left'
+                      },
+                      '& .MuiOutlinedInput-root': {
+                        height: '40px',
+                        boxSizing: 'border-box',
+                        '& fieldset': {
+                          borderWidth: '1px'
+                        },
+                        '&:hover fieldset': {
+                          borderWidth: '1px'
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderWidth: '2px'
+                        }
+                      }
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="form-top-label required">
+                    수식키
+                  </label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    type="text"
+                    disabled={pageMode === 'view'}
+                    sx={{
+                      width: '100%',
+                      '& input': {
+                        textAlign: 'left'
+                      },
+                      '& .MuiOutlinedInput-root': {
+                        height: '40px',
+                        boxSizing: 'border-box',
+                        '& fieldset': {
+                          borderWidth: '1px'
+                        },
+                        '&:hover fieldset': {
+                          borderWidth: '1px'
+                        },
+                        '&.Mui-focused fieldset': {
+                          borderWidth: '2px'
+                        }
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+              <div
+                className="mt-2"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 8,
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <div style={{ display: 'flex', gap: 4, width: '100%' }}>
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <label className="form-top-label required" style={{ marginBottom: 4 }}>
+                          정산기준
+                        </label>
+                        <Select
+                          value={salesReflectionTiming}
+                          onChange={e => setSalesReflectionTiming(e.target.value as string)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          sx={{ width: '100%' }}
+                        >
+                          <MenuItem value=""><em>선택</em></MenuItem>
+                          <MenuItem value="옵션1">옵션1</MenuItem>
+                          <MenuItem value="옵션2">옵션2</MenuItem>
+                          <MenuItem value="옵션3">옵션3</MenuItem>
+                        </Select>
+                      </div>
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <label className="form-top-label" style={{ marginBottom: 4 }}>
+                          기준 &gt;
+                        </label>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={salesPurchaseType}
+                          onChange={e => {
+                            // 숫자만 입력 가능하도록 처리
+                            const value = e.target.value.replace(/[^0-9.]/g, '');
+                            setSalesPurchaseType(value);
+                          }}
+                          type="number"
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'left' }
+                          }}
+                        />
+                      </div>
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <label className="form-top-label" style={{ marginBottom: 4 }}>
+                          기준 ≤
+                        </label>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={salesPurchaseType2}
+                          onChange={e => {
+                            // 숫자만 입력 가능하도록 처리
+                            const value = e.target.value.replace(/[^0-9.]/g, '');
+                            setSalesPurchaseType2(value);
+                          }}
+                          type="number"
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'left' }
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label className="form-top-label required">
+                    정산금액
+                  </label>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <div style={{ display: 'flex', gap: 4, width: '100%' }}>
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <Select
+                          value={salesReflectionTiming}
+                          onChange={e => setSalesReflectionTiming(e.target.value as string)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          sx={{ width: '100%' }}
+                        >
+                          <MenuItem value=""><em>선택</em></MenuItem>
+                          <MenuItem value="옵션1">옵션1</MenuItem>
+                          <MenuItem value="옵션2">옵션2</MenuItem>
+                          <MenuItem value="옵션3">옵션3</MenuItem>
+                        </Select>
+                      </div>
+                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={salesPurchaseType}
+                          onChange={e => {
+                            // 숫자만 입력 가능하도록 처리
+                            const value = e.target.value.replace(/[^0-9.]/g, '');
+                            setSalesPurchaseType(value);
+                          }}
+                          type="number"
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'left' }
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {pageMode === 'edit' && (
+                <div className="flex items-center mt-2" style={{ gap: '8px' }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                  >
+                    추가
+                  </Button>
+                </div>
+              )}
+              {pageMode === 'edit' && (
+                <div className="flex items-center justify-between">
+                  <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
+                    <label className="form-top-label">
+                      수식 소수점계산 :
+                    </label>
+                    <RadioGroup row defaultValue="반올림" name="formulaDecimalCalculationType" style={{ marginLeft: 16 }}>
+                      <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
+                      <FormControlLabel value="내림" control={<Radio disabled={false} />} label="내림" />
+                      <FormControlLabel value="올림" control={<Radio disabled={false} />} label="올림" />
+                    </RadioGroup>
+                  </div>
+                  <div className="flex items-center" style={{ gap: '8px' }}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      size="small"
+                    >
+                      취소
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      sx={{
+                        backgroundColor: 'white',
+                        '&:hover': {
+                          backgroundColor: 'white',
+                        }
+                      }}
+                    >
+                      작성완료
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* 정산수식 block04 섹션 */}
+            <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+              <div className="flex items-center justify-between mb-2">
+                <Typography component="div" className="font-semibold text-gray-900">
+                  브랜드제휴 변동보전료
+                </Typography>
+              </div>
+              <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label required">정산기준</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label required">근접지역</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label required">상한액</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType2}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType2(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label">부스임대료</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType2}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType2(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label">임차료</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType2}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType2(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                  />
+                </div>
+              </div>
+              {pageMode === 'edit' && (
+                <div className="flex items-center justify-end" style={{ gap: '8px' }}>
                   <Button
                     variant="outlined"
                     color="secondary"
@@ -878,154 +1065,1755 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     작성완료
                   </Button>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-          {/* 정산수식 block04 섹션 */}
-          <div className="mt-2 rounded-lg bg-white p-4 pb-2">
-            <div className="flex items-center justify-between mb-2">
-              <Typography component="div" className="font-semibold text-gray-900">
-                브랜드제휴 변동보전료
-              </Typography>
+        ) : null}
+
+        {/* B타입 플레이스홀더 */}
+        {item.formulaType === 'b' && (
+          <div>
+            B타입 수식 내용이 여기에 표시됩니다.
+          </div>
+        )}
+
+        {/* C타입 플레이스홀더 */}
+        {item.formulaType === 'c' && (
+          <div>
+            C타입 수식 내용이 여기에 표시됩니다.
+          </div>
+        )}
+
+
+        {(item.formulaType === 'd' || item.formulaType === 'e') && (
+          <div>
+            {/* 1. 지급대행 기준정보 */}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
+              <div className="flex items-center justify-start mb-2">
+                <Typography component="div" className="font-semibold text-gray-900">
+                  1. 지급대행 기준정보
+                </Typography>
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 8,
+                }}
+              >
+                <div>
+                  <label className="form-top-label">
+                    계약형태
+                  </label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    type="text"
+                    disabled={pageMode === 'view'}
+                    sx={{
+                      width: '100%',
+                      '& input': {
+                        textAlign: 'left'
+                      }
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="form-top-label required mb-0">
+                    지급대행 대상여부
+                  </label>
+                  <div style={{ paddingTop: '-8px', paddingBottom: '-8px' }}>
+                    <RadioGroup
+                      row
+                      name="paymentAgencyType"
+                      defaultValue="지급대행방식"
+                    >
+                      <FormControlLabel
+                        value="지급대행"
+                        control={<Radio disabled={pageMode === 'view'} />}
+                        label="지급대행"
+                      />
+                      <FormControlLabel
+                        value="일반"
+                        control={<Radio disabled={pageMode === 'view'} />}
+                        label="일반"
+                      />
+                    </RadioGroup>
+                  </div>
+                </div>
+                {item.formulaType === 'e' ? (
+                  <>
+                    <div>
+                      <div>
+                        <label className="form-top-label required mb-0">
+                          위탁용역료 공제여부
+                        </label>
+                        <div style={{ paddingTop: '-8px', paddingBottom: '-8px' }}>
+                          <RadioGroup
+                            row
+                            name="paymentAgencyType"
+                            defaultValue="지급대행방식"
+                          >
+                            <FormControlLabel
+                              value="대상"
+                              control={<Radio disabled={pageMode === 'view'} />}
+                              label="대상"
+                            />
+                            <FormControlLabel
+                              value="비대상"
+                              control={<Radio disabled={pageMode === 'view'} />}
+                              label="비대상"
+                            />
+                          </RadioGroup>
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="form-top-label">
+                        지급일자
+                      </label>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        type="text"
+                        disabled={pageMode === 'view'}
+                        InputProps={{
+                          endAdornment: <span>일</span>,
+                        }}
+                        sx={{
+                          width: '100%',
+                          '& input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label className="form-top-label required">
+                        지급대행수수료율
+                      </label>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        type="text"
+                        disabled={pageMode === 'view'}
+                        InputProps={{
+                          endAdornment: <span>%</span>,
+                        }}
+                        sx={{
+                          width: '100%',
+                          '& input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </div>
+                  </>
+                ) : (
+                  // e타입만 입력가능, 값이 d타입에서는 null이 되도록 처리
+                  <>
+                    {/* e타입이 아닐 때 값 null 유지용 dummy */}
+                  </>
+                )}
+              </div>
             </div>
-            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">정산기준</label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType(value);
-                  }}
-                  type="number"
-                  sx={{
-                    width: '100%',
-                    '& input': { textAlign: 'right' }
-                  }}
-                />
+            {/* 2. 대표 주차장 적용 */}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mt-3 mb-3">
+              <div className="flex items-center justify-between mb-2">
+                <Typography component="div" className="font-semibold text-gray-900">
+                  2. 대표 주차장 적용
+                </Typography>
               </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">근접지역</label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType(value);
-                  }}
-                  type="number"
-                  sx={{
-                    width: '100%',
-                    '& input': { textAlign: 'right' }
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">상한액</label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  value={salesPurchaseType2}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType2(value);
-                  }}
-                  type="number"
-                  sx={{
-                    width: '100%',
-                    '& input': { textAlign: 'right' }
-                  }}
-                />
-              </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label">부스임대료</label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  value={salesPurchaseType2}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType2(value);
-                  }}
-                  type="number"
-                  sx={{
-                    width: '100%',
-                    '& input': { textAlign: 'right' }
-                  }}
-                />
-              </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label">임차료</label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  value={salesPurchaseType2}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType2(value);
-                  }}
-                  type="number"
-                  sx={{
-                    width: '100%',
-                    '& input': { textAlign: 'right' }
-                  }}
-                />
-              </div>
+              <table className="rul-table">
+                <thead>
+                  <tr>
+                    <th className="w-auto">대표</th>
+                    <th className="w-24">주차장코드</th>
+                    <th className="w-auto">주차장명</th>
+                    <th className="w-auto">운영상태</th>
+                    <th className="w-6 p-1">삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {parkingLotData.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.representative}</td>
+                      <td className="w-24">
+                        {item.id === 2 ? (
+                          <div className="flex items-center gap-1">
+                            <TextField
+                              variant="outlined"
+                              size="small"
+                              value={item.code}
+                              onChange={(e) => {
+                                setParkingLotData(prev => prev.map(p =>
+                                  p.id === item.id ? { ...p, code: e.target.value } : p
+                                ))
+                              }}
+                              sx={{ width: '120px' }}
+                              disabled={pageMode === 'view'}
+                            />
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              color="secondary"
+                              className="xsmallbtn3"
+                              startIcon={<Search size={16} />}
+                              disabled={pageMode === 'view'}
+                            >
+                              <span style={{ display: "none" }}>검색</span>
+                            </Button>
+                          </div>
+                        ) : (
+                          item.code
+                        )}
+                      </td>
+                      <td>{item.name}</td>
+                      <td>{item.status}</td>
+                      <td className="w-6 p-1">
+                        {pageMode === 'edit' && (
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            color="error"
+                            className="xsmallbtn2"
+                            startIcon={<Minus size={16} />}
+                            onClick={() => {
+                              setParkingLotData(prev => prev.filter(p => p.id !== item.id))
+                            }}
+                          >
+                            <span style={{ display: "none" }}>삭제</span>
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {pageMode === 'edit' && (
+                <div className="flex items-center mt-2" style={{ gap: '8px' }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                  >
+                    추가
+                  </Button>
+                </div>
+              )}
             </div>
+            {/* 3. 계약 현황 */}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
+              <div className="mb-3">
+                <Typography component="div" className="font-semibold text-gray-900">
+                  3. 계약 현황
+                </Typography>
+              </div>
+              <div
+                className="mb-1"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 8,
+                }}
+              >
+                {item.formulaType === 'd' && (
+                  <div>
+                    <label className="form-top-label">
+                      임차료 지급방식
+                    </label>
+                    <Select
+                      variant="outlined"
+                      size="small"
+                      disabled={pageMode === 'view'}
+                      sx={{
+                        width: '100%',
+                        '& .MuiSelect-select': {
+                          textAlign: 'left'
+                        }
+                      }}
+                      defaultValue="수익배분"
+                    >
+                      <MenuItem value="수익배분">수익배분</MenuItem>
+                    </Select>
+                  </div>
+                )}
+
+                {item.formulaType === 'e' && (
+                  <div>
+                    <label className="form-top-label">
+                      위탁용역료
+                    </label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      type="text"
+                      disabled={pageMode === 'view'}
+                      InputProps={{
+                        endAdornment: <span>원</span>,
+                      }}
+                      sx={{
+                        width: '100%',
+                        '& input': {
+                          textAlign: 'right'
+                        }
+                      }}
+                    />
+                  </div>
+                )}
+                <div>
+                  <label className="form-top-label">
+                    임차료 납부방식
+                  </label>
+                  <Select
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    sx={{
+                      width: '100%',
+                      '& .MuiSelect-select': {
+                        textAlign: 'left'
+                      }
+                    }}
+                    defaultValue=""
+                  >
+                    <MenuItem value="">선택</MenuItem>
+                    <MenuItem value="월납">월납</MenuItem>
+                  </Select>
+                </div>
+                {item.formulaType === 'd' && (
+                  <div>
+                    <label className="form-top-label required">
+                      결제수수료율
+                    </label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      type="text"
+                      disabled={pageMode === 'view'}
+                      sx={{
+                        width: '100%',
+                        '& input': {
+                          textAlign: 'left'
+                        }
+                      }}
+                      defaultValue=""
+                    />
+                    <div style={{ color: '#d32f2f', fontSize: '12px' }} className="mt-1">
+                      * 카드 수수료율은 소수점 둘쨰 자리까지 입력 가능합니다
+                    </div>
+                  </div>
+                )}
+                <div>
+                  <label className="form-top-label required mb-0">
+                    임차료 계산결과
+                  </label>
+                  <div style={{ paddingTop: '-8px', paddingBottom: '-8px' }}>
+                    <RadioGroup
+                      row
+                      name="paymentAgencyType"
+                      defaultValue="반올림"
+                    >
+                      <FormControlLabel
+                        value="올림"
+                        control={<Radio disabled={pageMode === 'view'} />}
+                        label="올림"
+                      />
+                      <FormControlLabel
+                        value="반올림"
+                        control={<Radio disabled={pageMode === 'view'} />}
+                        label="반올림"
+                      />
+                      <FormControlLabel
+                        value="내림"
+                        control={<Radio disabled={pageMode === 'view'} />}
+                        label="내림"
+                      />
+                    </RadioGroup>
+                  </div>
+                </div>
+              </div>
+
+              {item.formulaType === 'd' && (
+                <div>
+                  <label className="form-top-label">
+                    임차료 산정카드 수수료 항목
+                  </label>
+                  <div className="flex flex-wrap mt-2">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={timeDiffCard}
+                          onChange={(e) => setTimeDiffCard(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="시간차(카드)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={timeDiffCash}
+                          onChange={(e) => setTimeDiffCash(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="시간차(현금)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={regularCard}
+                          onChange={(e) => setRegularCard(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="정기권(카드)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={regularCash}
+                          onChange={(e) => setRegularCash(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="정기권(현금)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={discountCard}
+                          onChange={(e) => setDiscountCard(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="할인권(카드)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={discountCash}
+                          onChange={(e) => setDiscountCash(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="할인권(현금)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={refundCard}
+                          onChange={(e) => setRefundCard(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="환불(카드)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={refundCash}
+                          onChange={(e) => setRefundCash(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="환불(현금)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={postSettlementCard}
+                          onChange={(e) => setPostSettlementCard(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="사후정산(카드)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={postSettlementCash}
+                          onChange={(e) => setPostSettlementCash(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="사후정산(현금)"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={platformCash}
+                          onChange={(e) => setPlatformCash(e.target.checked)}
+                          size="small"
+                          disabled={pageMode === 'view'}
+                        />
+                      }
+                      label="플랫폼(현금)"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* 4. 추가수익 매출정보 */}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
+              <div className="mb-3">
+                <Typography component="div" className="font-semibold text-gray-900">
+                  4. 추가수익 매출정보
+                </Typography>
+              </div>
+              <table className="rul-table">
+                <thead>
+                  <tr>
+                    <th className="text-center" style={{ width: '80px' }}>카테고리</th>
+                    <th className="text-center" style={{ width: '80px' }}>서브항목</th>
+                    <th className="text-center" style={{ width: '80px' }}>구분</th>
+                    <th className="text-center" style={{ width: '50px' }}>
+                      <Checkbox
+                        checked={salesData.every(item => item.usage)}
+                        indeterminate={salesData.some(item => item.usage) && !salesData.every(item => item.usage)}
+                        onChange={(e) => {
+                          const checked = e.target.checked
+                          setSalesData(prev => prev.map(item => ({ ...item, usage: checked })))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'flex', justifyContent: 'center' }}
+                      />
+                    </th>
+                    <th className="text-center" style={{ width: '80px' }}>비율(%)</th>
+                    <th className="text-center" style={{ width: '100px' }}>금액타입</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* 정기권 */}
+                  <tr>
+                    <td className="text-center font-semibold" rowSpan={2}>정기권</td>
+                    <td className="text-center">카드</td>
+                    <td className="text-center">정기</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'regular_card')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'regular_card' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'regular_card')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'regular_card' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'regular_card')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'regular_card')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'regular_card' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'regular_card')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">현금</td>
+                    <td className="text-center">정기</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'regular_cash')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'regular_cash' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'regular_cash')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'regular_cash' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'regular_cash')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'regular_cash')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'regular_cash' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'regular_cash')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  {/* 할인권 */}
+                  <tr>
+                    <td className="text-center font-semibold" rowSpan={2}>할인권</td>
+                    <td className="text-center">카드</td>
+                    <td className="text-center">할인</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'discount_card')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'discount_card' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'discount_card')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'discount_card' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'discount_card')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'discount_card')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'discount_card' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'discount_card')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">현금</td>
+                    <td className="text-center">할인</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'discount_cash')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'discount_cash' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'discount_cash')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'discount_cash' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'discount_cash')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'discount_cash')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'discount_cash' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'discount_cash')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  {/* 카셰어링 */}
+                  <tr>
+                    <td className="text-center font-semibold" rowSpan={4}>카셰어링</td>
+                    <td className="text-center">쏘카</td>
+                    <td className="text-center">카셰어링</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'socar')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'socar' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'socar')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'socar' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'socar')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'socar')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'socar' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'socar')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">그린카</td>
+                    <td className="text-center">카셰어링</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'greencar')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'greencar' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'greencar')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'greencar' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'greencar')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'greencar')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'greencar' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'greencar')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">피플카</td>
+                    <td className="text-center">카셰어링</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'peoplecar')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'peoplecar' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'peoplecar')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'peoplecar' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'peoplecar')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'peoplecar')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'peoplecar' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'peoplecar')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">리턴프리</td>
+                    <td className="text-center">카셰어링</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'returnfree')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'returnfree' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'returnfree')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'returnfree' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'returnfree')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'returnfree')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'returnfree' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'returnfree')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  {/* 플랫폼매출 */}
+                  <tr>
+                    <td className="text-center font-semibold" rowSpan={10}>플랫폼매출</td>
+                    <td className="text-center">모두-할인</td>
+                    <td className="text-center">플랫폼</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'modu_discount')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'modu_discount' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'modu_discount')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'modu_discount' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'modu_discount')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'modu_discount')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'modu_discount' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'modu_discount')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">모두-정기</td>
+                    <td className="text-center">플랫폼</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'modu_regular')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'modu_regular' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'modu_regular')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'modu_regular' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'modu_regular')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'modu_regular')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'modu_regular' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'modu_regular')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  {/* 플랫폼매출 나머지 항목들 */}
+                  {[
+                    { id: 'kakao_discount', name: '카카오-할인' },
+                    { id: 'kakao_regular', name: '카카오-정기' },
+                    { id: 'tmap_discount', name: '티맵-할인' },
+                    { id: 'tmap_regular', name: '티맵-정기' },
+                    { id: 'parking_friends_discount', name: '파킹프렌즈-할인' },
+                    { id: 'parking_box_discount', name: '파킹박-할인권' },
+                    { id: 'parking_box_regular', name: '파킹박-정기권' },
+                    { id: 'jumansa', name: '주만사' }
+                  ].map((platform) => (
+                    <tr key={platform.id}>
+                      <td className="text-center">{platform.name}</td>
+                      <td className="text-center">플랫폼</td>
+                      <td className="text-center">
+                        <Checkbox
+                          checked={salesData.find(item => item.id === platform.id)?.usage || false}
+                          onChange={(e) => {
+                            setSalesData(prev => prev.map(item => 
+                              item.id === platform.id ? { ...item, usage: e.target.checked } : item
+                            ))
+                          }}
+                          size="small"
+                          disabled={isViewMode(pageMode)}
+                          sx={{ display: 'inline-block' }}
+                        />
+                      </td>
+                      <td className="text-center">
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          value={salesData.find(item => item.id === platform.id)?.ratio || ''}
+                          onChange={(e) => {
+                            setSalesData(prev => prev.map(item => 
+                              item.id === platform.id ? { ...item, ratio: e.target.value } : item
+                            ))
+                          }}
+                          disabled={isViewMode(pageMode) || !salesData.find(item => item.id === platform.id)?.usage}
+                          sx={{
+                            width: '100%',
+                            '& .MuiInputBase-input': {
+                              textAlign: 'right'
+                            }
+                          }}
+                        />
+                      </td>
+                      <td className="text-center">
+                        <Select
+                          value={salesData.find(item => item.id === platform.id)?.amountType || ''}
+                          onChange={(e) => {
+                            setSalesData(prev => prev.map(item => 
+                              item.id === platform.id ? { ...item, amountType: e.target.value } : item
+                            ))
+                          }}
+                          size="small"
+                          disabled={isViewMode(pageMode) || !salesData.find(item => item.id === platform.id)?.usage}
+                          sx={{ width: '100%' }}
+                        >
+                          <MenuItem value=""><em>선택</em></MenuItem>
+                          <MenuItem value="고정">고정</MenuItem>
+                          <MenuItem value="변동">변동</MenuItem>
+                        </Select>
+                      </td>
+                    </tr>
+                  ))}
+                  {/* 사후정산 */}
+                  <tr>
+                    <td className="text-center font-semibold" rowSpan={2}>사후정산</td>
+                    <td className="text-center">카드</td>
+                    <td className="text-center">사후</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'post_settlement_card')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'post_settlement_card' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'post_settlement_card')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'post_settlement_card' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'post_settlement_card')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'post_settlement_card')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'post_settlement_card' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'post_settlement_card')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-center">현금</td>
+                    <td className="text-center">사후</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'post_settlement_cash')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'post_settlement_cash' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'post_settlement_cash')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'post_settlement_cash' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'post_settlement_cash')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'post_settlement_cash')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'post_settlement_cash' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'post_settlement_cash')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                  {/* 환불 */}
+                  <tr>
+                    <td className="text-center font-semibold">환불</td>
+                    <td className="text-center">-</td>
+                    <td className="text-center">환불</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'refund')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'refund' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={salesData.find(item => item.id === 'refund')?.ratio || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'refund' ? { ...item, ratio: e.target.value } : item
+                          ))
+                        }}
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'refund')?.usage}
+                        sx={{
+                          width: '100%',
+                          '& .MuiInputBase-input': {
+                            textAlign: 'right'
+                          }
+                        }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      <Select
+                        value={salesData.find(item => item.id === 'refund')?.amountType || ''}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item => 
+                            item.id === 'refund' ? { ...item, amountType: e.target.value } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'refund')?.usage}
+                        sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value="고정">고정</MenuItem>
+                        <MenuItem value="변동">변동</MenuItem>
+                      </Select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            {/* 5. 기준금액 */}
+            {item.formulaType === 'd' ? (
+              <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
+                <div className="mb-3">
+                  <Typography component="div" className="font-semibold text-gray-900">
+                    5. 기준금액
+                  </Typography>
+                </div>
+                <table className="rul-table">
+                  <thead>
+                    <tr>
+                      <th className="w-auto">CASE</th>
+                      <th className="w-auto">보장금액</th>
+                      <th className="w-24">비율</th>
+                      <th className="w-19 text-center">보전여부</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>기준금액1<span className="text-red-500 ml-1">*</span></td>
+                      <td>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={salesPurchaseType}
+                          onChange={e => {
+                            const value = e.target.value.replace(/[^0-9.]/g, '');
+                            setSalesPurchaseType(value);
+                          }}
+                          type="number"
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'right' }
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={salesPurchaseType2}
+                          onChange={e => {
+                            const value = e.target.value.replace(/[^0-9.]/g, '');
+                            setSalesPurchaseType2(value);
+                          }}
+                          type="number"
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'right' }
+                          }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </td>
+                      <td className="w-20 text-center">
+                        <div className="flex justify-center">
+                          <Checkbox
+                            checked={timeDiffCard}
+                            onChange={(e) => setTimeDiffCard(e.target.checked)}
+                            size="small"
+                            disabled={pageMode === 'view'}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>기준금액2</td>
+                      <td>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={salesPurchaseType}
+                          onChange={e => {
+                            const value = e.target.value.replace(/[^0-9.]/g, '');
+                            setSalesPurchaseType(value);
+                          }}
+                          type="number"
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'right' }
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={salesPurchaseType2}
+                          onChange={e => {
+                            const value = e.target.value.replace(/[^0-9.]/g, '');
+                            setSalesPurchaseType2(value);
+                          }}
+                          type="number"
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'right' }
+                          }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      </td>
+                      <td className="w-20 text-center">
+                        <div className="flex justify-center">
+                          <Checkbox
+                            checked={regularCard}
+                            onChange={(e) => setRegularCard(e.target.checked)}
+                            size="small"
+                            disabled={pageMode === 'view'}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            ) : null}
+            {/* 6. 추가 임차료, 수익 섹션 */}
+            {item.formulaType === 'd' ? (
+              <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
+                <div className="mb-3">
+                  <Typography component="div" className="font-semibold text-gray-900">
+                    6. 추가 임차료, 수익
+                  </Typography>
+                </div>
+                <table className="rul-table">
+                  <thead>
+                    <tr>
+                      <th className="w-auto">CASE</th>
+                      <th className="w-35">추가금액</th>
+                      <th className="w-auto">추가사유</th>
+                      <th className="w-64">적용기간</th>
+                      <th className="w-6 p-1">삭제</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {additionalRentData.map((item) => (
+                      <tr key={item.id}>
+                        <td>
+                          <FormControl sx={{ width: '100%' }}>
+                            <Select
+                              value={item.case}
+                              onChange={(e) => {
+                                const newData = additionalRentData.map(d =>
+                                  d.id === item.id ? { ...d, case: e.target.value } : d
+                                )
+                                setAdditionalRentData(newData)
+                              }}
+                              displayEmpty
+                              className="bg-white"
+                              size="small"
+                              disabled={pageMode === 'view'}
+                            >
+                              <MenuItem value="">
+                                <span>선택</span>
+                              </MenuItem>
+                              {departmentOptions.map((option) => (
+                                <MenuItem
+                                  key={option.value}
+                                  value={option.value}
+                                >
+                                  {option.label}
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </FormControl>
+                        </td>
+                        <td>
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            disabled={pageMode === 'view'}
+                            value={item.amount}
+                            onChange={e => {
+                              const value = e.target.value.replace(/[^0-9.]/g, '');
+                              const newData = additionalRentData.map(d =>
+                                d.id === item.id ? { ...d, amount: value } : d
+                              )
+                              setAdditionalRentData(newData)
+                            }}
+                            type="number"
+                            sx={{
+                              width: '100%',
+                              '& input': { textAlign: 'right' }
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            disabled={pageMode === 'view'}
+                            value={item.reason}
+                            onChange={e => {
+                              const newData = additionalRentData.map(d =>
+                                d.id === item.id ? { ...d, reason: e.target.value } : d
+                              )
+                              setAdditionalRentData(newData)
+                            }}
+                            sx={{
+                              width: '100%'
+                            }}
+                          />
+                        </td>
+                        <td>
+                          <DateRangePicker
+                            value={[item.period[0] ? new Date(item.period[0]) : null, item.period[1] ? new Date(item.period[1]) : null]}
+                            onChange={(newValue: [Date | null, Date | null]) => {
+                              const newPeriod = [
+                                newValue[0] ? newValue[0].toISOString().split('T')[0] : '',
+                                newValue[1] ? newValue[1].toISOString().split('T')[0] : ''
+                              ]
+                              const newData = additionalRentData.map(d =>
+                                d.id === item.id ? { ...d, period: newPeriod } : d
+                              )
+                              setAdditionalRentData(newData)
+                            }}
+                            placeholder="날짜 범위를 선택하세요"
+                            size="small"
+                            datePickerWidth={130}
+                            disabled={pageMode === 'view'}
+                          />
+                        </td>
+                        <td className="w-6 p-1">
+                          {pageMode === 'edit' && (
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              color="error"
+                              className="xsmallbtn2"
+                              startIcon={<Minus size={16} />}
+                              onClick={() => {
+                                const newData = additionalRentData.filter(d => d.id !== item.id)
+                                setAdditionalRentData(newData)
+                              }}
+                            >
+                              <span style={{ display: "none" }}>-</span>
+                            </Button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {pageMode === 'edit' && (
+                  <>
+                    <div className="flex items-center mt-2" style={{ gap: '8px' }}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        onClick={() => {
+                          const newId = Math.max(...additionalRentData.map(d => d.id)) + 1
+                          const newItem: {
+                            id: number
+                            case: string
+                            amount: string
+                            reason: string
+                            period: string[]
+                          } = {
+                            id: newId,
+                            case: '',
+                            amount: '',
+                            reason: '',
+                            period: ['', '']
+                          }
+                          setAdditionalRentData([...additionalRentData, newItem] as typeof additionalRentData)
+                        }}
+                      >
+                        추가
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : null}
             {pageMode === 'edit' && (
-              <div className="flex items-center justify-end" style={{ gap: '8px' }}>
-                <Button
-                  variant="outlined"
-                  color="secondary"
-                  size="small"
-                >
+              <div className="flex gap-2 justify-end" style={{ justifyContent: 'flex-end' }}>
+                <Button variant="outlined" color="secondary">
                   취소
                 </Button>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                  sx={{
-                    backgroundColor: 'white',
-                    '&:hover': {
-                      backgroundColor: 'white',
-                    }
-                  }}
-                >
+                <Button variant="contained">
                   작성완료
                 </Button>
               </div>
             )}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mt-3 mb-0">
+              <div className="flex items-center justify-between mb-2">
+                <Typography component="div" className="font-semibold text-gray-900">
+                  수식테스트
+                </Typography>
+                {pageMode === 'edit' && (
+                  <div className="flex items-center" style={{ gap: '8px' }}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      size="small"
+                    >
+                      초기화
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      size="small"
+                    >
+                      테스트
+                    </Button>
+                  </div>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mb-2 mt-2">
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label">매출수수료</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label">기준금액1</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label">임차료비율1</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label">기준금액2</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                  <label className="form-top-label">임차료 비율2</label>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType}
+                    onChange={e => {
+                      // 숫자만 입력 가능하도록 처리
+                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      setSalesPurchaseType(value);
+                    }}
+                    type="number"
+                    sx={{
+                      width: '100%',
+                      '& input': { textAlign: 'right' }
+                    }}
+                  />
+                </div>
+              </div>
+              <div
+                className="bg-blue-600 flex gap-2 text-white py-3 justify-between"
+                style={{ borderRadius: '4px' }}
+              >
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <div style={{ fontWeight: 600, marginBottom: 4 }}>공급가액</div>
+                  <div style={{ fontWeight: 800 }}>0</div>
+                </div>
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <div style={{ fontWeight: 600, marginBottom: 4 }}>부가세</div>
+                  <div style={{ fontWeight: 800 }}>0</div>
+                </div>
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <div style={{ fontWeight: 600, marginBottom: 4 }}>합계</div>
+                  <div style={{ fontWeight: 800 }}>0</div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </AccordionDetails>
-    </Accordion>
+        )}
+      </AccordionDetails >
+    </Accordion >
   )
 }
 
 export default function Rul002Page() {
   // 페이지 상태 관리
   const [pageMode, setPageMode] = useState<PageMode>('view')
+  const [currentFormulaType, setCurrentFormulaType] = useState<FormulaType>('a')
 
   // 폼 상태 변수들
   const [ruleName, setRuleName] = useState('')
@@ -1064,6 +2852,14 @@ export default function Rul002Page() {
     { value: 'settlement', label: '정산' }
   ]
 
+  const formulaTypeOptions: Array<{ value: FormulaType, label: string }> = [
+    { value: 'a', label: 'A타입' },
+    { value: 'b', label: 'B타입' },
+    { value: 'c', label: 'C타입' },
+    { value: 'd', label: 'D타입' },
+    { value: 'e', label: 'E타입' }
+  ]
+
   // 패널 크기 조절 상태
   const leftPanelWidth = 600 // 고정 500px
 
@@ -1073,7 +2869,8 @@ export default function Rul002Page() {
       id: `accordion-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type,
       title: itemTypeOptions.find(option => option.value === type)?.label || type,
-      data: getDefaultDataForType(type)
+      data: getDefaultDataForType(type),
+      formulaType: type === 'settlement' ? currentFormulaType : undefined
     }
     setAccordionItems(prev => [...prev, newItem])
   }
@@ -1166,7 +2963,7 @@ export default function Rul002Page() {
         className="bottom-contents-pannel__content flex gap-2"
         style={{ height: 'calc(100vh - 166px)', flex: 1 }}
       >
-        {/* 왼쪽 카드 1 (폭 고정) */}
+        {/* 왼쪽 카드 (폭 고정) */}
         <div style={{ width: leftPanelWidth, maxWidth: leftPanelWidth }} className="flex-shrink-0">
           <Card className="h-full">
             <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
@@ -1572,8 +3369,8 @@ export default function Rul002Page() {
                       </FormControl>
                     </div>
                   </div>
-                  <div>
-                    <label className="form-top-label mt-4">
+                  <div className="pt-4">
+                    <label className="form-top-label">
                       비고
                     </label>
                     <TextField
@@ -1584,7 +3381,7 @@ export default function Rul002Page() {
                       maxRows={8}
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      sx={{ width: '100%', overflowY: 'auto', margin: 0 }}
+                      sx={{ width: '100%', overflowY: 'auto', margin: 0, marginTop: '1px' }}
                       InputLabelProps={{
                         shrink: true,
                       }}
@@ -1633,6 +3430,25 @@ export default function Rul002Page() {
                         ))}
                       </Select>
                     </FormControl>
+                    {itemType === 'settlement' && (
+                      <FormControl sx={{ width: '100px' }}>
+                        <Select
+                          value={currentFormulaType}
+                          onChange={(e) => setCurrentFormulaType(e.target.value as FormulaType)}
+                          className="bg-white"
+                          size="small"
+                        >
+                          {formulaTypeOptions.map((option) => (
+                            <MenuItem
+                              key={option.value}
+                              value={option.value}
+                            >
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    )}
                     <Button
                       variant="outlined"
                       color="primary"
