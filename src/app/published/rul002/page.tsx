@@ -3476,22 +3476,21 @@ export default function Rul002Page() {
                       variant="outlined"
                       size="small"
                       multiline
+                      fullWidth
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       sx={{
                         width: '100%',
-                        overflowY: 'auto',
                         margin: 0,
-                        // textarea 직접 선택해서 오버라이드 (resize 불가, 아이콘 숨김)
+                        // textarea 직접 선택해서 오버라이드 (resize 불가, 아이콘 숨김, overflowY auto)
                         '& textarea': {
                           resize: 'none !important',
+                          overflowY: 'auto !important',
                         }
                       }}
                       InputLabelProps={{
                         shrink: true,
                       }}
-                      fullWidth
-                      margin="none"
                       disabled={pageMode === 'view'}
                     />
                   </div>
