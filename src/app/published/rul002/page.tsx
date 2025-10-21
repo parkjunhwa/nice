@@ -1308,8 +1308,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 </div>
               </div>
               <div
-                className="bg-blue-600 flex gap-2 text-white py-3 justify-between"
-                style={{ borderRadius: '4px' }}
+                className="bg-blue-100 flex gap-2 text-blue-600 py-3 justify-between"
+                style={{ borderRadius: '8px' }}
               >
                 <div style={{ flex: 1, textAlign: "center" }}>
                   <div style={{ fontWeight: 600, marginBottom: 4 }}>공급가액</div>
@@ -2885,8 +2885,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 </div>
               </div>
               <div
-                className="bg-blue-600 flex gap-2 text-white py-3 justify-between"
-                style={{ borderRadius: '4px' }}
+                className="bg-blue-100 flex gap-2 text-blue-600 py-3 justify-between"
+                style={{ borderRadius: '8px' }}
               >
                 <div style={{ flex: 1, textAlign: "center" }}>
                   <div style={{ fontWeight: 600, marginBottom: 4 }}>공급가액</div>
