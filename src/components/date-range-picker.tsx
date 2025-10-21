@@ -28,8 +28,7 @@ export function DateRangePicker({
   className = "",
   label,
   datePickerWidth = 140,
-  error = false,
-  helperText
+  error = false
 }: DateRangePickerProps) {
   const handleStartDateChange = (newValue: Date | null) => {
     // 시작 날짜가 종료 날짜보다 늦으면 종료 날짜를 null로 설정
