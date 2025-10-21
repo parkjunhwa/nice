@@ -1851,8 +1851,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         sx={{ display: 'flex', justifyContent: 'center' }}
                       />
                     </th>
-                    <th className="text-center" style={{ width: '80px' }}>비율(%)</th>
-                    <th className="text-center" style={{ width: '100px' }}>금액타입</th>
+                    <th className="text-center" style={{ width: '120px' }}>비율(%)</th>
+                    <th className="text-center" style={{ width: '120px' }}>금액타입</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2474,7 +2474,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <th className="w-auto">CASE</th>
                       <th className="w-auto">보장금액</th>
                       <th className="w-24">비율</th>
-                      <th className="w-19 text-center">보전여부</th>
+                      <th className="text-center" style={{ width: '60px' }}>보전여부</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -2521,7 +2521,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                           }}
                         />
                       </td>
-                      <td className="w-20 text-center">
+                      <td className="text-center">
                         <div className="flex justify-center">
                           <Checkbox
                             checked={timeDiffCard}
@@ -2575,7 +2575,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                           }}
                         />
                       </td>
-                      <td className="w-20 text-center">
+                      <td className="text-center">
                         <div className="flex justify-center">
                           <Checkbox
                             checked={regularCard}
