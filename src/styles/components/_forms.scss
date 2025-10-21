@@ -364,12 +364,12 @@
   /* 멀티라인 TextField는 높이 제한 제외 */
   .MuiTextField-root .MuiInputBase-root.MuiInputBase-multiline {
     height: auto !important;
-    min-height: 200px !important;
+    min-height: 150px !important;
   }
 
   .MuiTextField-root .MuiInputBase-root.MuiInputBase-multiline .MuiInputBase-input {
     height: auto !important;
-    min-height: 200px !important;
+    min-height: 150px !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
