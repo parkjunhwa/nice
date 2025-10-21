@@ -246,6 +246,7 @@
     &.Mui-readOnly,
     &.Mui-disabled {
       background-color: hsl(var(--color-muted)) !important;
+
       &:hover,
       &:focus,
       &.Mui-focused,
@@ -269,7 +270,8 @@
 
     .MuiSelect-select {
       font-size: var(--font-size-xs) !important;
-      padding: 4px 8px !important; /* small 크기에 맞는 padding 조정 */
+      padding: 4px 8px !important;
+      /* small 크기에 맞는 padding 조정 */
       box-sizing: border-box !important;
     }
 
@@ -287,7 +289,8 @@
 
     .MuiNativeSelect-select {
       font-size: var(--font-size-xs) !important;
-      padding: 4px 8px !important; /* small 크기에 맞는 padding 조정 */
+      padding: 4px 8px !important;
+      /* small 크기에 맞는 padding 조정 */
       box-sizing: border-box !important;
     }
 
@@ -559,11 +562,21 @@
     background-color: hsl(var(--color-bg)) !important;
   }
 
+  .MuiPickersActionBar-root .MuiDialogActions-root {
+    gap: 4px !important;
+  }
+
   .MuiPickersActionBar-root .MuiButton-root {
     font-size: var(--font-size-xs) !important;
     padding: 6px 12px !important;
     min-height: 32px !important;
     text-transform: none !important;
+    background-color: #fff !important;
+    color: #374151 !important;
+    /* gray-700 */
+    border: 1px solid #d1d5db !important;
+    /* gray-300 */
+    box-shadow: none !important;
   }
 
   // MuiListItemText span 폰트 크기 13px 전역 설정
@@ -660,17 +673,21 @@
         border-right: none !important;
       }
     }
+
     // 테이블 정렬, 텍스트 줄바꿈 방지, 중앙정렬 퀵 스타일
     .MuiTableCell-root {
       vertical-align: middle !important;
       white-space: nowrap !important;
       text-align: left !important;
+
       &.text-center {
         text-align: center !important;
       }
+
       &.text-right {
         text-align: right !important;
       }
+
       &.no-wrap {
         white-space: nowrap !important;
       }
