@@ -628,7 +628,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 )}
               </div>
               {/* 정산수식 block01 섹션 */}
-              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2 border border-gray-200">
                 <div className="flex items-center justify-between">
                   <Typography component="div" className="font-semibold text-gray-900">
                     지급액
@@ -676,7 +676,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 )}
               </div>
               {/* 정산수식 block02 섹션 */}
-              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2 border border-gray-200">
                 <div
                   style={{
                     display: "grid",
@@ -766,7 +766,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 )}
               </div>
               {/* 정산수식 block03 섹션 */}
-              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2 border border-gray-200">
                 <div
                   style={{
                     display: "grid",
@@ -894,7 +894,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                                 const value = e.target.value.replace(/[^0-9.]/g, '');
                                 handleTableRowChange(row.id, 'criteriaMin', value);
                               }}
-                              type="number"
                               sx={{
                                 width: '100%',
                                 '& input': { textAlign: 'right' }
@@ -911,7 +910,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                                 const value = e.target.value.replace(/[^0-9.]/g, '');
                                 handleTableRowChange(row.id, 'criteriaMax', value);
                               }}
-                              type="number"
                               sx={{
                                 width: '100%',
                                 '& input': { textAlign: 'right' }
@@ -942,7 +940,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                                 const value = e.target.value.replace(/[^0-9.]/g, '');
                                 handleTableRowChange(row.id, 'amount', value);
                               }}
-                              type="number"
                               sx={{
                                 width: '100%',
                                 '& input': { textAlign: 'right' }
@@ -1018,7 +1015,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 )}
               </div>
               {/* 정산수식 block04 섹션 */}
-              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2 border border-gray-200">
                 <div className="flex items-center justify-between mb-2">
                   <Typography component="div" className="font-semibold text-gray-900">
                     브랜드제휴 변동보전료
@@ -1026,7 +1023,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 </div>
                 <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
                   <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <label className="form-top-label required">정산기준</label>
+                    <label className="form-top-label required">기준금액</label>
                     <TextField
                       variant="outlined"
                       size="small"
@@ -1037,7 +1034,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         const value = e.target.value.replace(/[^0-9.]/g, '');
                         setSalesPurchaseType(value);
                       }}
-                      type="number"
                       sx={{
                         width: '100%',
                         '& input': { textAlign: 'right' }
@@ -1056,7 +1052,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         const value = e.target.value.replace(/[^0-9.]/g, '');
                         setSalesPurchaseType(value);
                       }}
-                      type="number"
                       sx={{
                         width: '100%',
                         '& input': { textAlign: 'right' }
@@ -1082,7 +1077,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         const value = e.target.value.replace(/[^0-9.]/g, '');
                         setSalesPurchaseType2(value);
                       }}
-                      type="number"
                       sx={{
                         width: '100%',
                         '& input': { textAlign: 'right' }
@@ -1101,7 +1095,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         const value = e.target.value.replace(/[^0-9.]/g, '');
                         setSalesPurchaseType2(value);
                       }}
-                      type="number"
                       sx={{
                         width: '100%',
                         '& input': { textAlign: 'right' }
@@ -1120,7 +1113,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         const value = e.target.value.replace(/[^0-9.]/g, '');
                         setSalesPurchaseType2(value);
                       }}
-                      type="number"
                       sx={{
                         width: '100%',
                         '& input': { textAlign: 'right' }
@@ -1154,7 +1146,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 )}
               </div>
               {/* 정산수식 block05 섹션 */}
-              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2 border border-gray-200">
                 <div className="flex items-center justify-between mb-2">
                   <Typography component="div" className="font-semibold text-gray-900">
                     최종정산금액
@@ -1254,7 +1246,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       const value = e.target.value.replace(/[^0-9.]/g, '');
                       setSalesPurchaseType(value);
                     }}
-                    type="number"
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -1280,7 +1271,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       const value = e.target.value.replace(/[^0-9.]/g, '');
                       setSalesPurchaseType(value);
                     }}
-                    type="number"
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -1299,7 +1289,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       const value = e.target.value.replace(/[^0-9.]/g, '');
                       setSalesPurchaseType(value);
                     }}
-                    type="number"
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -2494,7 +2483,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                             const value = e.target.value.replace(/[^0-9.]/g, '');
                             setSalesPurchaseType(value);
                           }}
-                          type="number"
                           sx={{
                             width: '100%',
                             '& input': { textAlign: 'right' }
@@ -2511,7 +2499,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                             const value = e.target.value.replace(/[^0-9.]/g, '');
                             setSalesPurchaseType2(value);
                           }}
-                          type="number"
                           sx={{
                             width: '100%',
                             '& input': { textAlign: 'right' }
@@ -2548,7 +2535,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                             const value = e.target.value.replace(/[^0-9.]/g, '');
                             setSalesPurchaseType(value);
                           }}
-                          type="number"
                           sx={{
                             width: '100%',
                             '& input': { textAlign: 'right' }
@@ -2565,7 +2551,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                             const value = e.target.value.replace(/[^0-9.]/g, '');
                             setSalesPurchaseType2(value);
                           }}
-                          type="number"
                           sx={{
                             width: '100%',
                             '& input': { textAlign: 'right' }
@@ -2657,7 +2642,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                               )
                               setAdditionalRentData(newData)
                             }}
-                            type="number"
                             sx={{
                               width: '100%',
                               '& input': { textAlign: 'right' }
@@ -2800,7 +2784,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       const value = e.target.value.replace(/[^0-9.]/g, '');
                       setSalesPurchaseType(value);
                     }}
-                    type="number"
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -2819,7 +2802,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       const value = e.target.value.replace(/[^0-9.]/g, '');
                       setSalesPurchaseType(value);
                     }}
-                    type="number"
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -2838,7 +2820,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       const value = e.target.value.replace(/[^0-9.]/g, '');
                       setSalesPurchaseType(value);
                     }}
-                    type="number"
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -2857,7 +2838,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       const value = e.target.value.replace(/[^0-9.]/g, '');
                       setSalesPurchaseType(value);
                     }}
-                    type="number"
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -2876,7 +2856,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       const value = e.target.value.replace(/[^0-9.]/g, '');
                       setSalesPurchaseType(value);
                     }}
-                    type="number"
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -3482,7 +3461,7 @@ export default function Rul002Page() {
                       sx={{
                         width: '100%',
                         margin: 0,
-                        // textarea 직접 선택해서 오버라이드 (resize 불가, 아이콘 숨김, overflowY auto)
+                        // 오버라이드 (resize 불가, 아이콘 숨김, overflowY auto)
                         '& textarea': {
                           resize: 'none !important',
                           overflowY: 'auto !important',
