@@ -3482,7 +3482,7 @@ export default function Rul002Page() {
         <div className="flex-1">
           <Card className="h-full">
             <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
-              <div className="flex items-center justify-between mb-4 gap-2" style={{ flex: 0 }}>
+              <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
                 <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
                   수식리스트
                 </Typography>

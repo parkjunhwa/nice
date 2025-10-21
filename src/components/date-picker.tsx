@@ -4,8 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { ko } from 'date-fns/locale'
 
-// 공통 스타일 함수 (중복 여부: 독립 함수, 단순화 가능. 타 컴포넌트 formula-input 등에서 유사 border 처리 있으나 직접적 중복은 아님)
-// disabled 시 borderColor를 TextField와 동일하게 important로 강제
+// 공통 스타일 함수
 const getTextFieldSx = (helperText?: string, disabled?: boolean) => ({
   ...(helperText && {
     '& .MuiFormHelperText-root': {
@@ -22,9 +21,9 @@ const getTextFieldSx = (helperText?: string, disabled?: boolean) => ({
         cursor: 'not-allowed',
       }
     },
-    // MUI DatePicker 특정 클래스명으로 정확한 타겟팅
+    // MUI DatePicker disabled 상태 border 색상 통일
     '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-disabled .MuiPickersOutlinedInput-notchedOutline': {
-      borderColor: 'hsl(var(--color-border)) !important', // TextField와 동일한 disabled border 컬러
+      borderColor: 'hsl(var(--color-border)) !important',
     },
     '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-disabled:hover .MuiPickersOutlinedInput-notchedOutline': {
       borderColor: 'hsl(var(--color-border)) !important'
@@ -38,6 +37,38 @@ const getTextFieldSx = (helperText?: string, disabled?: boolean) => ({
   })
 })
 
+// 공통 slotProps 생성 함수
+const createSlotProps = (
+  placeholder: string,
+  error: boolean,
+  helperText: string | undefined,
+  readOnly: boolean | undefined,
+  disabled: boolean | undefined,
+  clearable: boolean | undefined,
+  ariaLabel: string
+) => ({
+  textField: {
+    size: "small" as const,
+    fullWidth: true,
+    variant: "outlined" as const,
+    className: "bg-white",
+    placeholder,
+    error,
+    helperText,
+    InputProps: {
+      readOnly,
+    },
+    disabled,
+    inputProps: {
+      'aria-label': ariaLabel,
+    },
+    sx: getTextFieldSx(helperText, disabled)
+  },
+  actionBar: {
+    actions: (clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']) as ('clear' | 'cancel' | 'accept')[]
+  }
+})
+
 interface CustomDatePickerProps {
   value: Date | null
   onChange: (value: Date | null) => void
@@ -49,6 +80,7 @@ interface CustomDatePickerProps {
   clearable?: boolean
   shouldDisableDate?: (date: Date) => boolean
   width?: string | number
+  ariaLabel?: string
 }
 
 interface MonthPickerProps {
@@ -60,6 +92,7 @@ interface MonthPickerProps {
   readOnly?: boolean
   disabled?: boolean
   clearable?: boolean
+  ariaLabel?: string
 }
 
 export const DatePicker: React.FC<CustomDatePickerProps> = ({
@@ -73,8 +106,19 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
   clearable = true,
   shouldDisableDate,
   width,
+  ariaLabel = "날짜 입력",
   ...props
 }) => {
+  const slotProps = createSlotProps(
+    placeholder,
+    error,
+    helperText,
+    readOnly,
+    disabled,
+    clearable,
+    ariaLabel
+  )
+
   const content = (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
       <MuiDatePicker
@@ -83,7 +127,7 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
         format="yyyy-MM-dd"
         views={['year', 'month', 'day']}
         shouldDisableDate={shouldDisableDate}
-        disabled={disabled || readOnly} // disabled 또는 readOnly 상태에서 날짜 선택 비활성화
+        disabled={disabled || readOnly}
         localeText={{
           cancelButtonLabel: '취소',
           okButtonLabel: '확인',
@@ -92,28 +136,7 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
           start: '시작',
           end: '종료',
         }}
-        slotProps={{
-          textField: {
-            size: "small",
-            fullWidth: true,
-            variant: "outlined",
-            className: "bg-white",
-            placeholder: placeholder,
-            error: error,
-            helperText: helperText,
-            InputProps: {
-              readOnly: readOnly,
-            },
-            disabled: disabled,
-            inputProps: {
-              'aria-label': '날짜 입력',
-            },
-            sx: getTextFieldSx(helperText, disabled)
-          },
-          actionBar: {
-            actions: clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']
-          }
-        }}
+        slotProps={slotProps}
         {...props}
       />
     </LocalizationProvider>
@@ -133,8 +156,19 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
   readOnly = false,
   disabled = false,
   clearable = true,
+  ariaLabel = "월 선택",
   ...props
 }) => {
+  const slotProps = createSlotProps(
+    placeholder,
+    error,
+    helperText,
+    readOnly,
+    disabled,
+    clearable,
+    ariaLabel
+  )
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
       <MuiDatePicker
@@ -142,7 +176,7 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
         onChange={onChange}
         format="yyyy-MM"
         views={['year', 'month']}
-        disabled={disabled || readOnly} // disabled 또는 readOnly 상태에서 날짜 선택 비활성화
+        disabled={disabled || readOnly}
         localeText={{
           cancelButtonLabel: '취소',
           okButtonLabel: '확인',
@@ -151,28 +185,7 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
           start: '시작',
           end: '종료',
         }}
-        slotProps={{
-          textField: {
-            size: "small",
-            fullWidth: true,
-            variant: "outlined",
-            className: "bg-white",
-            placeholder: placeholder,
-            error: error,
-            helperText: helperText,
-            InputProps: {
-              readOnly: readOnly,
-            },
-            disabled: disabled,
-            inputProps: {
-              'aria-label': '월 선택',
-            },
-            sx: getTextFieldSx(helperText, disabled)
-          },
-          actionBar: {
-            actions: clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']
-          }
-        }}
+        slotProps={slotProps}
         {...props}
       />
     </LocalizationProvider>
