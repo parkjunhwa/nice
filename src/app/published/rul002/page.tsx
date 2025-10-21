@@ -549,26 +549,597 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       <AccordionDetails>
         {/* 정산수식 섹션 - A타입만 표시 */}
         {item.formulaType === 'a' ? (
-          <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-0">
-            <div className="flex items-center justify-between mb-2">
-              <Typography component="div" className="font-semibold text-gray-900">
-                정산수식
-              </Typography>
-              {pageMode === 'edit' && (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  size="small"
-                >
-                  추가
-                </Button>
-              )}
-            </div>
-            {/* 정산수식 block01 섹션 */}
-            <div className="mt-2 rounded-lg bg-white p-4 pb-2">
-              <div className="flex items-center justify-between">
+          <>
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-0">
+              <div className="flex items-center justify-between mb-2">
                 <Typography component="div" className="font-semibold text-gray-900">
-                  지급액
+                  정산수식
+                </Typography>
+                {pageMode === 'edit' && (
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                  >
+                    추가
+                  </Button>
+                )}
+              </div>
+              {/* 정산수식 block01 섹션 */}
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+                <div className="flex items-center justify-between">
+                  <Typography component="div" className="font-semibold text-gray-900">
+                    지급액
+                  </Typography>
+                  {pageMode === 'edit' && (
+                    <div className="flex items-center" style={{ gap: '8px' }}>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                      >
+                        수정
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        size="small"
+                      >
+                        삭제
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                {/* FormulaInput 컴포넌트 */}
+                <div className="mt-2">
+                  <FormulaInput
+                    value={formulaValue}
+                    onChange={setFormulaValue}
+                    disabled={isViewMode(pageMode)}
+                  />
+                </div>
+
+                {pageMode === 'edit' && (
+                  <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
+                    <label className="form-top-label">
+                      지급액 소수점계산 :
+                    </label>
+                    <RadioGroup row defaultValue="반올림" name="paymentDecimalCalculationType" style={{ marginLeft: 16 }}>
+                      <FormControlLabel value="반올림" control={<Radio />} label="반올림" />
+                      <FormControlLabel value="내림" control={<Radio />} label="내림" />
+                      <FormControlLabel value="올림" control={<Radio />} label="올림" />
+                    </RadioGroup>
+                  </div>
+                )}
+              </div>
+              {/* 정산수식 block02 섹션 */}
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 8,
+                  }}
+                >
+                  <div>
+                    <label className="form-top-label required">
+                      수식명
+                    </label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      type="text"
+                      disabled={pageMode === 'view'}
+                      sx={{
+                        width: '100%',
+                        '& input': {
+                          textAlign: 'left'
+                        }
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="form-top-label required">
+                      수식키
+                    </label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      type="text"
+                      disabled={pageMode === 'view'}
+                      sx={{
+                        width: '100%',
+                        '& input': {
+                          textAlign: 'left'
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+                {/* FormulaInput 컴포넌트 */}
+                <div className="mt-2">
+                  <FormulaInput
+                    value={formulaValue}
+                    onChange={setFormulaValue}
+                    disabled={isViewMode(pageMode)}
+                  />
+                </div>
+
+                {pageMode === 'edit' && (
+                  <div className="flex items-center justify-between">
+                    <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
+                      <label className="form-top-label">
+                        정산 소수점계산 :
+                      </label>
+                      <RadioGroup row defaultValue="반올림" name="settlementDecimalCalculationType" style={{ marginLeft: 16 }}>
+                        <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
+                        <FormControlLabel value="내림" control={<Radio disabled={false} />} label="내림" />
+                        <FormControlLabel value="올림" control={<Radio disabled={false} />} label="올림" />
+                      </RadioGroup>
+                    </div>
+                    <div className="flex items-center" style={{ gap: '8px' }}>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                      >
+                        취소
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        sx={{
+                          backgroundColor: 'white',
+                          '&:hover': {
+                            backgroundColor: 'white',
+                          }
+                        }}
+                      >
+                        작성완료
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* 정산수식 block03 섹션 */}
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 8,
+                  }}
+                >
+                  <div>
+                    <label className="form-top-label required">
+                      수식명
+                    </label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      type="text"
+                      disabled={pageMode === 'view'}
+                      sx={{
+                        width: '100%',
+                        '& input': {
+                          textAlign: 'left'
+                        },
+                        '& .MuiOutlinedInput-root': {
+                          height: '40px',
+                          boxSizing: 'border-box',
+                          '& fieldset': {
+                            borderWidth: '1px'
+                          },
+                          '&:hover fieldset': {
+                            borderWidth: '1px'
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderWidth: '2px'
+                          }
+                        }
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="form-top-label required">
+                      수식키
+                    </label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      type="text"
+                      disabled={pageMode === 'view'}
+                      sx={{
+                        width: '100%',
+                        '& input': {
+                          textAlign: 'left'
+                        },
+                        '& .MuiOutlinedInput-root': {
+                          height: '40px',
+                          boxSizing: 'border-box',
+                          '& fieldset': {
+                            borderWidth: '1px'
+                          },
+                          '&:hover fieldset': {
+                            borderWidth: '1px'
+                          },
+                          '&.Mui-focused fieldset': {
+                            borderWidth: '2px'
+                          }
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+                <div
+                  className="mt-2"
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 8,
+                  }}
+                >
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <div style={{ display: 'flex', gap: 4, width: '100%' }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                          <label className="form-top-label required" style={{ marginBottom: 4 }}>
+                            정산기준
+                          </label>
+                          <Select
+                            value={salesReflectionTiming}
+                            onChange={e => setSalesReflectionTiming(e.target.value as string)}
+                            size="small"
+                            disabled={pageMode === 'view'}
+                            sx={{ width: '100%' }}
+                          >
+                            <MenuItem value=""><em>선택</em></MenuItem>
+                            <MenuItem value="옵션1">옵션1</MenuItem>
+                            <MenuItem value="옵션2">옵션2</MenuItem>
+                            <MenuItem value="옵션3">옵션3</MenuItem>
+                          </Select>
+                        </div>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                          <label className="form-top-label" style={{ marginBottom: 4 }}>
+                            기준 &gt;
+                          </label>
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            disabled={pageMode === 'view'}
+                            value={salesPurchaseType}
+                            onChange={e => {
+                              // 숫자만 입력 가능하도록 처리
+                              const value = e.target.value.replace(/[^0-9.]/g, '');
+                              setSalesPurchaseType(value);
+                            }}
+                            type="number"
+                            sx={{
+                              width: '100%',
+                              '& input': { textAlign: 'left' }
+                            }}
+                          />
+                        </div>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                          <label className="form-top-label" style={{ marginBottom: 4 }}>
+                            기준 ≤
+                          </label>
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            disabled={pageMode === 'view'}
+                            value={salesPurchaseType2}
+                            onChange={e => {
+                              // 숫자만 입력 가능하도록 처리
+                              const value = e.target.value.replace(/[^0-9.]/g, '');
+                              setSalesPurchaseType2(value);
+                            }}
+                            type="number"
+                            sx={{
+                              width: '100%',
+                              '& input': { textAlign: 'left' }
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="form-top-label required">
+                      정산금액
+                    </label>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <div style={{ display: 'flex', gap: 4, width: '100%' }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                          <Select
+                            value={salesReflectionTiming}
+                            onChange={e => setSalesReflectionTiming(e.target.value as string)}
+                            size="small"
+                            disabled={pageMode === 'view'}
+                            sx={{ width: '100%' }}
+                          >
+                            <MenuItem value=""><em>선택</em></MenuItem>
+                            <MenuItem value="옵션1">옵션1</MenuItem>
+                            <MenuItem value="옵션2">옵션2</MenuItem>
+                            <MenuItem value="옵션3">옵션3</MenuItem>
+                          </Select>
+                        </div>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            disabled={pageMode === 'view'}
+                            value={salesPurchaseType}
+                            onChange={e => {
+                              // 숫자만 입력 가능하도록 처리
+                              const value = e.target.value.replace(/[^0-9.]/g, '');
+                              setSalesPurchaseType(value);
+                            }}
+                            type="number"
+                            sx={{
+                              width: '100%',
+                              '& input': { textAlign: 'left' }
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {pageMode === 'edit' && (
+                  <div className="flex items-center mt-2" style={{ gap: '8px' }}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                    >
+                      추가
+                    </Button>
+                  </div>
+                )}
+                {pageMode === 'edit' && (
+                  <div className="flex items-center justify-between">
+                    <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
+                      <label className="form-top-label">
+                        수식 소수점계산 :
+                      </label>
+                      <RadioGroup row defaultValue="반올림" name="formulaDecimalCalculationType" style={{ marginLeft: 16 }}>
+                        <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
+                        <FormControlLabel value="내림" control={<Radio disabled={false} />} label="내림" />
+                        <FormControlLabel value="올림" control={<Radio disabled={false} />} label="올림" />
+                      </RadioGroup>
+                    </div>
+                    <div className="flex items-center" style={{ gap: '8px' }}>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                      >
+                        취소
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        sx={{
+                          backgroundColor: 'white',
+                          '&:hover': {
+                            backgroundColor: 'white',
+                          }
+                        }}
+                      >
+                        작성완료
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* 정산수식 block04 섹션 */}
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+                <div className="flex items-center justify-between mb-2">
+                  <Typography component="div" className="font-semibold text-gray-900">
+                    브랜드제휴 변동보전료
+                  </Typography>
+                </div>
+                <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <label className="form-top-label required">정산기준</label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      disabled={pageMode === 'view'}
+                      value={salesPurchaseType}
+                      onChange={e => {
+                        // 숫자만 입력 가능하도록 처리
+                        const value = e.target.value.replace(/[^0-9.]/g, '');
+                        setSalesPurchaseType(value);
+                      }}
+                      type="number"
+                      sx={{
+                        width: '100%',
+                        '& input': { textAlign: 'right' }
+                      }}
+                    />
+                  </div>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <label className="form-top-label required">근접지역</label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      disabled={pageMode === 'view'}
+                      value={salesPurchaseType}
+                      onChange={e => {
+                        // 숫자만 입력 가능하도록 처리
+                        const value = e.target.value.replace(/[^0-9.]/g, '');
+                        setSalesPurchaseType(value);
+                      }}
+                      type="number"
+                      sx={{
+                        width: '100%',
+                        '& input': { textAlign: 'right' }
+                      }}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </div>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <label className="form-top-label required">상한액</label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      disabled={pageMode === 'view'}
+                      value={salesPurchaseType2}
+                      onChange={e => {
+                        // 숫자만 입력 가능하도록 처리
+                        const value = e.target.value.replace(/[^0-9.]/g, '');
+                        setSalesPurchaseType2(value);
+                      }}
+                      type="number"
+                      sx={{
+                        width: '100%',
+                        '& input': { textAlign: 'right' }
+                      }}
+                    />
+                  </div>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <label className="form-top-label">부스임대료</label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      disabled={pageMode === 'view'}
+                      value={salesPurchaseType2}
+                      onChange={e => {
+                        // 숫자만 입력 가능하도록 처리
+                        const value = e.target.value.replace(/[^0-9.]/g, '');
+                        setSalesPurchaseType2(value);
+                      }}
+                      type="number"
+                      sx={{
+                        width: '100%',
+                        '& input': { textAlign: 'right' }
+                      }}
+                    />
+                  </div>
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                    <label className="form-top-label">임차료</label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      disabled={pageMode === 'view'}
+                      value={salesPurchaseType2}
+                      onChange={e => {
+                        // 숫자만 입력 가능하도록 처리
+                        const value = e.target.value.replace(/[^0-9.]/g, '');
+                        setSalesPurchaseType2(value);
+                      }}
+                      type="number"
+                      sx={{
+                        width: '100%',
+                        '& input': { textAlign: 'right' }
+                      }}
+                    />
+                  </div>
+                </div>
+                {pageMode === 'edit' && (
+                  <div className="flex items-center justify-end" style={{ gap: '8px' }}>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      size="small"
+                    >
+                      취소
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      sx={{
+                        backgroundColor: 'white',
+                        '&:hover': {
+                          backgroundColor: 'white',
+                        }
+                      }}
+                    >
+                      작성완료
+                    </Button>
+                  </div>
+                )}
+              </div>
+              {/* 정산수식 block05 섹션 */}
+              <div className="mt-2 rounded-lg bg-white p-4 pb-2">
+                <div className="flex items-center justify-between mb-2">
+                  <Typography component="div" className="font-semibold text-gray-900">
+                   최종정산금액
+                  </Typography>
+                </div>
+                {/* FormulaInput 컴포넌트 */}
+                <div className="mt-2">
+                  <FormulaInput
+                    value={formulaValue}
+                    onChange={setFormulaValue}
+                    disabled={isViewMode(pageMode)}
+                  />
+                </div>
+                
+                {pageMode === 'edit' && (
+                  <div className="flex items-center justify-between">
+                    <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
+                      <label className="form-top-label">
+                        부가세소수점처리방식 :
+                      </label>
+                      <RadioGroup row defaultValue="반올림" name="formulaDecimalCalculationType" style={{ marginLeft: 16 }}>
+                        <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
+                        <FormControlLabel value="내림" control={<Radio disabled={false} />} label="내림" />
+                        <FormControlLabel value="올림" control={<Radio disabled={false} />} label="올림" />
+                      </RadioGroup>
+                    </div>
+                    <div className="flex items-center" style={{ gap: '8px' }}>
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        size="small"
+                      >
+                        취소
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        sx={{
+                          backgroundColor: 'white',
+                          '&:hover': {
+                            backgroundColor: 'white',
+                          }
+                        }}
+                      >
+                        작성완료
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            {pageMode === 'edit' && (
+              <div className="flex gap-2 justify-end mt-3" style={{ justifyContent: 'flex-end' }}>
+                <Button variant="outlined" color="secondary">
+                  취소
+                </Button>
+                <Button variant="contained">
+                  작성완료
+                </Button>
+              </div>
+            )}
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mt-3 mb-0">
+              <div className="flex items-center justify-between mb-2">
+                <Typography component="div" className="font-semibold text-gray-900">
+                  수식테스트
                 </Typography>
                 {pageMode === 'edit' && (
                   <div className="flex items-center" style={{ gap: '8px' }}>
@@ -577,374 +1148,21 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       color="secondary"
                       size="small"
                     >
-                      수정
+                      초기화
                     </Button>
                     <Button
                       variant="outlined"
-                      color="error"
+                      color="secondary"
                       size="small"
                     >
-                      삭제
+                      테스트
                     </Button>
                   </div>
                 )}
               </div>
-
-              {/* FormulaInput 컴포넌트 */}
-              <div className="mt-2">
-                <FormulaInput
-                  value={formulaValue}
-                  onChange={setFormulaValue}
-                  disabled={isViewMode(pageMode)}
-                />
-              </div>
-
-              {pageMode === 'edit' && (
-                <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
-                  <label className="form-top-label">
-                    지급액 소수점계산 :
-                  </label>
-                  <RadioGroup row defaultValue="반올림" name="paymentDecimalCalculationType" style={{ marginLeft: 16 }}>
-                    <FormControlLabel value="반올림" control={<Radio />} label="반올림" />
-                    <FormControlLabel value="내림" control={<Radio />} label="내림" />
-                    <FormControlLabel value="올림" control={<Radio />} label="올림" />
-                  </RadioGroup>
-                </div>
-              )}
-            </div>
-            {/* 정산수식 block02 섹션 */}
-            <div className="mt-2 rounded-lg bg-white p-4 pb-2">
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 8,
-                }}
-              >
-                <div>
-                  <label className="form-top-label required">
-                    수식명
-                  </label>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    type="text"
-                    disabled={pageMode === 'view'}
-                    sx={{
-                      width: '100%',
-                      '& input': {
-                        textAlign: 'left'
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <label className="form-top-label required">
-                    수식키
-                  </label>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    type="text"
-                    disabled={pageMode === 'view'}
-                    sx={{
-                      width: '100%',
-                      '& input': {
-                        textAlign: 'left'
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-              {/* FormulaInput 컴포넌트 */}
-              <div className="mt-2">
-                <FormulaInput
-                  value={formulaValue}
-                  onChange={setFormulaValue}
-                  disabled={isViewMode(pageMode)}
-                />
-              </div>
-
-              {pageMode === 'edit' && (
-                <div className="flex items-center justify-between">
-                  <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
-                    <label className="form-top-label">
-                      정산 소수점계산 :
-                    </label>
-                    <RadioGroup row defaultValue="반올림" name="settlementDecimalCalculationType" style={{ marginLeft: 16 }}>
-                      <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
-                      <FormControlLabel value="내림" control={<Radio disabled={false} />} label="내림" />
-                      <FormControlLabel value="올림" control={<Radio disabled={false} />} label="올림" />
-                    </RadioGroup>
-                  </div>
-                  <div className="flex items-center" style={{ gap: '8px' }}>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      size="small"
-                    >
-                      취소
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      size="small"
-                      sx={{
-                        backgroundColor: 'white',
-                        '&:hover': {
-                          backgroundColor: 'white',
-                        }
-                      }}
-                    >
-                      작성완료
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
-            {/* 정산수식 block03 섹션 */}
-            <div className="mt-2 rounded-lg bg-white p-4 pb-2">
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 8,
-                }}
-              >
-                <div>
-                  <label className="form-top-label required">
-                    수식명
-                  </label>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    type="text"
-                    disabled={pageMode === 'view'}
-                    sx={{
-                      width: '100%',
-                      '& input': {
-                        textAlign: 'left'
-                      },
-                      '& .MuiOutlinedInput-root': {
-                        height: '40px',
-                        boxSizing: 'border-box',
-                        '& fieldset': {
-                          borderWidth: '1px'
-                        },
-                        '&:hover fieldset': {
-                          borderWidth: '1px'
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderWidth: '2px'
-                        }
-                      }
-                    }}
-                  />
-                </div>
-                <div>
-                  <label className="form-top-label required">
-                    수식키
-                  </label>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    type="text"
-                    disabled={pageMode === 'view'}
-                    sx={{
-                      width: '100%',
-                      '& input': {
-                        textAlign: 'left'
-                      },
-                      '& .MuiOutlinedInput-root': {
-                        height: '40px',
-                        boxSizing: 'border-box',
-                        '& fieldset': {
-                          borderWidth: '1px'
-                        },
-                        '&:hover fieldset': {
-                          borderWidth: '1px'
-                        },
-                        '&.Mui-focused fieldset': {
-                          borderWidth: '2px'
-                        }
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-              <div
-                className="mt-2"
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 8,
-                }}
-              >
-                <div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <div style={{ display: 'flex', gap: 4, width: '100%' }}>
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <label className="form-top-label required" style={{ marginBottom: 4 }}>
-                          정산기준
-                        </label>
-                        <Select
-                          value={salesReflectionTiming}
-                          onChange={e => setSalesReflectionTiming(e.target.value as string)}
-                          size="small"
-                          disabled={pageMode === 'view'}
-                          sx={{ width: '100%' }}
-                        >
-                          <MenuItem value=""><em>선택</em></MenuItem>
-                          <MenuItem value="옵션1">옵션1</MenuItem>
-                          <MenuItem value="옵션2">옵션2</MenuItem>
-                          <MenuItem value="옵션3">옵션3</MenuItem>
-                        </Select>
-                      </div>
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <label className="form-top-label" style={{ marginBottom: 4 }}>
-                          기준 &gt;
-                        </label>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          disabled={pageMode === 'view'}
-                          value={salesPurchaseType}
-                          onChange={e => {
-                            // 숫자만 입력 가능하도록 처리
-                            const value = e.target.value.replace(/[^0-9.]/g, '');
-                            setSalesPurchaseType(value);
-                          }}
-                          type="number"
-                          sx={{
-                            width: '100%',
-                            '& input': { textAlign: 'left' }
-                          }}
-                        />
-                      </div>
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <label className="form-top-label" style={{ marginBottom: 4 }}>
-                          기준 ≤
-                        </label>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          disabled={pageMode === 'view'}
-                          value={salesPurchaseType2}
-                          onChange={e => {
-                            // 숫자만 입력 가능하도록 처리
-                            const value = e.target.value.replace(/[^0-9.]/g, '');
-                            setSalesPurchaseType2(value);
-                          }}
-                          type="number"
-                          sx={{
-                            width: '100%',
-                            '& input': { textAlign: 'left' }
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <label className="form-top-label required">
-                    정산금액
-                  </label>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    <div style={{ display: 'flex', gap: 4, width: '100%' }}>
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <Select
-                          value={salesReflectionTiming}
-                          onChange={e => setSalesReflectionTiming(e.target.value as string)}
-                          size="small"
-                          disabled={pageMode === 'view'}
-                          sx={{ width: '100%' }}
-                        >
-                          <MenuItem value=""><em>선택</em></MenuItem>
-                          <MenuItem value="옵션1">옵션1</MenuItem>
-                          <MenuItem value="옵션2">옵션2</MenuItem>
-                          <MenuItem value="옵션3">옵션3</MenuItem>
-                        </Select>
-                      </div>
-                      <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          disabled={pageMode === 'view'}
-                          value={salesPurchaseType}
-                          onChange={e => {
-                            // 숫자만 입력 가능하도록 처리
-                            const value = e.target.value.replace(/[^0-9.]/g, '');
-                            setSalesPurchaseType(value);
-                          }}
-                          type="number"
-                          sx={{
-                            width: '100%',
-                            '& input': { textAlign: 'left' }
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {pageMode === 'edit' && (
-                <div className="flex items-center mt-2" style={{ gap: '8px' }}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                  >
-                    추가
-                  </Button>
-                </div>
-              )}
-              {pageMode === 'edit' && (
-                <div className="flex items-center justify-between">
-                  <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
-                    <label className="form-top-label">
-                      수식 소수점계산 :
-                    </label>
-                    <RadioGroup row defaultValue="반올림" name="formulaDecimalCalculationType" style={{ marginLeft: 16 }}>
-                      <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
-                      <FormControlLabel value="내림" control={<Radio disabled={false} />} label="내림" />
-                      <FormControlLabel value="올림" control={<Radio disabled={false} />} label="올림" />
-                    </RadioGroup>
-                  </div>
-                  <div className="flex items-center" style={{ gap: '8px' }}>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      size="small"
-                    >
-                      취소
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      size="small"
-                      sx={{
-                        backgroundColor: 'white',
-                        '&:hover': {
-                          backgroundColor: 'white',
-                        }
-                      }}
-                    >
-                      작성완료
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
-            {/* 정산수식 block04 섹션 */}
-            <div className="mt-2 rounded-lg bg-white p-4 pb-2">
-              <div className="flex items-center justify-between mb-2">
-                <Typography component="div" className="font-semibold text-gray-900">
-                  브랜드제휴 변동보전료
-                </Typography>
-              </div>
-              <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+              <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mb-2 mt-2">
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <label className="form-top-label required">정산기준</label>
+                  <label className="form-top-label">매출수수료</label>
                   <TextField
                     variant="outlined"
                     size="small"
@@ -963,7 +1181,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   />
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <label className="form-top-label required">근접지역</label>
+                  <label className="form-top-label">기준금액1</label>
                   <TextField
                     variant="outlined"
                     size="small"
@@ -979,26 +1197,19 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       width: '100%',
                       '& input': { textAlign: 'right' }
                     }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
-                        </InputAdornment>
-                      ),
-                    }}
                   />
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <label className="form-top-label required">상한액</label>
+                  <label className="form-top-label">임차료비율1</label>
                   <TextField
                     variant="outlined"
                     size="small"
                     disabled={pageMode === 'view'}
-                    value={salesPurchaseType2}
+                    value={salesPurchaseType}
                     onChange={e => {
                       // 숫자만 입력 가능하도록 처리
                       const value = e.target.value.replace(/[^0-9.]/g, '');
-                      setSalesPurchaseType2(value);
+                      setSalesPurchaseType(value);
                     }}
                     type="number"
                     sx={{
@@ -1008,16 +1219,16 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   />
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <label className="form-top-label">부스임대료</label>
+                  <label className="form-top-label">기준금액2</label>
                   <TextField
                     variant="outlined"
                     size="small"
                     disabled={pageMode === 'view'}
-                    value={salesPurchaseType2}
+                    value={salesPurchaseType}
                     onChange={e => {
                       // 숫자만 입력 가능하도록 처리
                       const value = e.target.value.replace(/[^0-9.]/g, '');
-                      setSalesPurchaseType2(value);
+                      setSalesPurchaseType(value);
                     }}
                     type="number"
                     sx={{
@@ -1027,16 +1238,16 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   />
                 </div>
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                  <label className="form-top-label">임차료</label>
+                  <label className="form-top-label">임차료 비율2</label>
                   <TextField
                     variant="outlined"
                     size="small"
                     disabled={pageMode === 'view'}
-                    value={salesPurchaseType2}
+                    value={salesPurchaseType}
                     onChange={e => {
                       // 숫자만 입력 가능하도록 처리
                       const value = e.target.value.replace(/[^0-9.]/g, '');
-                      setSalesPurchaseType2(value);
+                      setSalesPurchaseType(value);
                     }}
                     type="number"
                     sx={{
@@ -1046,35 +1257,26 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   />
                 </div>
               </div>
-              {pageMode === 'edit' && (
-                <div className="flex items-center justify-end" style={{ gap: '8px' }}>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    size="small"
-                  >
-                    취소
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    size="small"
-                    sx={{
-                      backgroundColor: 'white',
-                      '&:hover': {
-                        backgroundColor: 'white',
-                      }
-                    }}
-                  >
-                    작성완료
-                  </Button>
+              <div
+                className="bg-blue-600 flex gap-2 text-white py-3 justify-between"
+                style={{ borderRadius: '4px' }}
+              >
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <div style={{ fontWeight: 600, marginBottom: 4 }}>공급가액</div>
+                  <div style={{ fontWeight: 800 }}>0</div>
                 </div>
-              )}
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <div style={{ fontWeight: 600, marginBottom: 4 }}>부가세</div>
+                  <div style={{ fontWeight: 800 }}>0</div>
+                </div>
+                <div style={{ flex: 1, textAlign: "center" }}>
+                  <div style={{ fontWeight: 600, marginBottom: 4 }}>합계</div>
+                  <div style={{ fontWeight: 800 }}>0</div>
+                </div>
+              </div>
             </div>
-          </div>
+          </>
         ) : null}
-
-        <div>여깅ㅇㅇ</div>
 
         {/* B타입 플레이스홀더 */}
         {item.formulaType === 'b' && (
