@@ -1312,16 +1312,16 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 style={{ borderRadius: '8px' }}
               >
                 <div style={{ flex: 1, textAlign: "center" }}>
-                  <div style={{ fontWeight: 600, marginBottom: 4 }}>공급가액</div>
-                  <div style={{ fontWeight: 800 }}>0</div>
+                  <div className="font-light" style={{ marginBottom: 4, fontSize: '13px' }}>공급가액</div>
+                  <div className="font-semibold">0</div>
                 </div>
                 <div style={{ flex: 1, textAlign: "center" }}>
-                  <div style={{ fontWeight: 600, marginBottom: 4 }}>부가세</div>
-                  <div style={{ fontWeight: 800 }}>0</div>
+                  <div className="font-light" style={{ marginBottom: 4, fontSize: '13px' }}>부가세</div>
+                  <div className="font-semibold">0</div>
                 </div>
                 <div style={{ flex: 1, textAlign: "center" }}>
-                  <div style={{ fontWeight: 600, marginBottom: 4 }}>합계</div>
-                  <div style={{ fontWeight: 800 }}>0</div>
+                  <div className="font-light" style={{ marginBottom: 4, fontSize: '13px' }}>합계</div>
+                  <div className="font-semibold">0</div>
                 </div>
               </div>
             </div>
@@ -1694,11 +1694,11 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
               </div>
 
               {item.formulaType === 'd' && (
-                <div>
+                <div className="mt-2">
                   <label className="form-top-label">
                     임차료 산정카드 수수료 항목
                   </label>
-                  <div className="flex flex-wrap mt-2">
+                  <div className="flex flex-wrap">
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -2889,16 +2889,16 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 style={{ borderRadius: '8px' }}
               >
                 <div style={{ flex: 1, textAlign: "center" }}>
-                  <div style={{ fontWeight: 600, marginBottom: 4 }}>공급가액</div>
-                  <div style={{ fontWeight: 800 }}>0</div>
+                  <div className="font-light" style={{ marginBottom: 4, fontSize: '13px' }}>공급가액</div>
+                  <div className="font-semibold">0</div>
                 </div>
                 <div style={{ flex: 1, textAlign: "center" }}>
-                  <div style={{ fontWeight: 600, marginBottom: 4 }}>부가세</div>
-                  <div style={{ fontWeight: 800 }}>0</div>
+                  <div className="font-light" style={{ marginBottom: 4, fontSize: '13px' }}>부가세</div>
+                  <div className="font-semibold">0</div>
                 </div>
                 <div style={{ flex: 1, textAlign: "center" }}>
-                  <div style={{ fontWeight: 600, marginBottom: 4 }}>합계</div>
-                  <div style={{ fontWeight: 800 }}>0</div>
+                  <div className="font-light" style={{ marginBottom: 4, fontSize: '13px' }}>합계</div>
+                  <div className="font-semibold">0</div>
                 </div>
               </div>
             </div>
