@@ -1408,7 +1408,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     <th className="w-24">주차장코드</th>
                     <th className="w-auto">주차장명</th>
                     <th className="w-auto">운영상태</th>
-                    <th className="w-6 p-1">삭제</th>
+                    <th className="w-6 p-1" style={{ minWidth: '35px' }}>삭제</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1744,9 +1744,12 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
             </div>
             {/* 4. 추가수익 매출정보 */}
             <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
-              <div className="mb-3">
+              <div className="mb-3 flex items-center justify-between">
                 <Typography component="div" className="font-semibold text-gray-900">
                   4. 추가수익 매출정보
+                </Typography>
+                <Typography component="div" className="text-sm text-danger" style={{ fontSize: '12px' }} >
+                  * 체크박스는 사용여부
                 </Typography>
               </div>
               <table className="rul-table">
@@ -2026,7 +2029,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   </tr>
                   <tr>
                     <td className="text-center">리턴프리</td>
-                    <td className="text-center">카셰어링</td>
+                    <td className="text-center">현금</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'returnfree')?.usage || false}
@@ -2081,7 +2084,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   <tr>
                     <td className="text-center font-semibold" rowSpan={10}>플랫폼매출</td>
                     <td className="text-center">모두-할인</td>
-                    <td className="text-center">플랫폼</td>
+                    <td className="text-center">현금</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'modu_discount')?.usage || false}
@@ -2134,7 +2137,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   </tr>
                   <tr>
                     <td className="text-center">모두-정기</td>
-                    <td className="text-center">플랫폼</td>
+                    <td className="text-center">현금</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'modu_regular')?.usage || false}
@@ -2516,11 +2519,11 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 <table className="rul-table">
                   <thead>
                     <tr>
-                      <th className="w-auto">CASE</th>
-                      <th className="w-35">추가금액</th>
+                      <th className="w-auto" style={{ minWidth: '100px' }}>CASE</th>
+                      <th className="w-28">추가금액</th>
                       <th className="w-auto">추가사유</th>
                       <th className="w-64">적용기간</th>
-                      <th className="w-6 p-1">삭제</th>
+                      <th className="w-6 p-1" style={{ minWidth: '35px' }}>삭제</th>
                     </tr>
                   </thead>
                   <tbody>
