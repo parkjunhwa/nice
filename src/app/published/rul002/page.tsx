@@ -463,7 +463,11 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
     { id: 'jumansa', usage: false, ratio: '', amountType: '' },
     { id: 'post_settlement_card', usage: false, ratio: '', amountType: '' },
     { id: 'post_settlement_cash', usage: false, ratio: '', amountType: '' },
-    { id: 'refund', usage: false, ratio: '', amountType: '' }
+    { id: 'refund', usage: false, ratio: '', amountType: '' },
+    { id: 'garage_regular', usage: false, ratio: '', amountType: '' },
+    { id: 'garage_discount', usage: false, ratio: '', amountType: '' },
+    { id: 'pcmk_regular', usage: false, ratio: '', amountType: '' },
+    { id: 'pcmk_discount', usage: false, ratio: '', amountType: '' }
   ])
 
   // 임차료 산정카드 수수료 항목 상태
@@ -1070,6 +1074,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
           </div>
         ) : null}
 
+        <div>여깅ㅇㅇ</div>
+
         {/* B타입 플레이스홀더 */}
         {item.formulaType === 'b' && (
           <div>
@@ -1575,9 +1581,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
               <table className="rul-table">
                 <thead>
                   <tr>
-                    <th className="text-center" style={{ width: '80px' }}>카테고리</th>
-                    <th className="text-center" style={{ width: '80px' }}>서브항목</th>
-                    <th className="text-center" style={{ width: '80px' }}>구분</th>
+                    <th className="text-center" style={{ width: '80px' }} colSpan={3}>CASE</th>
                     <th className="text-center" style={{ width: '50px' }}>
                       <Checkbox
                         checked={salesData.every(item => item.usage)}
@@ -1598,14 +1602,13 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 <tbody>
                   {/* 정기권 */}
                   <tr>
-                    <td className="text-center font-semibold" rowSpan={2}>정기권</td>
+                    <td className="text-center font-semibold" rowSpan={2} colSpan={2}>정기권</td>
                     <td className="text-center">카드</td>
-                    <td className="text-center">정기</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'regular_card')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'regular_card' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -1615,50 +1618,19 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       />
                     </td>
                     <td className="text-center">
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={salesData.find(item => item.id === 'regular_card')?.ratio || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'regular_card' ? { ...item, ratio: e.target.value } : item
-                          ))
-                        }}
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'regular_card')?.usage}
-                        sx={{
-                          width: '100%',
-                          '& .MuiInputBase-input': {
-                            textAlign: 'right'
-                          }
-                        }}
-                      />
+                      -
                     </td>
                     <td className="text-center">
-                      <Select
-                        value={salesData.find(item => item.id === 'regular_card')?.amountType || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'regular_card' ? { ...item, amountType: e.target.value } : item
-                          ))
-                        }}
-                        size="small"
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'regular_card')?.usage}
-                        sx={{ width: '100%' }}
-                      >
-                        <MenuItem value=""><em>선택</em></MenuItem>
-                        <MenuItem value="고정">고정</MenuItem>
-                        <MenuItem value="변동">변동</MenuItem>
-                      </Select>
+
                     </td>
                   </tr>
                   <tr>
                     <td className="text-center">현금</td>
-                    <td className="text-center">정기</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'regular_cash')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'regular_cash' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -1668,52 +1640,21 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       />
                     </td>
                     <td className="text-center">
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={salesData.find(item => item.id === 'regular_cash')?.ratio || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'regular_cash' ? { ...item, ratio: e.target.value } : item
-                          ))
-                        }}
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'regular_cash')?.usage}
-                        sx={{
-                          width: '100%',
-                          '& .MuiInputBase-input': {
-                            textAlign: 'right'
-                          }
-                        }}
-                      />
+                      -
                     </td>
                     <td className="text-center">
-                      <Select
-                        value={salesData.find(item => item.id === 'regular_cash')?.amountType || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'regular_cash' ? { ...item, amountType: e.target.value } : item
-                          ))
-                        }}
-                        size="small"
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'regular_cash')?.usage}
-                        sx={{ width: '100%' }}
-                      >
-                        <MenuItem value=""><em>선택</em></MenuItem>
-                        <MenuItem value="고정">고정</MenuItem>
-                        <MenuItem value="변동">변동</MenuItem>
-                      </Select>
+
                     </td>
                   </tr>
                   {/* 할인권 */}
                   <tr>
-                    <td className="text-center font-semibold" rowSpan={2}>할인권</td>
+                    <td className="text-center font-semibold" rowSpan={2} colSpan={2}>할인권</td>
                     <td className="text-center">카드</td>
-                    <td className="text-center">할인</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'discount_card')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'discount_card' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -1723,50 +1664,19 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       />
                     </td>
                     <td className="text-center">
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={salesData.find(item => item.id === 'discount_card')?.ratio || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'discount_card' ? { ...item, ratio: e.target.value } : item
-                          ))
-                        }}
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'discount_card')?.usage}
-                        sx={{
-                          width: '100%',
-                          '& .MuiInputBase-input': {
-                            textAlign: 'right'
-                          }
-                        }}
-                      />
+                      -
                     </td>
                     <td className="text-center">
-                      <Select
-                        value={salesData.find(item => item.id === 'discount_card')?.amountType || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'discount_card' ? { ...item, amountType: e.target.value } : item
-                          ))
-                        }}
-                        size="small"
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'discount_card')?.usage}
-                        sx={{ width: '100%' }}
-                      >
-                        <MenuItem value=""><em>선택</em></MenuItem>
-                        <MenuItem value="고정">고정</MenuItem>
-                        <MenuItem value="변동">변동</MenuItem>
-                      </Select>
+
                     </td>
                   </tr>
                   <tr>
                     <td className="text-center">현금</td>
-                    <td className="text-center">할인</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'discount_cash')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'discount_cash' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -1776,52 +1686,22 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       />
                     </td>
                     <td className="text-center">
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={salesData.find(item => item.id === 'discount_cash')?.ratio || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'discount_cash' ? { ...item, ratio: e.target.value } : item
-                          ))
-                        }}
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'discount_cash')?.usage}
-                        sx={{
-                          width: '100%',
-                          '& .MuiInputBase-input': {
-                            textAlign: 'right'
-                          }
-                        }}
-                      />
+                      -
                     </td>
                     <td className="text-center">
-                      <Select
-                        value={salesData.find(item => item.id === 'discount_cash')?.amountType || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'discount_cash' ? { ...item, amountType: e.target.value } : item
-                          ))
-                        }}
-                        size="small"
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'discount_cash')?.usage}
-                        sx={{ width: '100%' }}
-                      >
-                        <MenuItem value=""><em>선택</em></MenuItem>
-                        <MenuItem value="고정">고정</MenuItem>
-                        <MenuItem value="변동">변동</MenuItem>
-                      </Select>
+
                     </td>
                   </tr>
                   {/* 카셰어링 */}
                   <tr>
                     <td className="text-center font-semibold" rowSpan={4}>카셰어링</td>
                     <td className="text-center">쏘카</td>
-                    <td className="text-center">카셰어링</td>
+                    <td className="text-center">현금</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'socar')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'socar' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -1836,7 +1716,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         size="small"
                         value={salesData.find(item => item.id === 'socar')?.ratio || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'socar' ? { ...item, ratio: e.target.value } : item
                           ))
                         }}
@@ -1853,7 +1733,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <Select
                         value={salesData.find(item => item.id === 'socar')?.amountType || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'socar' ? { ...item, amountType: e.target.value } : item
                           ))
                         }}
@@ -1869,12 +1749,12 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   </tr>
                   <tr>
                     <td className="text-center">그린카</td>
-                    <td className="text-center">카셰어링</td>
+                    <td className="text-center">현금</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'greencar')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'greencar' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -1889,7 +1769,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         size="small"
                         value={salesData.find(item => item.id === 'greencar')?.ratio || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'greencar' ? { ...item, ratio: e.target.value } : item
                           ))
                         }}
@@ -1906,7 +1786,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <Select
                         value={salesData.find(item => item.id === 'greencar')?.amountType || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'greencar' ? { ...item, amountType: e.target.value } : item
                           ))
                         }}
@@ -1922,12 +1802,12 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   </tr>
                   <tr>
                     <td className="text-center">피플카</td>
-                    <td className="text-center">카셰어링</td>
+                    <td className="text-center">현금</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'peoplecar')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'peoplecar' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -1942,7 +1822,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         size="small"
                         value={salesData.find(item => item.id === 'peoplecar')?.ratio || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'peoplecar' ? { ...item, ratio: e.target.value } : item
                           ))
                         }}
@@ -1959,7 +1839,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <Select
                         value={salesData.find(item => item.id === 'peoplecar')?.amountType || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'peoplecar' ? { ...item, amountType: e.target.value } : item
                           ))
                         }}
@@ -1980,7 +1860,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <Checkbox
                         checked={salesData.find(item => item.id === 'returnfree')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'returnfree' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -1995,7 +1875,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         size="small"
                         value={salesData.find(item => item.id === 'returnfree')?.ratio || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'returnfree' ? { ...item, ratio: e.target.value } : item
                           ))
                         }}
@@ -2012,7 +1892,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <Select
                         value={salesData.find(item => item.id === 'returnfree')?.amountType || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'returnfree' ? { ...item, amountType: e.target.value } : item
                           ))
                         }}
@@ -2035,7 +1915,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <Checkbox
                         checked={salesData.find(item => item.id === 'modu_discount')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'modu_discount' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -2050,7 +1930,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         size="small"
                         value={salesData.find(item => item.id === 'modu_discount')?.ratio || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'modu_discount' ? { ...item, ratio: e.target.value } : item
                           ))
                         }}
@@ -2067,7 +1947,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <Select
                         value={salesData.find(item => item.id === 'modu_discount')?.amountType || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'modu_discount' ? { ...item, amountType: e.target.value } : item
                           ))
                         }}
@@ -2088,7 +1968,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <Checkbox
                         checked={salesData.find(item => item.id === 'modu_regular')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'modu_regular' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -2103,7 +1983,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         size="small"
                         value={salesData.find(item => item.id === 'modu_regular')?.ratio || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'modu_regular' ? { ...item, ratio: e.target.value } : item
                           ))
                         }}
@@ -2120,7 +2000,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <Select
                         value={salesData.find(item => item.id === 'modu_regular')?.amountType || ''}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'modu_regular' ? { ...item, amountType: e.target.value } : item
                           ))
                         }}
@@ -2147,12 +2027,12 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   ].map((platform) => (
                     <tr key={platform.id}>
                       <td className="text-center">{platform.name}</td>
-                      <td className="text-center">플랫폼</td>
+                      <td className="text-center">현금</td>
                       <td className="text-center">
                         <Checkbox
                           checked={salesData.find(item => item.id === platform.id)?.usage || false}
                           onChange={(e) => {
-                            setSalesData(prev => prev.map(item => 
+                            setSalesData(prev => prev.map(item =>
                               item.id === platform.id ? { ...item, usage: e.target.checked } : item
                             ))
                           }}
@@ -2167,7 +2047,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                           size="small"
                           value={salesData.find(item => item.id === platform.id)?.ratio || ''}
                           onChange={(e) => {
-                            setSalesData(prev => prev.map(item => 
+                            setSalesData(prev => prev.map(item =>
                               item.id === platform.id ? { ...item, ratio: e.target.value } : item
                             ))
                           }}
@@ -2184,7 +2064,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         <Select
                           value={salesData.find(item => item.id === platform.id)?.amountType || ''}
                           onChange={(e) => {
-                            setSalesData(prev => prev.map(item => 
+                            setSalesData(prev => prev.map(item =>
                               item.id === platform.id ? { ...item, amountType: e.target.value } : item
                             ))
                           }}
@@ -2199,16 +2079,64 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       </td>
                     </tr>
                   ))}
+
+                  {/* 차고지 */}
+                  <tr>
+                    <td className="text-center font-semibold" colSpan={2}>차고지</td>
+                    <td className="text-center">현금</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'garage_regular')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item =>
+                            item.id === 'garage_regular' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      -
+                    </td>
+                    <td className="text-center">
+
+                    </td>
+                  </tr>
+                  {/* PCMK */}
+                  <tr>
+                    <td className="text-center font-semibold" colSpan={2}>PCMK</td>
+                    <td className="text-center">현금</td>
+                    <td className="text-center">
+                      <Checkbox
+                        checked={salesData.find(item => item.id === 'pcmk_regular')?.usage || false}
+                        onChange={(e) => {
+                          setSalesData(prev => prev.map(item =>
+                            item.id === 'pcmk_regular' ? { ...item, usage: e.target.checked } : item
+                          ))
+                        }}
+                        size="small"
+                        disabled={isViewMode(pageMode)}
+                        sx={{ display: 'inline-block' }}
+                      />
+                    </td>
+                    <td className="text-center">
+                      -
+                    </td>
+                    <td className="text-center">
+
+                    </td>
+                  </tr>
                   {/* 사후정산 */}
                   <tr>
-                    <td className="text-center font-semibold" rowSpan={2}>사후정산</td>
+                    <td className="text-center font-semibold" rowSpan={2} colSpan={2}>사후정산</td>
                     <td className="text-center">카드</td>
-                    <td className="text-center">사후</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'post_settlement_card')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'post_settlement_card' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -2217,51 +2145,21 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         sx={{ display: 'inline-block' }}
                       />
                     </td>
+
                     <td className="text-center">
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={salesData.find(item => item.id === 'post_settlement_card')?.ratio || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'post_settlement_card' ? { ...item, ratio: e.target.value } : item
-                          ))
-                        }}
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'post_settlement_card')?.usage}
-                        sx={{
-                          width: '100%',
-                          '& .MuiInputBase-input': {
-                            textAlign: 'right'
-                          }
-                        }}
-                      />
+                      -
                     </td>
                     <td className="text-center">
-                      <Select
-                        value={salesData.find(item => item.id === 'post_settlement_card')?.amountType || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'post_settlement_card' ? { ...item, amountType: e.target.value } : item
-                          ))
-                        }}
-                        size="small"
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'post_settlement_card')?.usage}
-                        sx={{ width: '100%' }}
-                      >
-                        <MenuItem value=""><em>선택</em></MenuItem>
-                        <MenuItem value="고정">고정</MenuItem>
-                        <MenuItem value="변동">변동</MenuItem>
-                      </Select>
+
                     </td>
                   </tr>
                   <tr>
                     <td className="text-center">현금</td>
-                    <td className="text-center">사후</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'post_settlement_cash')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'post_settlement_cash' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -2270,53 +2168,23 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         sx={{ display: 'inline-block' }}
                       />
                     </td>
+
                     <td className="text-center">
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={salesData.find(item => item.id === 'post_settlement_cash')?.ratio || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'post_settlement_cash' ? { ...item, ratio: e.target.value } : item
-                          ))
-                        }}
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'post_settlement_cash')?.usage}
-                        sx={{
-                          width: '100%',
-                          '& .MuiInputBase-input': {
-                            textAlign: 'right'
-                          }
-                        }}
-                      />
+                      -
                     </td>
                     <td className="text-center">
-                      <Select
-                        value={salesData.find(item => item.id === 'post_settlement_cash')?.amountType || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'post_settlement_cash' ? { ...item, amountType: e.target.value } : item
-                          ))
-                        }}
-                        size="small"
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'post_settlement_cash')?.usage}
-                        sx={{ width: '100%' }}
-                      >
-                        <MenuItem value=""><em>선택</em></MenuItem>
-                        <MenuItem value="고정">고정</MenuItem>
-                        <MenuItem value="변동">변동</MenuItem>
-                      </Select>
+
                     </td>
                   </tr>
                   {/* 환불 */}
                   <tr>
-                    <td className="text-center font-semibold">환불</td>
-                    <td className="text-center">-</td>
-                    <td className="text-center">환불</td>
+                    <td className="text-center font-semibold" colSpan={2}>환불</td>
+                    <td className="text-center">현금</td>
                     <td className="text-center">
                       <Checkbox
                         checked={salesData.find(item => item.id === 'refund')?.usage || false}
                         onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
+                          setSalesData(prev => prev.map(item =>
                             item.id === 'refund' ? { ...item, usage: e.target.checked } : item
                           ))
                         }}
@@ -2325,41 +2193,12 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         sx={{ display: 'inline-block' }}
                       />
                     </td>
+
                     <td className="text-center">
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={salesData.find(item => item.id === 'refund')?.ratio || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'refund' ? { ...item, ratio: e.target.value } : item
-                          ))
-                        }}
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'refund')?.usage}
-                        sx={{
-                          width: '100%',
-                          '& .MuiInputBase-input': {
-                            textAlign: 'right'
-                          }
-                        }}
-                      />
+                      -
                     </td>
                     <td className="text-center">
-                      <Select
-                        value={salesData.find(item => item.id === 'refund')?.amountType || ''}
-                        onChange={(e) => {
-                          setSalesData(prev => prev.map(item => 
-                            item.id === 'refund' ? { ...item, amountType: e.target.value } : item
-                          ))
-                        }}
-                        size="small"
-                        disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'refund')?.usage}
-                        sx={{ width: '100%' }}
-                      >
-                        <MenuItem value=""><em>선택</em></MenuItem>
-                        <MenuItem value="고정">고정</MenuItem>
-                        <MenuItem value="변동">변동</MenuItem>
-                      </Select>
+
                     </td>
                   </tr>
                 </tbody>
