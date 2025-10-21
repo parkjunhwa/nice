@@ -490,7 +490,9 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
 
   // 테이블 행 추가
   const handleAddTableRow = () => {
-    const newId = Math.max(...tableSettlementData.map(item => item.id)) + 1;
+    const newId = tableSettlementData.length > 0 
+      ? Math.max(...tableSettlementData.map(item => item.id)) + 1 
+      : 1;
     setTableSettlementData(prev => [
       ...prev,
       {
@@ -538,7 +540,9 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
 
   // 주차장 행 추가
   const handleAddParkingLotRow = () => {
-    const newId = Math.max(...parkingLotData.map(item => item.id)) + 1;
+    const newId = parkingLotData.length > 0 
+      ? Math.max(...parkingLotData.map(item => item.id)) + 1 
+      : 1;
     setParkingLotData(prev => [
       ...prev,
       {
@@ -2565,14 +2569,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         />
                       </td>
                       <td className="text-center">
-                        <div className="flex justify-center">
-                          <Checkbox
-                            checked={regularCard}
-                            onChange={(e) => setRegularCard(e.target.checked)}
-                            size="small"
-                            disabled={pageMode === 'view'}
-                          />
-                        </div>
+                        
                       </td>
                     </tr>
                   </tbody>
@@ -2713,7 +2710,9 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         color="primary"
                         size="small"
                         onClick={() => {
-                          const newId = Math.max(...additionalRentData.map(d => d.id)) + 1
+                          const newId = additionalRentData.length > 0 
+                            ? Math.max(...additionalRentData.map(d => d.id)) + 1 
+                            : 1
                           const newItem: {
                             id: number
                             case: string
