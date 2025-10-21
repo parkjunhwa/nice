@@ -437,7 +437,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
 }) => {
   const [monthlySettlement] = useState((item.data.monthlySettlement as string) || '')
   const [formulaValue, setFormulaValue] = useState((item.data.formulaValue as string) || '')
-  const [salesReflectionTiming, setSalesReflectionTiming] = useState((item.data.salesReflectionTiming as string) || '')
   const [salesPurchaseType, setSalesPurchaseType] = useState((item.data.salesPurchaseType as string) || '')
   const [salesPurchaseType2, setSalesPurchaseType2] = useState((item.data.salesPurchaseType2 as string) || '')
 
@@ -470,6 +469,55 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
     { id: 'pcmk_discount', usage: false, ratio: '', amountType: '' }
   ])
 
+  // 테이블 형태 정산 데이터 상태
+  const [tableSettlementData, setTableSettlementData] = useState<Array<{
+    id: number;
+    criteria: string;
+    criteriaMin: string;
+    criteriaMax: string;
+    amountType: string;
+    amount: string;
+  }>>([
+    {
+      id: 1,
+      criteria: "",
+      criteriaMin: "",
+      criteriaMax: "",
+      amountType: "",
+      amount: ""
+    }
+  ]);
+
+  // 테이블 행 추가
+  const handleAddTableRow = () => {
+    const newId = Math.max(...tableSettlementData.map(item => item.id)) + 1;
+    setTableSettlementData(prev => [
+      ...prev,
+      {
+        id: newId,
+        criteria: "",
+        criteriaMin: "",
+        criteriaMax: "",
+        amountType: "",
+        amount: ""
+      }
+    ]);
+  };
+
+  // 테이블 행 삭제
+  const handleDeleteTableRow = (id: number) => {
+    if (tableSettlementData.length > 1) {
+      setTableSettlementData(prev => prev.filter(item => item.id !== id));
+    }
+  };
+
+  // 테이블 필드 변경
+  const handleTableRowChange = (id: number, field: string, value: string) => {
+    setTableSettlementData(prev => prev.map(item =>
+      item.id === id ? { ...item, [field]: value } : item
+    ));
+  };
+
   // 임차료 산정카드 수수료 항목 상태
   const [timeDiffCard, setTimeDiffCard] = useState(false)
   const [timeDiffCash, setTimeDiffCash] = useState(false)
@@ -485,9 +533,23 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
 
   // 대표 주차장 데이터
   const [parkingLotData, setParkingLotData] = useState([
-    { id: 1, representative: '대표', code: 'NP0510', name: '동탄 센타타워', status: '운영중' },
-    { id: 2, representative: '서브', code: 'NP0511', name: '풍한기업 주차장', status: '운영중' }
+    { id: 1, representative: '대표', code: 'NP0510', name: '동탄 센타타워', status: '운영중' }
   ])
+
+  // 주차장 행 추가
+  const handleAddParkingLotRow = () => {
+    const newId = Math.max(...parkingLotData.map(item => item.id)) + 1;
+    setParkingLotData(prev => [
+      ...prev,
+      {
+        id: newId,
+        representative: '서브',
+        code: '',
+        name: '',
+        status: ''
+      }
+    ]);
+  };
 
   // 추가 임차료, 수익 데이터
   const [additionalRentData, setAdditionalRentData] = useState<Array<{
@@ -773,132 +835,151 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     />
                   </div>
                 </div>
-                <div
-                  className="mt-2"
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: 8,
-                  }}
-                >
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <div style={{ display: 'flex', gap: 4, width: '100%' }}>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                          <label className="form-top-label required" style={{ marginBottom: 4 }}>
+                <div className="mt-2">
+                  <table className="rul-table">
+                    <thead>
+                      <tr>
+                        <th className="text-center" style={{ width: '100px' }}>
+                          <label className="form-top-label required mb-0">
                             정산기준
                           </label>
-                          <Select
-                            value={salesReflectionTiming}
-                            onChange={e => setSalesReflectionTiming(e.target.value as string)}
-                            size="small"
-                            disabled={pageMode === 'view'}
-                            sx={{ width: '100%' }}
-                          >
-                            <MenuItem value=""><em>선택</em></MenuItem>
-                            <MenuItem value="옵션1">옵션1</MenuItem>
-                            <MenuItem value="옵션2">옵션2</MenuItem>
-                            <MenuItem value="옵션3">옵션3</MenuItem>
-                          </Select>
-                        </div>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                          <label className="form-top-label" style={{ marginBottom: 4 }}>
+                        </th>
+                        <th className="text-center" style={{ width: '100px' }}>
+                          <label className="form-top-label mb-0">
                             기준 &gt;
                           </label>
-                          <TextField
-                            variant="outlined"
-                            size="small"
-                            disabled={pageMode === 'view'}
-                            value={salesPurchaseType}
-                            onChange={e => {
-                              // 숫자만 입력 가능하도록 처리
-                              const value = e.target.value.replace(/[^0-9.]/g, '');
-                              setSalesPurchaseType(value);
-                            }}
-                            type="number"
-                            sx={{
-                              width: '100%',
-                              '& input': { textAlign: 'left' }
-                            }}
-                          />
-                        </div>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                          <label className="form-top-label" style={{ marginBottom: 4 }}>
+                        </th>
+                        <th className="text-center" style={{ width: '100px' }}>
+                          <label className="form-top-label mb-0">
                             기준 ≤
                           </label>
-                          <TextField
-                            variant="outlined"
-                            size="small"
-                            disabled={pageMode === 'view'}
-                            value={salesPurchaseType2}
-                            onChange={e => {
-                              // 숫자만 입력 가능하도록 처리
-                              const value = e.target.value.replace(/[^0-9.]/g, '');
-                              setSalesPurchaseType2(value);
-                            }}
-                            type="number"
-                            sx={{
-                              width: '100%',
-                              '& input': { textAlign: 'left' }
-                            }}
-                          />
-                        </div>
-                      </div>
+                        </th>
+                        <th className="text-center" style={{ width: '120px' }}>
+                          <label className="form-top-label mb-0">
+                            정산금액 타입
+                          </label>
+                        </th>
+                        <th className="text-center" style={{ width: '100px' }}>
+                          <label className="form-top-label mb-0">
+                            정산금액
+                          </label>
+                        </th>
+                        <th className="text-center" style={{ width: '35px' }}>삭제</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tableSettlementData.map((row) => (
+                        <tr key={row.id}>
+                          <td>
+                            <Select
+                              value={row.criteria}
+                              onChange={(e) => handleTableRowChange(row.id, 'criteria', e.target.value)}
+                              size="small"
+                              disabled={pageMode === 'view'}
+                              sx={{ width: '100%' }}
+                            >
+                              <MenuItem value=""><em>선택</em></MenuItem>
+                              <MenuItem value="옵션1">옵션1</MenuItem>
+                              <MenuItem value="옵션2">옵션2</MenuItem>
+                              <MenuItem value="옵션3">옵션3</MenuItem>
+                            </Select>
+                          </td>
+                          <td>
+                            <TextField
+                              variant="outlined"
+                              size="small"
+                              disabled={pageMode === 'view'}
+                              value={row.criteriaMin}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(/[^0-9.]/g, '');
+                                handleTableRowChange(row.id, 'criteriaMin', value);
+                              }}
+                              type="number"
+                              sx={{
+                                width: '100%',
+                                '& input': { textAlign: 'right' }
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <TextField
+                              variant="outlined"
+                              size="small"
+                              disabled={pageMode === 'view'}
+                              value={row.criteriaMax}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(/[^0-9.]/g, '');
+                                handleTableRowChange(row.id, 'criteriaMax', value);
+                              }}
+                              type="number"
+                              sx={{
+                                width: '100%',
+                                '& input': { textAlign: 'right' }
+                              }}
+                            />
+                          </td>
+                          <td>
+                            <Select
+                              value={row.amountType}
+                              onChange={(e) => handleTableRowChange(row.id, 'amountType', e.target.value)}
+                              size="small"
+                              disabled={pageMode === 'view'}
+                              sx={{ width: '100%' }}
+                            >
+                              <MenuItem value=""><em>선택</em></MenuItem>
+                              <MenuItem value="옵션1">옵션1</MenuItem>
+                              <MenuItem value="옵션2">옵션2</MenuItem>
+                              <MenuItem value="옵션3">옵션3</MenuItem>
+                            </Select>
+                          </td>
+                          <td>
+                            <TextField
+                              variant="outlined"
+                              size="small"
+                              disabled={pageMode === 'view'}
+                              value={row.amount}
+                              onChange={(e) => {
+                                const value = e.target.value.replace(/[^0-9.]/g, '');
+                                handleTableRowChange(row.id, 'amount', value);
+                              }}
+                              type="number"
+                              sx={{
+                                width: '100%',
+                                '& input': { textAlign: 'right' }
+                              }}
+                            />
+                          </td>
+                          <td className="text-center">
+                            {pageMode === 'edit' && tableSettlementData.length > 1 && (
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                color="error"
+                                className="xsmallbtn2"
+                                startIcon={<Minus size={16} />}
+                                onClick={() => handleDeleteTableRow(row.id)}
+                              >
+                                <span style={{ display: "none" }}>삭제</span>
+                              </Button>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {pageMode === 'edit' && (
+                    <div className="flex items-center mt-2" style={{ gap: '8px' }}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        onClick={handleAddTableRow}
+                      >
+                        추가
+                      </Button>
                     </div>
-                  </div>
-                  <div>
-                    <label className="form-top-label required">
-                      정산금액
-                    </label>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <div style={{ display: 'flex', gap: 4, width: '100%' }}>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                          <Select
-                            value={salesReflectionTiming}
-                            onChange={e => setSalesReflectionTiming(e.target.value as string)}
-                            size="small"
-                            disabled={pageMode === 'view'}
-                            sx={{ width: '100%' }}
-                          >
-                            <MenuItem value=""><em>선택</em></MenuItem>
-                            <MenuItem value="옵션1">옵션1</MenuItem>
-                            <MenuItem value="옵션2">옵션2</MenuItem>
-                            <MenuItem value="옵션3">옵션3</MenuItem>
-                          </Select>
-                        </div>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                          <TextField
-                            variant="outlined"
-                            size="small"
-                            disabled={pageMode === 'view'}
-                            value={salesPurchaseType}
-                            onChange={e => {
-                              // 숫자만 입력 가능하도록 처리
-                              const value = e.target.value.replace(/[^0-9.]/g, '');
-                              setSalesPurchaseType(value);
-                            }}
-                            type="number"
-                            sx={{
-                              width: '100%',
-                              '& input': { textAlign: 'left' }
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  )}
                 </div>
-                {pageMode === 'edit' && (
-                  <div className="flex items-center mt-2" style={{ gap: '8px' }}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      size="small"
-                    >
-                      추가
-                    </Button>
-                  </div>
-                )}
                 {pageMode === 'edit' && (
                   <div className="flex items-center justify-between">
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
@@ -1076,7 +1157,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
               <div className="mt-2 rounded-lg bg-white p-4 pb-2">
                 <div className="flex items-center justify-between mb-2">
                   <Typography component="div" className="font-semibold text-gray-900">
-                   최종정산금액
+                    최종정산금액
                   </Typography>
                 </div>
                 {/* FormulaInput 컴포넌트 */}
@@ -1087,7 +1168,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     disabled={isViewMode(pageMode)}
                   />
                 </div>
-                
+
                 {pageMode === 'edit' && (
                   <div className="flex items-center justify-between">
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
@@ -1416,7 +1497,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     <tr key={item.id}>
                       <td>{item.representative}</td>
                       <td className="w-24">
-                        {item.id === 2 ? (
+                        {item.id !== 1 ? (
                           <div className="flex items-center gap-1">
                             <TextField
                               variant="outlined"
@@ -1448,7 +1529,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       <td>{item.name}</td>
                       <td>{item.status}</td>
                       <td className="w-6 p-1">
-                        {pageMode === 'edit' && (
+                        {pageMode === 'edit' && item.id !== 1 && (
                           <Button
                             variant="outlined"
                             size="small"
@@ -1473,6 +1554,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     variant="outlined"
                     color="primary"
                     size="small"
+                    onClick={handleAddParkingLotRow}
                   >
                     추가
                   </Button>
