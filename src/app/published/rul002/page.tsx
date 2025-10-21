@@ -665,7 +665,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 {pageMode === 'edit' && (
                   <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
                     <label className="form-top-label">
-                      지급액 소수점계산 :
+                      소수점계산 :
                     </label>
                     <RadioGroup row defaultValue="반올림" name="paymentDecimalCalculationType" style={{ marginLeft: 16 }}>
                       <FormControlLabel value="반올림" control={<Radio />} label="반올림" />
@@ -732,7 +732,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   <div className="flex items-center justify-between">
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
                       <label className="form-top-label">
-                        정산 소수점계산 :
+                        소수점계산 :
                       </label>
                       <RadioGroup row defaultValue="반올림" name="settlementDecimalCalculationType" style={{ marginLeft: 16 }}>
                         <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
@@ -950,7 +950,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                             />
                           </td>
                           <td className="text-center">
-                            {pageMode === 'edit' && tableSettlementData.length > 1 && (
+                            {pageMode === 'edit' && (
                               <Button
                                 variant="outlined"
                                 size="small"
@@ -984,7 +984,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   <div className="flex items-center justify-between">
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
                       <label className="form-top-label">
-                        수식 소수점계산 :
+                        소수점계산 :
                       </label>
                       <RadioGroup row defaultValue="반올림" name="formulaDecimalCalculationType" style={{ marginLeft: 16 }}>
                         <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
@@ -1173,7 +1173,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   <div className="flex items-center justify-between">
                     <div style={{ display: 'flex', alignItems: 'center', marginTop: 4, marginBottom: 0 }}>
                       <label className="form-top-label">
-                        부가세소수점처리방식 :
+                        소수점계산 :
                       </label>
                       <RadioGroup row defaultValue="반올림" name="formulaDecimalCalculationType" style={{ marginLeft: 16 }}>
                         <FormControlLabel value="반올림" control={<Radio disabled={false} />} label="반올림" />
@@ -1664,7 +1664,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   </div>
                 )}
                 <div>
-                  <label className="form-top-label required mb-0">
+                  <label className="form-top-label mb-0">
                     임차료 계산결과
                   </label>
                   <div style={{ paddingTop: '-8px', paddingBottom: '-8px' }}>
@@ -1672,16 +1672,16 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       row
                       name="paymentAgencyType"
                       defaultValue="반올림"
-                    >
-                      <FormControlLabel
-                        value="올림"
-                        control={<Radio disabled={pageMode === 'view'} />}
-                        label="올림"
-                      />
+                    >        
                       <FormControlLabel
                         value="반올림"
                         control={<Radio disabled={pageMode === 'view'} />}
                         label="반올림"
+                      />
+                      <FormControlLabel
+                        value="올림"
+                        control={<Radio disabled={pageMode === 'view'} />}
+                        label="올림"
                       />
                       <FormControlLabel
                         value="내림"
@@ -1830,7 +1830,11 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 <Typography component="div" className="font-semibold text-gray-900">
                   4. 추가수익 매출정보
                 </Typography>
-                <Typography component="div" className="text-sm text-danger" style={{ fontSize: '12px' }} >
+                <Typography
+                  component="div"
+                  className="text-sm"
+                  style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+                >
                   * 체크박스는 사용여부
                 </Typography>
               </div>
