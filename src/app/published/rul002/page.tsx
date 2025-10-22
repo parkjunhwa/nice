@@ -26,10 +26,9 @@ import {
 } from '@/components'
 import { Search, Minus } from 'lucide-react'
 import { Alert, Snackbar } from '@mui/material'
-import FormulaInput from '@/components/formula-input'
 
 type PageMode = 'view' | 'edit'
-type FormulaType = 'a' | 'b' | 'c' | 'd' | 'e'
+type FormulaType = 'a' | 'park_a' | 'park_b'
 
 // 아코디언 아이템 인터페이스
 interface AccordionItem {
@@ -120,12 +119,12 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
               size="small"
               type="text"
               disabled={pageMode === 'view'}
-              value={contractAmount}
-              onChange={(e) => {
-                // 숫자만 입력받기 (숫자 이외 제거)
-                const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                setContractAmount(onlyNumbers);
-              }}
+                  value={contractAmount}
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setContractAmount(onlyNumbers);
+                  }}
               sx={{
                 width: '100%',
                 '& input': {
@@ -436,7 +435,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
   pageMode: PageMode
 }) => {
   const [monthlySettlement] = useState((item.data.monthlySettlement as string) || '')
-  const [formulaValue, setFormulaValue] = useState((item.data.formulaValue as string) || '')
   const [salesPurchaseType, setSalesPurchaseType] = useState((item.data.salesPurchaseType as string) || '')
   const [salesPurchaseType2, setSalesPurchaseType2] = useState((item.data.salesPurchaseType2 as string) || '')
   const [selectedRType, setSelectedRType] = useState<string>('')
@@ -471,57 +469,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
     { id: 'pcmk_discount', usage: false, ratio: '', amountType: '' }
   ])
 
-  // 테이블 형태 정산 데이터 상태
-  const [tableSettlementData, setTableSettlementData] = useState<Array<{
-    id: number;
-    criteria: string;
-    criteriaMin: string;
-    criteriaMax: string;
-    amountType: string;
-    amount: string;
-  }>>([
-    {
-      id: 1,
-      criteria: "",
-      criteriaMin: "",
-      criteriaMax: "",
-      amountType: "",
-      amount: ""
-    }
-  ]);
-
-  // 테이블 행 추가
-  const handleAddTableRow = () => {
-    const newId = tableSettlementData.length > 0
-      ? Math.max(...tableSettlementData.map(item => item.id)) + 1
-      : 1;
-    setTableSettlementData(prev => [
-      ...prev,
-      {
-        id: newId,
-        criteria: "",
-        criteriaMin: "",
-        criteriaMax: "",
-        amountType: "",
-        amount: ""
-      }
-    ]);
-  };
-
-  // 테이블 행 삭제
-  const handleDeleteTableRow = (id: number) => {
-    if (tableSettlementData.length > 1) {
-      setTableSettlementData(prev => prev.filter(item => item.id !== id));
-    }
-  };
-
-  // 테이블 필드 변경
-  const handleTableRowChange = (id: number, field: string, value: string) => {
-    setTableSettlementData(prev => prev.map(item =>
-      item.id === id ? { ...item, [field]: value } : item
-    ));
-  };
-
   // R 카드 관련 함수들
   const handleAddRCard = () => {
     if (selectedRType && !rCards.includes(selectedRType)) {
@@ -547,6 +494,15 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       'R09': '부가세계산'
     }
     return titles[rType] || ''
+  }
+
+  const getFormulaTypeLabel = (type: FormulaType): string => {
+    const typeLabels: Record<FormulaType, string> = {
+      'a': 'A타입',
+      'park_a': '주차(직영)',
+      'park_b': '주차(위탁)'
+    }
+    return typeLabels[type] || `${type.toUpperCase()}타입`
   }
 
   const getRCardContent = (rType: string) => {
@@ -595,387 +551,419 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
 
       case 'R02': // 비율배분
         return (
-          <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label required">비율</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType2}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType2(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+          <>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 8,
+              }}
+            >
+              <div>
+                <label className="form-top-label required">
+                  금액
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setSalesPurchaseType(onlyNumbers);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*'
+                  }}
+                  placeholder="숫자만 입력"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+              <div>
+                <label className="form-top-label">
+                  연이율
+                </label>
+                <div className="flex items-center gap-1">
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    type="text"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType}
+                    onChange={(e) => {
+                      // 숫자만 추출
+                      const raw = e.target.value.replace(/[^0-9]/g, '');
+                      setSalesPurchaseType(raw);
+                    }}
+                    sx={{
+                      width: '100%',
+                      '& input': {
+                        textAlign: 'right'
+                      }
+                    }}
+                    inputProps={{
+                      inputMode: 'numeric',
+                      pattern: '[0-9,]*'
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    type="text"
+                    disabled={pageMode === 'view'}
+                    value={salesPurchaseType}
+                    onChange={(e) => {
+                      // 숫자만 추출
+                      const raw = e.target.value.replace(/[^0-9]/g, '');
+                      setSalesPurchaseType(raw);
+                    }}
+                    sx={{
+                      width: '100%',
+                      '& input': {
+                        textAlign: 'left'
+                      }
+                    }}
+                    inputProps={{
+                      inputMode: 'numeric',
+                      pattern: '[0-9,]*'
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <span className="text-secondary" style={{ fontSize: 12 }}>+</span>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </div>
+              </div>
             </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label">기준금액</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>원</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 금액
+              </Typography>
             </div>
-          </div>
+          </>
         );
 
       case 'R03': // 미정
         return (
-          <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label">설정값</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-              />
+          <>
+            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">금액</label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={e => {
+                    // 숫자만 입력 가능하도록 처리
+                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                    setSalesPurchaseType(value);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': { textAlign: 'right' }
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label">비고</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType2}
-                onChange={e => setSalesPurchaseType2(e.target.value)}
-                sx={{ width: '100%' }}
-              />
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 금액
+              </Typography>
             </div>
-          </div>
+          </>
         );
 
       case 'R04': // 미정
         return (
-          <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label">설정값</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-              />
+          <>
+            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">금액</label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={e => {
+                    // 숫자만 입력 가능하도록 처리
+                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                    setSalesPurchaseType(value);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': { textAlign: 'right' }
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label">비고</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType2}
-                onChange={e => setSalesPurchaseType2(e.target.value)}
-                sx={{ width: '100%' }}
-              />
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 금액
+              </Typography>
             </div>
-          </div>
+          </>
         );
 
       case 'R05': // 일할계산
         return (
-          <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label required">일할기준금액</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>원</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+          <>
+            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">금액</label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={e => {
+                    // 숫자만 입력 가능하도록 처리
+                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                    setSalesPurchaseType(value);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': { textAlign: 'right' }
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label required">일할기준일수</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType2}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9]/g, '');
-                  setSalesPurchaseType2(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>일</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 금액
+              </Typography>
             </div>
-          </div>
+          </>
         );
 
       case 'R06': // 상한/하한보정
         return (
-          <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label required">상한금액</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>원</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+          <>
+            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">금액</label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={e => {
+                    // 숫자만 입력 가능하도록 처리
+                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                    setSalesPurchaseType(value);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': { textAlign: 'right' }
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label required">하한금액</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType2}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType2(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>원</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 금액
+              </Typography>
             </div>
-          </div>
+          </>
         );
 
       case 'R07': // 기준x단가
         return (
-          <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label required">기준값</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-              />
+          <>
+            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">금액</label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={e => {
+                    // 숫자만 입력 가능하도록 처리
+                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                    setSalesPurchaseType(value);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': { textAlign: 'right' }
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label required">단가</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType2}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType2(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>원</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 금액
+              </Typography>
             </div>
-          </div>
+          </>
         );
 
       case 'R08': // 일괄/사이트합산
         return (
-          <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label required">합산금액</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>원</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+          <>
+            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">금액</label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={e => {
+                    // 숫자만 입력 가능하도록 처리
+                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                    setSalesPurchaseType(value);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': { textAlign: 'right' }
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label">사이트수</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType2}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9]/g, '');
-                  setSalesPurchaseType2(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>개</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 금액
+              </Typography>
             </div>
-          </div>
+          </>
         );
 
       case 'R09': // 부가세계산
         return (
-          <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label required">공급가액</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>원</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+          <>
+            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">금액</label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={e => {
+                    // 숫자만 입력 가능하도록 처리
+                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                    setSalesPurchaseType(value);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': { textAlign: 'right' }
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
             </div>
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-              <label className="form-top-label">부가세율</label>
-              <TextField
-                variant="outlined"
-                size="small"
-                disabled={pageMode === 'view'}
-                value={salesPurchaseType2}
-                onChange={e => {
-                  const value = e.target.value.replace(/[^0-9.]/g, '');
-                  setSalesPurchaseType2(value);
-                }}
-                sx={{
-                  width: '100%',
-                  '& input': { textAlign: 'right' }
-                }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 금액
+              </Typography>
             </div>
-          </div>
+          </>
         );
 
       default:
@@ -1105,7 +1093,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
               </span>
               {item.formulaType && (
                 <span className="px-2 py-0.5 border border-gray-300 text-gray-500 rounded-full text-xs font-semibold bg-white">
-                  {item.formulaType.toUpperCase()}타입
+                  {getFormulaTypeLabel(item.formulaType)}
                 </span>
               )}
               {/* 정산 제목은 읽기 전용 (edit 모드에서도 수정 불가) */}
@@ -1313,7 +1301,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
           </>
         ) : null}
 
-        {(item.formulaType === 'd' || item.formulaType === 'e') && (
+        {(item.formulaType === 'park_a' || item.formulaType === 'park_b') && (
           <div>
             {/* 1. 지급대행 기준정보 */}
             <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
@@ -1369,7 +1357,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     </RadioGroup>
                   </div>
                 </div>
-                {item.formulaType === 'e' ? (
+                {item.formulaType === 'park_b' ? (
                   <>
                     <div>
                       <div>
@@ -1546,7 +1534,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   gap: 8,
                 }}
               >
-                {item.formulaType === 'd' && (
+                {item.formulaType === 'park_a' && (
                   <div>
                     <label className="form-top-label">
                       임차료 지급방식
@@ -1568,7 +1556,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   </div>
                 )}
 
-                {item.formulaType === 'e' && (
+                {item.formulaType === 'park_b' && (
                   <div>
                     <label className="form-top-label">
                       위탁용역료
@@ -1610,7 +1598,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     <MenuItem value="월납">월납</MenuItem>
                   </Select>
                 </div>
-                {item.formulaType === 'd' && (
+                {item.formulaType === 'park_a' && (
                   <div>
                     <label className="form-top-label required">
                       결제수수료율
@@ -1663,7 +1651,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 </div>
               </div>
 
-              {item.formulaType === 'd' && (
+              {item.formulaType === 'park_a' && (
                 <div className="mt-2">
                   <label className="form-top-label">
                     임차료 산정카드 수수료 항목
@@ -2435,7 +2423,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
               </table>
             </div>
             {/* 5. 기준금액 */}
-            {item.formulaType === 'd' ? (
+            {item.formulaType === 'park_a' ? (
               <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
                 <div className="mb-3">
                   <Typography component="div" className="font-semibold text-gray-900">
@@ -2554,7 +2542,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
               </div>
             ) : null}
             {/* 6. 추가 임차료, 수익 섹션 */}
-            {item.formulaType === 'd' ? (
+            {item.formulaType === 'park_a' ? (
               <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-3">
                 <div className="mb-3">
                   <Typography component="div" className="font-semibold text-gray-900">
@@ -2908,10 +2896,8 @@ export default function Rul002Page() {
 
   const formulaTypeOptions: Array<{ value: FormulaType, label: string }> = [
     { value: 'a', label: 'A타입' },
-    { value: 'b', label: 'B타입' },
-    { value: 'c', label: 'C타입' },
-    { value: 'd', label: 'D타입' },
-    { value: 'e', label: 'E타입' }
+    { value: 'park_a', label: '주차(직영)' },
+    { value: 'park_b', label: '주차(위탁)' }
   ]
 
   // 패널 크기 조절 상태
