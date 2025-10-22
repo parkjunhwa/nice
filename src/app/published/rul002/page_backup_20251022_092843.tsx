@@ -439,8 +439,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
   const [formulaValue, setFormulaValue] = useState((item.data.formulaValue as string) || '')
   const [salesPurchaseType, setSalesPurchaseType] = useState((item.data.salesPurchaseType as string) || '')
   const [salesPurchaseType2, setSalesPurchaseType2] = useState((item.data.salesPurchaseType2 as string) || '')
-  const [selectedRType, setSelectedRType] = useState<string>('')
-  const [rCards, setRCards] = useState<string[]>((item.data.rCards as string[]) || [])
 
   // 추가수익 매출정보 데이터
   const [salesData, setSalesData] = useState([
@@ -521,88 +519,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       item.id === id ? { ...item, [field]: value } : item
     ));
   };
-
-  // R 카드 관련 함수들
-  const handleAddRCard = () => {
-    if (selectedRType && !rCards.includes(selectedRType)) {
-      setRCards(prev => [...prev, selectedRType])
-      setSelectedRType('') // 선택 초기화
-    }
-  }
-
-  const handleRemoveRCard = (rType: string) => {
-    setRCards(prev => prev.filter(card => card !== rType))
-  }
-
-  const getRCardTitle = (rType: string): string => {
-    const titles: Record<string, string> = {
-      'R01': '정액',
-      'R02': '비율배분',
-      'R03': '미정',
-      'R04': '미정',
-      'R05': '일할계산',
-      'R06': '상한/하한보정',
-      'R07': '기준x단가',
-      'R08': '일괄/사이트합산',
-      'R09': '부가세계산'
-    }
-    return titles[rType] || ''
-  }
-
-  const getRCardContent = (rType: string) => {
-    return (
-      <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <label className="form-top-label required">금액</label>
-          <TextField
-            variant="outlined"
-            size="small"
-            disabled={pageMode === 'view'}
-            value={salesPurchaseType}
-            onChange={e => {
-              const value = e.target.value.replace(/[^0-9.]/g, '');
-              setSalesPurchaseType(value);
-            }}
-            sx={{
-              width: '100%',
-              '& input': { textAlign: 'right' }
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <span className="text-secondary" style={{ fontSize: 12 }}>원</span>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <label className="form-top-label required">비율</label>
-          <TextField
-            variant="outlined"
-            size="small"
-            disabled={pageMode === 'view'}
-            value={salesPurchaseType2}
-            onChange={e => {
-              const value = e.target.value.replace(/[^0-9.]/g, '');
-              setSalesPurchaseType2(value);
-            }}
-            sx={{
-              width: '100%',
-              '& input': { textAlign: 'right' }
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </div>
-      </div>
-    )
-  }
 
   // 임차료 산정카드 수수료 항목 상태
   const [timeDiffCard, setTimeDiffCard] = useState(false)
@@ -706,37 +622,13 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   정산수식
                 </Typography>
                 {pageMode === 'edit' && (
-                  <div className="flex items-center" style={{ gap: '8px' }}>
-                    <Select
-                      value={selectedRType}
-                      onChange={(e) => setSelectedRType(e.target.value)}
-                      size="small"
-                      sx={{ minWidth: 120 }}
-                      displayEmpty
-                    >
-                      <MenuItem value="">
-                        <em>선택</em>
-                      </MenuItem>
-                      <MenuItem value="R01">R01:정액</MenuItem>
-                      <MenuItem value="R02">R02:비율배분</MenuItem>
-                      <MenuItem value="R03">R03:미정</MenuItem>
-                      <MenuItem value="R04">R04:미정</MenuItem>
-                      <MenuItem value="R05">R05:일할계산</MenuItem>
-                      <MenuItem value="R06">R06:상한/하한보정</MenuItem>
-                      <MenuItem value="R07">R07:기준x단가</MenuItem>
-                      <MenuItem value="R08">R08:일괄/사이트합산</MenuItem>
-                      <MenuItem value="R09">R09:부가세계산</MenuItem>
-                    </Select>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      size="small"
-                      onClick={handleAddRCard}
-                      disabled={!selectedRType || rCards.includes(selectedRType)}
-                    >
-                      추가
-                    </Button>
-                  </div>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                  >
+                    추가
+                  </Button>
                 )}
               </div>
               {/* 정산수식 block01 섹션 */}
@@ -1321,31 +1213,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 </Button>
               </div>
             )}
-
-            {/* 동적으로 생성되는 R 카드들 */}
-            {rCards.map((rType) => (
-              <div key={rType} className="mt-2 rounded-lg bg-white p-4 border border-gray-200">
-                <div className="flex items-center justify-between">
-                  <Typography component="div" className="font-semibold text-gray-900">
-                    {rType} {getRCardTitle(rType)}
-                  </Typography>
-                  {pageMode === 'edit' && (
-                    <div className="flex items-center" style={{ gap: '8px' }}>
-                      <Button
-                        variant="outlined"
-                        color="error"
-                        size="small"
-                        onClick={() => handleRemoveRCard(rType)}
-                      >
-                        삭제
-                      </Button>
-                    </div>
-                  )}
-                </div>
-                {getRCardContent(rType)}
-              </div>
-            ))}
-
             <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mt-3 mb-0">
               <div className="flex items-center justify-between mb-2">
                 <Typography component="div" className="font-semibold text-gray-900">
