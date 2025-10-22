@@ -119,12 +119,12 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
               size="small"
               type="text"
               disabled={pageMode === 'view'}
-                  value={contractAmount}
-                  onChange={(e) => {
-                    // 숫자만 입력받기 (숫자 이외 제거)
-                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setContractAmount(onlyNumbers);
-                  }}
+              value={contractAmount}
+              onChange={(e) => {
+                // 숫자만 입력받기 (숫자 이외 제거)
+                const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                setContractAmount(onlyNumbers);
+              }}
               sx={{
                 width: '100%',
                 '& input': {
@@ -439,6 +439,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
   const [salesPurchaseType2, setSalesPurchaseType2] = useState((item.data.salesPurchaseType2 as string) || '')
   const [selectedRType, setSelectedRType] = useState<string>('')
   const [rCards, setRCards] = useState<string[]>((item.data.rCards as string[]) || [])
+  const [includeStartDate, setIncludeStartDate] = useState((item.data.includeStartDate as boolean) || false)
+  const [includeEndDate, setIncludeEndDate] = useState((item.data.includeEndDate as boolean) || false)
 
   // 추가수익 매출정보 데이터
   const [salesData, setSalesData] = useState([
@@ -552,14 +554,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       case 'R02': // 비율배분
         return (
           <>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 8,
-              }}
-            >
-              <div>
+            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <label className="form-top-label required">
                   금액
                 </label>
@@ -584,7 +580,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     inputMode: 'numeric',
                     pattern: '[0-9]*'
                   }}
-                  placeholder="숫자만 입력"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -594,70 +589,39 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   }}
                 />
               </div>
-              <div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <label className="form-top-label">
-                  연이율
+                  이율
                 </label>
-                <div className="flex items-center gap-1">
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    type="text"
-                    disabled={pageMode === 'view'}
-                    value={salesPurchaseType}
-                    onChange={(e) => {
-                      // 숫자만 추출
-                      const raw = e.target.value.replace(/[^0-9]/g, '');
-                      setSalesPurchaseType(raw);
-                    }}
-                    sx={{
-                      width: '100%',
-                      '& input': {
-                        textAlign: 'right'
-                      }
-                    }}
-                    inputProps={{
-                      inputMode: 'numeric',
-                      pattern: '[0-9,]*'
-                    }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    type="text"
-                    disabled={pageMode === 'view'}
-                    value={salesPurchaseType}
-                    onChange={(e) => {
-                      // 숫자만 추출
-                      const raw = e.target.value.replace(/[^0-9]/g, '');
-                      setSalesPurchaseType(raw);
-                    }}
-                    sx={{
-                      width: '100%',
-                      '& input': {
-                        textAlign: 'left'
-                      }
-                    }}
-                    inputProps={{
-                      inputMode: 'numeric',
-                      pattern: '[0-9,]*'
-                    }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <span className="text-secondary" style={{ fontSize: 12 }}>+</span>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </div>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={(e) => {
+                    // 숫자만 추출
+                    const raw = e.target.value.replace(/[^0-9]/g, '');
+                    setSalesPurchaseType(raw);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9,]*'
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
               </div>
             </div>
             <div className="mb-0">
@@ -666,7 +630,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 className="text-sm"
                 style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
               >
-                * 금액
+                * (금액&gt;기준금액)?(금액-기준금액)*비율:0
               </Typography>
             </div>
           </>
@@ -761,29 +725,33 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
           <>
             <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">금액</label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType(value);
-                  }}
-                  sx={{
-                    width: '100%',
-                    '& input': { textAlign: 'right' }
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <span>₩</span>
-                      </InputAdornment>
-                    )
-                  }}
-                />
+                <label className="form-top-label">
+                  일할계산
+                </label>
+                <div className="flex gap-0 mt-0">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={includeStartDate}
+                        onChange={(e) => setIncludeStartDate(e.target.checked)}
+                        size="small"
+                        disabled={pageMode === 'view'}
+                      />
+                    }
+                    label="시작일 포함"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={includeEndDate}
+                        onChange={(e) => setIncludeEndDate(e.target.checked)}
+                        size="small"
+                        disabled={pageMode === 'view'}
+                      />
+                    }
+                    label="종료일 포함"
+                  />
+                </div>
               </div>
             </div>
             <div className="mb-0">
@@ -792,7 +760,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 className="text-sm"
                 style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
               >
-                * 금액
+                * 금액&times;(사용일수&#47;기준일수)
               </Typography>
             </div>
           </>
@@ -803,25 +771,68 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
           <>
             <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">금액</label>
+                <label className="form-top-label required">
+                  상한액
+                </label>
                 <TextField
                   variant="outlined"
                   size="small"
+                  type="text"
                   disabled={pageMode === 'view'}
                   value={salesPurchaseType}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType(value);
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setSalesPurchaseType(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
-                    '& input': { textAlign: 'right' }
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*'
                   }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <span>₩</span>
+                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">
+                  하한액
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={salesPurchaseType}
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setSalesPurchaseType(onlyNumbers);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*'
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
                       </InputAdornment>
                     )
                   }}
@@ -834,7 +845,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 className="text-sm"
                 style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
               >
-                * 금액
+                * min/max 보정
               </Typography>
             </div>
           </>
@@ -845,25 +856,53 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
           <>
             <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">금액</label>
-                <TextField
+                <label className="form-top-label required">
+                  정산기준
+                </label>
+                <Select
                   variant="outlined"
                   size="small"
                   disabled={pageMode === 'view'}
+                  sx={{
+                    width: '100%',
+                    '& .MuiSelect-select': {
+                      textAlign: 'left'
+                    }
+                  }}
+                  defaultValue="월평균건수"
+                >
+                  <MenuItem value="월평균건수">월평균건수</MenuItem>
+                </Select>
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">
+                  단가
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
                   value={salesPurchaseType}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType(value);
+                  onChange={(e) => {
+                    // 숫자만 추출
+                    const raw = e.target.value.replace(/[^0-9]/g, '');
+                    setSalesPurchaseType(raw);
                   }}
                   sx={{
                     width: '100%',
-                    '& input': { textAlign: 'right' }
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9,]*'
                   }}
                   InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <span>₩</span>
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
                       </InputAdornment>
                     )
                   }}
@@ -876,7 +915,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 className="text-sm"
                 style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
               >
-                * 금액
+                * 정산기준 x 단가
               </Typography>
             </div>
           </>
@@ -887,29 +926,23 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
           <>
             <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">금액</label>
-                <TextField
+                <label className="form-top-label required">
+                  합산기준
+                </label>
+                <Select
                   variant="outlined"
                   size="small"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType(value);
-                  }}
                   sx={{
                     width: '100%',
-                    '& input': { textAlign: 'right' }
+                    '& .MuiSelect-select': {
+                      textAlign: 'left'
+                    }
                   }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <span>₩</span>
-                      </InputAdornment>
-                    )
-                  }}
-                />
+                  defaultValue="선택"
+                >
+                  <MenuItem value="항목1">항목1</MenuItem>
+                </Select>
               </div>
             </div>
             <div className="mb-0">
@@ -918,7 +951,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 className="text-sm"
                 style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
               >
-                * 금액
+                * 선택된 기준으로 SUM
               </Typography>
             </div>
           </>
@@ -929,25 +962,34 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
           <>
             <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">금액</label>
+                <label className="form-top-label required">
+                  부가세율
+                </label>
                 <TextField
                   variant="outlined"
                   size="small"
+                  type="text"
                   disabled={pageMode === 'view'}
                   value={salesPurchaseType}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType(value);
+                  onChange={(e) => {
+                    // 숫자만 추출
+                    const raw = e.target.value.replace(/[^0-9]/g, '');
+                    setSalesPurchaseType(raw);
                   }}
                   sx={{
                     width: '100%',
-                    '& input': { textAlign: 'right' }
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9,]*'
                   }}
                   InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <span>₩</span>
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
                       </InputAdornment>
                     )
                   }}
@@ -960,7 +1002,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 className="text-sm"
                 style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
               >
-                * 금액
+                * 공급가액=매출액/1.1, 부가세=공급가액*부가세율
               </Typography>
             </div>
           </>
@@ -1129,7 +1171,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       value={selectedRType}
                       onChange={(e) => setSelectedRType(e.target.value)}
                       size="small"
-                      sx={{ minWidth: 120 }}
+                      sx={{ minWidth: 160 }}
                       displayEmpty
                     >
                       <MenuItem value="">
