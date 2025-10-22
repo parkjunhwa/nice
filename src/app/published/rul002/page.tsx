@@ -24,11 +24,30 @@ import {
   RadioGroup,
   Radio,
 } from '@/components'
-import { Search, Minus } from 'lucide-react'
+import { Search, Minus, GripVertical } from 'lucide-react'
 import { Alert, Snackbar } from '@mui/material'
+// @ts-expect-error - React DnD v16 type definitions issue
+import { DndProvider, useDrag, useDrop } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 type PageMode = 'view' | 'edit'
-type FormulaType = 'a' | 'park_a' | 'park_b'
+type FormulaType = 'normal' | 'park_a' | 'park_b'
+
+// 드래그 앤 드롭 관련 타입
+const ITEM_TYPE = 'RCARD'
+interface DragItem {
+  id: string
+  index: number
+}
+
+interface DropTargetMonitor {
+  isOver(): boolean
+  getClientOffset(): { x: number; y: number } | null
+}
+
+interface DragSourceMonitor {
+  isDragging(): boolean
+}
 
 // 아코디언 아이템 인터페이스
 interface AccordionItem {
@@ -428,6 +447,113 @@ const FixedIrregularAccordion = ({ item, onRemove, pageMode }: {
   )
 }
 
+// 드래그 가능한 R 카드 컴포넌트
+const DraggableRCard = ({ 
+  rType, 
+  index, 
+  getRCardTitle, 
+  getRCardContent, 
+  handleRemoveRCard, 
+  pageMode,
+  moveCard 
+}: {
+  rType: string
+  index: number
+  getRCardTitle: (rType: string) => string
+  getRCardContent: (rType: string) => React.ReactNode
+  handleRemoveRCard: (rType: string) => void
+  pageMode: PageMode
+  moveCard: (dragIndex: number, hoverIndex: number) => void
+}) => {
+  const ref = React.useRef<HTMLDivElement>(null)
+
+  const [{ isOver }, drop] = useDrop({
+    accept: ITEM_TYPE,
+    collect(monitor: DropTargetMonitor) {
+      return {
+        isOver: monitor.isOver(),
+      }
+    },
+    hover(item: DragItem, monitor: DropTargetMonitor) {
+      if (!ref.current) {
+        return
+      }
+      const dragIndex = item.index
+      const hoverIndex = index
+
+      if (dragIndex === hoverIndex) {
+        return
+      }
+
+      const hoverBoundingRect = ref.current?.getBoundingClientRect()
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+      const clientOffset = monitor.getClientOffset()
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top
+
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return
+      }
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return
+      }
+
+      moveCard(dragIndex, hoverIndex)
+      item.index = hoverIndex
+    },
+  })
+
+  const [{ isDragging }, drag] = useDrag({
+    type: ITEM_TYPE,
+    item: () => {
+      return { id: rType, index }
+    },
+    collect: (monitor: DragSourceMonitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  })
+
+  const opacity = isDragging ? 0.4 : 1
+  drag(drop(ref))
+
+  return (
+    <div
+      ref={ref}
+      style={{ 
+        opacity,
+        border: isOver ? '2px dashed #3b82f6' : '1px solid #e5e7eb',
+        backgroundColor: isOver ? '#f0f9ff' : 'white'
+      }}
+      className="rounded-lg p-4 relative transition-all duration-200"
+    >
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          {pageMode === 'edit' && (
+            <div className="cursor-grab active:cursor-grabbing">
+              <GripVertical size={16} className="text-gray-400" />
+            </div>
+          )}
+          <Typography component="div" className="font-semibold text-gray-900">
+            {rType} {getRCardTitle(rType)}
+          </Typography>
+        </div>
+        {pageMode === 'edit' && (
+          <div className="flex items-center" style={{ gap: '8px' }}>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={() => handleRemoveRCard(rType)}
+            >
+              삭제
+            </Button>
+          </div>
+        )}
+      </div>
+      {getRCardContent(rType)}
+    </div>
+  )
+}
+
 // 정산 아코디언 컴포넌트
 const SettlementAccordion = ({ item, onRemove, pageMode }: {
   item: AccordionItem,
@@ -483,6 +609,16 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
     setRCards(prev => prev.filter(card => card !== rType))
   }
 
+  const moveCard = (dragIndex: number, hoverIndex: number) => {
+    setRCards(prev => {
+      const newCards = [...prev]
+      const draggedCard = newCards[dragIndex]
+      newCards.splice(dragIndex, 1)
+      newCards.splice(hoverIndex, 0, draggedCard)
+      return newCards
+    })
+  }
+
   const getRCardTitle = (rType: string): string => {
     const titles: Record<string, string> = {
       'R01': '정액',
@@ -500,7 +636,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
 
   const getFormulaTypeLabel = (type: FormulaType): string => {
     const typeLabels: Record<FormulaType, string> = {
-      'a': 'A타입',
+      'normal': '기본',
       'park_a': '주차(직영)',
       'park_b': '주차(위탁)'
     }
@@ -1157,8 +1293,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
         </div>
       </AccordionSummary>
       <AccordionDetails>
-        {/* 정산수식 섹션 - A타입만 표시 */}
-        {item.formulaType === 'a' ? (
+        {/* 정산수식 섹션 - 기본타입만 표시 */}
+        {item.formulaType === 'normal' ? (
           <>
             <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-0">
               <div className="flex items-center justify-between">
@@ -1201,28 +1337,20 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
               </div>
 
               {/* 동적으로 생성되는 R 카드들 */}
-              {rCards.map((rType) => (
-                <div key={rType} className="mt-2 rounded-lg bg-white p-4 border border-gray-200">
-                  <div className="flex items-center justify-between">
-                    <Typography component="div" className="font-semibold text-gray-900">
-                      {rType} {getRCardTitle(rType)}
-                    </Typography>
-                    {pageMode === 'edit' && (
-                      <div className="flex items-center" style={{ gap: '8px' }}>
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          size="small"
-                          onClick={() => handleRemoveRCard(rType)}
-                        >
-                          삭제
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                  {getRCardContent(rType)}
-                </div>
-              ))}
+              <div className="flex flex-col gap-2 mt-2">
+                {rCards.map((rType, index) => (
+                  <DraggableRCard
+                    key={rType}
+                    rType={rType}
+                    index={index}
+                    getRCardTitle={getRCardTitle}
+                    getRCardContent={getRCardContent}
+                    handleRemoveRCard={handleRemoveRCard}
+                    pageMode={pageMode}
+                    moveCard={moveCard}
+                  />
+                ))}
+              </div>
             </div>
             {pageMode === 'edit' && (
               <div className="flex gap-2 justify-end mt-3" style={{ justifyContent: 'flex-end' }}>
@@ -2897,7 +3025,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
 export default function Rul002Page() {
   // 페이지 상태 관리
   const [pageMode, setPageMode] = useState<PageMode>('view')
-  const [currentFormulaType, setCurrentFormulaType] = useState<FormulaType>('a')
+  const [currentFormulaType, setCurrentFormulaType] = useState<FormulaType>('normal')
 
   // 폼 상태 변수들
   const [ruleName, setRuleName] = useState('')
@@ -2937,7 +3065,7 @@ export default function Rul002Page() {
   ]
 
   const formulaTypeOptions: Array<{ value: FormulaType, label: string }> = [
-    { value: 'a', label: 'A타입' },
+    { value: 'normal', label: '기본' },
     { value: 'park_a', label: '주차(직영)' },
     { value: 'park_b', label: '주차(위탁)' }
   ]
@@ -3017,12 +3145,13 @@ export default function Rul002Page() {
   }
 
   return (
-    <div
-      className="flex flex-col h-full min-h-0 layout-top-bottom"
-      style={{
-        height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
-      }}
-    >
+    <DndProvider backend={HTML5Backend}>
+      <div
+        className="flex flex-col h-full min-h-0 layout-top-bottom"
+        style={{
+          height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
+        }}
+      >
 
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
@@ -3677,5 +3806,6 @@ export default function Rul002Page() {
       </Snackbar>
 
     </div>
+    </DndProvider>
   )
 }

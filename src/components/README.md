@@ -27,9 +27,6 @@
   - Search01 (`/search01`) - 검색 컴포넌트 데모 1
   - Search02 (`/search02`) - 검색 컴포넌트 데모 2
 
-### 메뉴 페이지들
-- **MNB001** (`/mnb001`) - 메뉴 페이지 001
-
 ## 컴포넌트 구조
 
 ### MUI 컴포넌트 (`/mui`)
@@ -71,6 +68,14 @@
 - `accordion-toggle-button.tsx`: 아코디언 토글 버튼
 - `Breadcrumb.tsx`: 브레드크럼 네비게이션
 - `mui-theme-provider.tsx`: MUI 테마 프로바이더 (공통)
+- `formula-input.tsx`: 수식 입력 전용 컴포넌트
+
+### 드래그 앤 드롭 컴포넌트
+- **React DnD**: 드래그 앤 드롭 라이브러리 통합
+- **DraggableRCard**: R01~R09 카드 드래그 가능 컴포넌트
+- **드래그 핸들**: GripVertical 아이콘으로 드래그 영역 표시
+- **시각적 피드백**: 드래그 중 투명도 변경, 드롭 영역 점선 테두리
+- **반응형 레이아웃**: 1599px까지 1단, 그 이상에서 2단 그리드
 
 ### 테이블 컴포넌트 (`/table`)
 - `index.ts`: 테이블 컴포넌트 export
@@ -307,6 +312,6 @@ export function NewComponent({ title, value, className }: NewComponentProps) {
 ---
 
 **작성자**
-디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-16)  
+디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-22)  
 010-9479-3188
 junhwa.park@gmail.com

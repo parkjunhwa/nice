@@ -4,7 +4,7 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 
 ## 🚀 주요 기능
 
-- **Published Pages 구조**: 관리 페이지(ADM001-005), 메뉴 페이지(MNB001, MNB005-006) 등 다양한 기능별 페이지
+- **Published Pages 구조**: 관리 페이지(ADM001-005), 메뉴 페이지(MNB005-006) 등 다양한 기능별 페이지
 - **MUI 통합**: Material-UI 컴포넌트를 체계적으로 분류하여 제공
 - **날짜/시간 선택기**: MUI X Date Pickers를 활용한 고급 날짜/시간 선택 기능
 - **모달 시스템**: 다양한 모달 컴포넌트 (기본, 확인, 폼, 전체화면, 프로젝트 모달)
@@ -19,6 +19,7 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 - **React 19 호환**: 최신 React 버전과 완전 호환
 - **동적 아코디언 시스템**: 정산규칙 페이지의 고정/정기, 고정/비정기, 정산 아코디언을 동적으로 추가/삭제
 - **FormulaInput 컴포넌트**: 수식 입력을 위한 전용 컴포넌트
+- **드래그 앤 드롭**: React DnD를 활용한 R01~R09 카드 순서 변경 기능
 
 ## 📁 프로젝트 구조
 
@@ -41,7 +42,6 @@ nice/
 │   │   │   ├── adm004/      # I/F로그 상세
 │   │   │   ├── adm005/      # 공통코드 관리
 │   │   │   ├── components/  # 컴포넌트 데모 페이지들
-│   │   │   │   ├── enhanced-table/ # 향상된 테이블 데모
 │   │   │   │   ├── loading/ # 로딩 중 컴포넌트 예시 페이지
 │   │   │   │   ├── modal/   # 모달 컴포넌트 데모
 │   │   │   │   ├── mui/     # MUI 컴포넌트 데모
@@ -174,7 +174,6 @@ npm run dev
 - **메뉴 관리** (`/published/mnb006`): 메뉴 관리 페이지
 
 ### Components 데모 페이지들 (`/published/components`)
-- **추가 테이블** (`/enhanced-table`)
 - **로딩중** (`/loading`)
 - **모달** (`/modal`)
 - **MUI 컴포넌트** (`/mui`)
@@ -204,6 +203,10 @@ npm run dev
 - **MUI 모달**: MuiBasicModal, MuiFormModal, MuiConfirmModal, MuiFullscreenModal
 - **프로젝트 모달**: Cmn001-Cmn013 (검색, 업로드, 폼 등), Mnb002 (비밀번호 변경), Stl002 (정산 실행 월)
 - **리치 텍스트 에디터**: MD Editor (@uiw/react-md-editor) - 결재상신 본문 등록 모달에서 사용
+
+### Drag & Drop
+- **React DnD v16.0.1**: 드래그 앤 드롭 라이브러리
+- **React DnD HTML5 Backend v16.0.1**: HTML5 드래그 앤 드롭 백엔드
 
 ### Utilities & Tools
 - **clsx v2.1.1**: 조건부 클래스명 유틸리티
@@ -361,7 +364,7 @@ interface AccordionItem {
       )
     case 'settlement':
       return (
-        <SettlementAccordion
+        <SettlementAccordionㅜㅐ
           key={item.id}
           item={item}
           onRemove={removeAccordionItem}
@@ -373,6 +376,68 @@ interface AccordionItem {
   }
 })}
 ```
+
+### 드래그 앤 드롭 시스템
+R01~R09 카드들의 순서를 마우스 드래그로 변경할 수 있는 기능입니다.
+
+```tsx
+import { DndProvider, useDrag, useDrop } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
+// 드래그 가능한 R 카드 컴포넌트
+const DraggableRCard = ({ rType, index, moveCard, pageMode }) => {
+  const [{ isDragging }, drag] = useDrag({
+    type: 'RCARD',
+    item: () => ({ id: rType, index }),
+    collect: (monitor) => ({ isDragging: monitor.isDragging() })
+  })
+
+  const [{ isOver }, drop] = useDrop({
+    accept: 'RCARD',
+    hover: (item, monitor) => {
+      // 드래그 중인 카드의 위치 변경 로직
+      moveCard(item.index, index)
+    }
+  })
+
+  return (
+    <div
+      ref={(node) => drag(drop(node))}
+      style={{ 
+        opacity: isDragging ? 0.4 : 1,
+        border: isOver ? '2px dashed #3b82f6' : '1px solid #e5e7eb'
+      }}
+      className="rounded-lg p-4 bg-white"
+    >
+      <div className="flex items-center gap-2">
+        <GripVertical className="cursor-grab" />
+        <span>{rType} {getRCardTitle(rType)}</span>
+      </div>
+    </div>
+  )
+}
+
+// 메인 페이지에서 사용
+<DndProvider backend={HTML5Backend}>
+  <div className="grid grid-cols-1 2xl:grid-cols-2 gap-2">
+    {rCards.map((rType, index) => (
+      <DraggableRCard
+        key={rType}
+        rType={rType}
+        index={index}
+        moveCard={moveCard}
+        pageMode={pageMode}
+      />
+    ))}
+  </div>
+</DndProvider>
+```
+
+**드래그 앤 드롭 특징:**
+- **마우스 커서**: 드래그 시 손 모양 커서 (`cursor-grab`, `cursor-grabbing`)
+- **시각적 피드백**: 드래그 중 투명도 변경, 드롭 영역 점선 테두리 표시
+- **반응형 레이아웃**: 1599px까지 1단, 그 이상에서 2단 그리드
+- **부드러운 애니메이션**: `transition-all duration-200`으로 자연스러운 전환
 
 
 ## 🔧 개발 가이드
@@ -489,6 +554,6 @@ MIT License
 ---
 
 **작성자**  
-디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-16)  
+디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-22)  
 010-9479-3188  
 junhwa.park@gmail.com
