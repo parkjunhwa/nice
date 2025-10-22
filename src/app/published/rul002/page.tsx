@@ -618,8 +618,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
 
   // 테이블 행 추가
   const handleAddTableRow = () => {
-    const newId = tableSettlementData.length > 0 
-      ? Math.max(...tableSettlementData.map(item => item.id)) + 1 
+    const newId = tableSettlementData.length > 0
+      ? Math.max(...tableSettlementData.map(item => item.id)) + 1
       : 1;
     setTableSettlementData(prev => [
       ...prev,
@@ -644,6 +644,52 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
   // 테이블 필드 변경
   const handleTableRowChange = (id: number, field: string, value: string) => {
     setTableSettlementData(prev => prev.map(item =>
+      item.id === id ? { ...item, [field]: value } : item
+    ));
+  };
+
+  // 추가 임차료, 수익 데이터
+  const [additionalRentData, setAdditionalRentData] = useState<Array<{
+    id: number
+    case: string
+    amount: string
+    reason: string
+    period: string[]
+  }>>([
+    { id: 1, case: '', amount: '', reason: '', period: ['', ''] },
+    { id: 2, case: '', amount: '', reason: '', period: ['', ''] }
+  ]);
+
+  // 추가 임차료 행 추가
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleAddAdditionalRentRow = () => {
+    const newId = additionalRentData.length > 0 
+      ? Math.max(...additionalRentData.map(item => item.id)) + 1 
+      : 1;
+    setAdditionalRentData(prev => [
+      ...prev,
+      {
+        id: newId,
+        case: '',
+        amount: '',
+        reason: '',
+        period: ['', '']
+      }
+    ]);
+  };
+
+  // 추가 임차료 행 삭제
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleDeleteAdditionalRentRow = (id: number) => {
+    if (additionalRentData.length > 1) {
+      setAdditionalRentData(prev => prev.filter(item => item.id !== id));
+    }
+  };
+
+  // 추가 임차료 필드 변경
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleAdditionalRentChange = (id: number, field: string, value: string | string[]) => {
+    setAdditionalRentData(prev => prev.map(item =>
       item.id === id ? { ...item, [field]: value } : item
     ));
   };
@@ -700,27 +746,74 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       case 'R01': // 정액
         return (
           <>
-            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+            <div style={{ display: 'flex', gap: 8, width: '100%', alignItems: 'flex-end' }} className="mt-2 mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">금액</label>
+                <label className="form-top-label required">정산기준</label>
+                <Select
+                  size="small"
+                  disabled={pageMode === 'view'}
+                  sx={{ width: '100%' }}
+                >
+                  <MenuItem value=""><em>선택</em></MenuItem>
+                  <MenuItem value="옵션1">옵션1</MenuItem>
+                  <MenuItem value="옵션2">옵션2</MenuItem>
+                  <MenuItem value="옵션3">옵션3</MenuItem>
+                </Select>
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">연산자</label>
+                <Select
+                  size="small"
+                  disabled={pageMode === 'view'}
+                  sx={{ width: '100%' }}
+                >
+                  <MenuItem value=""><em>선택</em></MenuItem>
+                  <MenuItem value="옵션1">옵션1</MenuItem>
+                  <MenuItem value="옵션2">옵션2</MenuItem>
+                  <MenuItem value="옵션3">옵션3</MenuItem>
+                </Select>
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">정액정률</label>
+                <div style={{ display: 'flex', gap: 4, width: '100%' }}>
+                  <Select
+                    size="small"
+                    disabled={pageMode === 'view'}
+                    sx={{ width: '100%' }}
+                  >
+                    <MenuItem value=""><em>선택</em></MenuItem>
+                    <MenuItem value="옵션1">옵션1</MenuItem>
+                    <MenuItem value="옵션2">옵션2</MenuItem>
+                    <MenuItem value="옵션3">옵션3</MenuItem>
+                  </Select>
+                </div>
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <TextField
                   variant="outlined"
                   size="small"
+                  type="text"
                   disabled={pageMode === 'view'}
                   value={salesPurchaseType}
-                  onChange={e => {
-                    // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
-                    setSalesPurchaseType(value);
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setSalesPurchaseType(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
-                    '& input': { textAlign: 'right' }
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*'
                   }}
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <span>₩</span>
+                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
                       </InputAdornment>
                     )
                   }}
@@ -742,7 +835,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       case 'R02': // 비율배분
         return (
           <>
-            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <label className="form-top-label required">
                   금액
@@ -778,8 +871,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 />
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label">
-                  이율
+                <label className="form-top-label required">
+                  단가
                 </label>
                 <TextField
                   variant="outlined"
@@ -788,9 +881,9 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   disabled={pageMode === 'view'}
                   value={salesPurchaseType}
                   onChange={(e) => {
-                    // 숫자만 추출
-                    const raw = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(raw);
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setSalesPurchaseType(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
@@ -800,12 +893,12 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   }}
                   inputProps={{
                     inputMode: 'numeric',
-                    pattern: '[0-9,]*'
+                    pattern: '[0-9]*'
                   }}
                   InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
                       </InputAdornment>
                     )
                   }}
@@ -877,19 +970,19 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         </Select>
                       </td>
                       <td>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          disabled={pageMode === 'view'}
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  disabled={pageMode === 'view'}
                           value={row.criteriaMin}
                           onChange={(e) => {
-                            const value = e.target.value.replace(/[^0-9.]/g, '');
+                    const value = e.target.value.replace(/[^0-9.]/g, '');
                             handleTableRowChange(row.id, 'criteriaMin', value);
-                          }}
-                          sx={{
-                            width: '100%',
-                            '& input': { textAlign: 'right' }
-                          }}
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': { textAlign: 'right' }
+                  }}
                         />
                       </td>
                       <td>
@@ -966,7 +1059,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   >
                     추가
                   </Button>
-                </div>
+              </div>
               )}
             </div>
             <div className="mt-2">
@@ -984,7 +1077,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       case 'R04': // 미정
         return (
           <>
-            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <label className="form-top-label required">기준금액</label>
                 <TextField
@@ -1060,7 +1153,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       case 'R05': // 일할계산
         return (
           <>
-            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-0">
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-0">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <label className="form-top-label">
                   일할계산
@@ -1106,7 +1199,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       case 'R06': // 상한/하한보정
         return (
           <>
-            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <label className="form-top-label required">
                   상한액
@@ -1191,7 +1284,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       case 'R07': // 기준x단가
         return (
           <>
-            <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <label className="form-top-label required">
                   정산기준
@@ -1258,28 +1351,89 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
           </>
         );
 
-      case 'R08': // 일괄/사이트합산
+      case 'R08': // 품목그룹계산
         return (
           <>
-            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mb-2">
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">
-                  합산기준
-                </label>
-                <Select
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  sx={{
-                    width: '100%',
-                    '& .MuiSelect-select': {
-                      textAlign: 'left'
-                    }
-                  }}
-                  defaultValue="선택"
-                >
-                  <MenuItem value="항목1">항목1</MenuItem>
-                </Select>
+                <table className="rul-table">
+                  <thead>
+                    <tr>
+                      <th className="w-auto">대표</th>
+                      <th className="w-24">주차장코드</th>
+                      <th className="w-auto">주차장명</th>
+                      <th className="w-auto">운영상태</th>
+                      <th className="w-6 p-1" style={{ minWidth: '35px' }}>삭제</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {parkingLotData.map((item) => (
+                      <tr key={item.id}>
+                        <td>{item.representative}</td>
+                        <td className="w-24">
+                          {item.id !== 1 ? (
+                            <div className="flex items-center gap-1">
+                              <TextField
+                                variant="outlined"
+                                size="small"
+                                value={item.code}
+                                onChange={(e) => {
+                                  setParkingLotData(prev => prev.map(p =>
+                                    p.id === item.id ? { ...p, code: e.target.value } : p
+                                  ))
+                                }}
+                                sx={{ width: '120px' }}
+                                disabled={pageMode === 'view'}
+                              />
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                color="secondary"
+                                className="xsmallbtn3"
+                                startIcon={<Search size={16} />}
+                                disabled={pageMode === 'view'}
+                              >
+                                <span style={{ display: "none" }}>검색</span>
+                              </Button>
+                            </div>
+                          ) : (
+                            item.code
+                          )}
+                        </td>
+                        <td>{item.name}</td>
+                        <td>{item.status}</td>
+                        <td className="w-6 p-1">
+                          {pageMode === 'edit' && item.id !== 1 && (
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              color="error"
+                              className="xsmallbtn2"
+                              startIcon={<Minus size={16} />}
+                              onClick={() => {
+                                setParkingLotData(prev => prev.filter(p => p.id !== item.id))
+                              }}
+                            >
+                              <span style={{ display: "none" }}>삭제</span>
+                            </Button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {pageMode === 'edit' && (
+                  <div className="flex items-center mt-2" style={{ gap: '8px' }}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      onClick={handleAddParkingLotRow}
+                    >
+                      추가
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
             <div className="mb-0">
@@ -1288,7 +1442,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 className="text-sm"
                 style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
               >
-                * 선택된 기준으로 SUM
+                * 품목 합산하여 계산 후 안분
               </Typography>
             </div>
           </>
@@ -1297,7 +1451,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       case 'R09': // 부가세계산
         return (
           <>
-            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mb-2">
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <label className="form-top-label required">
                   부가세율
@@ -1348,7 +1502,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       case 'R10': // 절사
         return (
           <>
-            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mb-0">
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-0">
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <label className="form-top-label required">
                   소수점자리
@@ -1508,25 +1662,6 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
     ]);
   };
 
-  // 추가 임차료, 수익 데이터
-  const [additionalRentData, setAdditionalRentData] = useState<Array<{
-    id: number
-    case: string
-    amount: string
-    reason: string
-    period: string[]
-  }>>([
-    { id: 1, case: 'CASE1', amount: '100000', reason: '추가사유1', period: ['', ''] },
-    { id: 2, case: 'CASE2', amount: '200000', reason: '추가사유2', period: ['', ''] }
-  ])
-
-  // Select 옵션들
-  const departmentOptions: Array<{ value: string, label: string }> = [
-    { value: 'option1', label: '옵션1' },
-    { value: 'option2', label: '옵션2' },
-    { value: 'option3', label: '옵션3' }
-  ]
-
   const isViewMode = (mode: PageMode): mode is 'view' => mode === 'view'
 
   return (
@@ -1569,7 +1704,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
         {/* 정산수식 섹션 - 일반타입만 표시 */}
         {item.formulaType === 'normal' ? (
           <>
-            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-0">
+            <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-0 flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <Typography component="div" className="font-semibold text-gray-900">
                   정산수식
@@ -1611,21 +1746,33 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
               </div>
 
               {/* 동적으로 생성되는 R 카드들 */}
-              <div className="flex flex-col gap-2 mt-2">
-                {rCards.map((rType, index) => (
-                  <DraggableRCard
-                    key={rType}
-                    rType={rType}
-                    index={index}
-                    getRCardTitle={getRCardTitle}
-                    getRCardContent={getRCardContent}
-                    handleRemoveRCard={handleRemoveRCard}
-                    pageMode={pageMode}
-                    moveCard={moveCard}
-                  />
-                ))}
-              </div>
-            </div>
+              <div className="flex flex-col gap-2">
+                {rCards.length > 0 ? (
+                  rCards.map((rType, index) => (
+                    <DraggableRCard
+                      key={rType}
+                      rType={rType}
+                      index={index}
+                      getRCardTitle={getRCardTitle}
+                      getRCardContent={getRCardContent}
+                      handleRemoveRCard={handleRemoveRCard}
+                      pageMode={pageMode}
+                      moveCard={moveCard}
+                    />
+                  ))
+                ) : (
+                  <div className="flex items-center justify-center py-8 px-4 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50">
+                    <Typography
+                      component="div"
+                      className="text-gray-500 text-sm"
+                      style={{ fontSize: '14px' }}
+                    >
+                      수식을 선택해주세요
+                    </Typography>
+                      </div>
+                    )}
+                  </div>
+                </div>
 
             <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mt-3 mb-0">
               <div className="flex items-center justify-between mb-2">
@@ -3014,14 +3161,9 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                               <MenuItem value="">
                                 <span>선택</span>
                               </MenuItem>
-                              {departmentOptions.map((option) => (
-                                <MenuItem
-                                  key={option.value}
-                                  value={option.value}
-                                >
-                                  {option.label}
-                                </MenuItem>
-                              ))}
+                              <MenuItem value="CASE1">CASE1</MenuItem>
+                              <MenuItem value="CASE2">CASE2</MenuItem>
+                              <MenuItem value="CASE3">CASE3</MenuItem>
                             </Select>
                           </FormControl>
                         </td>
@@ -3305,13 +3447,6 @@ export default function Rul002Page() {
   // 동적 아코디언 리스트 상태 관리
   const [accordionItems, setAccordionItems] = useState<AccordionItem[]>([])
 
-  // Select 옵션들
-  const departmentOptions: Array<{ value: string, label: string }> = [
-    { value: 'option1', label: '옵션1' },
-    { value: 'option2', label: '옵션2' },
-    { value: 'option3', label: '옵션3' }
-  ]
-
   const itemTypeOptions: Array<{ value: string, label: string }> = [
     { value: 'fixed_regular', label: '고정/정기' },
     { value: 'fixed_irregular', label: '고정/비정기' },
@@ -3400,75 +3535,165 @@ export default function Rul002Page() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div
-        className="flex flex-col h-full min-h-0 layout-top-bottom"
-        style={{
-          height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
-        }}
-      >
+    <div
+      className="flex flex-col h-full min-h-0 layout-top-bottom"
+      style={{
+        height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
+      }}
+    >
 
-        {/* Breadcrumb and Page Title */}
-        <div className="flex flex-row items-center justify-between mt-1 mb-3">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">정산규칙 (준비중)</h1>
-          </div>
-          <div>
-            <Breadcrumb
-              items={[
-                { label: 'Home', href: '/' },
-                { label: '정산규칙', href: '/' },
-                { label: '정산규칙', active: true }
-              ]}
-            />
-          </div>
+      {/* Breadcrumb and Page Title */}
+      <div className="flex flex-row items-center justify-between mt-1 mb-3">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">정산규칙 (준비중)</h1>
         </div>
+        <div>
+          <Breadcrumb
+            items={[
+              { label: 'Home', href: '/' },
+              { label: '정산규칙', href: '/' },
+              { label: '정산규칙', active: true }
+            ]}
+          />
+        </div>
+      </div>
 
-        {/* bottom-contents-pannel */}
-        <div
-          className="bottom-contents-pannel__content flex gap-2"
-          style={{ height: 'calc(100vh - 166px)', flex: 1 }}
-        >
-          {/* 왼쪽 카드 (폭 고정) */}
-          <div style={{ width: leftPanelWidth, maxWidth: leftPanelWidth }} className="flex-shrink-0">
-            <Card className="h-full">
-              <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
-                <div className="flex items-center justify-between mb-4 gap-2" style={{ flex: 0 }}>
-                  <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
-                    기본정보
-                  </Typography>
-                  <div className="flex gap-1">
+      {/* bottom-contents-pannel */}
+      <div
+        className="bottom-contents-pannel__content flex gap-2"
+        style={{ height: 'calc(100vh - 166px)', flex: 1 }}
+      >
+        {/* 왼쪽 카드 (폭 고정) */}
+        <div style={{ width: leftPanelWidth, maxWidth: leftPanelWidth }} className="flex-shrink-0">
+          <Card className="h-full">
+            <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+              <div className="flex items-center justify-between mb-4 gap-2" style={{ flex: 0 }}>
+                <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
+                  기본정보
+                </Typography>
+                <div className="flex gap-1">
 
-                  </div>
                 </div>
-                {/* 세로 꽉차는 영역 */}
-                <div style={{ height: 'calc(100% - 40px)' }}>
-                  {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
-                  {/* 기본 설정: 좌우 스크롤 활성화 */}
-                  <div className="h-full overflow-y-auto">
-                    <div
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "1fr 1fr",
-                        gap: 16,
-                      }}
-                    >
-                      <div>
-                        <label className="form-top-label required">
-                          규칙명
-                        </label>
+              </div>
+              {/* 세로 꽉차는 영역 */}
+              <div style={{ height: 'calc(100% - 40px)' }}>
+                {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
+                {/* 기본 설정: 좌우 스크롤 활성화 */}
+                <div className="h-full overflow-y-auto">
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: 16,
+                    }}
+                  >
+                    <div>
+                      <label className="form-top-label required">
+                        규칙명
+                      </label>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={ruleName}
+                        onChange={(e) => setRuleName(e.target.value)}
+                        sx={{ width: '100%' }}
+                        disabled={pageMode === 'view'}
+                        InputProps={{
+                          endAdornment: ruleName && (
+                            <InputAdornment position="end">
+                              <IconButton
+                                size="small"
+                                onClick={() => setRuleName('')}
+                                sx={{
+                                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                }}
+                              >
+                                <Icons.XIcon size={14} />
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label className="form-top-label">
+                        상태
+                      </label>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                        sx={{ width: '100%' }}
+                        disabled={pageMode === 'view'}
+                        InputProps={{
+                          endAdornment: status && (
+                            <InputAdornment position="end">
+                              <IconButton
+                                size="small"
+                                onClick={() => setStatus('')}
+                                sx={{
+                                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                }}
+                              >
+                                <Icons.XIcon size={14} />
+                              </IconButton>
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label className="form-top-label required">
+                        정산기준정보
+                      </label>
+                      <div className="flex items-center gap-1">
                         <TextField
                           variant="outlined"
                           size="small"
-                          value={ruleName}
-                          onChange={(e) => setRuleName(e.target.value)}
-                          sx={{ width: '100%' }}
+                          value={customerCode}
+                          onChange={(e) => setCustomerCode(e.target.value)}
+                          sx={{ flex: 1 }}
                           disabled={pageMode === 'view'}
                           InputProps={{
-                            endAdornment: ruleName && (
+                            endAdornment: customerCode && (
                               <InputAdornment position="end">
                                 <IconButton
                                   size="small"
-                                  onClick={() => setRuleName('')}
+                                  onClick={() => setCustomerCode('')}
+                                  sx={{
+                                    '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                  }}
+                                >
+                                  <Icons.XIcon size={14} />
+                                </IconButton>
+                              </InputAdornment>
+                            )
+                          }}
+                        />
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          color="secondary"
+                          className="xsmallbtn3"
+                          startIcon={<Search size={16} />}
+                          disabled={pageMode === 'view'}
+                        >
+                          <span style={{ display: "none" }}>+</span>
+                        </Button>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          value={deviceNumber}
+                          onChange={(e) => setDeviceNumber(e.target.value)}
+                          sx={{ width: '110px' }}
+                          disabled={true}
+                          InputProps={{
+                            endAdornment: deviceNumber && (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  size="small"
+                                  onClick={() => setDeviceNumber('')}
                                   sx={{
                                     '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
                                   }}
@@ -3480,23 +3705,58 @@ export default function Rul002Page() {
                           }}
                         />
                       </div>
-                      <div>
-                        <label className="form-top-label">
-                          상태
-                        </label>
+                    </div>
+                    <div>
+                      <label className="form-top-label required">
+                        품목
+                      </label>
+                      <div className="flex items-center gap-1">
                         <TextField
                           variant="outlined"
                           size="small"
-                          value={status}
-                          onChange={(e) => setStatus(e.target.value)}
-                          sx={{ width: '100%' }}
+                          value={itemCode}
+                          onChange={(e) => setItemCode(e.target.value)}
+                          sx={{ flex: 1 }}
                           disabled={pageMode === 'view'}
                           InputProps={{
-                            endAdornment: status && (
+                            endAdornment: itemCode && (
                               <InputAdornment position="end">
                                 <IconButton
                                   size="small"
-                                  onClick={() => setStatus('')}
+                                  onClick={() => setItemCode('')}
+                                  sx={{
+                                    '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                  }}
+                                >
+                                  <Icons.XIcon size={14} />
+                                </IconButton>
+                              </InputAdornment>
+                            )
+                          }}
+                        />
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          color="secondary"
+                          className="xsmallbtn3"
+                          startIcon={<Search size={16} />}
+                          disabled={pageMode === 'view'}
+                        >
+                          <span style={{ display: "none" }}>+</span>
+                        </Button>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          value={itemDeviceNumber}
+                          onChange={(e) => setItemDeviceNumber(e.target.value)}
+                          sx={{ width: '110px' }}
+                          disabled={true}
+                          InputProps={{
+                            endAdornment: itemDeviceNumber && (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  size="small"
+                                  onClick={() => setItemDeviceNumber('')}
                                   sx={{
                                     '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
                                   }}
@@ -3508,312 +3768,85 @@ export default function Rul002Page() {
                           }}
                         />
                       </div>
-                      <div>
-                        <label className="form-top-label required">
-                          정산기준정보
-                        </label>
-                        <div className="flex items-center gap-1">
-                          <TextField
-                            variant="outlined"
-                            size="small"
-                            value={customerCode}
-                            onChange={(e) => setCustomerCode(e.target.value)}
-                            sx={{ flex: 1 }}
-                            disabled={pageMode === 'view'}
-                            InputProps={{
-                              endAdornment: customerCode && (
-                                <InputAdornment position="end">
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => setCustomerCode('')}
-                                    sx={{
-                                      '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                                    }}
-                                  >
-                                    <Icons.XIcon size={14} />
-                                  </IconButton>
-                                </InputAdornment>
-                              )
-                            }}
-                          />
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            color="secondary"
-                            className="xsmallbtn3"
-                            startIcon={<Search size={16} />}
-                            disabled={pageMode === 'view'}
-                          >
-                            <span style={{ display: "none" }}>+</span>
-                          </Button>
-                          <TextField
-                            variant="outlined"
-                            size="small"
-                            value={deviceNumber}
-                            onChange={(e) => setDeviceNumber(e.target.value)}
-                            sx={{ width: '110px' }}
-                            disabled={true}
-                            InputProps={{
-                              endAdornment: deviceNumber && (
-                                <InputAdornment position="end">
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => setDeviceNumber('')}
-                                    sx={{
-                                      '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                                    }}
-                                  >
-                                    <Icons.XIcon size={14} />
-                                  </IconButton>
-                                </InputAdornment>
-                              )
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <label className="form-top-label required">
-                          품목
-                        </label>
-                        <div className="flex items-center gap-1">
-                          <TextField
-                            variant="outlined"
-                            size="small"
-                            value={itemCode}
-                            onChange={(e) => setItemCode(e.target.value)}
-                            sx={{ flex: 1 }}
-                            disabled={pageMode === 'view'}
-                            InputProps={{
-                              endAdornment: itemCode && (
-                                <InputAdornment position="end">
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => setItemCode('')}
-                                    sx={{
-                                      '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                                    }}
-                                  >
-                                    <Icons.XIcon size={14} />
-                                  </IconButton>
-                                </InputAdornment>
-                              )
-                            }}
-                          />
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            color="secondary"
-                            className="xsmallbtn3"
-                            startIcon={<Search size={16} />}
-                            disabled={pageMode === 'view'}
-                          >
-                            <span style={{ display: "none" }}>+</span>
-                          </Button>
-                          <TextField
-                            variant="outlined"
-                            size="small"
-                            value={itemDeviceNumber}
-                            onChange={(e) => setItemDeviceNumber(e.target.value)}
-                            sx={{ width: '110px' }}
-                            disabled={true}
-                            InputProps={{
-                              endAdornment: itemDeviceNumber && (
-                                <InputAdornment position="end">
-                                  <IconButton
-                                    size="small"
-                                    onClick={() => setItemDeviceNumber('')}
-                                    sx={{
-                                      '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                                    }}
-                                  >
-                                    <Icons.XIcon size={14} />
-                                  </IconButton>
-                                </InputAdornment>
-                              )
-                            }}
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <label className="form-top-label">
-                          계약기간
-                        </label>
-                        <DateRangePicker
-                          value={contractPeriod}
-                          onChange={(newValue: [Date | null, Date | null]) => {
-                            setContractPeriod(newValue)
-                          }}
-                          placeholder="날짜 범위를 선택하세요"
-                          size="small"
-                          datePickerWidth={130}
-                          disabled={true}
-                        />
-                      </div>
-                      <div>
-                        <label className="form-top-label">
-                          계약금액
-                        </label>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          type="text"
-                          disabled={true}
-                          value={
-                            contractAmount
-                              ? Number(contractAmount.replace(/,/g, '')).toLocaleString()
-                              : ''
+                    </div>
+                    <div>
+                      <label className="form-top-label">
+                        계약기간
+                      </label>
+                      <DateRangePicker
+                        value={contractPeriod}
+                        onChange={(newValue: [Date | null, Date | null]) => {
+                          setContractPeriod(newValue)
+                        }}
+                        placeholder="날짜 범위를 선택하세요"
+                        size="small"
+                        datePickerWidth={130}
+                        disabled={true}
+                      />
+                    </div>
+                    <div>
+                      <label className="form-top-label">
+                        계약금액
+                      </label>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        type="text"
+                        disabled={true}
+                        value={
+                          contractAmount
+                            ? Number(contractAmount.replace(/,/g, '')).toLocaleString()
+                            : ''
+                        }
+                        onChange={(e) => {
+                          // 숫자만 추출
+                          const raw = e.target.value.replace(/[^0-9]/g, '');
+                          setContractAmount(raw);
+                        }}
+                        sx={{
+                          width: '100%',
+                          '& input': {
+                            textAlign: 'right'
                           }
-                          onChange={(e) => {
-                            // 숫자만 추출
-                            const raw = e.target.value.replace(/[^0-9]/g, '');
-                            setContractAmount(raw);
-                          }}
-                          sx={{
-                            width: '100%',
-                            '& input': {
-                              textAlign: 'right'
-                            }
-                          }}
-                          inputProps={{
-                            inputMode: 'numeric',
-                            pattern: '[0-9,]*'
-                          }}
-                          placeholder="금액 입력"
-                          InputProps={{
-                            startAdornment: (
-                              <InputAdornment position="start">
-                                <span>₩</span>
-                              </InputAdornment>
-                            )
-                          }}
-                        />
-                      </div>
-                      <div>
-                        <label className="form-top-label required">
-                          규칙유효기간
-                        </label>
-                        <DateRangePicker
-                          value={rulePeriod}
-                          onChange={(newValue: [Date | null, Date | null]) => {
-                            setRulePeriod(newValue)
-                          }}
-                          placeholder="날짜 범위를 선택하세요"
-                          size="small"
-                          datePickerWidth={130}
-                          disabled={pageMode === 'view'}
-                        />
-                      </div>
-                      <div>
-                        <label className="form-top-label required">
-                          매출반영시점
-                        </label>
-                        <div className="flex items-center gap-1">
-                          <FormControl sx={{ width: '100%' }}>
-                            <Select
-                              value={salesReflectionTiming}
-                              onChange={(e) => setSalesReflectionTiming(e.target.value)}
-                              displayEmpty
-                              className="bg-white"
-                              size="small"
-                              disabled={pageMode === 'view'}
-                            >
-                              <MenuItem value="">
-                                <span>선택</span>
-                              </MenuItem>
-                              {departmentOptions.map((option) => (
-                                <MenuItem
-                                  key={option.value}
-                                  value={option.value}
-                                >
-                                  {option.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                          <FormControl sx={{ width: '100%' }}>
-                            <Select
-                              value={salesReflectionTiming2}
-                              onChange={(e) => setSalesReflectionTiming2(e.target.value)}
-                              displayEmpty
-                              className="bg-white"
-                              size="small"
-                              disabled={pageMode === 'view'}
-                            >
-                              <MenuItem value="">
-                                <span>선택</span>
-                              </MenuItem>
-                              {departmentOptions.map((option) => (
-                                <MenuItem
-                                  key={option.value}
-                                  value={option.value}
-                                >
-                                  {option.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </div>
-                      </div>
-                      <div>
-                        <label className="form-top-label required">
-                          매출매입유형
-                        </label>
-                        <div className="flex items-center gap-1">
-                          <FormControl sx={{ width: '100%' }}>
-                            <Select
-                              value={salesPurchaseType}
-                              onChange={(e) => setSalesPurchaseType(e.target.value)}
-                              displayEmpty
-                              className="bg-white"
-                              size="small"
-                              disabled={pageMode === 'view'}
-                            >
-                              <MenuItem value="">
-                                <span>선택</span>
-                              </MenuItem>
-                              {departmentOptions.map((option) => (
-                                <MenuItem
-                                  key={option.value}
-                                  value={option.value}
-                                >
-                                  {option.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                          <FormControl sx={{ width: '100%' }}>
-                            <Select
-                              value={salesPurchaseType2}
-                              onChange={(e) => setSalesPurchaseType2(e.target.value)}
-                              displayEmpty
-                              className="bg-white"
-                              size="small"
-                              disabled={pageMode === 'view'}
-                            >
-                              <MenuItem value="">
-                                <span>선택</span>
-                              </MenuItem>
-                              {departmentOptions.map((option) => (
-                                <MenuItem
-                                  key={option.value}
-                                  value={option.value}
-                                >
-                                  {option.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </FormControl>
-                        </div>
-
-                      </div>
-                      <div>
-                        <label className="form-top-label required">
-                          세금유형
-                        </label>
+                        }}
+                        inputProps={{
+                          inputMode: 'numeric',
+                          pattern: '[0-9,]*'
+                        }}
+                        placeholder="금액 입력"
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <span>₩</span>
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <label className="form-top-label required">
+                        규칙유효기간
+                      </label>
+                      <DateRangePicker
+                        value={rulePeriod}
+                        onChange={(newValue: [Date | null, Date | null]) => {
+                          setRulePeriod(newValue)
+                        }}
+                        placeholder="날짜 범위를 선택하세요"
+                        size="small"
+                        datePickerWidth={130}
+                        disabled={pageMode === 'view'}
+                      />
+                    </div>
+                    <div>
+                      <label className="form-top-label required">
+                        매출반영시점
+                      </label>
+                      <div className="flex items-center gap-1">
                         <FormControl sx={{ width: '100%' }}>
                           <Select
-                            value={taxType}
-                            onChange={(e) => setTaxType(e.target.value)}
+                            value={salesReflectionTiming}
+                            onChange={(e) => setSalesReflectionTiming(e.target.value)}
                             displayEmpty
                             className="bg-white"
                             size="small"
@@ -3822,72 +3855,167 @@ export default function Rul002Page() {
                             <MenuItem value="">
                               <span>선택</span>
                             </MenuItem>
-                            {departmentOptions.map((option) => (
-                              <MenuItem
-                                key={option.value}
-                                value={option.value}
-                              >
-                                {option.label}
-                              </MenuItem>
-                            ))}
+                            <MenuItem value="CASE1">CASE1</MenuItem>
+                            <MenuItem value="CASE2">CASE2</MenuItem>
+                            <MenuItem value="CASE3">CASE3</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormControl sx={{ width: '100%' }}>
+                          <Select
+                            value={salesReflectionTiming2}
+                            onChange={(e) => setSalesReflectionTiming2(e.target.value)}
+                            displayEmpty
+                            className="bg-white"
+                            size="small"
+                            disabled={pageMode === 'view'}
+                          >
+                            <MenuItem value="">
+                              <span>선택</span>
+                            </MenuItem>
+                            <MenuItem value="CASE1">CASE1</MenuItem>
+                            <MenuItem value="CASE2">CASE2</MenuItem>
+                            <MenuItem value="CASE3">CASE3</MenuItem>
                           </Select>
                         </FormControl>
                       </div>
                     </div>
-                    <div className="pt-4">
-                      <label className="form-top-label">
-                        비고
+                    <div>
+                      <label className="form-top-label required">
+                        매출매입유형
                       </label>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        multiline
-                        fullWidth
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        sx={{
-                          width: '100%',
-                          margin: 0,
-                          // 오버라이드 (resize 불가, 아이콘 숨김, overflowY auto)
-                          '& textarea': {
-                            resize: 'none !important',
-                            overflowY: 'auto !important',
-                          }
-                        }}
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                        disabled={pageMode === 'view'}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                      <div className="flex items-center gap-1">
+                        <FormControl sx={{ width: '100%' }}>
+                          <Select
+                            value={salesPurchaseType}
+                            onChange={(e) => setSalesPurchaseType(e.target.value)}
+                            displayEmpty
+                            className="bg-white"
+                            size="small"
+                            disabled={pageMode === 'view'}
+                          >
+                            <MenuItem value="">
+                              <span>선택</span>
+                            </MenuItem>
+                            <MenuItem value="CASE1">CASE1</MenuItem>
+                            <MenuItem value="CASE2">CASE2</MenuItem>
+                            <MenuItem value="CASE3">CASE3</MenuItem>
+                          </Select>
+                        </FormControl>
+                        <FormControl sx={{ width: '100%' }}>
+                          <Select
+                            value={salesPurchaseType2}
+                            onChange={(e) => setSalesPurchaseType2(e.target.value)}
+                            displayEmpty
+                            className="bg-white"
+                            size="small"
+                            disabled={pageMode === 'view'}
+                          >
+                            <MenuItem value="">
+                              <span>선택</span>
+                            </MenuItem>
+                            <MenuItem value="CASE1">CASE1</MenuItem>
+                            <MenuItem value="CASE2">CASE2</MenuItem>
+                            <MenuItem value="CASE3">CASE3</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </div>
 
-          {/* 오른쪽 카드 (폭 가변 flex:1) */}
-          <div className="flex-1">
-            <Card className="h-full">
-              <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
-                <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
-                  <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
-                    수식리스트
-                  </Typography>
-                  {pageMode === 'edit' && (
-                    <div className="flex gap-1">
-                      <FormControl sx={{ width: '120px' }}>
+                    </div>
+                    <div>
+                      <label className="form-top-label required">
+                        세금유형
+                      </label>
+                      <FormControl sx={{ width: '100%' }}>
                         <Select
-                          value={itemType}
-                          onChange={(e) => setItemType(e.target.value)}
+                          value={taxType}
+                          onChange={(e) => setTaxType(e.target.value)}
                           displayEmpty
                           className="bg-white"
                           size="small"
+                          disabled={pageMode === 'view'}
                         >
                           <MenuItem value="">
                             <span>선택</span>
                           </MenuItem>
-                          {itemTypeOptions.map((option) => (
+                          <MenuItem value="CASE1">CASE1</MenuItem>
+                          <MenuItem value="CASE2">CASE2</MenuItem>
+                          <MenuItem value="CASE3">CASE3</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </div>
+                  </div>
+                  <div className="pt-4">
+                    <label className="form-top-label">
+                      비고
+                    </label>
+                    <TextField
+                      variant="outlined"
+                      size="small"
+                      multiline
+                      fullWidth
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      sx={{
+                        width: '100%',
+                        margin: 0,
+                        // 오버라이드 (resize 불가, 아이콘 숨김, overflowY auto)
+                        '& textarea': {
+                          resize: 'none !important',
+                          overflowY: 'auto !important',
+                        }
+                      }}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      disabled={pageMode === 'view'}
+                    />
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 오른쪽 카드 (폭 가변 flex:1) */}
+        <div className="flex-1">
+          <Card className="h-full">
+            <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+              <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
+                <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
+                  수식리스트
+                </Typography>
+                {pageMode === 'edit' && (
+                  <div className="flex gap-1">
+                    <FormControl sx={{ width: '120px' }}>
+                      <Select
+                        value={itemType}
+                        onChange={(e) => setItemType(e.target.value)}
+                        displayEmpty
+                        className="bg-white"
+                        size="small"
+                      >
+                        <MenuItem value="">
+                          <span>선택</span>
+                        </MenuItem>
+                        {itemTypeOptions.map((option) => (
+                          <MenuItem
+                            key={option.value}
+                            value={option.value}
+                          >
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    {itemType === 'settlement' && (
+                      <FormControl sx={{ width: '100px' }}>
+                        <Select
+                          value={currentFormulaType}
+                          onChange={(e) => setCurrentFormulaType(e.target.value as FormulaType)}
+                          className="bg-white"
+                          size="small"
+                        >
+                          {formulaTypeOptions.map((option) => (
                             <MenuItem
                               key={option.value}
                               value={option.value}
@@ -3897,169 +4025,151 @@ export default function Rul002Page() {
                           ))}
                         </Select>
                       </FormControl>
-                      {itemType === 'settlement' && (
-                        <FormControl sx={{ width: '100px' }}>
-                          <Select
-                            value={currentFormulaType}
-                            onChange={(e) => setCurrentFormulaType(e.target.value as FormulaType)}
-                            className="bg-white"
-                            size="small"
-                          >
-                            {formulaTypeOptions.map((option) => (
-                              <MenuItem
-                                key={option.value}
-                                value={option.value}
-                              >
-                                {option.label}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      )}
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        size="small"
-                        onClick={() => {
-                          if (itemType) {
-                            addAccordionItem(itemType as 'fixed_regular' | 'fixed_irregular' | 'settlement')
-                            setItemType('') // 선택 초기화
-                          }
-                        }}
-                        disabled={!itemType}
-                      >
-                        수식추가
-                      </Button>
-                    </div>
-                  )}
-                </div>
-                {/* 세로 꽉차는 영역 */}
-                <div style={{ height: 'calc(100% - 40px)' }}>
-                  {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
-                  {/* 기본 설정: 좌우 스크롤 활성화 */}
-                  <div className="h-full overflow-y-auto">
-                    {/* 동적 아코디언 리스트 */}
-                    <div className="mb-0">
-                      {accordionItems.map((item) => {
-                        switch (item.type) {
-                          case 'fixed_regular':
-                            return (
-                              <FixedRegularAccordion
-                                key={item.id}
-                                item={item}
-                                onRemove={removeAccordionItem}
-                                pageMode={pageMode}
-                              />
-                            )
-                          case 'fixed_irregular':
-                            return (
-                              <FixedIrregularAccordion
-                                key={item.id}
-                                item={item}
-                                onRemove={removeAccordionItem}
-                                pageMode={pageMode}
-                              />
-                            )
-                          case 'settlement':
-                            return (
-                              <SettlementAccordion
-                                key={item.id}
-                                item={item}
-                                onRemove={removeAccordionItem}
-                                pageMode={pageMode}
-                              />
-                            )
-                          default:
-                            return null
+                    )}
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      size="small"
+                      onClick={() => {
+                        if (itemType) {
+                          addAccordionItem(itemType as 'fixed_regular' | 'fixed_irregular' | 'settlement')
+                          setItemType('') // 선택 초기화
                         }
-                      })}
-                      {accordionItems.length === 0 && (
-                        <div className="text-center text-gray-500 py-8">
-                          수식을 추가해주세요.
-                        </div>
-                      )}
-                    </div>
+                      }}
+                      disabled={!itemType}
+                    >
+                      수식추가
+                    </Button>
+                  </div>
+                )}
+              </div>
+              {/* 세로 꽉차는 영역 */}
+              <div style={{ height: 'calc(100% - 40px)' }}>
+                {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
+                {/* 기본 설정: 좌우 스크롤 활성화 */}
+                <div className="h-full overflow-y-auto">
+                  {/* 동적 아코디언 리스트 */}
+                  <div className="mb-0">
+                    {accordionItems.map((item) => {
+                      switch (item.type) {
+                        case 'fixed_regular':
+                          return (
+                            <FixedRegularAccordion
+                              key={item.id}
+                              item={item}
+                              onRemove={removeAccordionItem}
+                              pageMode={pageMode}
+                            />
+                          )
+                        case 'fixed_irregular':
+                          return (
+                            <FixedIrregularAccordion
+                              key={item.id}
+                              item={item}
+                              onRemove={removeAccordionItem}
+                              pageMode={pageMode}
+                            />
+                          )
+                        case 'settlement':
+                          return (
+                            <SettlementAccordion
+                              key={item.id}
+                              item={item}
+                              onRemove={removeAccordionItem}
+                              pageMode={pageMode}
+                            />
+                          )
+                        default:
+                          return null
+                      }
+                    })}
+                    {accordionItems.length === 0 && (
+                      <div className="text-center text-gray-500 py-8">
+                        수식을 추가해주세요.
+                      </div>
+                    )}
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
+      </div>
 
-        {/* bottom-button-pannel */}
-        <Card className="mt-2">
-          <CardContent style={{ padding: 16 }}>
-            <div className="flex items-center justify-between">
-              <div className="flex gap-2">
-                {pageMode === 'view' && (
-                  <Button variant="contained" color="error">
-                    삭제
-                  </Button>
-                )}
-              </div>
-              <div className="flex gap-2">
-                {pageMode === 'view' ? (
-                  // view 모드 버튼들
-                  <>
-                    <Button variant="outlined" color="secondary">
-                      목록
-                    </Button>
-                    <Button variant="outlined" color="secondary">
-                      결재요청
-                    </Button>
-                    <Button variant="outlined" color="secondary">
-                      확정
-                    </Button>
-                    <Button variant="contained" onClick={handleEdit}>
-                      수정
-                    </Button>
-                  </>
-                ) : (
-                  // edit 모드 버튼들
-                  <>
-                    <Button variant="outlined" color="secondary" onClick={handleCancel}>
-                      취소
-                    </Button>
-                    <Button variant="contained" onClick={handleSave}>
-                      저장
-                    </Button>
-                  </>
-                )}
-              </div>
+      {/* bottom-button-pannel */}
+      <Card className="mt-2">
+        <CardContent style={{ padding: 16 }}>
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2">
+              {pageMode === 'view' && (
+                <Button variant="contained" color="error">
+                  삭제
+                </Button>
+              )}
             </div>
-          </CardContent>
-        </Card>
+            <div className="flex gap-2">
+              {pageMode === 'view' ? (
+                // view 모드 버튼들
+                <>
+                  <Button variant="outlined" color="secondary">
+                    목록
+                  </Button>
+                  <Button variant="outlined" color="secondary">
+                    결재요청
+                  </Button>
+                  <Button variant="outlined" color="secondary">
+                    확정
+                  </Button>
+                  <Button variant="contained" onClick={handleEdit}>
+                    수정
+                  </Button>
+                </>
+              ) : (
+                // edit 모드 버튼들
+                <>
+                  <Button variant="outlined" color="secondary" onClick={handleCancel}>
+                    취소
+                  </Button>
+                  <Button variant="contained" onClick={handleSave}>
+                    저장
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
-        {/* MUI Alert Snackbar */}
-        <Snackbar
-          open={alertOpen}
-          autoHideDuration={4000}
+      {/* MUI Alert Snackbar */}
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={4000}
+        onClose={() => setAlertOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        sx={{
+          top: '20px !important',
+          '& .MuiAlert-root': {
+            minWidth: '300px',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+            borderRadius: '8px'
+          }
+        }}
+      >
+        <Alert
           onClose={() => setAlertOpen(false)}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          severity={alertSeverity}
           sx={{
-            top: '20px !important',
-            '& .MuiAlert-root': {
-              minWidth: '300px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-              borderRadius: '8px'
+            width: '100%',
+            '& .MuiAlert-message': {
+              fontWeight: 500
             }
           }}
         >
-          <Alert
-            onClose={() => setAlertOpen(false)}
-            severity={alertSeverity}
-            sx={{
-              width: '100%',
-              '& .MuiAlert-message': {
-                fontWeight: 500
-              }
-            }}
-          >
-            {alertMessage}
-          </Alert>
-        </Snackbar>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
 
-      </div>
+    </div>
     </DndProvider>
   )
 }
