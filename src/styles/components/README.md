@@ -17,53 +17,47 @@
 
 ```
 styles/
-├── core/                    # 핵심 디자인 시스템
-│   ├── _tokens.scss        # CSS 변수 토큰 (색상, 간격, 타이포그래피 등)
-│   └── _mixins.scss        # 재사용 가능한 믹스인들
-├── components/              # 컴포넌트별 클래스
-│   ├── _buttons.scss       # 버튼 관련 클래스
-│   ├── _cards.scss         # 카드 관련 클래스
-│   ├── _forms.scss         # 폼 관련 클래스 (MUI DatePicker 포함)
-│   ├── _layout.scss        # 레이아웃 관련 클래스
-│   ├── _navigation.scss    # 네비게이션 관련 클래스
-│   ├── _data.scss          # 데이터 표시 관련 클래스
-│   ├── _common.scss        # 자주 사용되는 공통 패턴
-│   ├── _examples.scss      # 예시 및 데모 컴포넌트
-│   └── README.md           # 이 가이드 문서
-├── layers/                  # 레이어 스타일
-└── utilities/               # 유틸리티 스타일
+├── core/
+│   ├── _tokens.scss
+│   └── _mixins.scss
+├── components/
+│   ├── _buttons.scss
+│   ├── _cards.scss
+│   ├── _forms.scss
+│   ├── _layout.scss
+│   ├── _navigation.scss
+│   ├── _data.scss
+│   ├── _common.scss
+│   ├── _examples.scss
+│   └── README.md
+├── layers/
+└── utilities/
 ```
 
 ## 🚀 핵심 시스템
 
 ### 1. 디자인 토큰 (`_tokens.scss`)
 
-모든 디자인 값이 중앙에서 관리됩니다:
-
 ```scss
 :root {
-  /* 색상 시스템 */
   --color-primary: 222 89% 52%;
   --color-success: 142 76% 36%;
   --color-error: 0 84% 60%;
   --color-warning: 38 92% 50%;
   --color-info: 199 89% 48%;
-  
-  /* 간격 시스템 */
-  --space-4: 1rem;           /* 16px */
-  --space-6: 1.5rem;         /* 24px */
-  --space-8: 2rem;           /* 32px */
-  --space-component: 0.75rem; /* 12px */
-  --space-section: 1.5rem;   /* 24px */
-  --space-page: 2rem;        /* 32px */
-  
-  /* 타이포그래피 */
-  --font-size-lg: 1.125rem;  /* 18px */
+
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-component: 0.75rem;
+  --space-section: 1.5rem;
+  --space-page: 2rem;
+
+  --font-size-lg: 1.125rem;
   --font-weight-semibold: 600;
   --line-height-tight: 1.25;
   --font-family-nice: 'NICE', sans-serif;
-  
-  /* 그림자 */
+
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
@@ -71,8 +65,6 @@ styles/
 ```
 
 ### 2. 믹스인 시스템 (`_mixins.scss`)
-
-반복되는 패턴을 추상화합니다:
 
 ```scss
 @mixin flex-center {
@@ -111,7 +103,7 @@ styles/
   display: grid;
   grid-template-columns: repeat($columns, 1fr);
   gap: $gap;
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
@@ -123,17 +115,13 @@ styles/
 ### 1. 기본 클래스 사용
 
 ```tsx
-// 기존 Tailwind 클래스
 <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
-
-// 새로운 컴포넌트 클래스
 <div className="c-stat-card">
 ```
 
 ### 2. 수정자(Modifier) 클래스 사용
 
 ```tsx
-// 기본 클래스 + 수정자
 <div className="c-card c-card--elevated">
 <button className="c-btn c-btn--primary c-btn--lg">
 ```
@@ -275,14 +263,14 @@ styles/
 
 #### 그리드 시스템
 ```tsx
-<div className="c-grid c-grid--2">     {/* 2열 그리드 */}
-<div className="c-grid c-grid--3">     {/* 3열 그리드 */}
-<div className="c-grid c-grid--4">     {/* 4열 그리드 */}
+<div className="c-grid c-grid--2">
+<div className="c-grid c-grid--3">
+<div className="c-grid c-grid--4">
 ```
 
 #### 패널
 ```tsx
-<div className="c-panel">              {/* 기본 패널 */}
+<div className="c-panel">
 ```
 
 #### 대시보드 레이아웃
@@ -297,8 +285,8 @@ styles/
 
 #### 메뉴 아이템
 ```tsx
-<div className="c-menu-item">         {/* 기본 메뉴 아이템 */}
-<div className="c-menu-item c-menu-item--active">  {/* 활성 상태 */}
+<div className="c-menu-item">
+<div className="c-menu-item c-menu-item--active">
 ```
 
 #### 팝오버 메뉴
@@ -375,19 +363,18 @@ styles/
 
 #### MUI DatePicker 스타일링
 ```scss
-// DatePicker 커스텀 스타일
 .MuiDatePicker-root {
   .MuiPickersDay-root {
     &.Mui-selected {
       background-color: hsl(var(--color-primary));
       color: hsl(var(--color-primary-foreground));
     }
-    
+
     &.MuiPickersDay-today {
       background-color: hsl(var(--color-muted));
       border: none;
     }
-    
+
     &:hover {
       background-color: hsl(var(--color-muted-hover));
     }
@@ -454,10 +441,9 @@ styles/
 
 ```scss
 .my-component {
-  @include flex-center;           // 중앙 정렬
-  @include flex-between;          // 양쪽 정렬
-  @include responsive-grid(3);    // 반응형 3열 그리드
-  @include hover-lift;            // 호버 시 위로 이동
+  @include flex-center;
+  @include flex-between;
+  @include responsive-grid(3);
 }
 ```
 
@@ -468,11 +454,11 @@ styles/
   @include mobile {
     // 모바일 전용 스타일
   }
-  
+
   @include tablet-up {
     // 태블릿 이상 스타일
   }
-  
+
   @include desktop {
     // 데스크톱 전용 스타일
   }
@@ -529,10 +515,8 @@ styles/
 
 ## 📱 반응형 디자인
 
-모든 컴포넌트 클래스는 Tailwind CSS의 반응형 접두사를 지원합니다:
-
 ```tsx
-<div className="c-grid c-grid--1 lg:c-grid--3">  {/* 모바일: 1열, 데스크톱: 3열 */}
+<div className="c-grid c-grid--1 lg:c-grid--3">
 ```
 
 ### 브레이크포인트
@@ -545,8 +529,6 @@ styles/
 
 ## 🎨 테마 및 색상
 
-컴포넌트 클래스는 CSS 변수를 사용하여 테마를 지원합니다:
-
 ```scss
 :where(.c-card) {
   background-color: hsl(var(--color-bg-elevated));
@@ -556,13 +538,13 @@ styles/
 
 ### 색상 팔레트
 
-- **Primary**: 주요 브랜드 색상
-- **Secondary**: 보조 색상
-- **Success**: 성공 상태
-- **Warning**: 경고 상태
-- **Error**: 오류 상태
-- **Info**: 정보 상태
-- **Muted**: 중성 색상
+- **Primary**
+- **Secondary**
+- **Success**
+- **Warning**
+- **Error**
+- **Info**
+- **Muted**
 
 ## 📝 네이밍 컨벤션
 
@@ -576,17 +558,16 @@ styles/
 ### 1. 새로운 컴포넌트 클래스 추가
 
 ```scss
-// _new-component.scss
 @use "../core/mixins" as *;
 
 @layer components {
   :where(.c-new-component) {
     @include card-base;
-    
+
     &.c-new-component--variant {
       @include card-variant('elevated');
     }
-    
+
     .c-new-component__element {
       @include flex-center;
       gap: var(--space-4);
@@ -598,45 +579,38 @@ styles/
 ### 2. 기존 클래스 수정
 
 ```scss
-// _buttons.scss 수정
 :where(.c-btn--primary) {
   @include button-variant('primary');
-  background-color: hsl(var(--color-primary-hover));  // 색상 변경
+  background-color: hsl(var(--color-primary-hover));
 }
 ```
 
 ### 3. 전역 SCSS에 import
 
 ```scss
-// globals.scss
 @import "../styles/components/new-component";
 ```
 
 ## 🚨 주의사항
 
-1. **CSS 우선순위**: `:where()` 선택자를 사용하여 낮은 specificity 유지
-2. **Tailwind 통합**: `@apply` 지시어를 사용하여 Tailwind 클래스 활용
+1. **CSS 우선순위**: `:where()` 선택자로 낮은 specificity 유지
+2. **Tailwind 통합**: `@apply` 지시어로 Tailwind 클래스 활용
 3. **일관성**: 프로젝트 전체에서 동일한 클래스명 사용
 4. **의존성**: `_mixins.scss`와 `_tokens.scss` 파일에 의존
-5. **토큰 우선**: 하드코딩된 값 대신 토큰 사용
+5. **토큰 우선**: 하드코딩 대신 토큰 사용
 6. **NICE 폰트**: 한국어 최적화된 폰트 사용
 
 ## 🔍 디버깅
 
-브라우저 개발자 도구에서 클래스가 제대로 적용되었는지 확인:
-
 ```tsx
-// 올바른 사용
 <div className="c-stat-card">  {/* ✅ 정상 작동 */}
-
-// 잘못된 사용
 <div className="c-statcard">   {/* ❌ 클래스명 오타 */}
 <div className="stat-card">    {/* ❌ 접두사 누락 */}
 ```
 
 ## 📚 예시 컴포넌트
 
-`_examples.scss`에는 다양한 데모 컴포넌트들이 포함되어 있습니다:
+`_examples.scss`에는 다양한 데모 컴포넌트가 포함되어 있습니다:
 
 - **색상 팔레트**: `c-color-palette`
 - **타이포그래피 쇼케이스**: `c-typography-showcase`
@@ -648,7 +622,7 @@ styles/
 
 ## 💡 코드 간소화 예시
 
-### Before (기존 Tailwind 클래스)
+### Before
 ```tsx
 <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
   <h3 className="mb-4 text-lg font-semibold text-gray-900">제목</h3>
@@ -661,7 +635,7 @@ styles/
 </div>
 ```
 
-### After (새로운 컴포넌트 클래스)
+### After
 ```tsx
 <div className="c-panel">
   <h3 className="c-section-title">제목</h3>
@@ -689,11 +663,4 @@ styles/
 }
 ```
 
-이 가이드를 따라 사용하면 일관되고 유지보수하기 쉬운 컴포넌트를 만들 수 있으며, 코드도 훨씬 간결해집니다!
-
----
-
-**작성자**
-디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-22)  
-010-9479-3188
-junhwa.park@gmail.com 
+이 가이드를 따르면 컴포넌트를 일관되고 유지보수하기 쉽게 만들 수 있습니다.

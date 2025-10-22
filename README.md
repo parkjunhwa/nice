@@ -1,4 +1,4 @@
-# NICE Dashboard System
+# NICE 정산 System
 
 Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적인 대시보드 시스템입니다. 다양한 관리 페이지와 컴포넌트 데모를 포함한 완전한 관리 시스템을 제공합니다.
 
@@ -542,14 +542,6 @@ export function NewComponent({ title, value, className }: NewComponentProps) {
 ## 📝 라이센스
 
 MIT License
-
-## 🤝 기여하기
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ---
 

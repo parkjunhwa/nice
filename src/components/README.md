@@ -23,20 +23,8 @@
 - **MNB006** (`/mnb006`) - 공지사항 상세
 - **Components** (`/components`) - 컴포넌트 데모 페이지들
   - Modal (`/modal`) - 모달 컴포넌트 데모
-  - MUI (`/mui`) - MUI 컴포넌트 데모
-  - Search01 (`/search01`) - 검색 컴포넌트 데모 1
-  - Search02 (`/search02`) - 검색 컴포넌트 데모 2
 
 ## 컴포넌트 구조
-
-### MUI 컴포넌트 (`/mui`)
-- `index.ts`: MUI 컴포넌트들을 카테고리별로 export
-  - **Layout & Navigation**: AppBar, Toolbar, Drawer, Tabs, Grid, Card 등
-  - **Forms & Inputs**: TextField, Button, Checkbox, Select, Autocomplete 등
-  - **Data Display**: Table, Avatar, Badge, Chip, Typography 등
-  - **Feedback**: Alert, Dialog, Snackbar, Tooltip, Popover 등
-  - **Navigation & Actions**: Pagination, SpeedDial, Link 등
-  - **Transitions & Animations**: Grow, Fade, Zoom, Slide, Collapse 등
 
 ### 아이콘 (`/icons`)
 - `index.ts`: Lucide React 아이콘들을 카테고리별로 export
@@ -88,7 +76,7 @@
 - `basic-modal.tsx`: 기본 모달
 - `confirm-modal.tsx`: 확인 모달
 - `cmn001.tsx` ~ `cmn012.tsx`: 공통 모달 컴포넌트들
-  - `cmn010.tsx`: 결재상신 본문 등록 모달 (MD Editor 포함)
+- `cmn010.tsx`: 결재상신 본문 등록 모달 (MD Editor 포함)
 - `mui-basic-modal.tsx`: MUI 기본 모달
 - `mui-confirm-modal.tsx`: MUI 확인 모달
 - `mui-form-modal.tsx`: MUI 폼 모달
@@ -112,25 +100,6 @@ import {
     {/* 대시보드 내용 */}
   </div>
 </DashboardLayout>
-```
-
-### MUI 컴포넌트 사용
-
-```tsx
-import { 
-  TextField, 
-  Button, 
-  Typography,
-  Icons 
-} from '@/components'
-
-// MUI 컴포넌트
-<TextField label="이메일" variant="outlined" />
-<Button variant="contained" color="primary">저장</Button>
-
-// 아이콘 사용
-<Icons.SearchIcon size={24} />
-<Icons.CalendarIcon size={20} />
 ```
 
 ### 날짜/시간 선택기 사용
@@ -297,9 +266,7 @@ export function NewComponent({ title, value, className }: NewComponentProps) {
 
 각 컴포넌트는 해당하는 데모 페이지에서 테스트할 수 있습니다:
 
-- **MUI 컴포넌트**: `/published/components/mui`
 - **모달 컴포넌트**: `/published/components/modal`
-- **검색 컴포넌트**: `/published/components/search01`, `/published/components/search02`
 
 ## 주의사항
 
