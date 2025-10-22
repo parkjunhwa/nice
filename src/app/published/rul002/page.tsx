@@ -2198,7 +2198,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                       defaultValue=""
                     />
                     <div style={{ color: '#d32f2f', fontSize: '12px' }} className="mt-1">
-                      * 카드 수수료율은 소수점 둘쨰 자리까지 입력 가능합니다
+                      * 카드 수수료율은 소수점 둘째 자리까지 입력 가능합니다
                     </div>
                   </div>
                 )}
