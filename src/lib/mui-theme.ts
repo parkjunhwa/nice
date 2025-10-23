@@ -88,6 +88,27 @@ export const muiTheme = createTheme({
         root: {
           textTransform: 'none',
           fontFamily: 'inherit',
+          '& .MuiTouchRipple-root': {
+            display: 'none',
+          },
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          '& .MuiTouchRipple-root': {
+            display: 'none',
+          },
+        },
+      },
+    },
+    MuiRadio: {
+      styleOverrides: {
+        root: {
+          '& .MuiTouchRipple-root': {
+            display: 'none',
+          },
         },
       },
     },
@@ -109,6 +130,24 @@ export const muiTheme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: 'inherit',
+        },
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          '& .MuiTouchRipple-root': {
+            display: 'none',
+          },
+        },
+      },
+    },
+    MuiFab: {
+      styleOverrides: {
+        root: {
+          '& .MuiTouchRipple-root': {
+            display: 'none',
+          },
         },
       },
     },

@@ -854,3 +854,60 @@ main.overflow-y-auto {
 .MuiAccordionDetails-root:before {
   display: none !important; /* MUI 기본 divider 제거 */
 }
+
+/* 폼 요소 focus 애니메이션 최적화 (성능 향상) */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+textarea,
+select {
+  transition: none !important;
+}
+
+/* MUI 폼 요소 focus 애니메이션 제거 */
+.MuiTextField-root,
+.MuiOutlinedInput-root,
+.MuiInputBase-root,
+.MuiSelect-root {
+  transition: none !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  transition: none !important;
+}
+
+/* 체크박스와 라디오박스 애니메이션 제거 (성능 최적화) */
+input[type="checkbox"], 
+input[type="radio"] {
+  transition: none !important;
+}
+
+/* MUI 체크박스와 라디오박스 애니메이션 제거 */
+.MuiCheckbox-root,
+.MuiRadio-root {
+  transition: none !important;
+}
+
+.MuiCheckbox-root .MuiSvgIcon-root,
+.MuiRadio-root .MuiSvgIcon-root {
+  transition: none !important;
+}
+
+/* MUI Ripple 효과 제거 (물결 애니메이션) */
+.MuiCheckbox-root .MuiTouchRipple-root,
+.MuiRadio-root .MuiTouchRipple-root,
+.MuiButton-root .MuiTouchRipple-root {
+  display: none !important;
+}
+
+/* MUI Ripple 관련 클래스들 제거 */
+.MuiTouchRipple-root,
+.MuiTouchRipple-ripple,
+.MuiTouchRipple-rippleVisible,
+.MuiTouchRipple-ripplePulsate {
+  display: none !important;
+}
