@@ -872,7 +872,14 @@ select {
 .MuiTextField-root,
 .MuiOutlinedInput-root,
 .MuiInputBase-root,
-.MuiSelect-root {
+.MuiSelect-root,
+.MuiPickersDay-root,
+.MuiPickersCalendarHeader-root,
+.MuiPickersMonth-root,
+.MuiPickersYear-root,
+.MuiPickersCalendar-root,
+.MuiPickersPopper-root,
+.MuiPickersModal-root {
   transition: none !important;
 }
 
@@ -900,7 +907,13 @@ input[type="radio"] {
 /* MUI Ripple 효과 제거 (물결 애니메이션) */
 .MuiCheckbox-root .MuiTouchRipple-root,
 .MuiRadio-root .MuiTouchRipple-root,
-.MuiButton-root .MuiTouchRipple-root {
+.MuiButton-root .MuiTouchRipple-root,
+.MuiSelect-root .MuiTouchRipple-root,
+.MuiMenuItem-root .MuiTouchRipple-root,
+.MuiPickersDay-root .MuiTouchRipple-root,
+.MuiPickersCalendarHeader-switchViewButton .MuiTouchRipple-root,
+.MuiPickersMonth-root .MuiTouchRipple-root,
+.MuiPickersYear-root .MuiTouchRipple-root {
   display: none !important;
 }
 

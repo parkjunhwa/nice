@@ -151,6 +151,24 @@ export const muiTheme = createTheme({
         },
       },
     },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          '& .MuiTouchRipple-root': {
+            display: 'none',
+          },
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          '& .MuiTouchRipple-root': {
+            display: 'none',
+          },
+        },
+      },
+    },
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
