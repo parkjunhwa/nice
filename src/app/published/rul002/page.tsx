@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useCallback, memo, useMemo } from 'react'
 import {
   Button,
   Typography,
@@ -26,12 +26,26 @@ import {
 } from '@/components'
 import { Search, Minus, GripVertical } from 'lucide-react'
 import { Alert, Snackbar } from '@mui/material'
-// @ts-expect-error - React DnD v16 type definitions issue
-import { DndProvider, useDrag, useDrop } from 'react-dnd'
+// React DnD imports with proper type handling
+// @ts-expect-error - DndProvider type definitions issue
+import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+// @ts-expect-error - useDrag and useDrop type definitions issue
+import { useDrag, useDrop } from 'react-dnd'
 
 type PageMode = 'view' | 'edit'
 type FormulaType = 'normal' | 'park_a' | 'park_b'
+
+// 숫자만 입력받는 핸들러 생성 함수
+const createNumberInputHandler = (setter: (value: string) => void) => {
+  return (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+    setter(onlyNumbers);
+  };
+};
+
+// 최적화된 TextField 컴포넌트
+const OptimizedTextField = memo(TextField);
 
 // 드래그 앤 드롭 관련 타입
 const ITEM_TYPE = 'RCARD'
@@ -58,8 +72,8 @@ interface AccordionItem {
   formulaType?: FormulaType
 }
 
-// 고정/정기 아코디언 컴포넌트
-const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
+// 고정/정기 아코디언 컴포넌트 (최적화된 버전)
+const FixedRegularAccordion = memo(({ item, onRemove, pageMode }: {
   item: AccordionItem,
   onRemove: (id: string) => void,
   pageMode: PageMode
@@ -70,7 +84,11 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
   const [includeStartDate, setIncludeStartDate] = useState((item.data.includeStartDate as boolean) || false)
   const [includeEndDate, setIncludeEndDate] = useState((item.data.includeEndDate as boolean) || false)
 
-  const isViewMode = (mode: PageMode): mode is 'view' => mode === 'view'
+  const isViewMode = useCallback((mode: PageMode): mode is 'view' => mode === 'view', [])
+
+  // 최적화된 이벤트 핸들러들
+  const handleMonthlyFixedAmountChange = createNumberInputHandler(setMonthlyFixedAmount)
+  const handleContractAmountChange = createNumberInputHandler(setContractAmount)
 
   return (
     <Accordion>
@@ -88,14 +106,12 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
               {pageMode === 'view' ? (
                 monthlyFixedAmount
               ) : (
-                <TextField
+                <OptimizedTextField
                   variant="outlined"
                   size="small"
                   type="text"
                   value={monthlyFixedAmount}
-                  onChange={(e) => {
-                    setMonthlyFixedAmount(e.target.value);
-                  }}
+                  onChange={handleMonthlyFixedAmountChange}
                   disabled={isViewMode(pageMode)}
                   sx={{
                     flex: 1,
@@ -139,11 +155,7 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
               type="text"
               disabled={pageMode === 'view'}
               value={contractAmount}
-              onChange={(e) => {
-                // 숫자만 입력받기 (숫자 이외 제거)
-                const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                setContractAmount(onlyNumbers);
-              }}
+              onChange={handleContractAmountChange}
               sx={{
                 width: '100%',
                 '& input': {
@@ -341,16 +353,20 @@ const FixedRegularAccordion = ({ item, onRemove, pageMode }: {
       </AccordionDetails>
     </Accordion>
   )
-}
+})
+FixedRegularAccordion.displayName = 'FixedRegularAccordion'
 
 // 고정/비정기 아코디언 컴포넌트
-const FixedIrregularAccordion = ({ item, onRemove, pageMode }: {
+const FixedIrregularAccordion = memo(({ item, onRemove, pageMode }: {
   item: AccordionItem,
   onRemove: (id: string) => void,
   pageMode: PageMode
 }) => {
   const [amount, setAmount] = useState((item.data.amount as string) || '')
   const [contractDate, setContractDate] = useState<Date | null>((item.data.contractDate as Date | null) || null)
+
+  // 최적화된 이벤트 핸들러들
+  const handleAmountChange = createNumberInputHandler(setAmount)
 
   return (
     <Accordion>
@@ -373,7 +389,7 @@ const FixedIrregularAccordion = ({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+                  onChange={handleAmountChange}
                   disabled={pageMode !== 'edit'}
                   sx={{
                     flex: 1,
@@ -445,7 +461,8 @@ const FixedIrregularAccordion = ({ item, onRemove, pageMode }: {
       </AccordionDetails>
     </Accordion>
   )
-}
+})
+FixedIrregularAccordion.displayName = 'FixedIrregularAccordion'
 
 // 드래그 가능한 R 카드 컴포넌트
 const DraggableRCard = ({
@@ -555,7 +572,7 @@ const DraggableRCard = ({
 }
 
 // 정산 아코디언 컴포넌트
-const SettlementAccordion = ({ item, onRemove, pageMode }: {
+const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
   item: AccordionItem,
   onRemove: (id: string) => void,
   pageMode: PageMode
@@ -567,6 +584,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
   const [rCards, setRCards] = useState<string[]>((item.data.rCards as string[]) || [])
   const [includeStartDate, setIncludeStartDate] = useState((item.data.includeStartDate as boolean) || false)
   const [includeEndDate, setIncludeEndDate] = useState((item.data.includeEndDate as boolean) || false)
+
+  // 최적화된 이벤트 핸들러들
 
   // 추가수익 매출정보 데이터
   const [salesData, setSalesData] = useState([
@@ -616,37 +635,42 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
     }
   ]);
 
-  // 테이블 행 추가
-  const handleAddTableRow = () => {
-    const newId = tableSettlementData.length > 0
-      ? Math.max(...tableSettlementData.map(item => item.id)) + 1
-      : 1;
-    setTableSettlementData(prev => [
-      ...prev,
-      {
-        id: newId,
-        criteria: "",
-        criteriaMin: "",
-        criteriaMax: "",
-        amountType: "",
-        amount: ""
+  // 테이블 행 추가 (최적화된 버전)
+  const handleAddTableRow = useCallback(() => {
+    setTableSettlementData(prev => {
+      const newId = prev.length > 0
+        ? Math.max(...prev.map(item => item.id)) + 1
+        : 1;
+      return [
+        ...prev,
+        {
+          id: newId,
+          criteria: "",
+          criteriaMin: "",
+          criteriaMax: "",
+          amountType: "",
+          amount: ""
+        }
+      ];
+    });
+  }, []);
+
+  // 테이블 행 삭제 (최적화된 버전)
+  const handleDeleteTableRow = useCallback((id: number) => {
+    setTableSettlementData(prev => {
+      if (prev.length > 1) {
+        return prev.filter(item => item.id !== id);
       }
-    ]);
-  };
+      return prev;
+    });
+  }, []);
 
-  // 테이블 행 삭제
-  const handleDeleteTableRow = (id: number) => {
-    if (tableSettlementData.length > 1) {
-      setTableSettlementData(prev => prev.filter(item => item.id !== id));
-    }
-  };
-
-  // 테이블 필드 변경
-  const handleTableRowChange = (id: number, field: string, value: string) => {
+  // 테이블 필드 변경 (최적화된 버전)
+  const handleTableRowChange = useCallback((id: number, field: string, value: string) => {
     setTableSettlementData(prev => prev.map(item =>
       item.id === id ? { ...item, [field]: value } : item
     ));
-  };
+  }, []);
 
   // 추가 임차료, 수익 데이터
   const [additionalRentData, setAdditionalRentData] = useState<Array<{
@@ -663,8 +687,8 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
   // 추가 임차료 행 추가
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleAddAdditionalRentRow = () => {
-    const newId = additionalRentData.length > 0 
-      ? Math.max(...additionalRentData.map(item => item.id)) + 1 
+    const newId = additionalRentData.length > 0
+      ? Math.max(...additionalRentData.map(item => item.id)) + 1
       : 1;
     setAdditionalRentData(prev => [
       ...prev,
@@ -826,7 +850,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                 className="text-sm"
                 style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
               >
-                * 정산기준x연산자(+-x÷)x정률/정액
+                * 정산기준 × 연산자(+ − × ÷) × 정률/정액
               </Typography>
             </div>
           </>
@@ -970,19 +994,19 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                         </Select>
                       </td>
                       <td>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
                           value={row.criteriaMin}
                           onChange={(e) => {
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                            const value = e.target.value.replace(/[^0-9.]/g, '');
                             handleTableRowChange(row.id, 'criteriaMin', value);
-                  }}
-                  sx={{
-                    width: '100%',
-                    '& input': { textAlign: 'right' }
-                  }}
+                          }}
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'right' }
+                          }}
                         />
                       </td>
                       <td>
@@ -1059,7 +1083,7 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                   >
                     추가
                   </Button>
-              </div>
+                </div>
               )}
             </div>
             <div className="mt-2">
@@ -1769,10 +1793,10 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
                     >
                       수식을 선택해주세요
                     </Typography>
-                      </div>
-                    )}
                   </div>
-                </div>
+                )}
+              </div>
+            </div>
 
             <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mt-3 mb-0">
               <div className="flex items-center justify-between mb-2">
@@ -3416,42 +3440,120 @@ const SettlementAccordion = ({ item, onRemove, pageMode }: {
       </AccordionDetails >
     </Accordion >
   )
-}
+})
+SettlementAccordion.displayName = 'SettlementAccordion'
 
 export default function Rul002Page() {
   // 페이지 상태 관리
   const [pageMode, setPageMode] = useState<PageMode>('view')
   const [currentFormulaType, setCurrentFormulaType] = useState<FormulaType>('normal')
 
-  // 폼 상태 변수들
-  const [ruleName, setRuleName] = useState('')
-  const [status, setStatus] = useState('')
-  const [customerCode, setCustomerCode] = useState('')
-  const [deviceNumber, setDeviceNumber] = useState('')
-  const [itemCode, setItemCode] = useState('')
-  const [itemDeviceNumber, setItemDeviceNumber] = useState('')
+  // 폼 상태를 그룹화하여 관리 (최적화된 버전)
+  const [formState, setFormState] = useState({
+    ruleName: '',
+    status: '',
+    customerCode: '',
+    deviceNumber: '',
+    itemCode: '',
+    itemDeviceNumber: '',
+    contractAmount: '',
+    salesReflectionTiming: '',
+    salesReflectionTiming2: '',
+    salesPurchaseType: '',
+    salesPurchaseType2: '',
+    taxType: '',
+    description: '',
+    itemType: ''
+  })
+
+  // 날짜 상태들
   const [contractPeriod, setContractPeriod] = useState<[Date | null, Date | null]>([null, null])
-  const [contractAmount, setContractAmount] = useState('')
   const [rulePeriod, setRulePeriod] = useState<[Date | null, Date | null]>([null, null])
-  const [salesReflectionTiming, setSalesReflectionTiming] = useState('')
-  const [salesReflectionTiming2, setSalesReflectionTiming2] = useState('')
-  const [salesPurchaseType, setSalesPurchaseType] = useState('')
-  const [salesPurchaseType2, setSalesPurchaseType2] = useState('')
-  const [taxType, setTaxType] = useState('')
-  const [description, setDescription] = useState('')
-  const [itemType, setItemType] = useState('')
-  const [alertOpen, setAlertOpen] = useState(false)
-  const [alertMessage, setAlertMessage] = useState('')
-  const [alertSeverity, setAlertSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('success')
+
+  // 알림 상태
+  const [alertState, setAlertState] = useState({
+    open: false,
+    message: '',
+    severity: 'success' as 'success' | 'error' | 'warning' | 'info'
+  })
 
   // 동적 아코디언 리스트 상태 관리
   const [accordionItems, setAccordionItems] = useState<AccordionItem[]>([])
 
-  const itemTypeOptions: Array<{ value: string, label: string }> = [
+  // 폼 필드 업데이트 함수 (최적화된 버전)
+  const updateFormField = useCallback((field: string, value: string) => {
+    setFormState(prev => ({ ...prev, [field]: value }))
+  }, [])
+
+  // 알림 상태 업데이트 함수 (최적화된 버전)
+  const updateAlertState = useCallback((updates: Partial<typeof alertState>) => {
+    setAlertState(prev => ({ ...prev, ...updates }))
+  }, [])
+
+  // 폼 필드별 핸들러들 (최적화된 버전)
+  const handleRuleNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormField('ruleName', e.target.value)
+  }, [updateFormField])
+
+  const handleStatusChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormField('status', e.target.value)
+  }, [updateFormField])
+
+  const handleCustomerCodeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormField('customerCode', e.target.value)
+  }, [updateFormField])
+
+  const handleDeviceNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormField('deviceNumber', e.target.value)
+  }, [updateFormField])
+
+  const handleItemCodeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormField('itemCode', e.target.value)
+  }, [updateFormField])
+
+  const handleItemDeviceNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormField('itemDeviceNumber', e.target.value)
+  }, [updateFormField])
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSalesReflectionTimingChange = useCallback((e: any) => {
+    updateFormField('salesReflectionTiming', e.target.value)
+  }, [updateFormField])
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSalesReflectionTiming2Change = useCallback((e: any) => {
+    updateFormField('salesReflectionTiming2', e.target.value)
+  }, [updateFormField])
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSalesPurchaseTypeChange = useCallback((e: any) => {
+    updateFormField('salesPurchaseType', e.target.value)
+  }, [updateFormField])
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleSalesPurchaseType2Change = useCallback((e: any) => {
+    updateFormField('salesPurchaseType2', e.target.value)
+  }, [updateFormField])
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleTaxTypeChange = useCallback((e: any) => {
+    updateFormField('taxType', e.target.value)
+  }, [updateFormField])
+
+  const handleDescriptionChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormField('description', e.target.value)
+  }, [updateFormField])
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleItemTypeChange = useCallback((e: any) => {
+    updateFormField('itemType', e.target.value)
+  }, [updateFormField])
+
+  const itemTypeOptions: Array<{ value: string, label: string }> = useMemo(() => [
     { value: 'fixed_regular', label: '고정/정기' },
     { value: 'fixed_irregular', label: '고정/비정기' },
     { value: 'settlement', label: '정산' }
-  ]
+  ], [])
 
   const formulaTypeOptions: Array<{ value: FormulaType, label: string }> = [
     { value: 'normal', label: '일반' },
@@ -3462,8 +3564,8 @@ export default function Rul002Page() {
   // 패널 크기 조절 상태
   const leftPanelWidth = 600 // 고정 500px
 
-  // 아코디언 추가 함수
-  const addAccordionItem = (type: 'fixed_regular' | 'fixed_irregular' | 'settlement') => {
+  // 아코디언 추가 함수 (최적화된 버전)
+  const addAccordionItem = useCallback((type: 'fixed_regular' | 'fixed_irregular' | 'settlement') => {
     const newItem: AccordionItem = {
       id: `accordion-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       type,
@@ -3472,12 +3574,12 @@ export default function Rul002Page() {
       formulaType: type === 'settlement' ? currentFormulaType : undefined
     }
     setAccordionItems(prev => [...prev, newItem])
-  }
+  }, [currentFormulaType, itemTypeOptions])
 
-  // 아코디언 삭제 함수
-  const removeAccordionItem = (id: string) => {
+  // 아코디언 삭제 함수 (최적화된 버전)
+  const removeAccordionItem = useCallback((id: string) => {
     setAccordionItems(prev => prev.filter(item => item.id !== id))
-  }
+  }, [])
 
   // 타입별 기본 데이터 생성
   const getDefaultDataForType = (type: 'fixed_regular' | 'fixed_irregular' | 'settlement') => {
@@ -3526,174 +3628,87 @@ export default function Rul002Page() {
     showAlert('수정이 취소되었습니다.', 'info')
   }
 
-  // Alert 표시 함수
-  const showAlert = (message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
-    setAlertMessage(message)
-    setAlertSeverity(severity)
-    setAlertOpen(true)
-  }
+  // 알림 표시 함수 (최적화된 버전)
+  const showAlert = useCallback((message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
+    updateAlertState({ open: true, message, severity })
+  }, [updateAlertState])
+
+  // 알림 닫기 함수 (최적화된 버전)
+  const handleAlertClose = useCallback(() => {
+    updateAlertState({ open: false })
+  }, [updateAlertState])
 
   return (
     <DndProvider backend={HTML5Backend}>
-    <div
-      className="flex flex-col h-full min-h-0 layout-top-bottom"
-      style={{
-        height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
-      }}
-    >
-
-      {/* Breadcrumb and Page Title */}
-      <div className="flex flex-row items-center justify-between mt-1 mb-3">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">정산규칙 (준비중)</h1>
-        </div>
-        <div>
-          <Breadcrumb
-            items={[
-              { label: 'Home', href: '/' },
-              { label: '정산규칙', href: '/' },
-              { label: '정산규칙', active: true }
-            ]}
-          />
-        </div>
-      </div>
-
-      {/* bottom-contents-pannel */}
       <div
-        className="bottom-contents-pannel__content flex gap-2"
-        style={{ height: 'calc(100vh - 166px)', flex: 1 }}
+        className="flex flex-col h-full min-h-0 layout-top-bottom"
+        style={{
+          height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
+        }}
       >
-        {/* 왼쪽 카드 (폭 고정) */}
-        <div style={{ width: leftPanelWidth, maxWidth: leftPanelWidth }} className="flex-shrink-0">
-          <Card className="h-full">
-            <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
-              <div className="flex items-center justify-between mb-4 gap-2" style={{ flex: 0 }}>
-                <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
-                  기본정보
-                </Typography>
-                <div className="flex gap-1">
 
+        {/* Breadcrumb and Page Title */}
+        <div className="flex flex-row items-center justify-between mt-1 mb-3">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">정산규칙 (준비중)</h1>
+          </div>
+          <div>
+            <Breadcrumb
+              items={[
+                { label: 'Home', href: '/' },
+                { label: '정산규칙', href: '/' },
+                { label: '정산규칙', active: true }
+              ]}
+            />
+          </div>
+        </div>
+
+        {/* bottom-contents-pannel */}
+        <div
+          className="bottom-contents-pannel__content flex gap-2"
+          style={{ height: 'calc(100vh - 166px)', flex: 1 }}
+        >
+          {/* 왼쪽 카드 (폭 고정) */}
+          <div style={{ width: leftPanelWidth, maxWidth: leftPanelWidth }} className="flex-shrink-0">
+            <Card className="h-full">
+              <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+                <div className="flex items-center justify-between mb-4 gap-2" style={{ flex: 0 }}>
+                  <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
+                    기본정보
+                  </Typography>
+                  <div className="flex gap-1">
+
+                  </div>
                 </div>
-              </div>
-              {/* 세로 꽉차는 영역 */}
-              <div style={{ height: 'calc(100% - 40px)' }}>
-                {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
-                {/* 기본 설정: 좌우 스크롤 활성화 */}
-                <div className="h-full overflow-y-auto">
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "1fr 1fr",
-                      gap: 16,
-                    }}
-                  >
-                    <div>
-                      <label className="form-top-label required">
-                        규칙명
-                      </label>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={ruleName}
-                        onChange={(e) => setRuleName(e.target.value)}
-                        sx={{ width: '100%' }}
-                        disabled={pageMode === 'view'}
-                        InputProps={{
-                          endAdornment: ruleName && (
-                            <InputAdornment position="end">
-                              <IconButton
-                                size="small"
-                                onClick={() => setRuleName('')}
-                                sx={{
-                                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                                }}
-                              >
-                                <Icons.XIcon size={14} />
-                              </IconButton>
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <label className="form-top-label">
-                        상태
-                      </label>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        value={status}
-                        onChange={(e) => setStatus(e.target.value)}
-                        sx={{ width: '100%' }}
-                        disabled={pageMode === 'view'}
-                        InputProps={{
-                          endAdornment: status && (
-                            <InputAdornment position="end">
-                              <IconButton
-                                size="small"
-                                onClick={() => setStatus('')}
-                                sx={{
-                                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                                }}
-                              >
-                                <Icons.XIcon size={14} />
-                              </IconButton>
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <label className="form-top-label required">
-                        정산기준정보
-                      </label>
-                      <div className="flex items-center gap-1">
+                {/* 세로 꽉차는 영역 */}
+                <div style={{ height: 'calc(100% - 40px)' }}>
+                  {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
+                  {/* 기본 설정: 좌우 스크롤 활성화 */}
+                  <div className="h-full overflow-y-auto">
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "1fr 1fr",
+                        gap: 16,
+                      }}
+                    >
+                      <div>
+                        <label className="form-top-label required">
+                          규칙명
+                        </label>
                         <TextField
                           variant="outlined"
                           size="small"
-                          value={customerCode}
-                          onChange={(e) => setCustomerCode(e.target.value)}
-                          sx={{ flex: 1 }}
+                          value={formState.ruleName}
+                          onChange={handleRuleNameChange}
+                          sx={{ width: '100%' }}
                           disabled={pageMode === 'view'}
                           InputProps={{
-                            endAdornment: customerCode && (
+                            endAdornment: formState.ruleName && (
                               <InputAdornment position="end">
                                 <IconButton
                                   size="small"
-                                  onClick={() => setCustomerCode('')}
-                                  sx={{
-                                    '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                                  }}
-                                >
-                                  <Icons.XIcon size={14} />
-                                </IconButton>
-                              </InputAdornment>
-                            )
-                          }}
-                        />
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          color="secondary"
-                          className="xsmallbtn3"
-                          startIcon={<Search size={16} />}
-                          disabled={pageMode === 'view'}
-                        >
-                          <span style={{ display: "none" }}>+</span>
-                        </Button>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={deviceNumber}
-                          onChange={(e) => setDeviceNumber(e.target.value)}
-                          sx={{ width: '110px' }}
-                          disabled={true}
-                          InputProps={{
-                            endAdornment: deviceNumber && (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  size="small"
-                                  onClick={() => setDeviceNumber('')}
+                                  onClick={() => updateFormField('ruleName', '')}
                                   sx={{
                                     '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
                                   }}
@@ -3705,58 +3720,23 @@ export default function Rul002Page() {
                           }}
                         />
                       </div>
-                    </div>
-                    <div>
-                      <label className="form-top-label required">
-                        품목
-                      </label>
-                      <div className="flex items-center gap-1">
+                      <div>
+                        <label className="form-top-label">
+                          상태
+                        </label>
                         <TextField
                           variant="outlined"
                           size="small"
-                          value={itemCode}
-                          onChange={(e) => setItemCode(e.target.value)}
-                          sx={{ flex: 1 }}
+                          value={formState.status}
+                          onChange={handleStatusChange}
+                          sx={{ width: '100%' }}
                           disabled={pageMode === 'view'}
                           InputProps={{
-                            endAdornment: itemCode && (
+                            endAdornment: formState.status && (
                               <InputAdornment position="end">
                                 <IconButton
                                   size="small"
-                                  onClick={() => setItemCode('')}
-                                  sx={{
-                                    '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                                  }}
-                                >
-                                  <Icons.XIcon size={14} />
-                                </IconButton>
-                              </InputAdornment>
-                            )
-                          }}
-                        />
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          color="secondary"
-                          className="xsmallbtn3"
-                          startIcon={<Search size={16} />}
-                          disabled={pageMode === 'view'}
-                        >
-                          <span style={{ display: "none" }}>+</span>
-                        </Button>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          value={itemDeviceNumber}
-                          onChange={(e) => setItemDeviceNumber(e.target.value)}
-                          sx={{ width: '110px' }}
-                          disabled={true}
-                          InputProps={{
-                            endAdornment: itemDeviceNumber && (
-                              <InputAdornment position="end">
-                                <IconButton
-                                  size="small"
-                                  onClick={() => setItemDeviceNumber('')}
+                                  onClick={() => updateFormField('status', '')}
                                   sx={{
                                     '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
                                   }}
@@ -3768,254 +3748,361 @@ export default function Rul002Page() {
                           }}
                         />
                       </div>
+                      <div>
+                        <label className="form-top-label required">
+                          정산기준정보
+                        </label>
+                        <div className="flex items-center gap-1">
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            value={formState.customerCode}
+                            onChange={handleCustomerCodeChange}
+                            sx={{ flex: 1 }}
+                            disabled={pageMode === 'view'}
+                            InputProps={{
+                              endAdornment: formState.customerCode && (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => updateFormField('customerCode', '')}
+                                    sx={{
+                                      '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                    }}
+                                  >
+                                    <Icons.XIcon size={14} />
+                                  </IconButton>
+                                </InputAdornment>
+                              )
+                            }}
+                          />
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            className="xsmallbtn3"
+                            startIcon={<Search size={16} />}
+                            disabled={pageMode === 'view'}
+                          >
+                            <span style={{ display: "none" }}>+</span>
+                          </Button>
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            value={formState.deviceNumber}
+                            onChange={handleDeviceNumberChange}
+                            sx={{ width: '110px' }}
+                            disabled={true}
+                            InputProps={{
+                              endAdornment: formState.deviceNumber && (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => updateFormField('deviceNumber', '')}
+                                    sx={{
+                                      '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                    }}
+                                  >
+                                    <Icons.XIcon size={14} />
+                                  </IconButton>
+                                </InputAdornment>
+                              )
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="form-top-label required">
+                          품목
+                        </label>
+                        <div className="flex items-center gap-1">
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            value={formState.itemCode}
+                            onChange={handleItemCodeChange}
+                            sx={{ flex: 1 }}
+                            disabled={pageMode === 'view'}
+                            InputProps={{
+                              endAdornment: formState.itemCode && (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => updateFormField('itemCode', '')}
+                                    sx={{
+                                      '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                    }}
+                                  >
+                                    <Icons.XIcon size={14} />
+                                  </IconButton>
+                                </InputAdornment>
+                              )
+                            }}
+                          />
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            color="secondary"
+                            className="xsmallbtn3"
+                            startIcon={<Search size={16} />}
+                            disabled={pageMode === 'view'}
+                          >
+                            <span style={{ display: "none" }}>+</span>
+                          </Button>
+                          <TextField
+                            variant="outlined"
+                            size="small"
+                            value={formState.itemDeviceNumber}
+                            onChange={handleItemDeviceNumberChange}
+                            sx={{ width: '110px' }}
+                            disabled={true}
+                            InputProps={{
+                              endAdornment: formState.itemDeviceNumber && (
+                                <InputAdornment position="end">
+                                  <IconButton
+                                    size="small"
+                                    onClick={() => updateFormField('itemDeviceNumber', '')}
+                                    sx={{
+                                      '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                                    }}
+                                  >
+                                    <Icons.XIcon size={14} />
+                                  </IconButton>
+                                </InputAdornment>
+                              )
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="form-top-label">
+                          계약기간
+                        </label>
+                        <DateRangePicker
+                          value={contractPeriod}
+                          onChange={(newValue: [Date | null, Date | null]) => {
+                            setContractPeriod(newValue)
+                          }}
+                          placeholder="날짜 범위를 선택하세요"
+                          size="small"
+                          datePickerWidth={130}
+                          disabled={true}
+                        />
+                      </div>
+                      <div>
+                        <label className="form-top-label">
+                          계약금액
+                        </label>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          type="text"
+                          disabled={true}
+                          value={
+                            formState.contractAmount
+                              ? Number(formState.contractAmount.replace(/,/g, '')).toLocaleString()
+                              : ''
+                          }
+                          onChange={(e) => {
+                            // 숫자만 추출
+                            const raw = e.target.value.replace(/[^0-9]/g, '');
+                            updateFormField('contractAmount', raw);
+                          }}
+                          sx={{
+                            width: '100%',
+                            '& input': {
+                              textAlign: 'right'
+                            }
+                          }}
+                          inputProps={{
+                            inputMode: 'numeric',
+                            pattern: '[0-9,]*'
+                          }}
+                          placeholder="금액 입력"
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <span>₩</span>
+                              </InputAdornment>
+                            )
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <label className="form-top-label required">
+                          규칙유효기간
+                        </label>
+                        <DateRangePicker
+                          value={rulePeriod}
+                          onChange={(newValue: [Date | null, Date | null]) => {
+                            setRulePeriod(newValue)
+                          }}
+                          placeholder="날짜 범위를 선택하세요"
+                          size="small"
+                          datePickerWidth={130}
+                          disabled={pageMode === 'view'}
+                        />
+                      </div>
+                      <div>
+                        <label className="form-top-label required">
+                          매출반영시점
+                        </label>
+                        <div className="flex items-center gap-1">
+                          <FormControl sx={{ width: '100%' }}>
+                            <Select
+                              value={formState.salesReflectionTiming}
+                              onChange={handleSalesReflectionTimingChange}
+                              displayEmpty
+                              className="bg-white"
+                              size="small"
+                              disabled={pageMode === 'view'}
+                            >
+                              <MenuItem value="">
+                                <span>선택</span>
+                              </MenuItem>
+                              <MenuItem value="CASE1">CASE1</MenuItem>
+                              <MenuItem value="CASE2">CASE2</MenuItem>
+                              <MenuItem value="CASE3">CASE3</MenuItem>
+                            </Select>
+                          </FormControl>
+                          <FormControl sx={{ width: '100%' }}>
+                            <Select
+                              value={formState.salesReflectionTiming2}
+                              onChange={handleSalesReflectionTiming2Change}
+                              displayEmpty
+                              className="bg-white"
+                              size="small"
+                              disabled={pageMode === 'view'}
+                            >
+                              <MenuItem value="">
+                                <span>선택</span>
+                              </MenuItem>
+                              <MenuItem value="CASE1">CASE1</MenuItem>
+                              <MenuItem value="CASE2">CASE2</MenuItem>
+                              <MenuItem value="CASE3">CASE3</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="form-top-label required">
+                          매출매입유형
+                        </label>
+                        <div className="flex items-center gap-1">
+                          <FormControl sx={{ width: '100%' }}>
+                            <Select
+                              value={formState.salesPurchaseType}
+                              onChange={handleSalesPurchaseTypeChange}
+                              displayEmpty
+                              className="bg-white"
+                              size="small"
+                              disabled={pageMode === 'view'}
+                            >
+                              <MenuItem value="">
+                                <span>선택</span>
+                              </MenuItem>
+                              <MenuItem value="CASE1">CASE1</MenuItem>
+                              <MenuItem value="CASE2">CASE2</MenuItem>
+                              <MenuItem value="CASE3">CASE3</MenuItem>
+                            </Select>
+                          </FormControl>
+                          <FormControl sx={{ width: '100%' }}>
+                            <Select
+                              value={formState.salesPurchaseType2}
+                              onChange={handleSalesPurchaseType2Change}
+                              displayEmpty
+                              className="bg-white"
+                              size="small"
+                              disabled={pageMode === 'view'}
+                            >
+                              <MenuItem value="">
+                                <span>선택</span>
+                              </MenuItem>
+                              <MenuItem value="CASE1">CASE1</MenuItem>
+                              <MenuItem value="CASE2">CASE2</MenuItem>
+                              <MenuItem value="CASE3">CASE3</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </div>
+
+                      </div>
+                      <div>
+                        <label className="form-top-label required">
+                          세금유형
+                        </label>
+                        <FormControl sx={{ width: '100%' }}>
+                          <Select
+                            value={formState.taxType}
+                            onChange={handleTaxTypeChange}
+                            displayEmpty
+                            className="bg-white"
+                            size="small"
+                            disabled={pageMode === 'view'}
+                          >
+                            <MenuItem value="">
+                              <span>선택</span>
+                            </MenuItem>
+                            <MenuItem value="CASE1">CASE1</MenuItem>
+                            <MenuItem value="CASE2">CASE2</MenuItem>
+                            <MenuItem value="CASE3">CASE3</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </div>
                     </div>
-                    <div>
+                    <div className="pt-4">
                       <label className="form-top-label">
-                        계약기간
-                      </label>
-                      <DateRangePicker
-                        value={contractPeriod}
-                        onChange={(newValue: [Date | null, Date | null]) => {
-                          setContractPeriod(newValue)
-                        }}
-                        placeholder="날짜 범위를 선택하세요"
-                        size="small"
-                        datePickerWidth={130}
-                        disabled={true}
-                      />
-                    </div>
-                    <div>
-                      <label className="form-top-label">
-                        계약금액
+                        비고
                       </label>
                       <TextField
                         variant="outlined"
                         size="small"
-                        type="text"
-                        disabled={true}
-                        value={
-                          contractAmount
-                            ? Number(contractAmount.replace(/,/g, '')).toLocaleString()
-                            : ''
-                        }
-                        onChange={(e) => {
-                          // 숫자만 추출
-                          const raw = e.target.value.replace(/[^0-9]/g, '');
-                          setContractAmount(raw);
-                        }}
+                        multiline
+                        fullWidth
+                        value={formState.description}
+                        onChange={handleDescriptionChange}
                         sx={{
                           width: '100%',
-                          '& input': {
-                            textAlign: 'right'
+                          margin: 0,
+                          // 오버라이드 (resize 불가, 아이콘 숨김, overflowY auto)
+                          '& textarea': {
+                            resize: 'none !important',
+                            overflowY: 'auto !important',
                           }
                         }}
-                        inputProps={{
-                          inputMode: 'numeric',
-                          pattern: '[0-9,]*'
+                        InputLabelProps={{
+                          shrink: true,
                         }}
-                        placeholder="금액 입력"
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <span>₩</span>
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <label className="form-top-label required">
-                        규칙유효기간
-                      </label>
-                      <DateRangePicker
-                        value={rulePeriod}
-                        onChange={(newValue: [Date | null, Date | null]) => {
-                          setRulePeriod(newValue)
-                        }}
-                        placeholder="날짜 범위를 선택하세요"
-                        size="small"
-                        datePickerWidth={130}
                         disabled={pageMode === 'view'}
                       />
                     </div>
-                    <div>
-                      <label className="form-top-label required">
-                        매출반영시점
-                      </label>
-                      <div className="flex items-center gap-1">
-                        <FormControl sx={{ width: '100%' }}>
-                          <Select
-                            value={salesReflectionTiming}
-                            onChange={(e) => setSalesReflectionTiming(e.target.value)}
-                            displayEmpty
-                            className="bg-white"
-                            size="small"
-                            disabled={pageMode === 'view'}
-                          >
-                            <MenuItem value="">
-                              <span>선택</span>
-                            </MenuItem>
-                            <MenuItem value="CASE1">CASE1</MenuItem>
-                            <MenuItem value="CASE2">CASE2</MenuItem>
-                            <MenuItem value="CASE3">CASE3</MenuItem>
-                          </Select>
-                        </FormControl>
-                        <FormControl sx={{ width: '100%' }}>
-                          <Select
-                            value={salesReflectionTiming2}
-                            onChange={(e) => setSalesReflectionTiming2(e.target.value)}
-                            displayEmpty
-                            className="bg-white"
-                            size="small"
-                            disabled={pageMode === 'view'}
-                          >
-                            <MenuItem value="">
-                              <span>선택</span>
-                            </MenuItem>
-                            <MenuItem value="CASE1">CASE1</MenuItem>
-                            <MenuItem value="CASE2">CASE2</MenuItem>
-                            <MenuItem value="CASE3">CASE3</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </div>
-                    </div>
-                    <div>
-                      <label className="form-top-label required">
-                        매출매입유형
-                      </label>
-                      <div className="flex items-center gap-1">
-                        <FormControl sx={{ width: '100%' }}>
-                          <Select
-                            value={salesPurchaseType}
-                            onChange={(e) => setSalesPurchaseType(e.target.value)}
-                            displayEmpty
-                            className="bg-white"
-                            size="small"
-                            disabled={pageMode === 'view'}
-                          >
-                            <MenuItem value="">
-                              <span>선택</span>
-                            </MenuItem>
-                            <MenuItem value="CASE1">CASE1</MenuItem>
-                            <MenuItem value="CASE2">CASE2</MenuItem>
-                            <MenuItem value="CASE3">CASE3</MenuItem>
-                          </Select>
-                        </FormControl>
-                        <FormControl sx={{ width: '100%' }}>
-                          <Select
-                            value={salesPurchaseType2}
-                            onChange={(e) => setSalesPurchaseType2(e.target.value)}
-                            displayEmpty
-                            className="bg-white"
-                            size="small"
-                            disabled={pageMode === 'view'}
-                          >
-                            <MenuItem value="">
-                              <span>선택</span>
-                            </MenuItem>
-                            <MenuItem value="CASE1">CASE1</MenuItem>
-                            <MenuItem value="CASE2">CASE2</MenuItem>
-                            <MenuItem value="CASE3">CASE3</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-                    </div>
-                    <div>
-                      <label className="form-top-label required">
-                        세금유형
-                      </label>
-                      <FormControl sx={{ width: '100%' }}>
+          {/* 오른쪽 카드 (폭 가변 flex:1) */}
+          <div className="flex-1">
+            <Card className="h-full">
+              <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+                <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
+                  <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
+                    수식리스트
+                  </Typography>
+                  {pageMode === 'edit' && (
+                    <div className="flex gap-1">
+                      <FormControl sx={{ width: '120px' }}>
                         <Select
-                          value={taxType}
-                          onChange={(e) => setTaxType(e.target.value)}
+                          value={formState.itemType}
+                          onChange={handleItemTypeChange}
                           displayEmpty
                           className="bg-white"
                           size="small"
-                          disabled={pageMode === 'view'}
                         >
                           <MenuItem value="">
                             <span>선택</span>
                           </MenuItem>
-                          <MenuItem value="CASE1">CASE1</MenuItem>
-                          <MenuItem value="CASE2">CASE2</MenuItem>
-                          <MenuItem value="CASE3">CASE3</MenuItem>
-                        </Select>
-                      </FormControl>
-                    </div>
-                  </div>
-                  <div className="pt-4">
-                    <label className="form-top-label">
-                      비고
-                    </label>
-                    <TextField
-                      variant="outlined"
-                      size="small"
-                      multiline
-                      fullWidth
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      sx={{
-                        width: '100%',
-                        margin: 0,
-                        // 오버라이드 (resize 불가, 아이콘 숨김, overflowY auto)
-                        '& textarea': {
-                          resize: 'none !important',
-                          overflowY: 'auto !important',
-                        }
-                      }}
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      disabled={pageMode === 'view'}
-                    />
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* 오른쪽 카드 (폭 가변 flex:1) */}
-        <div className="flex-1">
-          <Card className="h-full">
-            <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
-              <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
-                <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
-                  수식리스트
-                </Typography>
-                {pageMode === 'edit' && (
-                  <div className="flex gap-1">
-                    <FormControl sx={{ width: '120px' }}>
-                      <Select
-                        value={itemType}
-                        onChange={(e) => setItemType(e.target.value)}
-                        displayEmpty
-                        className="bg-white"
-                        size="small"
-                      >
-                        <MenuItem value="">
-                          <span>선택</span>
-                        </MenuItem>
-                        {itemTypeOptions.map((option) => (
-                          <MenuItem
-                            key={option.value}
-                            value={option.value}
-                          >
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                    {itemType === 'settlement' && (
-                      <FormControl sx={{ width: '100px' }}>
-                        <Select
-                          value={currentFormulaType}
-                          onChange={(e) => setCurrentFormulaType(e.target.value as FormulaType)}
-                          className="bg-white"
-                          size="small"
-                        >
-                          {formulaTypeOptions.map((option) => (
+                          {itemTypeOptions.map((option) => (
                             <MenuItem
                               key={option.value}
                               value={option.value}
@@ -4025,151 +4112,169 @@ export default function Rul002Page() {
                           ))}
                         </Select>
                       </FormControl>
-                    )}
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      size="small"
-                      onClick={() => {
-                        if (itemType) {
-                          addAccordionItem(itemType as 'fixed_regular' | 'fixed_irregular' | 'settlement')
-                          setItemType('') // 선택 초기화
+                      {formState.itemType === 'settlement' && (
+                        <FormControl sx={{ width: '100px' }}>
+                          <Select
+                            value={currentFormulaType}
+                            onChange={(e) => setCurrentFormulaType(e.target.value as FormulaType)}
+                            className="bg-white"
+                            size="small"
+                          >
+                            {formulaTypeOptions.map((option) => (
+                              <MenuItem
+                                key={option.value}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      )}
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        onClick={() => {
+                          if (formState.itemType) {
+                            addAccordionItem(formState.itemType as 'fixed_regular' | 'fixed_irregular' | 'settlement')
+                            updateFormField('itemType', '') // 선택 초기화
+                          }
+                        }}
+                        disabled={!formState.itemType}
+                      >
+                        수식추가
+                      </Button>
+                    </div>
+                  )}
+                </div>
+                {/* 세로 꽉차는 영역 */}
+                <div style={{ height: 'calc(100% - 40px)' }}>
+                  {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
+                  {/* 기본 설정: 좌우 스크롤 활성화 */}
+                  <div className="h-full overflow-y-auto">
+                    {/* 동적 아코디언 리스트 */}
+                    <div className="mb-0">
+                      {accordionItems.map((item) => {
+                        switch (item.type) {
+                          case 'fixed_regular':
+                            return (
+                              <FixedRegularAccordion
+                                key={item.id}
+                                item={item}
+                                onRemove={removeAccordionItem}
+                                pageMode={pageMode}
+                              />
+                            )
+                          case 'fixed_irregular':
+                            return (
+                              <FixedIrregularAccordion
+                                key={item.id}
+                                item={item}
+                                onRemove={removeAccordionItem}
+                                pageMode={pageMode}
+                              />
+                            )
+                          case 'settlement':
+                            return (
+                              <SettlementAccordion
+                                key={item.id}
+                                item={item}
+                                onRemove={removeAccordionItem}
+                                pageMode={pageMode}
+                              />
+                            )
+                          default:
+                            return null
                         }
-                      }}
-                      disabled={!itemType}
-                    >
-                      수식추가
-                    </Button>
-                  </div>
-                )}
-              </div>
-              {/* 세로 꽉차는 영역 */}
-              <div style={{ height: 'calc(100% - 40px)' }}>
-                {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
-                {/* 기본 설정: 좌우 스크롤 활성화 */}
-                <div className="h-full overflow-y-auto">
-                  {/* 동적 아코디언 리스트 */}
-                  <div className="mb-0">
-                    {accordionItems.map((item) => {
-                      switch (item.type) {
-                        case 'fixed_regular':
-                          return (
-                            <FixedRegularAccordion
-                              key={item.id}
-                              item={item}
-                              onRemove={removeAccordionItem}
-                              pageMode={pageMode}
-                            />
-                          )
-                        case 'fixed_irregular':
-                          return (
-                            <FixedIrregularAccordion
-                              key={item.id}
-                              item={item}
-                              onRemove={removeAccordionItem}
-                              pageMode={pageMode}
-                            />
-                          )
-                        case 'settlement':
-                          return (
-                            <SettlementAccordion
-                              key={item.id}
-                              item={item}
-                              onRemove={removeAccordionItem}
-                              pageMode={pageMode}
-                            />
-                          )
-                        default:
-                          return null
-                      }
-                    })}
-                    {accordionItems.length === 0 && (
-                      <div className="text-center text-gray-500 py-8">
-                        수식을 추가해주세요.
-                      </div>
-                    )}
+                      })}
+                      {accordionItems.length === 0 && (
+                        <div className="text-center text-gray-500 py-8">
+                          수식을 추가해주세요.
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      {/* bottom-button-pannel */}
-      <Card className="mt-2">
-        <CardContent style={{ padding: 16 }}>
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2">
-              {pageMode === 'view' && (
-                <Button variant="contained" color="error">
-                  삭제
-                </Button>
-              )}
-            </div>
-            <div className="flex gap-2">
-              {pageMode === 'view' ? (
-                // view 모드 버튼들
-                <>
-                  <Button variant="outlined" color="secondary">
-                    목록
-                  </Button>
-                  <Button variant="outlined" color="secondary">
-                    결재요청
-                  </Button>
-                  <Button variant="outlined" color="secondary">
-                    확정
-                  </Button>
-                  <Button variant="contained" onClick={handleEdit}>
-                    수정
-                  </Button>
-                </>
-              ) : (
-                // edit 모드 버튼들
-                <>
-                  <Button variant="outlined" color="secondary" onClick={handleCancel}>
-                    취소
-                  </Button>
-                  <Button variant="contained" onClick={handleSave}>
-                    저장
-                  </Button>
-                </>
-              )}
-            </div>
+              </CardContent>
+            </Card>
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
-      {/* MUI Alert Snackbar */}
-      <Snackbar
-        open={alertOpen}
-        autoHideDuration={4000}
-        onClose={() => setAlertOpen(false)}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        sx={{
-          top: '20px !important',
-          '& .MuiAlert-root': {
-            minWidth: '300px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
-            borderRadius: '8px'
-          }
-        }}
-      >
-        <Alert
-          onClose={() => setAlertOpen(false)}
-          severity={alertSeverity}
+        {/* bottom-button-pannel */}
+        <Card className="mt-2">
+          <CardContent style={{ padding: 16 }}>
+            <div className="flex items-center justify-between">
+              <div className="flex gap-2">
+                {pageMode === 'view' && (
+                  <Button variant="contained" color="error">
+                    삭제
+                  </Button>
+                )}
+              </div>
+              <div className="flex gap-2">
+                {pageMode === 'view' ? (
+                  // view 모드 버튼들
+                  <>
+                    <Button variant="outlined" color="secondary">
+                      목록
+                    </Button>
+                    <Button variant="outlined" color="secondary">
+                      결재요청
+                    </Button>
+                    <Button variant="outlined" color="secondary">
+                      확정
+                    </Button>
+                    <Button variant="contained" onClick={handleEdit}>
+                      수정
+                    </Button>
+                  </>
+                ) : (
+                  // edit 모드 버튼들
+                  <>
+                    <Button variant="outlined" color="secondary" onClick={handleCancel}>
+                      취소
+                    </Button>
+                    <Button variant="contained" onClick={handleSave}>
+                      저장
+                    </Button>
+                  </>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* MUI Alert Snackbar */}
+        <Snackbar
+          open={alertState.open}
+          autoHideDuration={4000}
+          onClose={handleAlertClose}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
           sx={{
-            width: '100%',
-            '& .MuiAlert-message': {
-              fontWeight: 500
+            top: '20px !important',
+            '& .MuiAlert-root': {
+              minWidth: '300px',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+              borderRadius: '8px'
             }
           }}
         >
-          {alertMessage}
-        </Alert>
-      </Snackbar>
+          <Alert
+            onClose={handleAlertClose}
+            severity={alertState.severity}
+            sx={{
+              width: '100%',
+              '& .MuiAlert-message': {
+                fontWeight: 500
+              }
+            }}
+          >
+            {alertState.message}
+          </Alert>
+        </Snackbar>
 
-    </div>
+      </div>
     </DndProvider>
   )
 }
