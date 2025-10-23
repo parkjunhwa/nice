@@ -371,7 +371,7 @@ interface AccordionItem {
       )
     case 'settlement':
       return (
-        <SettlementAccordionㅜㅐ
+        <SettlementAccordion
           key={item.id}
           item={item}
           onRemove={removeAccordionItem}
