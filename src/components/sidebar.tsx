@@ -462,7 +462,7 @@ const Sidebar = memo(function Sidebar({ isOpen, onToggle }: SidebarProps) {
   return (
     <div
       className={cn(
-        "c-sidebar flex h-full flex-col bg-white border-r border-gray-200 transition-all duration-300 ease-in-out relative shadow-sm",
+        "c-sidebar flex h-full flex-col bg-white border-r border-gray-200 transition-all duration-150 ease-in-out relative shadow-sm",
         isOpen ? "c-sidebar--expanded w-64 min-w-64" : "c-sidebar--collapsed w-16 min-w-16"
       )}
       style={{ zIndex: 10, overflow: "visible" }}

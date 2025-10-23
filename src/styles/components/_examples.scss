@@ -9,7 +9,7 @@
     .MuiCollapse-root.MuiCollapse-hidden { padding: 0; }
     .MuiCollapse-root.MuiCollapse-hidden + .flex .accordion-menu-button,
     .MuiCollapse-root:not(.MuiCollapse-hidden) + .flex .accordion-menu-button {
-      margin-top: 0; transition: margin-top 300ms cubic-bezier(.4,0,.2,1);
+      margin-top: 0; transition: margin-top 150ms cubic-bezier(.4,0,.2,1);
     }
     .MuiCollapse-root.MuiCollapse-hidden + .flex .accordion-menu-button { margin-top: -1rem; }
   }

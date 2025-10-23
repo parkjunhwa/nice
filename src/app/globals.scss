@@ -850,6 +850,16 @@ main.overflow-y-auto {
   background: #fff !important;
 }
 
+/* MUI Collapse 전환 속도 50% 줄이기 (150ms) */
+.MuiCollapse-root {
+  transition-duration: 150ms !important;
+}
+
+/* topsearch 패널의 Collapse 전환 속도도 150ms로 설정 */
+.top-search-panel .MuiCollapse-root {
+  transition-duration: 150ms !important;
+}
+
 .MuiAccordion-root:before,
 .MuiAccordionDetails-root:before {
   display: none !important; /* MUI 기본 divider 제거 */
