@@ -1,42 +1,56 @@
 "use client"
-
-import React, { useState, useCallback, memo, useMemo } from 'react'
+import React, { useState, useCallback, memo, useMemo, useReducer } from 'react'
 import {
-  Button,
-  Typography,
-  Breadcrumb,
-  Card,
-  CardContent,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  TextField,
-  InputAdornment,
-  IconButton,
-  Icons,
-  FormControl,
-  Select,
-  MenuItem,
-  DateRangePicker,
-  DatePicker,
-  Checkbox,
-  FormControlLabel,
-  RadioGroup,
-  Radio,
+  Button, Typography, Breadcrumb, Card, CardContent, Accordion, AccordionSummary, AccordionDetails,
+  TextField, InputAdornment, IconButton, Icons, FormControl, Select, MenuItem, DateRangePicker,
+  DatePicker, Checkbox, FormControlLabel, RadioGroup, Radio,
 } from '@/components'
 import { Search, Minus, GripVertical } from 'lucide-react'
 import { Alert, Snackbar } from '@mui/material'
-// React DnD imports with proper type handling
 // @ts-expect-error - DndProvider type definitions issue
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 // @ts-expect-error - useDrag and useDrop type definitions issue
 import { useDrag, useDrop } from 'react-dnd'
 
+// 상태 관리 최적화를 위한 reducer
+type FormState = {
+  ruleName: string; status: string; customerCode: string; deviceNumber: string; itemCode: string;
+  itemDeviceNumber: string; contractAmount: string; salesReflectionTiming: string; salesReflectionTiming2: string;
+  salesPurchaseType: string; salesPurchaseType2: string; taxType: string; description: string; itemType: string;
+}
+
+type FormAction = 
+  | { type: 'UPDATE_FIELD'; field: keyof FormState; value: string }
+  | { type: 'RESET_FORM' }
+  | { type: 'SET_FORM'; form: Partial<FormState> }
+
+const formReducer = (state: FormState, action: FormAction): FormState => {
+  switch (action.type) {
+    case 'UPDATE_FIELD':
+      return { ...state, [action.field]: action.value }
+    case 'RESET_FORM':
+      return {
+        ruleName: '', status: '', customerCode: '', deviceNumber: '', itemCode: '', itemDeviceNumber: '',
+        contractAmount: '', salesReflectionTiming: '', salesReflectionTiming2: '', salesPurchaseType: '',
+        salesPurchaseType2: '', taxType: '', description: '', itemType: ''
+      }
+    case 'SET_FORM':
+      return { ...state, ...action.form }
+    default:
+      return state
+  }
+}
+
 type PageMode = 'view' | 'edit'
 type FormulaType = 'normal' | 'park_a' | 'park_b'
 
-// 숫자만 입력받는 핸들러 생성 함수
+const initialFormState: FormState = {
+  ruleName: '', status: '', customerCode: '', deviceNumber: '', itemCode: '', itemDeviceNumber: '',
+  contractAmount: '', salesReflectionTiming: '', salesReflectionTiming2: '', salesPurchaseType: '',
+  salesPurchaseType2: '', taxType: '', description: '', itemType: ''
+}
+
 const createNumberInputHandler = (setter: (value: string) => void) => {
   return (e: React.ChangeEvent<HTMLInputElement>) => {
     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -44,49 +58,22 @@ const createNumberInputHandler = (setter: (value: string) => void) => {
   };
 };
 
-// 최적화된 TextField 컴포넌트
 const OptimizedTextField = memo(TextField);
 
-// 드래그 앤 드롭 관련 타입
 const ITEM_TYPE = 'RCARD'
-interface DragItem {
-  id: string
-  index: number
-}
+interface DragItem { id: string; index: number }
 
-interface DropTargetMonitor {
-  isOver(): boolean
-  getClientOffset(): { x: number; y: number } | null
-}
+interface DropTargetMonitor { isOver(): boolean; getClientOffset(): { x: number; y: number } | null }
+interface DragSourceMonitor { isDragging(): boolean }
+interface AccordionItem { id: string; type: 'fixed_regular' | 'fixed_irregular' | 'settlement'; title: string; data: Record<string, unknown>; formulaType?: FormulaType }
 
-interface DragSourceMonitor {
-  isDragging(): boolean
-}
-
-// 아코디언 아이템 인터페이스
-interface AccordionItem {
-  id: string
-  type: 'fixed_regular' | 'fixed_irregular' | 'settlement'
-  title: string
-  data: Record<string, unknown>
-  formulaType?: FormulaType
-}
-
-// 고정/정기 아코디언 컴포넌트 (최적화된 버전)
-const FixedRegularAccordion = memo(({ item, onRemove, pageMode }: {
-  item: AccordionItem,
-  onRemove: (id: string) => void,
-  pageMode: PageMode
-}) => {
+const FixedRegularAccordion = memo(({ item, onRemove, pageMode }: { item: AccordionItem, onRemove: (id: string) => void, pageMode: PageMode }) => {
   const [monthlyFixedAmount, setMonthlyFixedAmount] = useState((item.data.monthlyFixedAmount as string) || '200000')
   const [contractAmount, setContractAmount] = useState((item.data.contractAmount as string) || '')
   const [checkedMonths, setCheckedMonths] = useState<string[]>((item.data.checkedMonths as string[]) || [])
   const [includeStartDate, setIncludeStartDate] = useState((item.data.includeStartDate as boolean) || false)
   const [includeEndDate, setIncludeEndDate] = useState((item.data.includeEndDate as boolean) || false)
-
   const isViewMode = useCallback((mode: PageMode): mode is 'view' => mode === 'view', [])
-
-  // 최적화된 이벤트 핸들러들
   const handleMonthlyFixedAmountChange = createNumberInputHandler(setMonthlyFixedAmount)
   const handleContractAmountChange = createNumberInputHandler(setContractAmount)
 
@@ -365,7 +352,6 @@ const FixedIrregularAccordion = memo(({ item, onRemove, pageMode }: {
   const [amount, setAmount] = useState((item.data.amount as string) || '')
   const [contractDate, setContractDate] = useState<Date | null>((item.data.contractDate as Date | null) || null)
 
-  // 최적화된 이벤트 핸들러들
   const handleAmountChange = createNumberInputHandler(setAmount)
 
   return (
@@ -585,8 +571,6 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
   const [includeStartDate, setIncludeStartDate] = useState((item.data.includeStartDate as boolean) || false)
   const [includeEndDate, setIncludeEndDate] = useState((item.data.includeEndDate as boolean) || false)
 
-  // 최적화된 이벤트 핸들러들
-
   // 추가수익 매출정보 데이터
   const [salesData, setSalesData] = useState([
     { id: 'regular_card', usage: false, ratio: '', amountType: '' },
@@ -635,7 +619,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
     }
   ]);
 
-  // 테이블 행 추가 (최적화된 버전)
+  // 테이블 행 추가
   const handleAddTableRow = useCallback(() => {
     setTableSettlementData(prev => {
       const newId = prev.length > 0
@@ -655,7 +639,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
     });
   }, []);
 
-  // 테이블 행 삭제 (최적화된 버전)
+  // 테이블 행 삭제
   const handleDeleteTableRow = useCallback((id: number) => {
     setTableSettlementData(prev => {
       if (prev.length > 1) {
@@ -665,7 +649,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
     });
   }, []);
 
-  // 테이블 필드 변경 (최적화된 버전)
+  // 테이블 필드 변경
   const handleTableRowChange = useCallback((id: number, field: string, value: string) => {
     setTableSettlementData(prev => prev.map(item =>
       item.id === id ? { ...item, [field]: value } : item
@@ -683,24 +667,6 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
     { id: 1, case: '', amount: '', reason: '', period: ['', ''] },
     { id: 2, case: '', amount: '', reason: '', period: ['', ''] }
   ]);
-
-  // 추가 임차료 행 추가
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleAddAdditionalRentRow = () => {
-    const newId = additionalRentData.length > 0
-      ? Math.max(...additionalRentData.map(item => item.id)) + 1
-      : 1;
-    setAdditionalRentData(prev => [
-      ...prev,
-      {
-        id: newId,
-        case: '',
-        amount: '',
-        reason: '',
-        period: ['', '']
-      }
-    ]);
-  };
 
   // 추가 임차료 행 삭제
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -3444,111 +3410,28 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
 SettlementAccordion.displayName = 'SettlementAccordion'
 
 export default function Rul002Page() {
-  // 페이지 상태 관리
   const [pageMode, setPageMode] = useState<PageMode>('view')
   const [currentFormulaType, setCurrentFormulaType] = useState<FormulaType>('normal')
-
-  // 폼 상태를 그룹화하여 관리 (최적화된 버전)
-  const [formState, setFormState] = useState({
-    ruleName: '',
-    status: '',
-    customerCode: '',
-    deviceNumber: '',
-    itemCode: '',
-    itemDeviceNumber: '',
-    contractAmount: '',
-    salesReflectionTiming: '',
-    salesReflectionTiming2: '',
-    salesPurchaseType: '',
-    salesPurchaseType2: '',
-    taxType: '',
-    description: '',
-    itemType: ''
-  })
-
-  // 날짜 상태들
+  const [formState, dispatch] = useReducer(formReducer, initialFormState)
   const [contractPeriod, setContractPeriod] = useState<[Date | null, Date | null]>([null, null])
   const [rulePeriod, setRulePeriod] = useState<[Date | null, Date | null]>([null, null])
 
-  // 알림 상태
-  const [alertState, setAlertState] = useState({
-    open: false,
-    message: '',
-    severity: 'success' as 'success' | 'error' | 'warning' | 'info'
-  })
-
-  // 동적 아코디언 리스트 상태 관리
+  const [alertState, setAlertState] = useState({ open: false, message: '', severity: 'success' as 'success' | 'error' | 'warning' | 'info' })
   const [accordionItems, setAccordionItems] = useState<AccordionItem[]>([])
+  const updateFormField = useCallback((field: keyof FormState, value: string) => { dispatch({ type: 'UPDATE_FIELD', field, value }) }, [])
+  const updateAlertState = useCallback((updates: Partial<typeof alertState>) => { setAlertState(prev => ({ ...prev, ...updates })) }, [])
 
-  // 폼 필드 업데이트 함수 (최적화된 버전)
-  const updateFormField = useCallback((field: string, value: string) => {
-    setFormState(prev => ({ ...prev, [field]: value }))
-  }, [])
-
-  // 알림 상태 업데이트 함수 (최적화된 버전)
-  const updateAlertState = useCallback((updates: Partial<typeof alertState>) => {
-    setAlertState(prev => ({ ...prev, ...updates }))
-  }, [])
-
-  // 폼 필드별 핸들러들 (최적화된 버전)
-  const handleRuleNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    updateFormField('ruleName', e.target.value)
-  }, [updateFormField])
-
-  const handleStatusChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    updateFormField('status', e.target.value)
-  }, [updateFormField])
-
-  const handleCustomerCodeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    updateFormField('customerCode', e.target.value)
-  }, [updateFormField])
-
-  const handleDeviceNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    updateFormField('deviceNumber', e.target.value)
-  }, [updateFormField])
-
-  const handleItemCodeChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    updateFormField('itemCode', e.target.value)
-  }, [updateFormField])
-
-  const handleItemDeviceNumberChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    updateFormField('itemDeviceNumber', e.target.value)
+  // 통합된 이벤트 핸들러 (성능 최적화)
+  const handleFormFieldChange = useCallback((field: keyof FormState) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateFormField(field, e.target.value)
   }, [updateFormField])
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSalesReflectionTimingChange = useCallback((e: any) => {
-    updateFormField('salesReflectionTiming', e.target.value)
+  const handleSelectChange = useCallback((field: keyof FormState) => (e: any) => {
+    updateFormField(field, e.target.value)
   }, [updateFormField])
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSalesReflectionTiming2Change = useCallback((e: any) => {
-    updateFormField('salesReflectionTiming2', e.target.value)
-  }, [updateFormField])
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSalesPurchaseTypeChange = useCallback((e: any) => {
-    updateFormField('salesPurchaseType', e.target.value)
-  }, [updateFormField])
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSalesPurchaseType2Change = useCallback((e: any) => {
-    updateFormField('salesPurchaseType2', e.target.value)
-  }, [updateFormField])
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleTaxTypeChange = useCallback((e: any) => {
-    updateFormField('taxType', e.target.value)
-  }, [updateFormField])
-
-  const handleDescriptionChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    updateFormField('description', e.target.value)
-  }, [updateFormField])
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleItemTypeChange = useCallback((e: any) => {
-    updateFormField('itemType', e.target.value)
-  }, [updateFormField])
-
+  // 옵션 데이터 (메모이제이션)
   const itemTypeOptions: Array<{ value: string, label: string }> = useMemo(() => [
     { value: 'fixed_regular', label: '고정/정기' },
     { value: 'fixed_irregular', label: '고정/비정기' },
@@ -3562,7 +3445,7 @@ export default function Rul002Page() {
   ]
 
   // 패널 크기 조절 상태
-  const leftPanelWidth = 600 // 고정 500px
+  const leftPanelWidth = 600 // 고정 600px
 
   // 아코디언 추가 함수 (최적화된 버전)
   const addAccordionItem = useCallback((type: 'fixed_regular' | 'fixed_irregular' | 'settlement') => {
@@ -3700,7 +3583,7 @@ export default function Rul002Page() {
                           variant="outlined"
                           size="small"
                           value={formState.ruleName}
-                          onChange={handleRuleNameChange}
+                          onChange={handleFormFieldChange('ruleName')}
                           sx={{ width: '100%' }}
                           disabled={pageMode === 'view'}
                           InputProps={{
@@ -3728,7 +3611,7 @@ export default function Rul002Page() {
                           variant="outlined"
                           size="small"
                           value={formState.status}
-                          onChange={handleStatusChange}
+                          onChange={handleFormFieldChange('status')}
                           sx={{ width: '100%' }}
                           disabled={pageMode === 'view'}
                           InputProps={{
@@ -3757,7 +3640,7 @@ export default function Rul002Page() {
                             variant="outlined"
                             size="small"
                             value={formState.customerCode}
-                            onChange={handleCustomerCodeChange}
+                            onChange={handleFormFieldChange('customerCode')}
                             sx={{ flex: 1 }}
                             disabled={pageMode === 'view'}
                             InputProps={{
@@ -3790,7 +3673,7 @@ export default function Rul002Page() {
                             variant="outlined"
                             size="small"
                             value={formState.deviceNumber}
-                            onChange={handleDeviceNumberChange}
+                            onChange={handleFormFieldChange('deviceNumber')}
                             sx={{ width: '110px' }}
                             disabled={true}
                             InputProps={{
@@ -3820,7 +3703,7 @@ export default function Rul002Page() {
                             variant="outlined"
                             size="small"
                             value={formState.itemCode}
-                            onChange={handleItemCodeChange}
+                            onChange={handleFormFieldChange('itemCode')}
                             sx={{ flex: 1 }}
                             disabled={pageMode === 'view'}
                             InputProps={{
@@ -3853,7 +3736,7 @@ export default function Rul002Page() {
                             variant="outlined"
                             size="small"
                             value={formState.itemDeviceNumber}
-                            onChange={handleItemDeviceNumberChange}
+                            onChange={handleFormFieldChange('itemDeviceNumber')}
                             sx={{ width: '110px' }}
                             disabled={true}
                             InputProps={{
@@ -3951,7 +3834,7 @@ export default function Rul002Page() {
                           <FormControl sx={{ width: '100%' }}>
                             <Select
                               value={formState.salesReflectionTiming}
-                              onChange={handleSalesReflectionTimingChange}
+                              onChange={handleSelectChange('salesReflectionTiming')}
                               displayEmpty
                               className="bg-white"
                               size="small"
@@ -3968,7 +3851,7 @@ export default function Rul002Page() {
                           <FormControl sx={{ width: '100%' }}>
                             <Select
                               value={formState.salesReflectionTiming2}
-                              onChange={handleSalesReflectionTiming2Change}
+                              onChange={handleSelectChange('salesReflectionTiming2')}
                               displayEmpty
                               className="bg-white"
                               size="small"
@@ -3992,7 +3875,7 @@ export default function Rul002Page() {
                           <FormControl sx={{ width: '100%' }}>
                             <Select
                               value={formState.salesPurchaseType}
-                              onChange={handleSalesPurchaseTypeChange}
+                              onChange={handleSelectChange('salesPurchaseType')}
                               displayEmpty
                               className="bg-white"
                               size="small"
@@ -4009,7 +3892,7 @@ export default function Rul002Page() {
                           <FormControl sx={{ width: '100%' }}>
                             <Select
                               value={formState.salesPurchaseType2}
-                              onChange={handleSalesPurchaseType2Change}
+                              onChange={handleSelectChange('salesPurchaseType2')}
                               displayEmpty
                               className="bg-white"
                               size="small"
@@ -4033,7 +3916,7 @@ export default function Rul002Page() {
                         <FormControl sx={{ width: '100%' }}>
                           <Select
                             value={formState.taxType}
-                            onChange={handleTaxTypeChange}
+                            onChange={handleSelectChange('taxType')}
                             displayEmpty
                             className="bg-white"
                             size="small"
@@ -4059,7 +3942,7 @@ export default function Rul002Page() {
                         multiline
                         fullWidth
                         value={formState.description}
-                        onChange={handleDescriptionChange}
+                          onChange={handleFormFieldChange('description')}
                         sx={{
                           width: '100%',
                           margin: 0,
@@ -4094,7 +3977,7 @@ export default function Rul002Page() {
                       <FormControl sx={{ width: '120px' }}>
                         <Select
                           value={formState.itemType}
-                          onChange={handleItemTypeChange}
+                          onChange={handleSelectChange('itemType')}
                           displayEmpty
                           className="bg-white"
                           size="small"
