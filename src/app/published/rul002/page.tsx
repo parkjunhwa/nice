@@ -103,15 +103,23 @@ const DraggableRCard = ({
       const clientOffset = monitor.getClientOffset()
       const hoverClientY = clientOffset!.y - hoverBoundingRect.top
 
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return
-      }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return
-      }
+      // 드래그 중인 카드가 호버 중인 카드의 위쪽에 있는지 확인
+      const isAbove = hoverClientY < hoverMiddleY
 
-      moveCard(dragIndex, hoverIndex)
-      item.index = hoverIndex
+      // 카드 위에 떨어뜨리면 해당 위치로 이동
+      if (isAbove) {
+        // 위쪽으로 이동: dragIndex < hoverIndex이면 이미 정렬됨
+        if (dragIndex < hoverIndex) {
+          moveCard(dragIndex, hoverIndex)
+          item.index = hoverIndex
+        }
+      } else {
+        // 아래쪽으로 이동: dragIndex > hoverIndex이면 이미 정렬됨
+        if (dragIndex > hoverIndex) {
+          moveCard(dragIndex, hoverIndex)
+          item.index = hoverIndex
+        }
+      }
     },
   })
 
@@ -472,27 +480,27 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
               <table className="rul-table">
                 <thead>
                   <tr>
-                    <th className="text-center" style={{ width: '100px' }}>
+                    <th className="text-center" style={{ minWidth: '100px' }}>
                       <label className="form-top-label required mb-0">
                         정산기준
                       </label>
                     </th>
-                    <th className="text-center" style={{ width: '80px' }}>
+                    <th className="text-center" style={{ minWidth: '80px' }}>
                       <label className="form-top-label mb-0">
                         기준&gt;
                       </label>
                     </th>
-                    <th className="text-center" style={{ width: '80px' }}>
+                    <th className="text-center" style={{ minWidth: '80px' }}>
                       <label className="form-top-label mb-0">
                         기준≤
                       </label>
                     </th>
-                    <th className="text-center" style={{ width: '100px' }}>
+                    <th className="text-center" style={{ minWidth: '100px' }}>
                       <label className="form-top-label required mb-0">
                         정산금액
                       </label>
                     </th>
-                    <th className="text-center" style={{ width: '100px' }}>
+                    <th className="text-center">
                       <label className="form-top-label mb-0">
                         <span style={{ visibility: 'hidden' }}></span>
                       </label>
@@ -3515,7 +3523,7 @@ export default function Rul002Page() {
         {/* Breadcrumb and Page Title */}
         <div className="flex flex-row items-center justify-between mt-1 mb-3">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">정산규칙 (준비중)</h1>
+            <h1 className="text-2xl font-bold text-gray-900">정산규칙</h1>
           </div>
           <div>
             <Breadcrumb

@@ -386,16 +386,17 @@
 // Tabulator 기본 체크박스 스타일
 .tabulator .tabulator-row .tabulator-cell input[type="checkbox"][aria-label="Select Row"],
 .tabulator .tabulator-header .tabulator-col input[type="checkbox"][aria-label="Select All"] {
-  height: 18px !important;
-  width: 18px !important;
   line-height: 1 !important;
-  margin: 0 !important;
+  margin: 0 auto !important;
   padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 // 헤더 컬럼 제목 안의 체크박스만 왼쪽 여백 추가
 .tabulator .tabulator-header .tabulator-col .tabulator-col-title input[type="checkbox"][aria-label="Select All"] {
-  margin-left: 8px !important;
+  margin: 0 auto !important;
 }
 
 // ==========================================
