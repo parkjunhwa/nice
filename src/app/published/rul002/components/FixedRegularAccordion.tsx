@@ -243,7 +243,7 @@ const FixedRegularAccordion = memo(({ item, onRemove, pageMode }: FixedRegularAc
             };
 
             return (
-              <div className="flex flex-wrap max-w-full gap-0">
+              <div className="flex flex-wrap max-w-full gap-x-2 gap-y-0">
                 {monthItems.map((label) => (
                   <FormControlLabel
                     key={label}
