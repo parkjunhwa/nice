@@ -3490,11 +3490,7 @@ export default function Rul002Page() {
 
   // 확정/확정취소 토글 핸들러
   const handleToggleConfirm = () => {
-    setIsConfirmed(prev => {
-      const newState = !prev
-      showAlert(newState ? '확정되었습니다.' : '확정이 취소되었습니다.', 'info')
-      return newState
-    })
+    setIsConfirmed(prev => !prev)
   }
 
   // 알림 표시 함수 (최적화된 버전)
