@@ -5,7 +5,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { ko } from 'date-fns/locale'
 
 // 공통 스타일 함수
-const getTextFieldSx = (helperText?: string, disabled?: boolean) => ({
+const getTextFieldSx = (helperText?: string, disabled?: boolean, readOnly?: boolean) => ({
   ...(helperText && {
     '& .MuiFormHelperText-root': {
       color: 'rgb(239 68 68)', // text-red-500
@@ -15,9 +15,9 @@ const getTextFieldSx = (helperText?: string, disabled?: boolean) => ({
   }),
   ...(disabled && {
     '& .MuiInputBase-root': {
-      backgroundColor: '#f5f5f5', // disabled 배경색
+      backgroundColor: 'hsl(var(--color-muted))', // disabled 배경색 (TextField와 동일)
       '& .MuiInputBase-input': {
-        color: '#9e9e9e', // disabled 텍스트색
+        color: 'hsl(var(--color-muted-foreground))', // disabled 텍스트색 (TextField와 동일)
         cursor: 'not-allowed',
       }
     },
@@ -34,7 +34,35 @@ const getTextFieldSx = (helperText?: string, disabled?: boolean) => ({
     '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-disabled.Mui-hover .MuiPickersOutlinedInput-notchedOutline': {
       borderColor: 'hsl(var(--color-border)) !important'
     }
-  })
+  }),
+  ...(readOnly && {
+    '& .MuiInputBase-root': {
+      backgroundColor: 'hsl(var(--color-muted))', // readonly 배경색 (TextField와 동일)
+      '& .MuiInputBase-input': {
+        color: 'hsl(var(--color-muted-foreground))', // readonly 텍스트색 (TextField와 동일)
+        cursor: 'default',
+      }
+    },
+    // MUI DatePicker readonly 상태 border 색상 통일
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root .MuiPickersOutlinedInput-notchedOutline': {
+      borderColor: 'hsl(var(--color-border)) !important',
+    },
+    // readonly 상태에서 focus 시에도 border 색상 유지
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-focused .MuiPickersOutlinedInput-notchedOutline': {
+      borderColor: 'hsl(var(--color-border)) !important',
+    },
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root:hover .MuiPickersOutlinedInput-notchedOutline': {
+      borderColor: 'hsl(var(--color-border)) !important',
+    }
+  }),
+  // MUI DatePicker focus 상태 border 색상 통일
+  '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-focused .MuiPickersOutlinedInput-notchedOutline': {
+    borderColor: '#1976d2 !important', // MUI primary color
+    borderWidth: '2px !important',
+  },
+  '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root:hover .MuiPickersOutlinedInput-notchedOutline': {
+    borderColor: 'rgba(0, 0, 0, 0.87) !important', // MUI default hover color
+  }
 })
 
 // 공통 slotProps 생성 함수
@@ -62,7 +90,7 @@ const createSlotProps = (
     inputProps: {
       'aria-label': ariaLabel,
     },
-    sx: getTextFieldSx(helperText, disabled)
+    sx: getTextFieldSx(helperText, disabled, readOnly)
   },
   actionBar: {
     actions: (clearable ? ['clear', 'cancel', 'accept'] : ['cancel', 'accept']) as ('clear' | 'cancel' | 'accept')[]
