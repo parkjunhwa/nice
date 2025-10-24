@@ -840,61 +840,6 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
       case 'R07': // 세금계산서발행일 자동변경
         return (
           <>
-            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">
-                  미정
-                </label>
-                <Select
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  sx={{
-                    width: '100%',
-                    '& .MuiSelect-select': {
-                      textAlign: 'left'
-                    }
-                  }}
-                  defaultValue="월평균건수"
-                >
-                  <MenuItem value="월평균건수">월평균건수</MenuItem>
-                </Select>
-              </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">
-                  미정
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
-                  onChange={(e) => {
-                    // 숫자만 추출
-                    const raw = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(raw);
-                  }}
-                  sx={{
-                    width: '100%',
-                    '& input': {
-                      textAlign: 'right'
-                    }
-                  }}
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9,]*'
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </div>
-            </div>
             <div className="mb-0">
               <Typography
                 component="div"
@@ -1457,35 +1402,6 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
       case 'R13': // 현금/일괄 용역료
         return (
           <>
-            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">
-                  임시
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
-                  onChange={(e) => {
-                    // 숫자만 추출
-                    const raw = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(raw);
-                  }}
-                  sx={{
-                    width: '100%',
-                    '& input': {
-                      textAlign: 'right'
-                    }
-                  }}
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9]*'
-                  }}
-                />
-              </div>
-            </div>
             <div className="mb-0">
               <Typography
                 component="div"
@@ -1679,7 +1595,18 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
             <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg mb-0 flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <Typography component="div" className="font-semibold text-gray-900">
-                  정산수식
+                  <span style={{ marginRight: "8px" }}>
+                    규칙 구성
+                  </span>
+                  <span style={{ fontSize: '14px' }} className="text-gray-400">
+                     (
+                  </span>
+                  <span style={{ fontSize: '14px' }} className="text-gray-900">
+                     {rCards.length}
+                  </span>
+                  <span style={{ fontSize: '14px' }} className="text-gray-400">
+                     /10)
+                  </span>
                 </Typography>
                 {pageMode === 'edit' && (
                   <div className="flex items-center" style={{ gap: '8px' }}>
@@ -1713,7 +1640,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                       color="primary"
                       size="small"
                       onClick={handleAddRCard}
-                      disabled={!selectedRType}
+                      disabled={!selectedRType || rCards.length >= 10}
                     >
                       추가
                     </Button>
