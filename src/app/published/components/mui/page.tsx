@@ -536,9 +536,6 @@ export default function MuiPage() {
                             key={value}
                             label={value}
                             size="small"
-                            onDelete={() => {
-                              setInterestAreas(prev => prev.filter(v => v !== value))
-                            }}
                             className="bg-blue-100 text-blue-800 flex-shrink-0"
                           />
                         ))}
@@ -590,9 +587,6 @@ export default function MuiPage() {
                             key={value}
                             label={value}
                             size="small"
-                            onDelete={() => {
-                              setInterestAreas(prev => prev.filter(v => v !== value))
-                            }}
                             className="bg-blue-100 text-blue-800 flex-shrink-0"
                           />
                         ))}
