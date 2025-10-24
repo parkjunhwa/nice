@@ -365,6 +365,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   disabled={pageMode === 'view'}
                   sx={{ width: '100%' }}
+                  value=""
                 >
                   <MenuItem value=""><span>선택</span></MenuItem>
                   <MenuItem value="옵션1">옵션1</MenuItem>
@@ -378,6 +379,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   disabled={pageMode === 'view'}
                   sx={{ width: '100%' }}
+                  value=""
                 >
                   <MenuItem value=""><span>선택</span></MenuItem>
                   <MenuItem value="옵션1">옵션1</MenuItem>
@@ -965,7 +967,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                       textAlign: 'left'
                     }
                   }}
-                  defaultValue="합계금액"
+                  value="합계금액"
                 >
                   <MenuItem value="합계금액">합계금액</MenuItem>
                 </Select>
@@ -1107,7 +1109,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                       textAlign: 'left'
                     }
                   }}
-                  defaultValue="선택"
+                  value="선택"
                 >
                   <MenuItem value="선택">선택1</MenuItem>
                 </Select>
@@ -1245,7 +1247,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                       textAlign: 'left'
                     }
                   }}
-                  defaultValue="선택"
+                  value="선택"
                 >
                   <MenuItem value="선택">선택1</MenuItem>
                 </Select>
@@ -2031,7 +2033,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                           textAlign: 'left'
                         }
                       }}
-                      defaultValue="수익배분"
+                      value="수익배분"
                     >
                       <MenuItem value="수익배분">수익배분</MenuItem>
                     </Select>
@@ -2074,7 +2076,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                         textAlign: 'left'
                       }
                     }}
-                    defaultValue=""
+                    value=""
                   >
                     <MenuItem value="">선택</MenuItem>
                     <MenuItem value="월납">월납</MenuItem>
@@ -2096,7 +2098,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                           textAlign: 'left'
                         }
                       }}
-                      defaultValue=""
+                      value=""
                     />
                     <div style={{ color: '#d32f2f', fontSize: '12px' }} className="mt-1">
                       * 카드 수수료율은 소수점 둘째 자리까지 입력 가능합니다

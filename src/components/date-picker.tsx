@@ -36,11 +36,30 @@ const getTextFieldSx = (helperText?: string, disabled?: boolean, readOnly?: bool
     }
   }),
   ...(readOnly && {
-    '& .MuiInputBase-root': {
-      backgroundColor: 'hsl(var(--color-muted))', // readonly 배경색 (TextField와 동일)
+    // MUI DatePicker readonly 상태 배경색 적용
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root': {
+      backgroundColor: 'hsl(var(--color-muted)) !important',
       '& .MuiInputBase-input': {
-        color: 'hsl(var(--color-muted-foreground))', // readonly 텍스트색 (TextField와 동일)
+        color: 'hsl(var(--color-muted-foreground)) !important',
         cursor: 'default',
+      },
+      pointerEvents: 'none',
+    },
+    // readonly 상태에서 focus 시에도 텍스트 색상 유지
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-focused': {
+      backgroundColor: 'hsl(var(--color-muted)) !important',
+      '& .MuiInputBase-input': {
+        color: 'hsl(var(--color-muted-foreground)) !important',
+      },
+      '& .MuiInputBase-input.MuiInputBase-input': {
+        color: 'hsl(var(--color-muted-foreground)) !important',
+      }
+    },
+    // readonly 상태에서 hover 시에도 텍스트 색상 유지
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root:hover': {
+      backgroundColor: 'hsl(var(--color-muted)) !important',
+      '& .MuiInputBase-input': {
+        color: 'hsl(var(--color-muted-foreground)) !important',
       }
     },
     // MUI DatePicker readonly 상태 border 색상 통일
@@ -55,14 +74,16 @@ const getTextFieldSx = (helperText?: string, disabled?: boolean, readOnly?: bool
       borderColor: 'hsl(var(--color-border)) !important',
     }
   }),
-  // MUI DatePicker focus 상태 border 색상 통일
-  '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-focused .MuiPickersOutlinedInput-notchedOutline': {
-    borderColor: '#1976d2 !important', // MUI primary color
-    borderWidth: '2px !important',
-  },
-  '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root:hover .MuiPickersOutlinedInput-notchedOutline': {
-    borderColor: 'rgba(0, 0, 0, 0.87) !important', // MUI default hover color
-  }
+  // MUI DatePicker focus 상태 border 색상 통일 (readonly가 아닐 때만)
+  ...(!readOnly && {
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root.Mui-focused .MuiPickersOutlinedInput-notchedOutline': {
+      borderColor: '#1976d2 !important', // MUI primary color
+      borderWidth: '2px !important',
+    },
+    '& .MuiPickersInputBase-root.MuiPickersOutlinedInput-root:hover .MuiPickersOutlinedInput-notchedOutline': {
+      borderColor: 'rgba(0, 0, 0, 0.87) !important', // MUI default hover color
+    }
+  })
 })
 
 // 공통 slotProps 생성 함수
@@ -79,7 +100,6 @@ const createSlotProps = (
     size: "small" as const,
     fullWidth: true,
     variant: "outlined" as const,
-    className: "bg-white",
     placeholder,
     error,
     helperText,
@@ -156,6 +176,7 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
         views={['year', 'month', 'day']}
         shouldDisableDate={shouldDisableDate}
         disabled={disabled || readOnly}
+        open={readOnly ? false : undefined}
         localeText={{
           cancelButtonLabel: '취소',
           okButtonLabel: '확인',
@@ -205,6 +226,7 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
         format="yyyy-MM"
         views={['year', 'month']}
         disabled={disabled || readOnly}
+        open={readOnly ? false : undefined}
         localeText={{
           cancelButtonLabel: '취소',
           okButtonLabel: '확인',
