@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import {
   TextField,
   Button,
@@ -44,6 +44,12 @@ export default function MuiPage() {
   const [sliderValue, setSliderValue] = useState<number>(30)
   const [switchValue, setSwitchValue] = useState<boolean>(false)
   const [toggleValue, setToggleValue] = useState<string>('web')
+
+  // MultiSelect 동적 계산을 위한 ref
+  const multiSelectRef1 = useRef<HTMLDivElement>(null)
+  const multiSelectRef2 = useRef<HTMLDivElement>(null)
+  const [maxVisible1, setMaxVisible1] = useState<number>(2)
+  const [maxVisible2, setMaxVisible2] = useState<number>(2)
 
   // 다이얼로그 상태들
   const [openBasicDialog, setOpenBasicDialog] = useState<boolean>(false)
@@ -102,6 +108,62 @@ export default function MuiPage() {
       showAlert('검증 완료!', 'success')
     }
   }
+
+  // MultiSelect 동적 계산 함수
+  const calculateMaxVisible = (containerRef: React.RefObject<HTMLDivElement>, items: string[], maxVisibleState: number, setMaxVisible: (val: number) => void) => {
+    if (!containerRef.current || items.length === 0) {
+      setMaxVisible(items.length)
+      return
+    }
+
+    const container = containerRef.current
+    const containerWidth = container.offsetWidth
+    
+    // 실제 Chip 요소들의 너비를 측정
+    const chipElements = container.querySelectorAll('.MuiChip-root')
+    if (chipElements.length === 0) {
+      setMaxVisible(items.length)
+      return
+    }
+
+    const chipWidths: number[] = []
+    chipElements.forEach((chip) => {
+      chipWidths.push(chip.getBoundingClientRect().width)
+    })
+
+    const gap = 8
+    const remainingIndicatorWidth = 50 // "+N" 표시 예상 너비
+
+    let visibleCount = 0
+    let usedWidth = 0
+
+    for (let i = 0; i < items.length; i++) {
+      const chipWidth = chipWidths[i] || 80 // 실제 측정값 또는 기본값
+      const estimatedWidth = chipWidth + gap
+      
+      // 마지막 항목이면 remainingIndicatorWidth를 고려하지 않음
+      const needsRemainingIndicator = i < items.length - 1
+      const requiredWidth = needsRemainingIndicator ? estimatedWidth + remainingIndicatorWidth : estimatedWidth
+      
+      if (usedWidth + requiredWidth <= containerWidth) {
+        visibleCount++
+        usedWidth += estimatedWidth
+      } else {
+        break
+      }
+    }
+
+    setMaxVisible(Math.max(visibleCount, 1))
+  }
+
+  // interestAreas 변경 시 재계산
+  useEffect(() => {
+    // DOM이 렌더링된 후 계산
+    setTimeout(() => {
+      calculateMaxVisible(multiSelectRef1 as React.RefObject<HTMLDivElement>, interestAreas, maxVisible1, setMaxVisible1)
+      calculateMaxVisible(multiSelectRef2 as React.RefObject<HTMLDivElement>, interestAreas, maxVisible2, setMaxVisible2)
+    }, 0)
+  }, [interestAreas, maxVisible1, maxVisible2])
 
   // 체크박스 변경 핸들러
   const handleCheckboxChange = (value: string, checked: boolean) => {
@@ -456,12 +518,12 @@ export default function MuiPage() {
                       return <span className="text-gray-500">관심 분야를 선택하세요</span>
                     }
                     // 선택된 항목이 많을 때 말줄임표 처리
-                    const maxVisible = 2
-                    const visibleItems = selected.slice(0, maxVisible)
-                    const remainingCount = selected.length - maxVisible
+                    const visibleItems = selected.slice(0, maxVisible1)
+                    const remainingCount = selected.length - maxVisible1
                     
                     return (
                       <Box 
+                        ref={multiSelectRef1}
                         className="flex gap-1 overflow-hidden"
                         sx={{ 
                           maxWidth: '100%',
@@ -510,12 +572,12 @@ export default function MuiPage() {
                       return <span className="text-gray-500">관심 분야를 선택하세요</span>
                     }
                     // 선택된 항목이 많을 때 말줄임표 처리
-                    const maxVisible = 2
-                    const visibleItems = selected.slice(0, maxVisible)
-                    const remainingCount = selected.length - maxVisible
+                    const visibleItems = selected.slice(0, maxVisible2)
+                    const remainingCount = selected.length - maxVisible2
                     
                     return (
                       <Box 
+                        ref={multiSelectRef2}
                         className="flex gap-1 overflow-hidden"
                         sx={{ 
                           maxWidth: '100%',
