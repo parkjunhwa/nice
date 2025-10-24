@@ -358,7 +358,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   disabled={pageMode === 'view'}
                   sx={{ width: '100%' }}
                 >
-                  <MenuItem value=""><em>선택</em></MenuItem>
+                  <MenuItem value=""><span>선택</span></MenuItem>
                   <MenuItem value="옵션1">옵션1</MenuItem>
                   <MenuItem value="옵션2">옵션2</MenuItem>
                   <MenuItem value="옵션3">옵션3</MenuItem>
@@ -371,7 +371,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   disabled={pageMode === 'view'}
                   sx={{ width: '100%' }}
                 >
-                  <MenuItem value=""><em>선택</em></MenuItem>
+                  <MenuItem value=""><span>선택</span></MenuItem>
                   <MenuItem value="옵션1">옵션1</MenuItem>
                   <MenuItem value="옵션2">옵션2</MenuItem>
                   <MenuItem value="옵션3">옵션3</MenuItem>
@@ -511,7 +511,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                           disabled={pageMode === 'view'}
                           sx={{ width: '100%' }}
                         >
-                          <MenuItem value=""><em>선택</em></MenuItem>
+                          <MenuItem value=""><span>선택</span></MenuItem>
                           <MenuItem value="옵션1">옵션1</MenuItem>
                           <MenuItem value="옵션2">옵션2</MenuItem>
                           <MenuItem value="옵션3">옵션3</MenuItem>
@@ -557,7 +557,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                           disabled={pageMode === 'view'}
                           sx={{ width: '100%' }}
                         >
-                          <MenuItem value=""><em>선택</em></MenuItem>
+                          <MenuItem value=""><span>선택</span></MenuItem>
                           <MenuItem value="옵션1">옵션1</MenuItem>
                           <MenuItem value="옵션2">옵션2</MenuItem>
                           <MenuItem value="옵션3">옵션3</MenuItem>
@@ -2506,7 +2506,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                         disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'socar')?.usage}
                         sx={{ width: '100%' }}
                       >
-                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value=""><span>선택</span></MenuItem>
                         <MenuItem value="고정">고정</MenuItem>
                         <MenuItem value="변동">변동</MenuItem>
                       </Select>
@@ -2559,7 +2559,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                         disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'greencar')?.usage}
                         sx={{ width: '100%' }}
                       >
-                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value=""><span>선택</span></MenuItem>
                         <MenuItem value="고정">고정</MenuItem>
                         <MenuItem value="변동">변동</MenuItem>
                       </Select>
@@ -2612,7 +2612,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                         disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'peoplecar')?.usage}
                         sx={{ width: '100%' }}
                       >
-                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value=""><span>선택</span></MenuItem>
                         <MenuItem value="고정">고정</MenuItem>
                         <MenuItem value="변동">변동</MenuItem>
                       </Select>
@@ -2665,7 +2665,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                         disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'returnfree')?.usage}
                         sx={{ width: '100%' }}
                       >
-                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value=""><span>선택</span></MenuItem>
                         <MenuItem value="고정">고정</MenuItem>
                         <MenuItem value="변동">변동</MenuItem>
                       </Select>
@@ -2720,7 +2720,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                         disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'modu_discount')?.usage}
                         sx={{ width: '100%' }}
                       >
-                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value=""><span>선택</span></MenuItem>
                         <MenuItem value="고정">고정</MenuItem>
                         <MenuItem value="변동">변동</MenuItem>
                       </Select>
@@ -2773,7 +2773,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                         disabled={isViewMode(pageMode) || !salesData.find(item => item.id === 'modu_regular')?.usage}
                         sx={{ width: '100%' }}
                       >
-                        <MenuItem value=""><em>선택</em></MenuItem>
+                        <MenuItem value=""><span>선택</span></MenuItem>
                         <MenuItem value="고정">고정</MenuItem>
                         <MenuItem value="변동">변동</MenuItem>
                       </Select>
@@ -2837,7 +2837,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                           disabled={isViewMode(pageMode) || !salesData.find(item => item.id === platform.id)?.usage}
                           sx={{ width: '100%' }}
                         >
-                          <MenuItem value=""><em>선택</em></MenuItem>
+                          <MenuItem value=""><span>선택</span></MenuItem>
                           <MenuItem value="고정">고정</MenuItem>
                           <MenuItem value="변동">변동</MenuItem>
                         </Select>
