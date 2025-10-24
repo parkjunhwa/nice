@@ -49,7 +49,7 @@ export default function Con002Page() {
   const [isExpanded, setIsExpanded] = useState(true)
 
   // 검증 상태 관리
-  const [validationMessages, setValidationMessages] = useState<{[key: string]: string}>({})
+  const [validationMessages, setValidationMessages] = useState<{ [key: string]: string }>({})
 
   // 탭 상태
   const [activeTab, setActiveTab] = useState('품목')
@@ -233,8 +233,8 @@ export default function Con002Page() {
 
   // 필수 항목 검증 함수
   const validateRequiredFields = () => {
-    const errors: {[key: string]: string} = {}
-    
+    const errors: { [key: string]: string } = {}
+
     if (!businessType.trim()) {
       errors.businessType = '상을 선택해주세요.'
     }
@@ -265,7 +265,7 @@ export default function Con002Page() {
     if (!aggregationStandardDate.trim()) {
       errors.aggregationStandardDate = '집계기준일을 선택해주세요.'
     }
-    
+
     setValidationMessages(errors)
     return Object.keys(errors).length === 0
   }
@@ -287,7 +287,7 @@ export default function Con002Page() {
       // 검증 통과 시 실제 저장 로직 실행
       alert('저장되었습니다.')
     }
-  } 
+  }
 
 
   return (
@@ -657,7 +657,7 @@ export default function Con002Page() {
                         InputProps={{
                           startAdornment: (
                             <InputAdornment position="start">
-                              <span className="text-secondary" style={{fontSize: 12}}>₩</span>
+                              <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
                             </InputAdornment>
                           )
                         }}
@@ -735,16 +735,16 @@ export default function Con002Page() {
                             <label className="form-top-label">
                               나이스빌더회원아이디
                             </label>
-                        <Tooltip 
-                          title="NICE페이먼트 더빌 CMS 거래처 회원아이디를 입력하세요. 입력하신 회원아이디 기준으로 더빌 정산내역이 집계됩니다."
-                          arrow
-                        >
-                          <HelpCircle 
-                            size={16} 
-                            style={{ color: '#6b7280', marginBottom: '4px' }} // gray-500
-                            className="flex items-center justify-center"
-                          />
-                        </Tooltip>
+                            <Tooltip
+                              title="NICE페이먼트 더빌 CMS 거래처 회원아이디를 입력하세요. 입력하신 회원아이디 기준으로 더빌 정산내역이 집계됩니다."
+                              arrow
+                            >
+                              <HelpCircle
+                                size={16}
+                                style={{ color: '#6b7280', marginBottom: '4px' }} // gray-500
+                                className="flex items-center justify-center"
+                              />
+                            </Tooltip>
                           </div>
                           <TextField
                             variant="outlined"

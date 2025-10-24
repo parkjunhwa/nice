@@ -5,8 +5,8 @@ import {
   TextField, InputAdornment, IconButton, Icons, FormControl, Select, MenuItem, DateRangePicker,
   Checkbox, FormControlLabel, RadioGroup, Radio,
 } from '@/components'
-import { Search, Minus, GripVertical } from 'lucide-react'
-import { Alert, Snackbar } from '@mui/material'
+import { Search, Minus, GripVertical, HelpCircle } from 'lucide-react'
+import { Alert, Snackbar, Tooltip } from '@mui/material'
 // @ts-expect-error - DndProvider type definitions issue
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -1599,13 +1599,13 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                     규칙 구성
                   </span>
                   <span style={{ fontSize: '14px' }} className="text-gray-400">
-                     (
+                    (
                   </span>
-                  <span style={{ fontSize: '14px' }} className="text-gray-900">
-                     {rCards.length}
+                  <span style={{ fontSize: '14px' }} className="text-blue-600">
+                    {rCards.length}
                   </span>
                   <span style={{ fontSize: '14px' }} className="text-gray-400">
-                     /10)
+                    /10)
                   </span>
                 </Typography>
                 {pageMode === 'edit' && (
@@ -3886,9 +3886,27 @@ export default function Rul002Page() {
             <Card className="h-full">
               <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
                 <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
-                  <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
-                    수식리스트
-                  </Typography>
+                  <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8, justifyContent: 'flex-start' }}>
+                    <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
+                      수식리스트
+                    </Typography>
+                    <Tooltip
+                      title={
+                        <div style={{ maxWidth: 600 }}>
+                          고정/정기 : 입력한 금액으로 정기적 매입/매출을 자동생성합니다.<br />
+                          고정/비정기 : 입력한 금액으로 지정한 일자에 매입/매출을 자동생성합니다.<br />
+                          정산 : 매출집계(월) 데이터에 입력된 계산규칙으로 정산합니다.
+                        </div>
+                      }
+                      arrow
+                    >
+                      <HelpCircle
+                        size={16}
+                        style={{ color: '#6b7280', marginBottom: '0px' }} // gray-500
+                        className="flex items-center justify-center"
+                      />
+                    </Tooltip>
+                  </div>
                   {pageMode === 'edit' && (
                     <div className="flex gap-1">
                       <FormControl sx={{ width: '120px' }}>
