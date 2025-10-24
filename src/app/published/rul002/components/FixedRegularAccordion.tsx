@@ -21,6 +21,13 @@ interface FixedRegularAccordionProps {
   pageMode: PageMode
 }
 
+// 숫자 포맷 함수 (세 자리마다 콤마 추가)
+const formatNumber = (value: string): string => {
+  const numericValue = value.replace(/[^0-9]/g, '')
+  if (!numericValue) return ''
+  return Number(numericValue).toLocaleString()
+}
+
 const createNumberInputHandler = (setter: (value: string) => void) => {
   return (e: React.ChangeEvent<HTMLInputElement>) => {
     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -102,7 +109,7 @@ const FixedRegularAccordion = memo(({ item, onRemove, pageMode }: FixedRegularAc
               size="small"
               type="text"
               disabled={pageMode === 'view'}
-              value={contractAmount}
+              value={formatNumber(contractAmount)}
               onChange={handleContractAmountChange}
               sx={{
                 width: '100%',

@@ -47,6 +47,13 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
 type PageMode = 'view' | 'edit'
 type FormulaType = string
 
+// 숫자 포맷 함수 (세 자리마다 콤마 추가)
+const formatNumber = (value: string): string => {
+  const numericValue = value.replace(/[^0-9]/g, '')
+  if (!numericValue) return ''
+  return Number(numericValue).toLocaleString()
+}
+
 const initialFormState: FormState = {
   ruleName: '', status: '', customerCode: '', deviceNumber: '', itemCode: '', itemDeviceNumber: '',
   contractAmount: '', salesReflectionTiming: '', salesReflectionTiming2: '', salesPurchaseType: '',
@@ -437,7 +444,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
+                  value={formatNumber(salesPurchaseType)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -642,10 +649,10 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   variant="outlined"
                   size="small"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
+                  value={formatNumber(salesPurchaseType)}
                   onChange={e => {
                     // 숫자만 입력 가능하도록 처리
-                    const value = e.target.value.replace(/[^0-9.]/g, '');
+                    const value = e.target.value.replace(/[^0-9]/g, '');
                     setSalesPurchaseType(value);
                   }}
                   sx={{
@@ -767,7 +774,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
+                  value={formatNumber(salesPurchaseType)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -801,7 +808,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
+                  value={formatNumber(salesPurchaseType)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -1123,7 +1130,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
+                  value={formatNumber(salesPurchaseType)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -1208,7 +1215,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
+                  value={formatNumber(salesPurchaseType)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -1261,7 +1268,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
+                  value={formatNumber(salesPurchaseType)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -1295,7 +1302,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
+                  value={formatNumber(salesPurchaseType)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -1329,7 +1336,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
+                  value={formatNumber(salesPurchaseType)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
@@ -1710,10 +1717,10 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                     variant="outlined"
                     size="small"
                     disabled={pageMode === 'view'}
-                    value={salesPurchaseType}
+                    value={formatNumber(salesPurchaseType)}
                     onChange={e => {
                       // 숫자만 입력 가능하도록 처리
-                      const value = e.target.value.replace(/[^0-9.]/g, '');
+                      const value = e.target.value.replace(/[^0-9]/g, '');
                       setSalesPurchaseType(value);
                     }}
                     sx={{
