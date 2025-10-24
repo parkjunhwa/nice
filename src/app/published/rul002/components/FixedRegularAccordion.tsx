@@ -187,7 +187,7 @@ const FixedRegularAccordion = memo(({ item, onRemove, pageMode }: FixedRegularAc
                 sx={{
                   width: '100%',
                   '& input': {
-                    textAlign: 'left'
+                    textAlign: 'right'
                   }
                 }}
                 inputProps={{
