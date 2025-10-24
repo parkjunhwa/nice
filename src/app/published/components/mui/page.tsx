@@ -455,9 +455,21 @@ export default function MuiPage() {
                     if (!selected || !Array.isArray(selected) || selected.length === 0) {
                       return <span className="text-gray-500">관심 분야를 선택하세요</span>
                     }
+                    // 선택된 항목이 많을 때 말줄임표 처리
+                    const maxVisible = 2
+                    const visibleItems = selected.slice(0, maxVisible)
+                    const remainingCount = selected.length - maxVisible
+                    
                     return (
-                      <div className="flex flex-wrap gap-1">
-                        {selected.map((value: string) => (
+                      <Box 
+                        className="flex gap-1 overflow-hidden"
+                        sx={{ 
+                          maxWidth: '100%',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {visibleItems.map((value: string) => (
                           <Chip
                             key={value}
                             label={value}
@@ -465,10 +477,13 @@ export default function MuiPage() {
                             onDelete={() => {
                               setInterestAreas(prev => prev.filter(v => v !== value))
                             }}
-                            className="bg-blue-100 text-blue-800"
+                            className="bg-blue-100 text-blue-800 flex-shrink-0"
                           />
                         ))}
-                      </div>
+                        {remainingCount > 0 && (
+                          <span className="text-gray-500 flex items-center">+{remainingCount}</span>
+                        )}
+                      </Box>
                     )
                   }}
                 >
@@ -494,9 +509,21 @@ export default function MuiPage() {
                     if (!selected || !Array.isArray(selected) || selected.length === 0) {
                       return <span className="text-gray-500">관심 분야를 선택하세요</span>
                     }
+                    // 선택된 항목이 많을 때 말줄임표 처리
+                    const maxVisible = 2
+                    const visibleItems = selected.slice(0, maxVisible)
+                    const remainingCount = selected.length - maxVisible
+                    
                     return (
-                      <div className="flex flex-wrap gap-1">
-                        {selected.map((value: string) => (
+                      <Box 
+                        className="flex gap-1 overflow-hidden"
+                        sx={{ 
+                          maxWidth: '100%',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {visibleItems.map((value: string) => (
                           <Chip
                             key={value}
                             label={value}
@@ -504,10 +531,13 @@ export default function MuiPage() {
                             onDelete={() => {
                               setInterestAreas(prev => prev.filter(v => v !== value))
                             }}
-                            className="bg-blue-100 text-blue-800"
+                            className="bg-blue-100 text-blue-800 flex-shrink-0"
                           />
                         ))}
-                      </div>
+                        {remainingCount > 0 && (
+                          <span className="text-gray-500 flex items-center">+{remainingCount}</span>
+                        )}
+                      </Box>
                     )
                   }}
                   MenuProps={{
