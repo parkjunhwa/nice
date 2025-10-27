@@ -12,6 +12,27 @@ interface Cmn001Props {
 
 export default function Cmn001({ open, onClose }: Cmn001Props) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [successCount, setSuccessCount] = useState<number>(0)
+  const [failureCount, setFailureCount] = useState<number>(0)
+  const [isUploaded, setIsUploaded] = useState(false)
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setSelectedFile(file)
+      // TODO: 실제 엑셀 업로드 로직
+      // 예시 데이터
+      setSuccessCount(150)
+      setFailureCount(8)
+      setIsUploaded(true)
+    }
+  }
+
+  const handleUpload = () => {
+    // 파일은 이미 선택 시 업로드됨
+    onClose()
+  }
+
   return (
     <Dialog
       open={open}
@@ -29,7 +50,7 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
       <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
           <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
-            엑셀 업로드 결과
+            엑셀 업로드
           </Typography>
           <IconButton
             aria-label="닫기"
@@ -50,12 +71,7 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
               type="file"
               accept=".xlsx,.xls"
               style={{ display: 'none' }}
-              onChange={(e) => {
-                const file = e.target.files?.[0]
-                if (file) {
-                  setSelectedFile(file)
-                }
-              }}
+              onChange={handleFileChange}
             />
             <Button
               variant="outlined"
@@ -78,7 +94,12 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
                 </Typography>
                 <IconButton
                   size="small"
-                  onClick={() => setSelectedFile(null)}
+                  onClick={() => {
+                    setSelectedFile(null)
+                    setIsUploaded(false)
+                    setSuccessCount(0)
+                    setFailureCount(0)
+                  }}
                 >
                   <Icons.XIcon size={20} />
                 </IconButton>
@@ -90,6 +111,28 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
             )}
           </div>
         </div>
+
+        {/* 우측: 성공/실패 통계 */}
+        {isUploaded && (
+          <div className="flex items-center gap-2">
+            <span style={{ fontSize: '13px', paddingTop: '2px' }}>성공({successCount})</span>
+            <Button
+              variant="outlined"
+              color="primary"
+              size="small"
+            >
+              SUCCESS
+            </Button>
+            <span style={{ fontSize: '13px', paddingTop: '2px' }}>실패({failureCount})</span>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+            >
+              FAILURE
+            </Button>
+          </div>
+        )}
       </div>
       <DialogContent>
         {/* 세로 꽉차는 테이블 샘플 */}
@@ -110,7 +153,7 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
         <Button onClick={onClose} variant="outlined" color="secondary">
           취소
         </Button>
-        <Button variant="contained" onClick={onClose}>
+        <Button variant="contained" onClick={handleUpload}>
           업로드
         </Button>
       </DialogActions>

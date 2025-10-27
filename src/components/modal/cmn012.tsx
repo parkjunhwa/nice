@@ -81,12 +81,13 @@ export default function Cmn012({ open, onClose }: Cmn012Props) {
 
         </div>
         {/* 우측: 카테고리/상태/버튼 (width auto) */}
-        <div className="flex flex-row items-center gap-4 flex-shrink-0">
-          <Typography variant="subtitle2" sx={{ fontWeight: 400 }}>
-            불일치 건수: 5건
-          </Typography>
-          <Button variant="contained" size="small">
-            조정(일단위)
+        <div className="flex flex-row items-center gap-2 flex-shrink-0">
+          <span style={{ fontSize: '13px', paddingTop: '2px' }}>불일치 건수(5건)</span>
+          <Button
+            variant="outlined"
+            color="secondary"
+            size="small">
+            조정(원단위)
           </Button>
         </div>
       </div>

@@ -185,7 +185,7 @@ export default function ModalPage() {
               onClick={() => setModal001Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              엑셀 업로드 결과
+              엑셀 업로드
             </Button>
             <Button
               variant="outlined"
@@ -217,7 +217,7 @@ export default function ModalPage() {
               onClick={() => setModal005Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              ATM기기 검색
+              ATM 기기 검색
             </Button>
             <Button
               variant="outlined"
@@ -257,7 +257,7 @@ export default function ModalPage() {
               onClick={() => setModal010Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              결재작성
+              결재상신 본문 등록
             </Button>
             <Button
               variant="outlined"

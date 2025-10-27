@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, FormControl, Select, MenuItem } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, TextField, InputAdornment } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -13,24 +13,6 @@ interface Cmn007Props {
 export default function Cmn007({ open, onClose }: Cmn007Props) {
   const [productName, setProductName] = useState('')
   const [productCode, setProductCode] = useState('')
-
-  // 상품명 샘플 데이터
-  const productNameOptions = [
-    { value: 'prod1', label: '노트북' },
-    { value: 'prod2', label: '스마트폰' },
-    { value: 'prod3', label: '태블릿' },
-    { value: 'prod4', label: '모니터' },
-    { value: 'prod5', label: '키보드' }
-  ]
-
-  // 상품코드 샘플 데이터
-  const productCodeOptions = [
-    { value: 'code1', label: 'P001' },
-    { value: 'code2', label: 'P002' },
-    { value: 'code3', label: 'P003' },
-    { value: 'code4', label: 'P004' },
-    { value: 'code5', label: 'P005' }
-  ]
   return (
     <Dialog
       open={open}
@@ -68,49 +50,55 @@ export default function Cmn007({ open, onClose }: Cmn007Props) {
             <label className="form-side-label">
               상품 명
             </label>
-            <FormControl fullWidth>
-              <Select
+            <TextField
+                variant="outlined"
+                size="small"
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {productNameOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: productName && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setProductName('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
           </div>
           <div className="flex items-center">
             <label className="form-side-label">
               상품코드
             </label>
-            <FormControl fullWidth>
-              <Select
+            <TextField
+                variant="outlined"
+                size="small"
                 value={productCode}
                 onChange={(e) => setProductCode(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {productCodeOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: productCode && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setProductCode('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
           </div>
         </div>
         {/* 우측: 카테고리/상태/버튼 (width auto) */}

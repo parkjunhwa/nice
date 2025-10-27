@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, FormControl, Select, MenuItem } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, TextField, InputAdornment } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -13,24 +13,6 @@ interface Cmn011Props {
 export default function Cmn011({ open, onClose }: Cmn011Props) {
   const [siteCode, setSiteCode] = useState('')
   const [siteName, setSiteName] = useState('')
-
-  // 사이트 코드 샘플 데이터
-  const siteCodeOptions = [
-    { value: 'site1', label: 'SITE001' },
-    { value: 'site2', label: 'SITE002' },
-    { value: 'site3', label: 'SITE003' },
-    { value: 'site4', label: 'SITE004' },
-    { value: 'site5', label: 'SITE005' }
-  ]
-
-  // 사이트명 샘플 데이터
-  const siteNameOptions = [
-    { value: 'name1', label: '본사' },
-    { value: 'name2', label: '지점1' },
-    { value: 'name3', label: '지점2' },
-    { value: 'name4', label: '지점3' },
-    { value: 'name5', label: '지점4' }
-  ]
   return (
     <Dialog
       open={open}
@@ -68,49 +50,55 @@ export default function Cmn011({ open, onClose }: Cmn011Props) {
             <label className="form-side-label">
               사이트 코드
             </label>
-            <FormControl fullWidth>
-              <Select
+            <TextField
+                variant="outlined"
+                size="small"
                 value={siteCode}
                 onChange={(e) => setSiteCode(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {siteCodeOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: siteCode && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setSiteCode('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
           </div>
           <div className="flex items-center">
             <label className="form-side-label">
               사이트 명
             </label>
-            <FormControl fullWidth>
-              <Select
+            <TextField
+                variant="outlined"
+                size="small"
                 value={siteName}
                 onChange={(e) => setSiteName(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {siteNameOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: siteName && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setSiteName('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
           </div>
         </div>
         {/* 우측: 카테고리/상태/버튼 (width auto) */}

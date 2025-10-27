@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, FormControl, Select, MenuItem } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, TextField, InputAdornment } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -13,23 +13,6 @@ interface Cmn009Props {
 export default function Cmn009({ open, onClose }: Cmn009Props) {
   const [contractName, setContractName] = useState('')
   const [contractNumber, setContractNumber] = useState('')
-
-  // 계약명 샘플 데이터
-  const contractNameOptions = [
-    { value: 'contract1', label: '월정산' },
-    { value: 'contract2', label: '일정산' },
-    { value: 'contract3', label: '실시간정산' },
-    { value: 'contract4', label: '주간정산' },
-    { value: 'contract5', label: '분기정산' }
-  ]
-
-  const contractNumberOptions = [
-    { value: 'number1', label: 'CT001' },
-    { value: 'number2', label: 'CT002' },
-    { value: 'number3', label: 'CT003' },
-    { value: 'number4', label: 'CT004' },
-    { value: 'number5', label: 'CT005' }
-  ]
   return (
     <Dialog
       open={open}
@@ -67,49 +50,55 @@ export default function Cmn009({ open, onClose }: Cmn009Props) {
             <label className="form-side-label">
               계약명
             </label>
-            <FormControl fullWidth>
-              <Select
+            <TextField
+                variant="outlined"
+                size="small"
                 value={contractName}
                 onChange={(e) => setContractName(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {contractNameOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: contractName && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setContractName('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
           </div>
           <div className="flex items-center">
             <label className="form-side-label">
               계약번호
             </label>
-            <FormControl fullWidth>
-              <Select
+            <TextField
+                variant="outlined"
+                size="small"
                 value={contractNumber}
                 onChange={(e) => setContractNumber(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {contractNumberOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: contractNumber && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setContractNumber('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
           </div>
         </div>
         {/* 우측: 카테고리/상태/버튼 (width auto) */}

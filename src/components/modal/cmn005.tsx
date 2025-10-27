@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, FormControl, Select, MenuItem, TextField, InputAdornment } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, TextField, InputAdornment } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -13,26 +13,9 @@ interface Cmn005Props {
 export default function Cmn005({ open, onClose }: Cmn005Props) {
   const [institution, setInstitution] = useState('')
   const [branch, setBranch] = useState('')
+  const [siteName, setSiteName] = useState('')
   const [deviceNumber, setDeviceNumber] = useState('')
   const [deviceName, setDeviceName] = useState('')
-
-  // 기관 샘플 데이터
-  const institutionOptions = [
-    { value: 'inst1', label: '신한은행' },
-    { value: 'inst2', label: '국민은행' },
-    { value: 'inst3', label: '우리은행' },
-    { value: 'inst4', label: '하나은행' },
-    { value: 'inst5', label: '기업은행' }
-  ]
-
-  // 지점 샘플 데이터
-  const branchOptions = [
-    { value: 'branch1', label: '강남지점' },
-    { value: 'branch2', label: '서초지점' },
-    { value: 'branch3', label: '종로지점' },
-    { value: 'branch4', label: '마포지점' },
-    { value: 'branch5', label: '송파지점' }
-  ]
   return (
     <Dialog
       open={open}
@@ -49,9 +32,9 @@ export default function Cmn005({ open, onClose }: Cmn005Props) {
     >
       <DialogTitle sx={{ padding: '16px 16px' }}>
         <div className="flex items-center justify-between">
-        <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
-          ATM 기기 검색
-        </Typography>
+          <Typography variant="h6" component="div" sx={{ fontWeight: 600 }}>
+            ATM 기기 검색
+          </Typography>
           <IconButton
             aria-label="닫기"
             onClick={onClose}
@@ -72,73 +55,82 @@ export default function Cmn005({ open, onClose }: Cmn005Props) {
               <label className="form-side-label text-left" style={{ width: '50px', minWidth: '50px', maxWidth: '50px' }}>
                 기관
               </label>
-              <FormControl fullWidth>
-                <Select
-                  value={institution}
-                  onChange={(e) => setInstitution(e.target.value)}
-                  displayEmpty
-                  className="bg-white"
-                  size="small"
-                  sx={{ width: '160px' }}
-                >
-                  <MenuItem value="">
-                    <span>선택</span>
-                  </MenuItem>
-                  {institutionOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <TextField
+                variant="outlined"
+                size="small"
+                value={institution}
+                onChange={(e) => setInstitution(e.target.value)}
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: institution && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setInstitution('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
             </div>
             <div className="flex items-center">
               <label className="form-side-label text-left" style={{ width: '50px', minWidth: '50px', maxWidth: '50px' }}>
                 지점
               </label>
-              <FormControl fullWidth>
-                <Select
-                  value={branch}
-                  onChange={(e) => setBranch(e.target.value)}
-                  displayEmpty
-                  className="bg-white"
-                  size="small"
-                  sx={{ width: '160px' }}
-                >
-                  <MenuItem value="">
-                    <span>선택</span>
-                  </MenuItem>
-                  {branchOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <TextField
+                variant="outlined"
+                size="small"
+                value={branch}
+                onChange={(e) => setBranch(e.target.value)}
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: branch && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setBranch('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
             </div>
             <div className="flex items-center">
               <label className="form-side-label text-left" style={{ width: '50px', minWidth: '50px', maxWidth: '50px' }}>
                 사이트명
               </label>
-              <FormControl fullWidth>
-                <Select
-                  value={branch}
-                  onChange={(e) => setBranch(e.target.value)}
-                  displayEmpty
-                  className="bg-white"
-                  size="small"
-                  sx={{ width: '160px' }}
-                >
-                  <MenuItem value="">
-                    <span>선택</span>
-                  </MenuItem>
-                  {branchOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <TextField
+                variant="outlined"
+                size="small"
+                value={siteName}
+                onChange={(e) => setSiteName(e.target.value)}
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: siteName && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setSiteName('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
             </div>
           </div>
           {/* 두 번째 줄: 기기번호, 기기명 */}
@@ -203,7 +195,7 @@ export default function Cmn005({ open, onClose }: Cmn005Props) {
           </Button>
         </div>
       </div>
-      
+
       <DialogContent>
         {/* 세로 꽉차는 테이블 샘플 */}
         <div style={{ height: 'calc(100% - 0px)', marginTop: '16px' }}>

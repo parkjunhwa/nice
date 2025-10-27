@@ -162,7 +162,7 @@ export default function Cmn010({ open, onClose }: Cmn010Props) {
                 size="small"
                 onClick={() => fileInputRef.current?.click()}
               >
-                파일선택
+                파일찾기
               </Button>
             </Box>
             <input

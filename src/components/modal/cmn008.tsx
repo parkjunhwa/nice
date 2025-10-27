@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, FormControl, Select, MenuItem } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, TextField, InputAdornment } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -11,36 +11,9 @@ interface Cmn008Props {
 }
 
 export default function Cmn008({ open, onClose }: Cmn008Props) {
-  const [departmentName, setDepartmentName] = useState('')
+  const [business, setBusiness] = useState('')
   const [userName, setUserName] = useState('')
   const [employeeId, setEmployeeId] = useState('')
-
-  // 부서명 샘플 데이터
-  const departmentOptions = [
-    { value: 'dept1', label: '개발팀' },
-    { value: 'dept2', label: '디자인팀' },
-    { value: 'dept3', label: '기획팀' },
-    { value: 'dept4', label: '마케팅팀' },
-    { value: 'dept5', label: '인사팀' }
-  ]
-
-  // 사용자명 샘플 데이터
-  const userOptions = [
-    { value: 'user1', label: '김철수' },
-    { value: 'user2', label: '이영희' },
-    { value: 'user3', label: '박민수' },
-    { value: 'user4', label: '정수진' },
-    { value: 'user5', label: '최지원' }
-  ]
-
-  // 사번 샘플 데이터
-  const employeeOptions = [
-    { value: 'emp1', label: 'EMP001' },
-    { value: 'emp2', label: 'EMP002' },
-    { value: 'emp3', label: 'EMP003' },
-    { value: 'emp4', label: 'EMP004' },
-    { value: 'emp5', label: 'EMP005' }
-  ]
   return (
     <Dialog
       open={open}
@@ -76,75 +49,84 @@ export default function Cmn008({ open, onClose }: Cmn008Props) {
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <label className="form-side-label">
-              부서명
+              사업
             </label>
-            <FormControl fullWidth>
-              <Select
-                value={departmentName}
-                onChange={(e) => setDepartmentName(e.target.value)}
-                displayEmpty
-                className="bg-white"
+            <TextField
+                variant="outlined"
                 size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {departmentOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                value={business}
+                onChange={(e) => setBusiness(e.target.value)}
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: business && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setBusiness('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
           </div>
           <div className="flex items-center">
             <label className="form-side-label">
               사용자명
             </label>
-            <FormControl fullWidth>
-              <Select
+            <TextField
+                variant="outlined"
+                size="small"
                 value={userName}
                 onChange={(e) => setUserName(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {userOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: userName && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setUserName('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
           </div>
           <div className="flex items-center">
             <label className="form-side-label">
               사번
             </label>
-            <FormControl fullWidth>
-              <Select
+            <TextField
+                variant="outlined"
+                size="small"
                 value={employeeId}
                 onChange={(e) => setEmployeeId(e.target.value)}
-                displayEmpty
-                className="bg-white"
-                size="small"
-                sx={{ width: '150px' }}
-              >
-                <MenuItem value="">
-                  <span>선택</span>
-                </MenuItem>
-                {employeeOptions.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                sx={{ width: '160px' }}
+                InputProps={{
+                  endAdornment: employeeId && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setEmployeeId('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
           </div>
         </div>
         {/* 우측: 카테고리/상태/버튼 (width auto) */}
