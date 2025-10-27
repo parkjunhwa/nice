@@ -487,6 +487,7 @@ export default function Stl001Page() {
               <Button
                 variant="outlined"
                 size="small"
+                color="secondary"
                 startIcon={<FileX size={16} />}
               >
                 엑셀 템플릿
@@ -509,6 +510,12 @@ export default function Stl001Page() {
               </Button>
               <Button variant="contained" size="small" startIcon={<Check size={16} />}>
                 선택확정
+              </Button>
+              <Button variant="contained" size="small" startIcon={<ClipboardPaste size={16} />}>
+                결재상신
+              </Button>
+              <Button variant="contained" size="small" startIcon={<ClipboardPaste size={16} />}>
+                ERP재전송
               </Button>
             </div>
           </div>

@@ -1231,13 +1231,6 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                     inputMode: 'numeric',
                     pattern: '[0-9]*'
                   }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
-                      </InputAdornment>
-                    )
-                  }}
                 />
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -1284,13 +1277,6 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                     inputMode: 'numeric',
                     pattern: '[0-9]*'
                   }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
-                      </InputAdornment>
-                    )
-                  }}
                 />
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -1318,13 +1304,6 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                     inputMode: 'numeric',
                     pattern: '[0-9]*'
                   }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
-                      </InputAdornment>
-                    )
-                  }}
                 />
               </div>
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
@@ -1351,13 +1330,6 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   inputProps={{
                     inputMode: 'numeric',
                     pattern: '[0-9]*'
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
-                      </InputAdornment>
-                    )
                   }}
                 />
               </div>
@@ -2058,7 +2030,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                       type="text"
                       disabled={pageMode === 'view'}
                       InputProps={{
-                        endAdornment: <span>원</span>,
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <span>₩</span>
+                          </InputAdornment>
+                        ),
                       }}
                       sx={{
                         width: '100%',
@@ -3235,13 +3211,8 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   <TextField
                     variant="outlined"
                     size="small"
-                    disabled={pageMode === 'view'}
+                    disabled
                     value={salesPurchaseType}
-                    onChange={e => {
-                      // 숫자만 입력 가능하도록 처리
-                      const value = e.target.value.replace(/[^0-9.]/g, '');
-                      setSalesPurchaseType(value);
-                    }}
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -3253,13 +3224,8 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   <TextField
                     variant="outlined"
                     size="small"
-                    disabled={pageMode === 'view'}
+                    disabled
                     value={salesPurchaseType}
-                    onChange={e => {
-                      // 숫자만 입력 가능하도록 처리
-                      const value = e.target.value.replace(/[^0-9.]/g, '');
-                      setSalesPurchaseType(value);
-                    }}
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -3271,13 +3237,8 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   <TextField
                     variant="outlined"
                     size="small"
-                    disabled={pageMode === 'view'}
+                    disabled
                     value={salesPurchaseType}
-                    onChange={e => {
-                      // 숫자만 입력 가능하도록 처리
-                      const value = e.target.value.replace(/[^0-9.]/g, '');
-                      setSalesPurchaseType(value);
-                    }}
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -3289,13 +3250,8 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   <TextField
                     variant="outlined"
                     size="small"
-                    disabled={pageMode === 'view'}
+                    disabled
                     value={salesPurchaseType}
-                    onChange={e => {
-                      // 숫자만 입력 가능하도록 처리
-                      const value = e.target.value.replace(/[^0-9.]/g, '');
-                      setSalesPurchaseType(value);
-                    }}
                     sx={{
                       width: '100%',
                       '& input': { textAlign: 'right' }
@@ -3370,20 +3326,48 @@ export default function Rul002Page() {
 
   // 아코디언 추가 함수 (최적화된 버전)
   const addAccordionItem = useCallback((type: 'fixed_regular' | 'fixed_irregular' | 'settlement') => {
-    const newItem: AccordionItem = {
-      id: `accordion-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type,
-      title: itemTypeOptions.find(option => option.value === type)?.label || type,
-      data: getDefaultDataForType(type),
-      formulaType: type === 'settlement' ? currentFormulaType : 'normal'
-    }
-    setAccordionItems(prev => [...prev, newItem])
-  }, [currentFormulaType, itemTypeOptions])
+    const targetFormulaType = type === 'settlement' ? currentFormulaType : 'normal'
+    
+    setAccordionItems(prev => {
+      // 일반, 주차(직영), 주차(위탁) 카드는 한 번만 추가 가능
+      if (targetFormulaType === 'normal' || targetFormulaType === 'park_a' || targetFormulaType === 'park_b') {
+        const existingCard = prev.find(item => item.formulaType === targetFormulaType)
+        if (existingCard) {
+          let typeName = ''
+          if (targetFormulaType === 'normal') typeName = '일반'
+          else if (targetFormulaType === 'park_a') typeName = '주차(직영)'
+          else if (targetFormulaType === 'park_b') typeName = '주차(위탁)'
+          
+          updateAlertState({ open: true, message: `${typeName} 카드는 이미 추가되어 있습니다.`, severity: 'warning' })
+          return prev
+        }
+      }
+
+      const newItem: AccordionItem = {
+        id: `accordion-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        type,
+        title: itemTypeOptions.find(option => option.value === type)?.label || type,
+        data: getDefaultDataForType(type),
+        formulaType: targetFormulaType
+      }
+      return [...prev, newItem]
+    })
+  }, [currentFormulaType, itemTypeOptions, updateAlertState])
 
   // 아코디언 삭제 함수 (최적화된 버전)
   const removeAccordionItem = useCallback((id: string) => {
     setAccordionItems(prev => prev.filter(item => item.id !== id))
   }, [])
+
+  // 알림 표시 함수 (최적화된 버전)
+  const showAlert = useCallback((message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
+    updateAlertState({ open: true, message, severity })
+  }, [updateAlertState])
+
+  // 알림 닫기 함수 (최적화된 버전)
+  const handleAlertClose = useCallback(() => {
+    updateAlertState({ open: false })
+  }, [updateAlertState])
 
   // 타입별 기본 데이터 생성
   const getDefaultDataForType = (type: 'fixed_regular' | 'fixed_irregular' | 'settlement') => {
@@ -3436,16 +3420,6 @@ export default function Rul002Page() {
   const handleToggleConfirm = () => {
     setIsConfirmed(prev => !prev)
   }
-
-  // 알림 표시 함수 (최적화된 버전)
-  const showAlert = useCallback((message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
-    updateAlertState({ open: true, message, severity })
-  }, [updateAlertState])
-
-  // 알림 닫기 함수 (최적화된 버전)
-  const handleAlertClose = useCallback(() => {
-    updateAlertState({ open: false })
-  }, [updateAlertState])
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -3902,9 +3876,9 @@ export default function Rul002Page() {
                     <Tooltip
                       title={
                         <div style={{ maxWidth: 600 }}>
-                          고정/정기 : 입력한 금액으로 정기적 매입/매출을 자동생성합니다.<br />
-                          고정/비정기 : 입력한 금액으로 지정한 일자에 매입/매출을 자동생성합니다.<br />
-                          정산 : 매출집계(월) 데이터에 입력된 계산규칙으로 정산합니다.
+                          <span style={{ marginRight: 4, color: '#adb5bd' }}>∙</span>고정/정기 : 입력한 금액으로 정기적 매입/매출을 자동생성합니다.<br />
+                          <span style={{ marginRight: 4, color: '#adb5bd' }}>∙</span>고정/비정기 : 입력한 금액으로 지정한 일자에 매입/매출을 자동생성합니다.<br />
+                          <span style={{ marginRight: 4, color: '#adb5bd' }}>∙</span>정산 : 매출집계(월) 데이터에 입력된 계산규칙으로 정산합니다.
                         </div>
                       }
                       arrow

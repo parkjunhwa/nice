@@ -334,11 +334,14 @@ export default function Con001Page() {
               </Button>
             </div>
             <div className="flex gap-1">
-              <Button variant="contained" size="small" startIcon={<ClipboardPaste size={16} />}>
-                결재요청
+              <Button variant="contained" size="small" startIcon={<Check size={16} />}>
+                일괄확정
               </Button>
               <Button variant="contained" size="small" startIcon={<Check size={16} />}>
-                확정
+                선택확정
+              </Button>
+              <Button variant="contained" size="small" startIcon={<ClipboardPaste size={16} />}>
+                결재상신
               </Button>
               <Button variant="contained" size="small" startIcon={<Check size={16} />}>
                 등록
