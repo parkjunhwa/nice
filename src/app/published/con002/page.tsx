@@ -306,7 +306,7 @@ export default function Con002Page() {
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
-              { label: '정산기준정보', href: '/' },
+              { label: '정산기준관리', href: '/' },
               { label: '정산기준정보', active: true }
             ]}
           />

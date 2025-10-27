@@ -76,19 +76,13 @@ const sidebarItems: MenuItem[] = [
     ]
   },
   {
-    title: "정산기준정보",
+    title: "정산기준관리",
     icon: BadgeInfo,
     children: [
-      { title: "정산기준정보 목록", href: "/published/con001" },
-      { title: "정산기준정보", href: "/published/con002" },
-    ]
-  },
-  {
-    title: "정산규칙",
-    icon: ShieldCheck,
-    children: [
-      { title: "정산규칙 목록", href: "/published/rul001" },
-      { title: "정산규칙", href: "/published/rul002" },
+      { title: "정산기준정보", href: "/published/con001" },
+      { title: "정산기준정보(확인용상세)", href: "/published/con002" },
+      { title: "정산규칙", href: "/published/rul001" },
+      { title: "정산규칙(확인용상세)", href: "/published/rul002" },
     ]
   },
   {

@@ -3443,7 +3443,7 @@ export default function Rul002Page() {
             <Breadcrumb
               items={[
                 { label: 'Home', href: '/' },
-                { label: '정산규칙', href: '/' },
+                { label: '정산기준관리', href: '/' },
                 { label: '정산규칙', active: true }
               ]}
             />
