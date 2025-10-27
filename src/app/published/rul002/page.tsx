@@ -3329,17 +3329,21 @@ export default function Rul002Page() {
     const targetFormulaType = type === 'settlement' ? currentFormulaType : 'normal'
     
     setAccordionItems(prev => {
-      // 일반, 주차(직영), 주차(위탁) 카드는 한 번만 추가 가능
-      if (targetFormulaType === 'normal' || targetFormulaType === 'park_a' || targetFormulaType === 'park_b') {
-        const existingCard = prev.find(item => item.formulaType === targetFormulaType)
-        if (existingCard) {
-          let typeName = ''
-          if (targetFormulaType === 'normal') typeName = '일반'
-          else if (targetFormulaType === 'park_a') typeName = '주차(직영)'
-          else if (targetFormulaType === 'park_b') typeName = '주차(위탁)'
-          
-          updateAlertState({ open: true, message: `${typeName} 카드는 이미 추가되어 있습니다.`, severity: 'warning' })
-          return prev
+      // settlement 타입의 일반, 주차(직영), 주차(위탁) 카드는 한 번만 추가 가능
+      // fixed_regular, fixed_irregular는 여러 개 추가 가능
+      if (type === 'settlement') {
+        if (targetFormulaType === 'normal' || targetFormulaType === 'park_a' || targetFormulaType === 'park_b') {
+          // settlement 타입이면서 동일한 formulaType인 카드만 찾기
+          const existingCard = prev.find(item => item.type === 'settlement' && item.formulaType === targetFormulaType)
+          if (existingCard) {
+            let typeName = ''
+            if (targetFormulaType === 'normal') typeName = '일반'
+            else if (targetFormulaType === 'park_a') typeName = '주차(직영)'
+            else if (targetFormulaType === 'park_b') typeName = '주차(위탁)'
+            
+            updateAlertState({ open: true, message: `${typeName} 카드는 이미 추가되어 있습니다.`, severity: 'warning' })
+            return prev
+          }
         }
       }
 
