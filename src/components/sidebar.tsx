@@ -12,7 +12,6 @@ import {
   LogOut,
   Box,
   BadgeCheck,
-  ShieldCheck,
   BadgeInfo,
   AlertTriangle
 } from "lucide-react"
