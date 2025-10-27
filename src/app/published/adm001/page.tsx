@@ -157,8 +157,33 @@ export default function Adm001Page() {
       {/* bottom-contents-pannel */}
       <div className="c-panel bottom-contents-pannel">
         <div className="bottom-contents-pannel__content">
+          <div className="flex items-center justify-end mb-2 gap-2" style={{ flex: 0 }}>
+            <div className="flex gap-1">
+              <Button
+                variant="outlined"
+                size="small"
+                color="secondary"
+              >
+                저장
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                color="secondary"
+              >
+                취소
+              </Button>
+              <Button
+                variant="outlined"
+                size="small"
+                color="secondary"
+              >
+                비밀번호 초기화
+              </Button>
+            </div>
+          </div>
           {/* 세로 꽉차는 테이블 샘플 */}
-          <div style={{ height: 'calc(100% - 0px)' }}>
+          <div style={{ height: 'calc(100% - 40px)' }}>
             {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
             {/* 기본 설정: 좌우 스크롤 활성화 */}
             <div className="grid grid-cols-1 h-full overflow-hidden">

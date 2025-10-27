@@ -23,7 +23,7 @@ export default function InterfaceLogPage() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
 
   // 폼 상태 변수들
-  const [jobType, setJobType] = useState('')
+  const [businessType, setBusinessType] = useState('')
 
   // 패널 크기 조절 상태
   const [leftPanelWidth, setLeftPanelWidth] = useState(234)
@@ -36,7 +36,7 @@ export default function InterfaceLogPage() {
   const [dragStartTopHeight, setDragStartTopHeight] = useState(0)
 
   // Select 옵션들
-  const jobTypeOptions = [
+  const businessTypeOptions = [
     { value: 'option1', label: '옵션1' },
     { value: 'option2', label: '옵션2' },
     { value: 'option3', label: '옵션3' }
@@ -144,12 +144,12 @@ export default function InterfaceLogPage() {
               <div className="flex items-center gap-4 flex-1">
                 <div className="flex items-center">
                   <label className="form-side-label text-left">
-                    부서명
+                    사업
                   </label>
                   <FormControl sx={{ width: '160px' }}>
                     <Select
-                      value={jobType}
-                      onChange={(e) => setJobType(e.target.value)}
+                      value={businessType}
+                      onChange={(e) => setBusinessType(e.target.value)}
                       displayEmpty
                       className="bg-white"
                       size="small"
@@ -157,7 +157,7 @@ export default function InterfaceLogPage() {
                       <MenuItem value="">
                         <span>선택</span>
                       </MenuItem>
-                      {jobTypeOptions.map((option) => (
+                      {businessTypeOptions.map((option) => (
                         <MenuItem
                           key={option.value}
                           value={option.value}

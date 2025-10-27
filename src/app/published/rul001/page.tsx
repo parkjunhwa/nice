@@ -4,7 +4,6 @@ import { useState } from 'react'
 import {
   RefreshCw,
   Search,
-  Search as SearchIcon,
   Download,
   Check,
   ClipboardPaste
@@ -31,11 +30,13 @@ export default function Rul001Page() {
 
   // 폼 상태 변수들
   const [businessType, setBusinessType] = useState('')
-  const [settlementCriteria, setSettlementCriteria] = useState('')
-  const [settlementInfo, setSettlementInfo] = useState('')
-  const [ruleStatus, setRuleStatus] = useState('')
+  const [businessUnit, setBusinessUnit] = useState('')
+  const [branch, setBranch] = useState('')
+  const [status, setStatus] = useState('')
   const [ruleName, setRuleName] = useState('')
   const [validPeriod, setValidPeriod] = useState<[Date | null, Date | null]>([null, null])
+  const [settlementCriteria, setSettlementCriteria] = useState('')
+  const [settlementInfo, setSettlementInfo] = useState('')
 
 
   // Select 옵션들
@@ -106,65 +107,55 @@ export default function Rul001Page() {
               </div>
               <div className="flex items-center">
                 <label className="form-side-label text-left">
-                  정산기준정보
+                  사업부
                 </label>
-                <div className="flex items-center gap-2">
-                  <TextField
-                    variant="outlined"
+                <FormControl sx={{ width: '120px' }}>
+                  <Select
+                    value={businessUnit}
+                    onChange={(e) => setBusinessUnit(e.target.value)}
+                    displayEmpty
+                    className="bg-white"
                     size="small"
-                    value={settlementCriteria}
-                    onChange={(e) => setSettlementCriteria(e.target.value)}
-                    sx={{ width: '120px' }}
-                    InputProps={{
-                      endAdornment: settlementCriteria && (
-                        <InputAdornment position="end">
-                          <IconButton
-                            size="small"
-                            onClick={() => setSettlementCriteria('')}
-                            sx={{
-                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                            }}
-                          >
-                            <Icons.XIcon size={14} />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    color="secondary"
-                    className="xsmallbtn3"
-                    startIcon={<SearchIcon size={16} />}
                   >
-                    <span style={{ display: "none" }}>+</span>
-                  </Button>
-                  <TextField
-                    variant="outlined"
+                    <MenuItem value="">
+                      <span>선택</span>
+                    </MenuItem>
+                    {departmentOptions.map((option) => (
+                      <MenuItem
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  지사
+                </label>
+                <FormControl sx={{ width: '120px' }}>
+                  <Select
+                    value={branch}
+                    onChange={(e) => setBranch(e.target.value)}
+                    displayEmpty
+                    className="bg-white"
                     size="small"
-                    value={settlementInfo}
-                    onChange={(e) => setSettlementInfo(e.target.value)}
-                    sx={{ width: '120px' }}
-                    disabled
-                    InputProps={{
-
-                      endAdornment: settlementInfo && (
-                        <InputAdornment position="end">
-                          <IconButton
-                            size="small"
-                            onClick={() => setSettlementInfo('')}
-                            sx={{
-                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                            }}
-                          >
-                            <Icons.XIcon size={14} />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </div>
+                  >
+                    <MenuItem value="">
+                      <span>선택</span>
+                    </MenuItem>
+                    {departmentOptions.map((option) => (
+                      <MenuItem
+                        key={option.value}
+                        value={option.value}
+                      >
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
               <div className="flex items-center">
                 <label className="form-side-label text-left">
@@ -172,8 +163,8 @@ export default function Rul001Page() {
                 </label>
                 <FormControl sx={{ width: '120px' }}>
                   <Select
-                    value={ruleStatus}
-                    onChange={(e) => setRuleStatus(e.target.value)}
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
                     displayEmpty
                     className="bg-white"
                     size="small"
@@ -218,6 +209,52 @@ export default function Rul001Page() {
                     )
                   }}
                 />
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  정산기준정보
+                </label>
+                <div className="flex items-center gap-2">
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={settlementCriteria}
+                    onChange={(e) => setSettlementCriteria(e.target.value)}
+                    sx={{ width: '120px' }}
+                    InputProps={{
+                      endAdornment: settlementCriteria && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            size="small"
+                            onClick={() => setSettlementCriteria('')}
+                            sx={{
+                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                            }}
+                          >
+                            <Icons.XIcon size={14} />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    color="secondary"
+                    className="xsmallbtn3"
+                    startIcon={<Search size={16} />}
+                  >
+                    <span style={{ display: "none" }}>+</span>
+                  </Button>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={settlementInfo}
+                    onChange={(e) => setSettlementInfo(e.target.value)}
+                    sx={{ width: '120px' }}
+                    disabled
+                  />
+                </div>
               </div>
               <div className="flex items-center">
                 <label className="form-side-label text-left">

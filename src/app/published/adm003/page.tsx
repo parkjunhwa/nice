@@ -14,7 +14,7 @@ import {
   Collapse,
   SampleTable,
   Breadcrumb,
-  DateRangePicker,
+  DatePicker,
   AccordionToggleButton
 } from '@/components'
 
@@ -24,8 +24,8 @@ export default function InterfaceLogPage() {
   // 폼 상태 변수들
   const [interfaceType, setInterfaceType] = useState('')
   const [interfaceId, setInterfaceId] = useState('')
+  const [dateValue, setDateValue] = useState<Date | null>(null)
   const [status, setStatus] = useState('')
-  const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
 
   // Select 옵션들
   const interfaceTypeOptions = [
@@ -69,7 +69,7 @@ export default function InterfaceLogPage() {
             <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
               <div className="flex items-center">
                 <label className="form-side-label text-left">
-                  인터페이스 타입
+                  Job Type
                 </label>
                 <FormControl sx={{ width: '160px' }}>
                   <Select
@@ -95,7 +95,7 @@ export default function InterfaceLogPage() {
               </div>
               <div className="flex items-center">
                 <label className="form-side-label text-left">
-                  인터페이스 ID
+                  Job ID
                 </label>
                 <TextField
                   variant="outlined"
@@ -110,12 +110,10 @@ export default function InterfaceLogPage() {
                 <label className="form-side-label text-left">
                   일시
                 </label>
-                <div>
-                  <DateRangePicker
-                    value={dateRangeValue}
-                    onChange={(newValue: [Date | null, Date | null]) => setDateRangeValue(newValue)}
-                    placeholder="날짜 범위를 선택하세요"
-                    size="small"
+                <div style={{ width: 160 }}>
+                  <DatePicker
+                    value={dateValue}
+                    onChange={(newValue: Date | null) => setDateValue(newValue)}
                   />
                 </div>
               </div>

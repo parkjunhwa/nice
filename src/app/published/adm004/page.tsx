@@ -63,7 +63,7 @@ export default function InterfaceLogDetailPage() {
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell component="th" scope="row" sx={{ width: 120, minWidth: 120, maxWidth: 120 }}><label className="form-side-label">게시 여부</label></TableCell>
+                    <TableCell component="th" scope="row" sx={{ width: 120, minWidth: 120, maxWidth: 120 }}><label className="form-side-label">Job Type</label></TableCell>
                     <TableCell>
                       INTERFACE
                     </TableCell>
