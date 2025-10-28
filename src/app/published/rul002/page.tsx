@@ -5,8 +5,8 @@ import {
   TextField, InputAdornment, IconButton, Icons, FormControl, Select, MenuItem, DateRangePicker,
   Checkbox, FormControlLabel, RadioGroup, Radio,
 } from '@/components'
-import { Search, Minus, GripVertical, HelpCircle } from 'lucide-react'
-import { Alert, Snackbar, Tooltip } from '@mui/material'
+import { Tooltip, Alert, Snackbar } from '@mui/material'
+import { Search, Minus, GripVertical, HelpCircle, CheckCircle, XCircle, AlertTriangle, Info } from 'lucide-react'
 // @ts-expect-error - DndProvider type definitions issue
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -4072,6 +4072,12 @@ export default function Rul002Page() {
           <Alert
             onClose={handleAlertClose}
             severity={alertState.severity}
+            icon={
+              alertState.severity === 'success' ? <CheckCircle size={20} /> :
+              alertState.severity === 'error' ? <XCircle size={20} /> :
+              alertState.severity === 'warning' ? <AlertTriangle size={20} /> :
+              <Info size={20} />
+            }
             sx={{
               width: '100%',
               '& .MuiAlert-message': {

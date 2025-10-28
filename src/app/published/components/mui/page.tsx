@@ -33,7 +33,7 @@ import {
   DateRangePicker
 } from '@/components'
 import { MuiBasicModal, MuiFormModal, MuiConfirmModal, MuiFullscreenModal } from '@/components'
-import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material'
+import { CheckCircle, XCircle, AlertTriangle, Info, ChevronDown } from 'lucide-react'
 
 
 const {
@@ -228,7 +228,7 @@ export default function MuiPage() {
       <div className="mb-0">
         <Accordion>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ChevronDown />}
             aria-controls="panel1-content"
             id="panel1-header"
           >
@@ -245,7 +245,7 @@ export default function MuiPage() {
 
         <Accordion>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ChevronDown />}
             aria-controls="panel2-content"
             id="panel2-header"
           >
@@ -1280,6 +1280,12 @@ export default function MuiPage() {
           <Alert
             onClose={() => setAlertOpen(false)}
             severity={alertSeverity}
+            icon={
+              alertSeverity === 'success' ? <CheckCircle size={20} /> :
+              alertSeverity === 'error' ? <XCircle size={20} /> :
+              alertSeverity === 'warning' ? <AlertTriangle size={20} /> :
+              <Info size={20} />
+            }
             sx={{ width: '100%' }}
           >
             {alertMessage}

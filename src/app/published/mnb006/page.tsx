@@ -10,7 +10,10 @@ import {
   Check,
   X,
   Search,
-  Pencil
+  Pencil,
+  XCircle,
+  AlertTriangle,
+  Info
 } from 'lucide-react'
 import {
   Button,
@@ -18,12 +21,6 @@ import {
   Breadcrumb,
   Snackbar,
   Alert,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
   TextField,
   InputAdornment,
   IconButton,
@@ -31,6 +28,7 @@ import {
   Radio,
   Switch
 } from '@/components'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
 
 export default function NoticeDetailPage() {
   const [alertOpen, setAlertOpen] = useState(false)
@@ -647,6 +645,12 @@ export default function NoticeDetailPage() {
         <Alert
           onClose={() => setAlertOpen(false)}
           severity={alertSeverity}
+          icon={
+            alertSeverity === 'success' ? <CheckCircle size={20} /> :
+            alertSeverity === 'error' ? <XCircle size={20} /> :
+            alertSeverity === 'warning' ? <AlertTriangle size={20} /> :
+            <Info size={20} />
+          }
           sx={{
             width: '100%',
             '& .MuiAlert-message': {

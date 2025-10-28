@@ -6,14 +6,9 @@ import {
 import {
   Button,
   Typography,
-  Breadcrumb,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow
+  Breadcrumb
 } from '@/components'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableRow } from '@mui/material'
 
 export default function InterfaceLogDetailPage() {
   return (

@@ -1,10 +1,9 @@
 "use client"
 
 import React, { useState, useCallback } from 'react'
-import { Button, Typography, Box } from '@mui/material'
 import { Play, Square, Clock, Loader2 } from 'lucide-react'
 import { useLoader } from '@/contexts/loader-context'
-import { Breadcrumb } from '@/components'
+import { Button, Typography, Box, Breadcrumb } from '@/components'
 
 export default function LoadingPage() {
   const { showLoader, hideLoader } = useLoader()

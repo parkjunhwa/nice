@@ -28,6 +28,7 @@ import {
   Icons
 } from '@/components'
 import { Alert, Snackbar } from '@mui/material'
+import { CheckCircle, XCircle, AlertTriangle, Info } from 'lucide-react'
 
 export default function ModalPage() {
   // 모달 상태 관리
@@ -452,6 +453,12 @@ export default function ModalPage() {
         <Alert
           onClose={() => setAlertOpen(false)}
           severity={alertSeverity}
+          icon={
+            alertSeverity === 'success' ? <CheckCircle size={20} /> :
+            alertSeverity === 'error' ? <XCircle size={20} /> :
+            alertSeverity === 'warning' ? <AlertTriangle size={20} /> :
+            <Info size={20} />
+          }
           sx={{
             width: '100%',
             '& .MuiAlert-message': {
