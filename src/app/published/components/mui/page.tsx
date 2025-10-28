@@ -22,7 +22,6 @@ import {
   Autocomplete,
   InputAdornment,
   ListItemText,
-  ButtonGroup,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -30,7 +29,8 @@ import {
   DatePicker,
   MonthPicker,
   DateTimePicker,
-  DateRangePicker
+  DateRangePicker,
+  DateFilterButtons
 } from '@/components'
 import { MuiBasicModal, MuiFormModal, MuiConfirmModal, MuiFullscreenModal } from '@/components'
 import { CheckCircle, XCircle, AlertTriangle, Info, ChevronDown } from 'lucide-react'
@@ -699,13 +699,7 @@ export default function MuiPage() {
             </div>
 
             <div className="flex flex-col">
-              <div className="flex items-center">
-                <ButtonGroup variant="outlined" color="secondary" size="small" className="bg-white">
-                  <Button>오늘</Button>
-                  <Button>최근 일주일</Button>
-                  <Button>이번달</Button>
-                </ButtonGroup>
-              </div>
+              <DateFilterButtons />
             </div>
           </div>
 
