@@ -22,13 +22,13 @@ export default function InterfaceLogPage() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
 
   // 폼 상태 변수들
-  const [interfaceType, setInterfaceType] = useState('')
-  const [interfaceId, setInterfaceId] = useState('')
-  const [dateValue, setDateValue] = useState<Date | null>(null)
+  const [jobType, setJobType] = useState('')
+  const [jobId, setJobId] = useState('')
+  const [startDate, setStartDate] = useState<Date | null>(null)
   const [status, setStatus] = useState('')
 
   // Select 옵션들
-  const interfaceTypeOptions = [
+  const jobTypeOptions = [
     { value: 'option1', label: '옵션1' },
     { value: 'option2', label: '옵션2' },
     { value: 'option3', label: '옵션3' }
@@ -73,8 +73,8 @@ export default function InterfaceLogPage() {
                 </label>
                 <FormControl sx={{ width: '160px' }}>
                   <Select
-                    value={interfaceType}
-                    onChange={(e) => setInterfaceType(e.target.value)}
+                    value={jobType}
+                    onChange={(e) => setJobType(e.target.value)}
                     displayEmpty
                     className="bg-white"
                     size="small"
@@ -82,7 +82,7 @@ export default function InterfaceLogPage() {
                     <MenuItem value="">
                       <span>선택</span>
                     </MenuItem>
-                    {interfaceTypeOptions.map((option) => (
+                    {jobTypeOptions.map((option) => (
                       <MenuItem
                         key={option.value}
                         value={option.value}
@@ -100,20 +100,20 @@ export default function InterfaceLogPage() {
                 <TextField
                   variant="outlined"
                   size="small"
-                  value={interfaceId}
-                  onChange={(e) => setInterfaceId(e.target.value)}
+                  value={jobId}
+                  onChange={(e) => setJobId(e.target.value)}
                   sx={{ width: '160px' }}
-                  placeholder="인터페이스 ID 입력"
+                  placeholder="Job ID 입력"
                 />
               </div>
               <div className="flex items-center">
                 <label className="form-side-label text-left">
-                  일시
+                  시작일자
                 </label>
                 <div style={{ width: 160 }}>
                   <DatePicker
-                    value={dateValue}
-                    onChange={(newValue: Date | null) => setDateValue(newValue)}
+                    value={startDate}
+                    onChange={(newValue: Date | null) => setStartDate(newValue)}
                   />
                 </div>
               </div>

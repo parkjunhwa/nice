@@ -25,13 +25,13 @@ export default function Adm001Page() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
 
   // 폼 상태 변수들
-  const [departmentName, setDepartmentName] = useState('')
+  const [business, setBusiness] = useState('')
   const [userId, setUserId] = useState('')
   const [userName, setUserName] = useState('')
   const [useStatus, setUseStatus] = useState(false)
 
   // Select 옵션들
-  const departmentOptions = [
+  const businessOptions = [
     { value: 'option1', label: '옵션1' },
     { value: 'option2', label: '옵션2' },
     { value: 'option3', label: '옵션3' }
@@ -68,12 +68,12 @@ export default function Adm001Page() {
             <div className="flex flex-wrap gap-x-4 gap-y-1 items-center">
               <div className="flex items-center">
                 <label className="form-side-label text-left">
-                  부서명
+                  사업
                 </label>
                 <FormControl sx={{ width: '160px' }}>
                   <Select
-                    value={departmentName}
-                    onChange={(e) => setDepartmentName(e.target.value)}
+                    value={business}
+                    onChange={(e) => setBusiness(e.target.value)}
                     displayEmpty
                     className="bg-white"
                     size="small"
@@ -81,7 +81,7 @@ export default function Adm001Page() {
                     <MenuItem value="">
                       <span>선택</span>
                     </MenuItem>
-                    {departmentOptions.map((option) => (
+                    {businessOptions.map((option) => (
                       <MenuItem
                         key={option.value}
                         value={option.value}

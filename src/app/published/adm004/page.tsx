@@ -21,14 +21,14 @@ export default function InterfaceLogDetailPage() {
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">I/F로그 상세</h1>
+          <h1 className="text-2xl font-bold text-gray-900">I/F로그 관라</h1>
         </div>
         <div>
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
               { label: 'ADMIN', href: '/' },
-              { label: 'I/F로그 상세', active: true }
+              { label: 'I/F로그 관리', active: true }
             ]}
           />
         </div>
@@ -38,7 +38,7 @@ export default function InterfaceLogDetailPage() {
         <div className="bottom-contents-pannel__content mb-14" style={{ overflowY: 'auto', maxHeight: '100%' }}>
           <div className="flex items-center justify-between mb-2">
             <Typography variant="subtitle1" className="font-semibold text-gray-900">
-              기본 정보
+              I/F로그 관리
             </Typography>
           </div>
           <div className="flex items-center mb-2">
