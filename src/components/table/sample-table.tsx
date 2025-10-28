@@ -140,7 +140,7 @@ export default function SampleTable({
 
     const allColumns = [
       {
-        title: `<input type="checkbox" aria-label="Select All" class="select-all-checkbox" ${isAllSelected ? 'checked' : ''} style="height: 18px; width: 18px;">`,
+        title: `<input type="checkbox" aria-label="Select All" class="select-all-checkbox" ${isAllSelected ? 'checked' : ''}>`,
         field: 'select',
         width: 50,
         headerSort: false,
