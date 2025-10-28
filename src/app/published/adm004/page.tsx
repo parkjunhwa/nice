@@ -38,7 +38,7 @@ export default function InterfaceLogDetailPage() {
         <div className="bottom-contents-pannel__content mb-14" style={{ overflowY: 'auto', maxHeight: '100%' }}>
           <div className="flex items-center justify-between mb-2">
             <Typography variant="subtitle1" className="font-semibold text-gray-900">
-              I/F로그 관리
+              기본 정보
             </Typography>
           </div>
           <div className="flex items-center mb-2">
