@@ -3364,6 +3364,41 @@ export default function Rul002Page() {
     setAccordionItems(prev => prev.filter(item => item.id !== id))
   }, [])
 
+  // 아코디언 리스트 메모이제이션 (useMemo로 최적화)
+  const memoizedAccordions = useMemo(() => accordionItems.map((item) => {
+    switch (item.type) {
+      case 'fixed_regular':
+        return (
+          <FixedRegularAccordion
+            key={item.id}
+            item={item}
+            onRemove={removeAccordionItem}
+            pageMode={pageMode}
+          />
+        )
+      case 'fixed_irregular':
+        return (
+          <FixedIrregularAccordion
+            key={item.id}
+            item={item}
+            onRemove={removeAccordionItem}
+            pageMode={pageMode}
+          />
+        )
+      case 'settlement':
+        return (
+          <SettlementAccordion
+            key={item.id}
+            item={item}
+            onRemove={removeAccordionItem}
+            pageMode={pageMode}
+          />
+        )
+      default:
+        return null
+    }
+  }), [accordionItems, pageMode, removeAccordionItem])
+
   // 알림 표시 함수 (최적화된 버전)
   const showAlert = useCallback((message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
     updateAlertState({ open: true, message, severity })
@@ -3892,45 +3927,62 @@ export default function Rul002Page() {
                   </div>
                 </div>
 
-                {/* 수식 탭 시작 */}
-                {activeTab === '수식' && (
-                  <>
-                    <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
-                      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8, justifyContent: 'flex-start' }}>
-                        <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
-                          수식리스트
-                        </Typography>
-                        <Tooltip
-                          title={
-                            <div style={{ maxWidth: 600 }}>
-                              <span style={{ marginRight: 4, color: '#adb5bd' }}>∙</span>고정/정기 : 입력한 금액으로 정기적 매입/매출을 자동생성합니다.<br />
-                              <span style={{ marginRight: 4, color: '#adb5bd' }}>∙</span>고정/비정기 : 입력한 금액으로 지정한 일자에 매입/매출을 자동생성합니다.<br />
-                              <span style={{ marginRight: 4, color: '#adb5bd' }}>∙</span>정산 : 매출집계(월) 데이터에 입력된 계산규칙으로 정산합니다.
-                            </div>
-                          }
-                          arrow
-                        >
-                          <HelpCircle
-                            size={16}
-                            style={{ color: '#6b7280', marginBottom: '0px' }} // gray-500
-                            className="flex items-center justify-center"
-                          />
-                        </Tooltip>
-                      </div>
-                      {pageMode === 'edit' && (
-                        <div className="flex gap-1">
-                          <FormControl sx={{ width: '120px' }}>
+                {/* 수식 탭 시작 - 탭 렌더링 최적화 (flex 구조 사용) */}
+                <div style={{ display: activeTab === '수식' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+                  <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: '0 0 auto' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8, justifyContent: 'flex-start' }}>
+                      <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
+                        수식리스트
+                      </Typography>
+                      <Tooltip
+                        title={
+                          <div style={{ maxWidth: 600 }}>
+                            <span style={{ marginRight: 4, color: '#adb5bd' }}>∙</span>고정/정기 : 입력한 금액으로 정기적 매입/매출을 자동생성합니다.<br />
+                            <span style={{ marginRight: 4, color: '#adb5bd' }}>∙</span>고정/비정기 : 입력한 금액으로 지정한 일자에 매입/매출을 자동생성합니다.<br />
+                            <span style={{ marginRight: 4, color: '#adb5bd' }}>∙</span>정산 : 매출집계(월) 데이터에 입력된 계산규칙으로 정산합니다.
+                          </div>
+                        }
+                        arrow
+                      >
+                        <HelpCircle
+                          size={16}
+                          style={{ color: '#6b7280', marginBottom: '0px' }} // gray-500
+                          className="flex items-center justify-center"
+                        />
+                      </Tooltip>
+                    </div>
+                    {pageMode === 'edit' && (
+                      <div className="flex gap-1">
+                        <FormControl sx={{ width: '120px' }}>
+                          <Select
+                            value={formState.itemType}
+                            onChange={handleSelectChange('itemType')}
+                            displayEmpty
+                            className="bg-white"
+                            size="small"
+                          >
+                            <MenuItem value="">
+                              <span>선택</span>
+                            </MenuItem>
+                            {itemTypeOptions.map((option) => (
+                              <MenuItem
+                                key={option.value}
+                                value={option.value}
+                              >
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        {formState.itemType === 'settlement' && (
+                          <FormControl sx={{ width: '100px' }}>
                             <Select
-                              value={formState.itemType}
-                              onChange={handleSelectChange('itemType')}
-                              displayEmpty
+                              value={currentFormulaType}
+                              onChange={(e) => setCurrentFormulaType(e.target.value as FormulaType)}
                               className="bg-white"
                               size="small"
                             >
-                              <MenuItem value="">
-                                <span>선택</span>
-                              </MenuItem>
-                              {itemTypeOptions.map((option) => (
+                              {formulaTypeOptions.map((option) => (
                                 <MenuItem
                                   key={option.value}
                                   value={option.value}
@@ -3940,114 +3992,61 @@ export default function Rul002Page() {
                               ))}
                             </Select>
                           </FormControl>
-                          {formState.itemType === 'settlement' && (
-                            <FormControl sx={{ width: '100px' }}>
-                              <Select
-                                value={currentFormulaType}
-                                onChange={(e) => setCurrentFormulaType(e.target.value as FormulaType)}
-                                className="bg-white"
-                                size="small"
-                              >
-                                {formulaTypeOptions.map((option) => (
-                                  <MenuItem
-                                    key={option.value}
-                                    value={option.value}
-                                  >
-                                    {option.label}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </FormControl>
-                          )}
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            size="small"
-                            onClick={() => {
-                              if (formState.itemType) {
-                                addAccordionItem(formState.itemType as 'fixed_regular' | 'fixed_irregular' | 'settlement')
-                                updateFormField('itemType', '') // 선택 초기화
-                              }
-                            }}
-                            disabled={!formState.itemType}
-                          >
-                            수식추가
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                    {/* 세로 꽉차는 영역 */}
-                    <div style={{ height: 'calc(100% - 96px)' }}>
-                      {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
-                      {/* 기본 설정: 좌우 스크롤 활성화 */}
-                      <div className="h-full overflow-y-auto">
-                        {/* 동적 아코디언 리스트 */}
-                        <div className="mb-0">
-                          {accordionItems.map((item) => {
-                            switch (item.type) {
-                              case 'fixed_regular':
-                                return (
-                                  <FixedRegularAccordion
-                                    key={item.id}
-                                    item={item}
-                                    onRemove={removeAccordionItem}
-                                    pageMode={pageMode}
-                                  />
-                                )
-                              case 'fixed_irregular':
-                                return (
-                                  <FixedIrregularAccordion
-                                    key={item.id}
-                                    item={item}
-                                    onRemove={removeAccordionItem}
-                                    pageMode={pageMode}
-                                  />
-                                )
-                              case 'settlement':
-                                return (
-                                  <SettlementAccordion
-                                    key={item.id}
-                                    item={item}
-                                    onRemove={removeAccordionItem}
-                                    pageMode={pageMode}
-                                  />
-                                )
-                              default:
-                                return null
+                        )}
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          size="small"
+                          onClick={() => {
+                            if (formState.itemType) {
+                              addAccordionItem(formState.itemType as 'fixed_regular' | 'fixed_irregular' | 'settlement')
+                              updateFormField('itemType', '') // 선택 초기화
                             }
-                          })}
-                          {accordionItems.length === 0 && (
-                            <div className="text-center text-gray-500 py-8">
-                              수식을 추가해주세요.
-                            </div>
-                          )}
-                        </div>
+                          }}
+                          disabled={!formState.itemType}
+                        >
+                          수식추가
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                  {/* 세로 꽉차는 영역 */}
+                  <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+                    {/* 상단에 뭔가 들어가면 높이만큼 빼줘야 */}
+                    {/* 기본 설정: 좌우 스크롤 활성화 */}
+                    <div className="h-full overflow-y-auto">
+                      {/* 동적 아코디언 리스트 - useMemo로 최적화 */}
+                      <div className="mb-0">
+                        {memoizedAccordions}
+                        {accordionItems.length === 0 && (
+                          <div className="text-center text-gray-500 py-8">
+                            수식을 추가해주세요.
+                          </div>
+                        )}
                       </div>
                     </div>
-                  </>
-                )}
+                  </div>
+                </div>
 
-                {/* 변경이력 탭 시작 */}
-                {activeTab === '변경이력' && (
-                  <>
-                    <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0, minHeight: '32px' }}>
-                      <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
-                        변경이력
-                      </Typography>
-                      <div className="flex gap-1">
-                        {/* 변경이력 탭 버튼들을 여기에 추가하세요 */}
-                      </div>
+                {/* 변경이력 탭 시작 - 탭 렌더링 최적화 (flex 구조 사용) */}
+                <div style={{ display: activeTab === '변경이력' ? 'flex' : 'none', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+                  <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: '0 0 auto', minHeight: '32px' }}>
+                    <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
+                      변경이력
+                    </Typography>
+                    <div className="flex gap-1">
+                      {/* 변경이력 탭 버튼들을 여기에 추가하세요 */}
                     </div>
-                    <div style={{ height: 'calc(100% - 96px)' }}>
-                      <div className="grid grid-cols-1 h-full overflow-hidden">
-                        <SampleTable
-                          showPagination={true}
-                          pageSize={20}
-                        />
-                      </div>
+                  </div>
+                  <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+                    <div className="grid grid-cols-1 h-full overflow-hidden">
+                      <SampleTable
+                        showPagination={true}
+                        pageSize={20}
+                      />
                     </div>
-                  </>
-                )}
+                  </div>
+                </div>
 
               </div>
             </div>
