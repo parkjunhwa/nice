@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { Button, ButtonGroup } from '@/components'
 
 export function DateFilterButtons() {
-  const [selectedDateFilter, setSelectedDateFilter] = useState<string>('오늘')
-  const dateFilterOptions = ['오늘', '최근 일주일', '이번달']
+  const [selectedDateFilter, setSelectedDateFilter] = useState<string>('전일')
+  const dateFilterOptions = ['전일', '최근 일주일', '이번달']
 
   return (
     <div className="flex items-center">
