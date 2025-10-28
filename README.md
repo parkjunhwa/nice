@@ -5,16 +5,17 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 ## 🚀 주요 기능
 
 - **Published Pages 구조**: 관리 페이지(ADM001-005), 메뉴 페이지(MNB005-006) 등 다양한 기능별 페이지
-- **MUI 통합**: Material-UI 컴포넌트를 체계적으로 분류하여 제공
+- **MUI 통합**: Material-UI 컴포넌트를 실제 사용되는 것만 선별하여 제공 (80개 이상 불필요한 export 제거)
 - **날짜/시간 선택기**: MUI X Date Pickers를 활용한 고급 날짜/시간 선택 기능
 - **모달 시스템**: 다양한 모달 컴포넌트 (기본, 확인, 폼, 전체화면, 프로젝트 모달)
-- **테이블 컴포넌트**: SampleTable 기반의 데이터 테이블
+- **테이블 컴포넌트**: Tabulator 기반 SampleTable, 컬럼 정렬/팝업 버튼 커스터마이징 지원
 - **전역 로더 시스템**: Context API 기반 전역 로더 상태 관리
+- **사이드바 시스템**: 접힘/펼침 네비게이션, 하위 메뉴 active 상태 스타일링 (gray-100/gray-900)
 - **에러 페이지**: 401, 404 전용 에러 페이지 (Next.js 자동 404 처리 포함)
 - **반응형 디자인**: 모바일, 태블릿, 데스크톱 모든 디바이스 지원
 - **TypeScript**: 타입 안전성을 보장하는 TypeScript 지원
 - **컴포넌트 기반**: 재사용 가능한 컴포넌트 구조
-- **SCSS 스타일링**: 토큰 기반 디자인 시스템과 SCSS 컴포넌트 클래스
+- **SCSS 스타일링**: 토큰 기반 디자인 시스템과 SCSS 컴포넌트 클래스 (c-panel 통일)
 - **Lucide React 아이콘**: 200+ 아이콘을 카테고리별로 체계화
 - **React 19 호환**: 최신 React 버전과 완전 호환
 - **동적 아코디언 시스템**: 정산규칙 페이지의 고정/정기, 고정/비정기, 정산 아코디언을 동적으로 추가/삭제
@@ -202,8 +203,14 @@ npm run dev
 - **Lucide React v0.536.0**: 200+ 아이콘 라이브러리
 
 ### Data Tables
-- **SampleTable**: 기본 테이블 컴포넌트
+- **SampleTable**: 기본 테이블 컴포넌트 (Tabulator.js 기반)
 - **Tabulator.js v6.3.1**: 고급 테이블 라이브러리
+
+**테이블 주요 기능:**
+- 컬럼 정렬 설정: `headerSort`, `headerHozAlign` (left/center/right)
+- 헤더 컬럼 정렬별 padding 처리 (왼쪽: 9px, 중앙: 0px)
+- 전체선택 체크박스 컬럼: padding 제거하여 중앙 정렬
+- 팝업 버튼: 컬럼별 개별 활성화/비활성화 가능
 
 ### Modal Components
 - **기본 모달**: BasicModal, ConfirmModal
@@ -254,7 +261,13 @@ MUI X Date Pickers를 활용한 날짜/시간 선택 컴포넌트들입니다.
 ```
 
 ### MUI 컴포넌트 통합
-Material-UI 컴포넌트들을 카테고리별로 분류하여 제공합니다.
+Material-UI 컴포넌트들을 실제 사용되는 것만 선별하여 export합니다.
+
+**사용 가능한 MUI 컴포넌트:**
+- **Layout**: Box, Typography, Accordion, AccordionSummary, AccordionDetails
+- **Forms**: TextField, Button, ButtonGroup, Checkbox, FormControl, FormControlLabel, Radio, RadioGroup, Select, MenuItem, Slider, Switch, Autocomplete, InputAdornment, IconButton
+- **Data Display**: Chip, ListItemText
+- **Feedback**: Alert, Snackbar, Tooltip, Collapse
 
 ```tsx
 import { 
@@ -275,6 +288,11 @@ import {
 <Icons.SearchIcon size={24} />
 <Icons.CalendarIcon size={20} />
 ```
+
+**최적화 내역:**
+- 사용되지 않는 80개 이상의 MUI export 제거 (123줄 → 40줄)
+- 실제 사용하는 컴포넌트만 유지하여 번들 크기 최적화
+- 필요한 컴포넌트는 `@mui/material`에서 직접 import 가능
 
 ### 모달 컴포넌트 시스템
 다양한 모달 컴포넌트를 제공합니다.
@@ -532,6 +550,38 @@ export function NewComponent({ title, value, className }: NewComponentProps) {
 - **사용자 경험**: 즉각적인 반응으로 반응성 향상
 - **배터리 절약**: 모바일 기기에서 CPU 사용량 감소
 
+### MUI Export 정리
+사용되지 않는 MUI 컴포넌트 export를 제거하여 번들 크기와 유지보수성을 개선했습니다.
+
+**최적화 내용:**
+- **export 정리**: 123줄에서 40줄로 축소 (80개 이상 제거)
+- **실제 사용 컴포넌트만 유지**: Layout, Forms, Data Display, Feedback 범주에서 실제 사용되는 것만 export
+- **불필요한 의존성 제거**: AppBar, Drawer, Stepper, Tabs, Grid, Card, Table, Dialog, Popover 등 미사용 컴포넌트 제거
+
+**최적화 효과:**
+- **번들 크기 감소**: 불필요한 컴포넌트 import 방지
+- **빌드 속도 향상**: 타입 체크 및 번들링 시간 단축
+- **유지보수성**: 실제 사용하는 컴포넌트만 관리하여 가독성 향상
+
+### Card → c-panel 통일
+페이지별로 혼재되어 있던 Card/CardContent를 c-panel로 통일하여 디자인 일관성 확보.
+
+**변경된 페이지:**
+- con002, rul002, adm002, adm005, components/loading
+
+**변경 효과:**
+- **일관된 디자인**: 모든 페이지에서 동일한 스타일 적용
+- **SCSS 기반 스타일링**: 통일된 컴포넌트 클래스 사용
+- **유지보수성**: 스타일 변경 시 한 곳만 수정하면 전체 적용
+
+### 테이블 스타일 최적화
+Tabulator 테이블의 헤더 스타일, 정렬, padding을 세밀하게 조정.
+
+**개선 내용:**
+- **헤더 정렬별 padding**: 왼쪽 정렬(9px), 중앙 정렬(0px)
+- **전체선택 체크박스**: padding 제거로 중앙 정렬 향상
+- **팝업 버튼**: 컬럼별 활성화/비활성화 가능, 왼쪽 고정 배치
+
 ### 컴포넌트 분할 및 코드 스플리팅
 큰 컴포넌트를 모듈화하여 번들 크기를 줄이고 유지보수성을 향상시켰습니다.
 
@@ -592,6 +642,6 @@ MIT License
 ---
 
 **작성자**  
-디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025.10.23)  
+디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025.10.28)  
 010-9479-3188  
 junhwa.park@gmail.com
