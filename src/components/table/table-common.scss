@@ -387,7 +387,7 @@
 .tabulator .tabulator-header .tabulator-col .tabulator-col-title-holder:has(input[type="checkbox"][aria-label="Select All"]) {
   padding-left: 0 !important;
   padding-right: 0 !important;
-  margin: -1px auto 0 !important;
+  margin-top: -1px !important;
 }
 
 // Tabulator 기본 체크박스 스타일
@@ -397,6 +397,7 @@
   height: 18px !important;
   width: 18px !important;
   line-height: 1 !important;
+  margin:0 auto !important;
   padding: 0 !important;
   display: block !important;
 }
