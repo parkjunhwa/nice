@@ -37,7 +37,7 @@ export default function SampleTable({
   const [totalPages, setTotalPages] = useState(1)
   const [totalRecords, setTotalRecords] = useState(0)
   const [isAllSelected, setIsAllSelected] = useState(false)
-  
+
   // Lucide 아이콘 렌더링 함수
   const renderLucideIcon = (iconName: string) => {
     const iconMap: Record<string, string> = {
@@ -48,11 +48,11 @@ export default function SampleTable({
   }
 
   // 헤더 메뉴 정의 (컬럼 표시/숨김 토글)
-  const headerMenu = useCallback(function(this: { getColumns: () => Array<{ isVisible: () => boolean; toggle: () => void; getDefinition: () => { title: string } }> }) {
+  const headerMenu = useCallback(function (this: { getColumns: () => Array<{ isVisible: () => boolean; toggle: () => void; getDefinition: () => { title: string } }> }) {
     const menu: Array<{ label: HTMLElement; action: (e: Event) => void }> = [];
     const columns = this.getColumns();
 
-    for(const column of columns){
+    for (const column of columns) {
       // create checkbox element using lucide icons
       const icon = document.createElement("span");
       icon.innerHTML = column.isVisible() ? renderLucideIcon('check-square') : renderLucideIcon('square');
@@ -70,7 +70,7 @@ export default function SampleTable({
       // create menu item
       menu.push({
         label: label,
-        action: function(e: Event) {
+        action: function (e: Event) {
           // prevent menu closing
           e.stopPropagation();
 
@@ -78,7 +78,7 @@ export default function SampleTable({
           column.toggle();
 
           // change menu item icon
-          if(column.isVisible()){
+          if (column.isVisible()) {
             icon.innerHTML = renderLucideIcon('check-square');
           } else {
             icon.innerHTML = renderLucideIcon('square');
@@ -89,7 +89,7 @@ export default function SampleTable({
 
     return menu;
   }, []);
-  
+
 
   // 데이터 (커스텀 데이터가 있으면 사용, 없으면 샘플 데이터)
   const tableData = useMemo(() => {
@@ -99,7 +99,7 @@ export default function SampleTable({
     const names = ['김철수', '이영희', '박민수', '최지영', '정현우', '한소영', '윤태호', '강미래', '임동현', '서유진']
     const statuses = ['활성', '비활성', '대기', '완료', '진행중']
     const categories = ['개발', '디자인', '마케팅', '영업', '관리', '고객지원', '품질관리', '운영']
-    
+
     for (let i = 1; i <= 50; i++) {
       const randomDate = new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1)
       data.push({
@@ -146,15 +146,15 @@ export default function SampleTable({
         headerSort: false,
         formatter: 'rowSelection',
         headerClick: handleSelectAll,
-        hozAlign: 'center'
+        hozAlign: 'center',
       },
       { title: 'ID', field: 'id', width: 100, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '헤더1', field: 'header1', width: 150, headerSort: true, headerSortTristate: true, editor: 'input' as const, headerMenu: headerMenu },
-      { title: '헤더2', field: 'header2', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '헤더2', field: 'header2', width: 150, headerSort: true, headerSortTristate: true },
       { title: '헤더3', field: 'header3', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '상태', field: 'header4', width: 120, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '날짜', field: 'header5', width: 180, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
-      { title: '사용자', field: 'header6', width: 140, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { title: '사용자', field: 'header6', width: 140, headerSort: false, headerMenu: headerMenu, headerHozAlign: 'center' },
       { title: '카테고리', field: 'header7', width: 160, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '추가컬럼1', field: 'header8', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '추가컬럼2', field: 'header9', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
@@ -316,8 +316,8 @@ export default function SampleTable({
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
               className={`px-2 py-1 rounded text-sm flex items-center gap-1 transition-colors ${currentPage === 1
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 cursor-pointer'
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'bg-white text-gray-700 hover:bg-gray-50 cursor-pointer'
                 }`}
             >
               <ChevronLeft size={16} />
@@ -342,8 +342,8 @@ export default function SampleTable({
                     key={pageNum}
                     onClick={() => handlePageChange(pageNum)}
                     className={`w-8 h-8 rounded-full text-sm transition-colors ${currentPage === pageNum
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-white text-gray-700 hover:bg-gray-50 cursor-pointer border border-gray-300'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 cursor-pointer border border-gray-300'
                       }`}
                   >
                     {pageNum}
@@ -356,8 +356,8 @@ export default function SampleTable({
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
               className={`px-2 py-1 rounded text-sm flex items-center gap-1 transition-colors ${currentPage === totalPages
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'bg-white text-gray-700 hover:bg-gray-50 cursor-pointer'
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'bg-white text-gray-700 hover:bg-gray-50 cursor-pointer'
                 }`}
             >
               다음

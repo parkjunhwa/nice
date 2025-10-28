@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useCallback } from 'react'
-import { Button, Typography, Box, Card, CardContent } from '@mui/material'
+import { Button, Typography, Box } from '@mui/material'
 import { Play, Square, Clock, Loader2 } from 'lucide-react'
 import { useLoader } from '@/contexts/loader-context'
 import { Breadcrumb } from '@/components'
@@ -83,8 +83,8 @@ export default function LoadingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* 로더 제어 버튼들 */}
             <div>
-              <Card>
-                <CardContent>
+              <div className="c-panel bottom-contents-pannel">
+                <div className="bottom-contents-pannel__content flex flex-col">
                   <Typography variant="h6" className="mb-4">
                     로더 제어
                   </Typography>
@@ -122,14 +122,14 @@ export default function LoadingPage() {
                       로더 중지
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
 
             {/* 로더 상태 정보 */}
             <div>
-              <Card>
-                <CardContent>
+              <div className="c-panel bottom-contents-pannel">
+                <div className="bottom-contents-pannel__content flex flex-col">
                   <Typography variant="h6" className="mb-4">
                     로더 상태
                   </Typography>
@@ -154,15 +154,15 @@ export default function LoadingPage() {
                       </Box>
                     )}
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* 로딩 중 컴포넌트 예시 */}
           <div className="mt-6">
-            <Card>
-              <CardContent>
+            <div className="c-panel bottom-contents-pannel">
+              <div className="bottom-contents-pannel__content flex flex-col">
                 <Typography variant="h6" className="mb-4">
                   로딩 중 컴포넌트 예시
                 </Typography>
@@ -218,14 +218,14 @@ export default function LoadingPage() {
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
 
           {/* 사용법 가이드 */}
           <div className="mt-6">
-            <Card>
-              <CardContent>
+            <div className="c-panel bottom-contents-pannel">
+              <div className="bottom-contents-pannel__content flex flex-col">
                 <Typography variant="h6" className="mb-4">
                   사용법 가이드
                 </Typography>
@@ -262,8 +262,8 @@ hideLoader()`}
                     </ul>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -477,6 +477,41 @@ export default function MuiPage() {
               />
             </div>
 
+            {/* Autocomplete텍스트필드형*/}
+            <div className="flex flex-col">
+              <label className="form-top-label">Autocomplete 화살표 없이</label>
+              <Autocomplete
+                size="small"
+                options={autocompleteOptions}
+                value={autocompleteValue}
+                onChange={(event, newValue) => {
+                  setAutocompleteValue(newValue)
+                }}
+                getOptionLabel={(option) => option.label}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    {...commonInputProps}
+                    placeholder="도시를 선택하세요"
+                  />
+                )}
+                sx={{
+                  '& .MuiAutocomplete-listbox': {
+                    fontSize: '13px'
+                  },
+                  '& .MuiAutocomplete-option': {
+                    fontSize: '13px'
+                  },
+                  // 접힘/펼침 화살표 감춤
+                  '& .MuiAutocomplete-endAdornment': {
+                    display: 'none'
+                  }
+                }}
+                popupIcon={null}
+                clearIcon={null}
+              />
+            </div>
+
             {/* Select */}
             <div className="flex flex-col">
               <label className="form-top-label">Select</label>

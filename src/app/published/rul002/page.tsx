@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useCallback, memo, useMemo, useReducer } from 'react'
 import {
-  Button, Typography, Breadcrumb, Card, CardContent, Accordion, AccordionSummary, AccordionDetails,
+  Button, Typography, Breadcrumb, Accordion, AccordionSummary, AccordionDetails,
   TextField, InputAdornment, IconButton, Icons, FormControl, Select, MenuItem, DateRangePicker,
   Checkbox, FormControlLabel, RadioGroup, Radio,
 } from '@/components'
@@ -3327,7 +3327,7 @@ export default function Rul002Page() {
   // 아코디언 추가 함수 (최적화된 버전)
   const addAccordionItem = useCallback((type: 'fixed_regular' | 'fixed_irregular' | 'settlement') => {
     const targetFormulaType = type === 'settlement' ? currentFormulaType : 'normal'
-    
+
     setAccordionItems(prev => {
       // settlement 타입의 일반, 주차(직영), 주차(위탁) 카드는 한 번만 추가 가능
       // fixed_regular, fixed_irregular는 여러 개 추가 가능
@@ -3340,7 +3340,7 @@ export default function Rul002Page() {
             if (targetFormulaType === 'normal') typeName = '일반'
             else if (targetFormulaType === 'park_a') typeName = '주차(직영)'
             else if (targetFormulaType === 'park_b') typeName = '주차(위탁)'
-            
+
             updateAlertState({ open: true, message: `${typeName} 카드는 이미 추가되어 있습니다.`, severity: 'warning' })
             return prev
           }
@@ -3457,8 +3457,8 @@ export default function Rul002Page() {
         >
           {/* 왼쪽 카드 (폭 고정) */}
           <div style={{ width: leftPanelWidth, maxWidth: leftPanelWidth }} className="flex-shrink-0">
-            <Card className="h-full">
-              <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+            <div className="c-panel bottom-contents-pannel h-full">
+              <div className="bottom-contents-pannel__content h-full flex flex-col">
                 <div className="flex items-center justify-between mb-4 gap-2" style={{ flex: 0 }}>
                   <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
                     기본정보
@@ -3864,14 +3864,14 @@ export default function Rul002Page() {
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
 
           {/* 오른쪽 카드 (폭 가변 flex:1) */}
           <div className="flex-1">
-            <Card className="h-full">
-              <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+            <div className="c-panel bottom-contents-pannel h-full">
+              <div className="bottom-contents-pannel__content h-full flex flex-col">
                 <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
                   <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8, justifyContent: 'flex-start' }}>
                     <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
@@ -4001,14 +4001,14 @@ export default function Rul002Page() {
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* bottom-button-pannel */}
-        <Card className="mt-2">
-          <CardContent style={{ padding: 16 }}>
+        <div className="c-panel mt-2">
+          <div className="bottom-contents-pannel__content">
             <div className="flex items-center justify-between">
               <div className="flex gap-2">
                 {pageMode === 'view' && (
@@ -4051,8 +4051,8 @@ export default function Rul002Page() {
                 )}
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* MUI Alert Snackbar */}
         <Snackbar

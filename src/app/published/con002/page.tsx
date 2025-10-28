@@ -13,8 +13,6 @@ import {
   Button,
   Typography,
   Breadcrumb,
-  Card,
-  CardContent,
   TextField,
   InputAdornment,
   IconButton,
@@ -320,8 +318,8 @@ export default function Con002Page() {
       >
         {/* 왼쪽 카드 1 (폭 고정) */}
         <div style={{ width: leftPanelWidth, maxWidth: leftPanelWidth }} className="flex-shrink-0">
-          <Card className="h-full">
-            <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+          <div className="c-panel bottom-contents-pannel h-full">
+            <div className="bottom-contents-pannel__content h-full flex flex-col">
               <div className="flex items-center justify-between mb-4 gap-2" style={{ flex: 0 }}>
                 <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
                   기본정보
@@ -809,14 +807,15 @@ export default function Con002Page() {
                   </div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* 오른쪽 카드 (폭 가변 flex:1) */}
         <div className="flex-1">
-          <Card className="h-full">
-            <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+
+          <div className="c-panel bottom-contents-pannel h-full">
+            <div className="bottom-contents-pannel__content h-full flex flex-col">
 
               {/* 탭 영역 */}
               <div className="mb-4">
@@ -847,14 +846,15 @@ export default function Con002Page() {
                   {renderTabContent()}
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* bottom-button-pannel */}
-      <Card className="mt-2">
-        <CardContent style={{ padding: 16 }}>
+
+      <div className="c-panel mt-2">
+        <div className="bottom-contents-pannel__content">
           <div className="flex items-center justify-between">
             <div className="flex gap-2">
               <Button variant="contained" color="error">
@@ -879,8 +879,8 @@ export default function Con002Page() {
               </Button>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 } 

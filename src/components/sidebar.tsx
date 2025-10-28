@@ -333,7 +333,9 @@ function MenuItem({
       data-popover-anchor={item.title}
       className={cn(
         "flex items-center text-sm font-medium rounded-md transition-all duration-100 group relative cursor-pointer",
-        isActive || isChildActive ? "bg-blue-900 text-white" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+        isActive ? "bg-blue-900 text-white" : 
+        isChildActive ? "bg-gray-100 text-gray-900" : 
+        "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
         isOpen ? "px-3 py-2" : "justify-center py-2"
       )}
       style={{ paddingLeft: isOpen ? `${paddingLeft}px` : undefined }}

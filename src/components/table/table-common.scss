@@ -26,7 +26,7 @@
   // 헤더 스타일
   .tabulator-header {
     background-color: #1e3a8a; /* blue-800 */
-    border-bottom: 1px solid #1e40af; /* blue-700 */
+    border-bottom: 1px solid #3b82f6; /* blue-500 */
     position: sticky;
     top: 0;
     z-index: 10;
@@ -34,7 +34,7 @@
 
     .tabulator-col {
       background-color: #1e3a8a; /* blue-800 */
-      border-right: 1px solid #1e40af; /* blue-700 */
+      border-right: 1px solid #2563eb; /* blue-600 */
       font-weight: 400;
       color: #ffffff; /* white */
       font-size: 13px;
@@ -45,7 +45,7 @@
 
       &:hover {
         background-color: #1e40af; /* blue-700 */
-        border-right: 1px solid #1e40af; /* blue-700 */
+        border-right: 1px solid #2563eb; /* blue-600 */
       }
 
       &.tabulator-sortable {
@@ -357,15 +357,6 @@
   vertical-align: middle !important;
 }
 
-// 헤더 체크박스 제목 영역 스타일
-.tabulator .tabulator-header .tabulator-col[data-field="select"] .tabulator-col-title-holder {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  height: 100% !important;
-  width: 100% !important;
-}
-
 // 모든 헤더 컬럼 제목 홀더 폭 100%
 .tabulator .tabulator-header .tabulator-col .tabulator-col-title-holder {
   display: flex !important;
@@ -374,6 +365,14 @@
   height: 100% !important;
   width: 100% !important;
   padding-top: 1px;
+  padding-left: 9px;
+}
+
+// 중앙 정렬인 경우 padding 제거
+.tabulator .tabulator-header .tabulator-col[style*="text-align: center"] .tabulator-col-title-holder,
+.tabulator .tabulator-header .tabulator-col .tabulator-col-title-holder[style*="justify-content: center"] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 .tabulator .tabulator-header .tabulator-col[data-field="select"] .tabulator-col-title {
@@ -381,6 +380,13 @@
   align-items: center !important;
   justify-content: center !important;
   height: 100% !important;
+}
+
+
+// <input type="checkbox"...>를 하위에 직접 가지고 있는 경우에만 패딩 제거
+.tabulator .tabulator-header .tabulator-col .tabulator-col-title-holder:has(input[type="checkbox"][aria-label="Select All"]) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 // Tabulator 기본 체크박스 스타일
@@ -392,11 +398,6 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-}
-
-// 헤더 컬럼 제목 안의 체크박스만 왼쪽 여백 추가
-.tabulator .tabulator-header .tabulator-col .tabulator-col-title input[type="checkbox"][aria-label="Select All"] {
-  margin: 0 auto !important;
 }
 
 // ==========================================
@@ -475,7 +476,9 @@
   padding: 0 !important;
   opacity: 0.2;
   transition: opacity 0.2s ease;
-  margin-left:-4px !important;
+  margin-left:-6px !important;
+  position: absolute !important;
+  left: 4px !important;
   &:hover {
     opacity: 1 !important;
   }

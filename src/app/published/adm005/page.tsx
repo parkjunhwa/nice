@@ -21,7 +21,6 @@ import {
   Switch,
   AccordionToggleButton
 } from '@/components'
-import { Card, CardContent } from '@mui/material'
 
 export default function InterfaceLogPage() {
   const [searchPanelExpanded, setSearchPanelExpanded] = useState(true)
@@ -237,8 +236,8 @@ export default function InterfaceLogPage() {
       >
         {/* 왼쪽 카드 1 (폭 가변) */}
         <div style={{ width: leftPanelWidth }} className="flex-shrink-0">
-          <Card className="h-full">
-            <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+          <div className="c-panel bottom-contents-pannel h-full">
+            <div className="bottom-contents-pannel__content h-full flex flex-col">
               <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
                 <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
                   코드 그룹
@@ -290,8 +289,8 @@ export default function InterfaceLogPage() {
                   />
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
 
         {/* 수평 드래그 핸들러 */}
@@ -304,8 +303,8 @@ export default function InterfaceLogPage() {
         <div className="flex-1 flex flex-col gap-2">
           {/* 오른쪽 위 카드 (높이 가변) */}
           <div style={{ height: topPanelHeight }} className="flex-shrink-0">
-            <Card className="h-full">
-              <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+            <div className="c-panel bottom-contents-pannel h-full">
+              <div className="bottom-contents-pannel__content h-full flex flex-col">
                 <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
                   <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
                     공통 코드
@@ -355,8 +354,8 @@ export default function InterfaceLogPage() {
                     />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
 
           {/* 수직 드래그 핸들러 */}
@@ -367,8 +366,8 @@ export default function InterfaceLogPage() {
 
           {/* 오른쪽 아래 카드 (나머지 영역 꽉 채움) */}
           <div className="flex-1 min-h-0">
-            <Card className="h-full">
-              <CardContent className="h-full flex flex-col" style={{ padding: 16 }}>
+            <div className="c-panel bottom-contents-pannel h-full">
+              <div className="bottom-contents-pannel__content h-full flex flex-col">
                 {/* 세로 꽉차는 테이블 샘플 */}
                 <div style={{ height: 'calc(100% - 0px)' }}>
                   {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
@@ -380,8 +379,8 @@ export default function InterfaceLogPage() {
                     />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           </div>
         </div>
       </div>
