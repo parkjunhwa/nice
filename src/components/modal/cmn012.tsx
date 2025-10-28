@@ -108,6 +108,9 @@ export default function Cmn012({ open, onClose }: Cmn012Props) {
       </DialogContent>
 
       <DialogActions sx={{ padding: '16px' }}>
+        <Button onClick={onClose} variant="outlined" color="secondary">
+          취소
+        </Button>
         <Button variant="contained" onClick={onClose}>
           저장
         </Button>
