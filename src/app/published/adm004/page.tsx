@@ -21,7 +21,7 @@ export default function InterfaceLogDetailPage() {
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">I/F로그 관라</h1>
+          <h1 className="text-2xl font-bold text-gray-900">I/F로그 관리</h1>
         </div>
         <div>
           <Breadcrumb
