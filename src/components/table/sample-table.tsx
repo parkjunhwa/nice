@@ -313,6 +313,7 @@ export default function SampleTable({
         formatter: 'rowSelection',
         headerClick: handleSelectAll,
         hozAlign: 'center',
+        frozen: true,
       },
       { title: 'ID', field: 'id', width: 100, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '헤더1', field: 'header1', width: 150, headerSort: true, headerSortTristate: true, editor: 'input' as const, headerMenu: headerMenu },
@@ -372,7 +373,7 @@ export default function SampleTable({
       { title: '카테고리', field: 'header7', width: 160, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '추가컬럼1', field: 'header8', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '추가컬럼2', field: 'header9', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
-      { title: '추가컬럼3', field: 'header10', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu }
+      { title: '추가컬럼3', field: 'header10', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu, frozen: true }
     ]
 
     return allColumns

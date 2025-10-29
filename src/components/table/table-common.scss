@@ -665,3 +665,22 @@
   background: transparent;
   cursor: pointer;
 }
+
+
+// 고정 컬럼 border 스타일 (헤더)
+.tabulator .tabulator-header .tabulator-col.tabulator-frozen.tabulator-frozen-left {
+  border-right: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
+}
+
+.tabulator .tabulator-header .tabulator-col.tabulator-frozen.tabulator-frozen-right {
+  border-left: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
+}
+
+// 고정 컬럼 border 스타일 (바디 셀)
+.tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left {
+  border-right: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
+}
+
+.tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-right {
+  border-left: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
+}
