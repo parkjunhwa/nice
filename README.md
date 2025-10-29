@@ -644,4 +644,4 @@ MIT License
 **작성자**  
 디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025.10.28)  
 010-9479-3188  
-junhwa.park@gmail.com
+s77t04257@woongjin.co.kr
