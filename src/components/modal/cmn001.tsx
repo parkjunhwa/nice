@@ -115,22 +115,12 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
         {/* 우측: 성공/실패 통계 */}
         {isUploaded && (
           <div className="flex items-center gap-2">
-            <span style={{ fontSize: '13px', paddingTop: '2px' }}>성공({successCount})</span>
-            <Button
-              variant="outlined"
-              color="primary"
-              size="small"
-            >
-              SUCCESS
-            </Button>
-            <span style={{ fontSize: '13px', paddingTop: '2px' }}>실패({failureCount})</span>
-            <Button
-              variant="outlined"
-              color="error"
-              size="small"
-            >
-              FAILURE
-            </Button>
+            <span className="text-[13px] pt-[2px]">
+              성공 (<span className="text-blue-600">{successCount}</span>)
+            </span>
+            <span className="text-[13px] pt-[2px]">
+              실패 (<span className="text-red-600">{failureCount}</span>)
+            </span>
           </div>
         )}
       </div>
@@ -151,10 +141,7 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
 
       <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
-          취소
-        </Button>
-        <Button variant="contained" onClick={handleUpload}>
-          업로드
+          닫기
         </Button>
       </DialogActions>
     </Dialog>
