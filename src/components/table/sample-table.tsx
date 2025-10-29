@@ -141,7 +141,7 @@ export default function SampleTable({
     })
     
     const wrapper = document.createElement('div')
-    wrapper.style.cssText = 'width: 100%; height: 100%;'
+    wrapper.className = 'table-editor-select-wrapper'
     wrapper.appendChild(select)
     
     onRendered(() => {
