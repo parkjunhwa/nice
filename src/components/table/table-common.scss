@@ -173,11 +173,11 @@
 
 // 정렬 상태별 화살표 회전
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable:hover .tabulator-col-sorter .tabulator-arrow::before {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .tabulator .tabulator-header .tabulator-col.tabulator-sortable[aria-sort=none] .tabulator-col-sorter .tabulator-arrow::before {
-  opacity: 0.2;
+  opacity: 0.5;
   transform: translate(-50%, -50%) rotate(180deg);
 }
 
