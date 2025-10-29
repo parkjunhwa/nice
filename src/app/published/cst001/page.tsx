@@ -4,7 +4,6 @@ import { useState } from 'react'
 import {
   RefreshCw,
   Search,
-  Search as SearchIcon,
   Upload,
   Download,
   FileX,
@@ -13,6 +12,7 @@ import {
   StretchVertical
 } from 'lucide-react'
 import Button from '@mui/material/Button'
+import ButtonGroup from '@mui/material/ButtonGroup'
 import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
@@ -24,7 +24,7 @@ import {
   SampleTable,
   Breadcrumb,
   AccordionToggleButton,
-  MonthPicker,
+  DateRangePicker,
   Icons
 } from '@/components'
 
@@ -35,7 +35,7 @@ export default function Cst001Page() {
   const [businessUnit1, setBusinessUnit1] = useState('')
   const [businessUnit2, setBusinessUnit2] = useState('')
   const [businessUnit3, setBusinessUnit3] = useState('')
-  const [monthValue, setMonthValue] = useState<Date | null>(null)
+  const [dateRangeValue, setDateRangeValue] = useState<[Date | null, Date | null]>([null, null])
   const [purchaseItem, setPurchaseItem] = useState('')
   const [purchaseType, setPurchaseType] = useState('')
   const [customerCode, setCustomerCode] = useState('')
@@ -43,11 +43,24 @@ export default function Cst001Page() {
   const [voucherType, setVoucherType] = useState('')
   const [status, setStatus] = useState('')
 
-  // 이번달 버튼 클릭 핸들러
+  // 날짜 범위 버튼 클릭 핸들러들
   const handleThisMonthClick = () => {
     const today = new Date()
-    const thisMonth = new Date(today.getFullYear(), today.getMonth(), 1)
-    setMonthValue(thisMonth)
+    const firstDay = new Date(today.getFullYear(), today.getMonth(), 1)
+    setDateRangeValue([firstDay, today])
+  }
+
+  const handleYesterdayClick = () => {
+    const yesterday = new Date()
+    yesterday.setDate(yesterday.getDate() - 1)
+    setDateRangeValue([yesterday, yesterday])
+  }
+
+  const handleLastWeekClick = () => {
+    const today = new Date()
+    const weekAgo = new Date()
+    weekAgo.setDate(today.getDate() - 7)
+    setDateRangeValue([weekAgo, today])
   }
 
   // Select 옵션들
@@ -153,6 +166,86 @@ export default function Cst001Page() {
               </div>
               <div className="flex items-center">
                 <label className="form-side-label text-left">
+                  기간
+                </label>
+                <div className="flex items-center gap-2">
+                  <DateRangePicker
+                    value={dateRangeValue}
+                    onChange={(newValue: [Date | null, Date | null]) => setDateRangeValue(newValue)}
+                    placeholder="날짜 범위를 선택하세요"
+                    size="small"
+                  />
+                  <ButtonGroup variant="outlined" size="small" className="bg-white" color="secondary">
+                    <Button onClick={handleYesterdayClick}>전일</Button>
+                    <Button onClick={handleLastWeekClick}>최근 일주일</Button>
+                    <Button onClick={handleThisMonthClick}>이번달</Button>
+                  </ButtonGroup>
+                </div>
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
+                  거래처
+                </label>
+                <div className="flex items-center gap-2">
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={customerCode}
+                    onChange={(e) => setCustomerCode(e.target.value)}
+                    sx={{ width: '120px' }}
+                    InputProps={{
+                      endAdornment: customerCode && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            size="small"
+                            onClick={() => setCustomerCode('')}
+                            sx={{
+                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                            }}
+                          >
+                            <Icons.XIcon size={14} />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    color="secondary"
+                    className="xsmallbtn3"
+                    startIcon={<Search size={16} />}
+                  >
+                    <span style={{ display: "none" }}>+</span>
+                  </Button>
+                  <TextField
+                    variant="outlined"
+                    size="small"
+                    value={deviceNumber}
+                    onChange={(e) => setDeviceNumber(e.target.value)}
+                    sx={{ width: '120px' }}
+                    disabled
+                    InputProps={{
+
+                      endAdornment: deviceNumber && (
+                        <InputAdornment position="end">
+                          <IconButton
+                            size="small"
+                            onClick={() => setDeviceNumber('')}
+                            sx={{
+                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                            }}
+                          >
+                            <Icons.XIcon size={14} />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="flex items-center">
+                <label className="form-side-label text-left">
                   매입품목
                 </label>
                 <div className="flex items-center gap-2">
@@ -204,7 +297,7 @@ export default function Cst001Page() {
                     size="small"
                     color="secondary"
                     className="xsmallbtn3"
-                    startIcon={<SearchIcon size={16} />}
+                    startIcon={<Search size={16} />}
                   >
                     <span style={{ display: "none" }}>+</span>
                   </Button>
@@ -232,21 +325,6 @@ export default function Cst001Page() {
                       )
                     }}
                   />
-                </div>
-              </div>
-              <div className="flex items-center">
-                <label className="form-side-label text-left">
-                  조회년월
-                </label>
-                <div className="flex items-center gap-2">
-                  <div style={{ width: '120px' }}>
-                    <MonthPicker
-                      value={monthValue}
-                      onChange={(newValue: Date | null) => setMonthValue(newValue)}
-                      placeholder="월을 선택하세요"
-                    />
-                  </div>
-                  <Button variant="outlined" size="small" className="bg-white" color="secondary" onClick={handleThisMonthClick}>이번달</Button>
                 </div>
               </div>
               <div className="flex items-center">
@@ -277,100 +355,12 @@ export default function Cst001Page() {
               </div>
               <div className="flex items-center">
                 <label className="form-side-label text-left">
-                  거래처
-                </label>
-                <div className="flex items-center gap-2">
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    value={customerCode}
-                    onChange={(e) => setCustomerCode(e.target.value)}
-                    sx={{ width: '120px' }}
-                    InputProps={{
-                      endAdornment: customerCode && (
-                        <InputAdornment position="end">
-                          <IconButton
-                            size="small"
-                            onClick={() => setCustomerCode('')}
-                            sx={{
-                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                            }}
-                          >
-                            <Icons.XIcon size={14} />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                  <Button
-                    variant="outlined"
-                    size="small"
-                    color="secondary"
-                    className="xsmallbtn3"
-                    startIcon={<SearchIcon size={16} />}
-                  >
-                    <span style={{ display: "none" }}>+</span>
-                  </Button>
-                  <TextField
-                    variant="outlined"
-                    size="small"
-                    value={deviceNumber}
-                    onChange={(e) => setDeviceNumber(e.target.value)}
-                    sx={{ width: '120px' }}
-                    disabled
-                    InputProps={{
-
-                      endAdornment: deviceNumber && (
-                        <InputAdornment position="end">
-                          <IconButton
-                            size="small"
-                            onClick={() => setDeviceNumber('')}
-                            sx={{
-                              '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                            }}
-                          >
-                            <Icons.XIcon size={14} />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="flex items-center">
-                <label className="form-side-label text-left">
                   상태
                 </label>
                 <FormControl sx={{ width: '120px' }}>
                   <Select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    displayEmpty
-                    className="bg-white"
-                    size="small"
-                  >
-                    <MenuItem value="">
-                      <span>선택</span>
-                    </MenuItem>
-                    {departmentOptions.map((option) => (
-                      <MenuItem
-                        key={option.value}
-                        value={option.value}
-                      >
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </div>
-              <div className="flex items-center">
-                <label className="form-side-label text-left">
-                  증빙구분
-                </label>
-                <FormControl sx={{ width: '120px' }}>
-                  <Select
-                    value={voucherType}
-                    onChange={(e) => setVoucherType(e.target.value)}
                     displayEmpty
                     className="bg-white"
                     size="small"
