@@ -662,6 +662,22 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                             width: '100%',
                             '& input': { textAlign: 'right' }
                           }}
+                          InputProps={{
+                            endAdornment: (
+                              <InputAdornment position="end">
+                                <IconButton
+                                  size="small"
+                                  disabled={true}
+                                  aria-label="검색"
+                                  sx={{
+                                    opacity: 0.6
+                                  }}
+                                >
+                                  <Search size={16} />
+                                </IconButton>
+                              </InputAdornment>
+                            ),
+                          }}
                         />
                       </td>
                       <td className="text-center">

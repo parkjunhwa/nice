@@ -563,13 +563,16 @@
 .table-editor-select-wrapper {
   width: 100%;
   height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .table-editor-select {
   width: 100%;
   border: none;
   outline: none;
-  padding: 0;
+  padding: 0 24px 0 0;
   margin: 0;
   background: transparent;
   cursor: pointer;
@@ -579,6 +582,30 @@
   box-sizing: border-box;
   appearance: none;
   vertical-align: middle;
+}
+
+.table-select-arrow-icon {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: #6b7280;
+  pointer-events: none;
+  transition: transform 0.2s ease;
+  
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+  
+  &.open {
+    transform: translateY(-50%) rotate(180deg);
+  }
 }
 
 .table-search-icon {
@@ -592,4 +619,45 @@
   &:hover {
     color: #3b82f6;
   }
+}
+
+// ==========================================
+// 보기 모드 셀 레이아웃
+// ==========================================
+.cell-with-search-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cell-with-search-hint .cell-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 편집 전 힌트 아이콘(비활성 느낌) */
+.table-search-icon.hint {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  opacity: 0.45;               /* 비활성 느낌 */
+  pointer-events: none;         /* 클릭 불가 */
+  color: #6b7280;               /* gray-500 정도 */
+}
+
+/* 편집 모드에서 쓰는 활성 아이콘(이미 코드에 존재) */
+.table-search-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }

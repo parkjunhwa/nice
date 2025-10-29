@@ -28,11 +28,6 @@ export default function Cmn001({ open, onClose }: Cmn001Props) {
     }
   }
 
-  const handleUpload = () => {
-    // 파일은 이미 선택 시 업로드됨
-    onClose()
-  }
-
   return (
     <Dialog
       open={open}

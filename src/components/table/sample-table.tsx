@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useMemo, useState, useCallback } from 'react'
-import { TabulatorFull as Tabulator, ColumnDefinition } from 'tabulator-tables'
+import { TabulatorFull as Tabulator, ColumnDefinition, CellComponent } from 'tabulator-tables'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import '@/components/table/table-common.scss'
 
@@ -100,17 +100,17 @@ export default function SampleTable({
         e.stopPropagation()
         e.preventDefault()
         isButtonClicked = true
-        
+
         const v = input.value.trim()
         alert(v ? `검색어: "${v}"` : '검색어를 입력해주세요.')
-        
+
         // 알림 닫힌 후 편집 종료
         setTimeout(() => {
           success(input.value)
           isButtonClicked = false
         }, 100)
       })
-      
+
       // 마우스 다운 이벤트도 추가 (blur 이전에 처리)
       icon.addEventListener('mousedown', (e) => {
         e.preventDefault()
@@ -130,7 +130,7 @@ export default function SampleTable({
   ) => {
     const select = document.createElement('select')
     select.className = 'table-editor-select'
-    
+
     const options = ['활성', '비활성', '대기', '완료', '진행중']
     options.forEach((option) => {
       const opt = document.createElement('option')
@@ -139,37 +139,77 @@ export default function SampleTable({
       opt.selected = cell.getValue() === option
       select.appendChild(opt)
     })
-    
+
     const wrapper = document.createElement('div')
     wrapper.className = 'table-editor-select-wrapper'
-    wrapper.appendChild(select)
     
+    // 화살표 아이콘 추가
+    const arrowIcon = document.createElement('span')
+    arrowIcon.className = 'table-select-arrow-icon'
+    arrowIcon.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    `
+    
+    wrapper.appendChild(select)
+    wrapper.appendChild(arrowIcon)
+
     onRendered(() => {
       select.focus()
+
+      // 포커스 시 열린 상태로 가정 (드롭다운 표시 준비)
+      const handleFocus = () => {
+        arrowIcon.classList.add('open')
+      }
       
-      // 값 선택 시 즉시 확정
-      select.addEventListener('change', (e) => {
-        e.stopPropagation()
+      // mousedown 이벤트로 클릭 시 열림
+      const handleMouseDown = () => {
+        // 클릭 시 열린 상태로 설정 (드롭다운이 열림)
+        setTimeout(() => {
+          arrowIcon.classList.add('open')
+        }, 0)
+      }
+      
+      // blur 시 닫힌 상태로 설정
+      const handleBlur = () => {
+        // 약간의 지연을 두어 change 이벤트가 먼저 처리되도록
+        setTimeout(() => {
+          arrowIcon.classList.remove('open')
+        }, 150)
         success(select.value)
-      })
+      }
+
+      // 값 선택 시 닫힌 상태로 전환
+      const handleChange = (e: Event) => {
+        e.stopPropagation()
+        arrowIcon.classList.remove('open')
+        success(select.value)
+      }
+
+      select.addEventListener('focus', handleFocus)
+      select.addEventListener('mousedown', handleMouseDown)
+      select.addEventListener('blur', handleBlur)
+      select.addEventListener('change', handleChange)
 
       // Enter: 확정, Esc: 취소
       select.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
           e.stopPropagation()
+          arrowIcon.classList.remove('open')
           success(select.value)
         } else if (e.key === 'Escape') {
           e.stopPropagation()
+          arrowIcon.classList.remove('open')
           cancel()
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          // 방향키로 옵션 탐색 시 열린 상태로 가정
+          arrowIcon.classList.add('open')
         }
       })
-
-      // 포커스 아웃 시 확정
-      select.addEventListener('blur', () => {
-        success(select.value)
-      })
     })
-    
+
     return wrapper
   }, [])
 
@@ -277,23 +317,54 @@ export default function SampleTable({
       { title: 'ID', field: 'id', width: 100, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '헤더1', field: 'header1', width: 150, headerSort: true, headerSortTristate: true, editor: 'input' as const, headerMenu: headerMenu },
       { title: '헤더2', field: 'header2', width: 150, headerSort: true, headerSortTristate: true },
-      { 
-        title: '헤더3', 
-        field: 'header3', 
-        width: 150, 
-        headerSort: true, 
-        headerSortTristate: true, 
+      {
+        title: '헤더3',
+        field: 'header3',
+        width: 150,
+        headerSort: true,
+        headerSortTristate: true,
         headerMenu: headerMenu,
+        // ✅ 보기 모드에서 희미한 검색 아이콘을 표시
+        formatter: (cell: CellComponent) => {
+          const v = cell.getValue() ?? ''
+          return `
+      <div class="cell-with-search-hint">
+        <span class="cell-text">${String(v)}</span>
+        <span class="table-search-icon hint" aria-hidden="true" title="검색">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </span>
+      </div>
+    `
+        },
         editor: searchEditor,
         clickEdit: true
       },
-      { 
-        title: '상태', 
-        field: 'header4', 
-        width: 120, 
-        headerSort: true, 
-        headerSortTristate: true, 
+      {
+        title: '상태',
+        field: 'header4',
+        width: 120,
+        headerSort: true,
+        headerSortTristate: true,
         headerMenu: headerMenu,
+        // ✅ 보기 모드에서 희미한 화살표 아이콘을 표시
+        formatter: (cell: CellComponent) => {
+          const v = cell.getValue() ?? ''
+          return `
+      <div class="cell-with-search-hint">
+        <span class="cell-text">${String(v)}</span>
+        <span class="table-search-icon hint" aria-hidden="true" title="선택">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </span>
+      </div>
+    `
+        },
         editor: selectEditor,
         clickEdit: true
       },
