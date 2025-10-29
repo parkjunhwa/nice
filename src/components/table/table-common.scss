@@ -213,7 +213,7 @@
 }
 
 .tabulator-row .tabulator-cell.tabulator-editing {
-  border: 2px solid #2563eb !important; /* blue-600 */
+  border: 2px solid #2563eb !important; // blue-600
   outline: none;
   padding: 0 4px !important; /* 일반 셀과 동일한 패딩 유지 */
   line-height: 32px !important;
@@ -517,8 +517,12 @@
 // 컬럼 그룹 스타일
 // ==========================================
 .tabulator .tabulator-header .tabulator-col.tabulator-col-group > .tabulator-col-group-cols {
-  border-right: 1px solid #1e40af !important; /* blue-700 */
-  border-top: 1px solid #1e40af !important; /* blue-700 */
+  border-right: 1px solid #2563eb !important; /* blue-600 */
+  border-top: 1px solid #2563eb !important; /* blue-600 */
+}
+
+.tabulator .tabulator-header .tabulator-col.tabulator-col-group > .tabulator-col-group-cols:last-child {
+  border-right: 0 !important;
 }
 
 // 컬럼 그룹 헤더 높이 조정
