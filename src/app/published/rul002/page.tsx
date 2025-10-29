@@ -365,61 +365,123 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
       case 'R01': // 정액정률계산
         return (
           <>
-            <div style={{ display: 'flex', gap: 8, width: '100%', alignItems: 'flex-end' }} className="mt-2 mb-2">
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">정산기준</label>
-                <Select
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  sx={{ width: '100%' }}
-                  value=""
-                >
-                  <MenuItem value=""><span>선택</span></MenuItem>
-                  <MenuItem value="옵션1">옵션1</MenuItem>
-                  <MenuItem value="옵션2">옵션2</MenuItem>
-                  <MenuItem value="옵션3">옵션3</MenuItem>
-                </Select>
-              </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">연산자</label>
-                <Select
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  sx={{ width: '100%' }}
-                  value=""
-                >
-                  <MenuItem value=""><span>선택</span></MenuItem>
-                  <MenuItem value="옵션1">옵션1</MenuItem>
-                  <MenuItem value="옵션2">옵션2</MenuItem>
-                  <MenuItem value="옵션3">옵션3</MenuItem>
-                </Select>
-              </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">값</label>
-                <div style={{ display: 'flex', gap: 4, width: '100%' }}>
-                  <TextField
+            <div className="mt-2">
+              <table className="rul-table">
+                <thead>
+                  <tr>
+                    <th className="text-center" style={{ minWidth: '100px' }}>
+                      <label className="form-top-label required">
+                        정산기준
+                      </label>
+                    </th>
+                    <th className="text-center" style={{ minWidth: '100px' }}>
+                      <label className="form-top-label required">
+                        연산자
+                      </label>
+                    </th>
+                    <th className="text-center" style={{ minWidth: '100px' }}>
+                      <label className="form-top-label required">
+                        값
+                      </label>
+                    </th>
+                    <th className="text-center" style={{ width: '35px' }}>삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {settlementBaseData.map((item) => (
+                    <tr key={item.id}>
+                      <td>
+                        <Select
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          sx={{ width: '100%' }}
+                          value={item.base}
+                          onChange={(e) => {
+                            setSettlementBaseData(prev => prev.map(p =>
+                              p.id === item.id ? { ...p, base: e.target.value } : p
+                            ))
+                          }}
+                        >
+                          <MenuItem value=""><span>선택</span></MenuItem>
+                          <MenuItem value="옵션1">옵션1</MenuItem>
+                          <MenuItem value="옵션2">옵션2</MenuItem>
+                          <MenuItem value="옵션3">옵션3</MenuItem>
+                        </Select>
+                      </td>
+                      <td>
+                        <Select
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          sx={{ width: '100%' }}
+                          value={item.operator}
+                          onChange={(e) => {
+                            setSettlementBaseData(prev => prev.map(p =>
+                              p.id === item.id ? { ...p, operator: e.target.value } : p
+                            ))
+                          }}
+                        >
+                          <MenuItem value=""><span>선택</span></MenuItem>
+                          <MenuItem value="+">+</MenuItem>
+                          <MenuItem value="-">-</MenuItem>
+                          <MenuItem value="×">×</MenuItem>
+                          <MenuItem value="÷">÷</MenuItem>
+                        </Select>
+                      </td>
+                      <td>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          type="text"
+                          disabled={pageMode === 'view'}
+                          value={item.value}
+                          onChange={(e) => {
+                            // 숫자만 입력받기 (숫자 이외 제거)
+                            const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                            setSettlementBaseData(prev => prev.map(p =>
+                              p.id === item.id ? { ...p, value: onlyNumbers } : p
+                            ))
+                          }}
+                          sx={{
+                            width: '100%'
+                          }}
+                          inputProps={{
+                            inputMode: 'numeric',
+                            pattern: '[0-9]*'
+                          }}
+                        />
+                      </td>
+                      <td>
+                        {pageMode === 'edit' && item.id !== 1 && (
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            color="error"
+                            className="xsmallbtn2"
+                            startIcon={<Minus size={16} />}
+                            onClick={() => handleDeleteSettlementRow(item.id)}
+                          >
+                            <span style={{ display: "none" }}>삭제</span>
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {pageMode === 'edit' && (
+                <div className="flex items-center mt-2" style={{ gap: '8px' }}>
+                  <Button
                     variant="outlined"
+                    color="primary"
                     size="small"
-                    type="text"
-                    disabled={pageMode === 'view'}
-                    value={salesPurchaseType}
-                    onChange={(e) => {
-                      // 숫자만 입력받기 (숫자 이외 제거)
-                      const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                      setSalesPurchaseType(onlyNumbers);
-                    }}
-                    sx={{
-                      width: '100%'
-                    }}
-                    inputProps={{
-                      inputMode: 'numeric',
-                      pattern: '[0-9]*'
-                    }}
-                  />
+                    onClick={handleAddSettlementRow}
+                  >
+                    추가
+                  </Button>
                 </div>
-              </div>
+              )}
             </div>
-            <div className="mb-0">
+            <div className="mt-2">
               <Typography
                 component="div"
                 className="text-sm"
@@ -597,7 +659,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                         />
                       </td>
                       <td className="text-center">
-                        {pageMode === 'edit' && (
+                        {pageMode === 'edit' && row.id !== 1 && (
                           <Button
                             variant="outlined"
                             size="small"
@@ -1529,6 +1591,32 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
         name: ''
       }
     ]);
+  };
+
+  // R01 정산기준 데이터
+  const [settlementBaseData, setSettlementBaseData] = useState<Array<{ id: number; base: string; operator: string; value: string }>>([
+    { id: 1, base: '', operator: '', value: '' }
+  ])
+
+  // R01 행 추가
+  const handleAddSettlementRow = () => {
+    const newId = settlementBaseData.length > 0
+      ? Math.max(...settlementBaseData.map(item => item.id)) + 1
+      : 1;
+    setSettlementBaseData(prev => [
+      ...prev,
+      {
+        id: newId,
+        base: '',
+        operator: '',
+        value: ''
+      }
+    ]);
+  };
+
+  // R01 행 삭제
+  const handleDeleteSettlementRow = (id: number) => {
+    setSettlementBaseData(prev => prev.filter(item => item.id !== id));
   };
 
   const isViewMode = (mode: PageMode): mode is 'view' => mode === 'view'
@@ -3908,7 +3996,7 @@ export default function Rul002Page() {
           <div className="flex-1">
             <div className="c-panel bottom-contents-pannel h-full">
               <div className="bottom-contents-pannel__content h-full flex flex-col">
-                
+
                 {/* 탭 영역 */}
                 <div className="mb-4">
                   <div className="flex border-b border-gray-200">
@@ -4121,9 +4209,9 @@ export default function Rul002Page() {
             severity={alertState.severity}
             icon={
               alertState.severity === 'success' ? <CheckCircle size={20} /> :
-              alertState.severity === 'error' ? <XCircle size={20} /> :
-              alertState.severity === 'warning' ? <AlertTriangle size={20} /> :
-              <Info size={20} />
+                alertState.severity === 'error' ? <XCircle size={20} /> :
+                  alertState.severity === 'warning' ? <AlertTriangle size={20} /> :
+                    <Info size={20} />
             }
             sx={{
               width: '100%',
