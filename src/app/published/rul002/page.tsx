@@ -195,6 +195,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
   const [rCards, setRCards] = useState<string[]>((item.data.rCards as string[]) || [])
   const [includeStartDate, setIncludeStartDate] = useState((item.data.includeStartDate as boolean) || false)
   const [includeEndDate, setIncludeEndDate] = useState((item.data.includeEndDate as boolean) || false)
+  
+  // R15 ATM장소임차료 관련 상태
+  const [dailyAverageCount, setDailyAverageCount] = useState((item.data.dailyAverageCount as string) || '')
+  const [withdrawalUnitPrice, setWithdrawalUnitPrice] = useState((item.data.withdrawalUnitPrice as string) || '')
+  const [depositUnitPrice, setDepositUnitPrice] = useState((item.data.depositUnitPrice as string) || '')
 
   // 추가수익 매출정보 데이터
   const [salesData, setSalesData] = useState([
@@ -346,7 +351,8 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
       'R11': '점주(대리점)',
       'R12': '브랜드제휴 변동보전료',
       'R13': '현금/일괄 용역료',
-      'R14': '전기료'
+      'R14': '전기료',
+      'R15': 'ATM장소임차료-코리아세븐'
     }
     return titles[rType] || ''
   }
@@ -506,11 +512,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={formatNumber(salesPurchaseType)}
+                  value={formatNumber(dailyAverageCount)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(onlyNumbers);
+                    setDailyAverageCount(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
@@ -836,11 +842,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={formatNumber(salesPurchaseType)}
+                  value={formatNumber(dailyAverageCount)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(onlyNumbers);
+                    setDailyAverageCount(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
@@ -870,11 +876,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={formatNumber(salesPurchaseType)}
+                  value={formatNumber(dailyAverageCount)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(onlyNumbers);
+                    setDailyAverageCount(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
@@ -1192,11 +1198,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={formatNumber(salesPurchaseType)}
+                  value={formatNumber(dailyAverageCount)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(onlyNumbers);
+                    setDailyAverageCount(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
@@ -1277,11 +1283,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={formatNumber(salesPurchaseType)}
+                  value={formatNumber(dailyAverageCount)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(onlyNumbers);
+                    setDailyAverageCount(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
@@ -1323,11 +1329,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={formatNumber(salesPurchaseType)}
+                  value={formatNumber(dailyAverageCount)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(onlyNumbers);
+                    setDailyAverageCount(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
@@ -1350,11 +1356,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={formatNumber(salesPurchaseType)}
+                  value={formatNumber(dailyAverageCount)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(onlyNumbers);
+                    setDailyAverageCount(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
@@ -1377,11 +1383,11 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                   size="small"
                   type="text"
                   disabled={pageMode === 'view'}
-                  value={formatNumber(salesPurchaseType)}
+                  value={formatNumber(dailyAverageCount)}
                   onChange={(e) => {
                     // 숫자만 입력받기 (숫자 이외 제거)
                     const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(onlyNumbers);
+                    setDailyAverageCount(onlyNumbers);
                   }}
                   sx={{
                     width: '100%',
@@ -1501,7 +1507,117 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
           </>
         );
 
-
+      case 'R15': // ATM장소임차료-코리아세븐
+        return (
+          <>
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">
+                  일평건 기준&gt;
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={formatNumber(dailyAverageCount)}
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setDailyAverageCount(onlyNumbers);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*'
+                  }}
+                />
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">
+                  출금건수단가
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={formatNumber(withdrawalUnitPrice)}
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setWithdrawalUnitPrice(onlyNumbers);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*'
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">
+                  입금건수단가
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={formatNumber(depositUnitPrice)}
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setDepositUnitPrice(onlyNumbers);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*'
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 일평건 기준 이상일 때 단가 계산
+              </Typography>
+            </div>
+          </>
+        );
 
       default:
         return (
@@ -1703,6 +1819,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                       <MenuItem value="R12">R12:브랜드제휴 변동보전료</MenuItem>
                       <MenuItem value="R13">R13:현금/일괄 용역료</MenuItem>
                       <MenuItem value="R14">R14:전기료</MenuItem>
+                      <MenuItem value="R15">R15:ATM장소임차료-코리아세븐</MenuItem>
                     </Select>
                     <Button
                       variant="outlined"
