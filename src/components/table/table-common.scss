@@ -216,6 +216,7 @@
   border: 2px solid #2563eb !important; /* blue-600 */
   outline: none;
   padding: 0;
+  line-height: 32px !important;
 }
 
 // ==========================================
@@ -534,3 +535,56 @@
 }
 
 .tabulator .tabulator-header .tabulator-col:hover {background-color: #1c398e;}
+
+// ==========================================
+// 커스텀 에디터 스타일
+// ==========================================
+.table-editor-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+}
+
+.table-editor-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.table-editor-select {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  min-height: 100%;
+  font-size: 14px;
+  line-height: 1.5;
+  box-sizing: border-box;
+  appearance: none;
+  vertical-align: middle;
+}
+
+.table-search-icon {
+  position: absolute;
+  right: 4px;
+  color: #9ca3af;
+  cursor: pointer;
+  padding: 2px;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #3b82f6;
+  }
+}

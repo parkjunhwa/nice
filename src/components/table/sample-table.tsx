@@ -47,6 +47,86 @@ export default function SampleTable({
     return iconMap[iconName] || ''
   }
 
+  // 헤더3 커스텀 에디터 (검색 아이콘이 있는 input)
+  const searchEditor = useCallback((cell: { getValue: () => string | number; setValue: (value: string | number) => void; onRendered: (callback: () => void) => void; getElement: () => HTMLElement }) => {
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.value = cell.getValue() as string
+    input.className = 'table-editor-input'
+    input.style.paddingRight = '24px'
+    input.placeholder = '검색...'
+    
+    const wrapper = document.createElement('div')
+    wrapper.className = 'table-editor-wrapper'
+    
+    const icon = document.createElement('span')
+    icon.className = 'table-search-icon'
+    icon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>'
+    icon.title = '검색'
+    
+    // 검색 아이콘 클릭 시 알림 표시
+    icon.addEventListener('click', (e) => {
+      e.stopPropagation()
+      const searchValue = input.value
+      if (searchValue.trim()) {
+        alert(`검색어: "${searchValue}"`)
+      } else {
+        alert('검색어를 입력해주세요.')
+      }
+    })
+    
+    // Enter 키로 검색 가능
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.stopPropagation()
+        const searchValue = input.value
+        if (searchValue.trim()) {
+          alert(`검색어: "${searchValue}"`)
+        } else {
+          alert('검색어를 입력해주세요.')
+        }
+      }
+    })
+    
+    wrapper.appendChild(input)
+    wrapper.appendChild(icon)
+    
+    input.addEventListener('change', () => {
+      cell.setValue(input.value)
+    })
+    
+    input.addEventListener('blur', () => {
+      cell.setValue(input.value)
+    })
+    
+    return wrapper
+  }, [])
+
+  // 헤더4 커스텀 에디터 (select)
+  const selectEditor = useCallback((cell: { getValue: () => string | number; setValue: (value: string | number) => void; onRendered: (callback: () => void) => void; getElement: () => HTMLElement }) => {
+    const select = document.createElement('select')
+    select.className = 'table-editor-select'
+    
+    const options = ['활성', '비활성', '대기', '완료', '진행중']
+    options.forEach((option) => {
+      const opt = document.createElement('option')
+      opt.value = option
+      opt.textContent = option
+      opt.selected = cell.getValue() === option
+      select.appendChild(opt)
+    })
+    
+    select.addEventListener('change', () => {
+      cell.setValue(select.value)
+    })
+    
+    select.addEventListener('blur', () => {
+      cell.setValue(select.value)
+    })
+    
+    return select
+  }, [])
+
   // 헤더 메뉴 정의 (컬럼 표시/숨김 토글)
   const headerMenu = useCallback(function (this: { getColumns: () => Array<{ isVisible: () => boolean; toggle: () => void; getDefinition: () => { title: string } }> }) {
     const menu: Array<{ label: HTMLElement; action: (e: Event) => void }> = [];
@@ -151,8 +231,24 @@ export default function SampleTable({
       { title: 'ID', field: 'id', width: 100, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '헤더1', field: 'header1', width: 150, headerSort: true, headerSortTristate: true, editor: 'input' as const, headerMenu: headerMenu },
       { title: '헤더2', field: 'header2', width: 150, headerSort: true, headerSortTristate: true },
-      { title: '헤더3', field: 'header3', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
-      { title: '상태', field: 'header4', width: 120, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      { 
+        title: '헤더3', 
+        field: 'header3', 
+        width: 150, 
+        headerSort: true, 
+        headerSortTristate: true, 
+        headerMenu: headerMenu,
+        editor: searchEditor as unknown as 'input'
+      },
+      { 
+        title: '상태', 
+        field: 'header4', 
+        width: 120, 
+        headerSort: true, 
+        headerSortTristate: true, 
+        headerMenu: headerMenu,
+        editor: selectEditor as unknown as 'input'
+      },
       { title: '날짜', field: 'header5', width: 180, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '사용자', field: 'header6', width: 140, headerSort: false, headerMenu: headerMenu, headerHozAlign: 'center' },
       { title: '카테고리', field: 'header7', width: 160, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
@@ -162,7 +258,7 @@ export default function SampleTable({
     ]
 
     return allColumns
-  }, [customColumns, headerMenu, handleSelectAll, isAllSelected])
+  }, [customColumns, headerMenu, handleSelectAll, isAllSelected, searchEditor, selectEditor])
 
   // 페이지네이션된 데이터 계산
   const paginatedData = useMemo(() => {
