@@ -47,63 +47,87 @@ export default function SampleTable({
     return iconMap[iconName] || ''
   }
 
-  // 헤더3 커스텀 에디터 (검색 아이콘이 있는 input)
-  const searchEditor = useCallback((cell: { getValue: () => string | number; setValue: (value: string | number) => void; onRendered: (callback: () => void) => void; getElement: () => HTMLElement }) => {
-    const input = document.createElement('input')
-    input.type = 'text'
-    input.value = cell.getValue() as string
-    input.className = 'table-editor-input'
-    input.style.paddingRight = '24px'
-    input.placeholder = '검색...'
-    
+  // 커스텀 에디터 (검색 아이콘이 있는 input)
+  const searchEditor = useCallback((
+    cell: { getValue: () => string | number },
+    onRendered: (cb: () => void) => void,
+    success: (value: string | number) => void,
+    cancel: () => void,
+  ) => {
     const wrapper = document.createElement('div')
     wrapper.className = 'table-editor-wrapper'
-    
-    const icon = document.createElement('span')
+
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.value = String(cell.getValue() ?? '')
+    input.className = 'table-editor-input'
+    input.placeholder = '검색...'
+
+    const icon = document.createElement('button')
+    icon.type = 'button'
     icon.className = 'table-search-icon'
     icon.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>'
     icon.title = '검색'
-    
-    // 검색 아이콘 클릭 시 알림 표시
-    icon.addEventListener('click', (e) => {
-      e.stopPropagation()
-      const searchValue = input.value
-      if (searchValue.trim()) {
-        alert(`검색어: "${searchValue}"`)
-      } else {
-        alert('검색어를 입력해주세요.')
-      }
-    })
-    
-    // Enter 키로 검색 가능
-    input.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.stopPropagation()
-        const searchValue = input.value
-        if (searchValue.trim()) {
-          alert(`검색어: "${searchValue}"`)
-        } else {
-          alert('검색어를 입력해주세요.')
-        }
-      }
-    })
-    
+
     wrapper.appendChild(input)
     wrapper.appendChild(icon)
-    
-    input.addEventListener('change', () => {
-      cell.setValue(input.value)
+
+    onRendered(() => {
+      input.focus()
+      input.select()
+
+      // Enter: 확정, Esc: 취소
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.stopPropagation()
+          success(input.value)
+        } else if (e.key === 'Escape') {
+          e.stopPropagation()
+          cancel()
+        }
+      })
+
+      // blur 되면 값 확정 (버튼 클릭이 아닐 때만)
+      let isButtonClicked = false
+      input.addEventListener('blur', () => {
+        if (!isButtonClicked) {
+          success(input.value)
+        }
+      })
+
+      // 아이콘 클릭 시 검색 알림 후 편집 종료
+      icon.addEventListener('click', (e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        isButtonClicked = true
+        
+        const v = input.value.trim()
+        alert(v ? `검색어: "${v}"` : '검색어를 입력해주세요.')
+        
+        // 알림 닫힌 후 편집 종료
+        setTimeout(() => {
+          success(input.value)
+          isButtonClicked = false
+        }, 100)
+      })
+      
+      // 마우스 다운 이벤트도 추가 (blur 이전에 처리)
+      icon.addEventListener('mousedown', (e) => {
+        e.preventDefault()
+        isButtonClicked = true
+      })
     })
-    
-    input.addEventListener('blur', () => {
-      cell.setValue(input.value)
-    })
-    
+
     return wrapper
   }, [])
 
-  // 헤더4 커스텀 에디터 (select)
-  const selectEditor = useCallback((cell: { getValue: () => string | number; setValue: (value: string | number) => void; onRendered: (callback: () => void) => void; getElement: () => HTMLElement }) => {
+  // 커스텀 에디터 (select)
+  const selectEditor = useCallback((
+    cell: { getValue: () => string | number },
+    onRendered: (cb: () => void) => void,
+    success: (value: string | number) => void,
+    cancel: () => void,
+  ) => {
     const select = document.createElement('select')
     select.className = 'table-editor-select'
     
@@ -116,15 +140,37 @@ export default function SampleTable({
       select.appendChild(opt)
     })
     
-    select.addEventListener('change', () => {
-      cell.setValue(select.value)
+    const wrapper = document.createElement('div')
+    wrapper.style.cssText = 'width: 100%; height: 100%;'
+    wrapper.appendChild(select)
+    
+    onRendered(() => {
+      select.focus()
+      
+      // 값 선택 시 즉시 확정
+      select.addEventListener('change', (e) => {
+        e.stopPropagation()
+        success(select.value)
+      })
+
+      // Enter: 확정, Esc: 취소
+      select.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.stopPropagation()
+          success(select.value)
+        } else if (e.key === 'Escape') {
+          e.stopPropagation()
+          cancel()
+        }
+      })
+
+      // 포커스 아웃 시 확정
+      select.addEventListener('blur', () => {
+        success(select.value)
+      })
     })
     
-    select.addEventListener('blur', () => {
-      cell.setValue(select.value)
-    })
-    
-    return select
+    return wrapper
   }, [])
 
   // 헤더 메뉴 정의 (컬럼 표시/숨김 토글)
@@ -238,7 +284,8 @@ export default function SampleTable({
         headerSort: true, 
         headerSortTristate: true, 
         headerMenu: headerMenu,
-        editor: searchEditor as unknown as 'input'
+        editor: searchEditor,
+        clickEdit: true
       },
       { 
         title: '상태', 
@@ -247,7 +294,8 @@ export default function SampleTable({
         headerSort: true, 
         headerSortTristate: true, 
         headerMenu: headerMenu,
-        editor: selectEditor as unknown as 'input'
+        editor: selectEditor,
+        clickEdit: true
       },
       { title: '날짜', field: 'header5', width: 180, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '사용자', field: 'header6', width: 140, headerSort: false, headerMenu: headerMenu, headerHozAlign: 'center' },
@@ -465,3 +513,4 @@ export default function SampleTable({
     </div>
   )
 }
+

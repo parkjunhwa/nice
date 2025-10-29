@@ -195,7 +195,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
   const [rCards, setRCards] = useState<string[]>((item.data.rCards as string[]) || [])
   const [includeStartDate, setIncludeStartDate] = useState((item.data.includeStartDate as boolean) || false)
   const [includeEndDate, setIncludeEndDate] = useState((item.data.includeEndDate as boolean) || false)
-  
+
   // R15 ATM장소임차료 관련 상태
   const [dailyAverageCount, setDailyAverageCount] = useState((item.data.dailyAverageCount as string) || '')
   const [withdrawalUnitPrice, setWithdrawalUnitPrice] = useState((item.data.withdrawalUnitPrice as string) || '')
@@ -396,81 +396,81 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                 <tbody>
                   {settlementBaseData.map((item) => (
                     <tr key={item.id}>
-                      <td>
-                        <Select
-                          size="small"
-                          disabled={pageMode === 'view'}
-                          sx={{ width: '100%' }}
+                    <td>
+                      <Select
+                        size="small"
+                        disabled={pageMode === 'view'}
+                        sx={{ width: '100%' }}
                           value={item.base}
                           onChange={(e) => {
                             setSettlementBaseData(prev => prev.map(p =>
                               p.id === item.id ? { ...p, base: e.target.value } : p
                             ))
                           }}
-                        >
-                          <MenuItem value=""><span>선택</span></MenuItem>
-                          <MenuItem value="옵션1">옵션1</MenuItem>
-                          <MenuItem value="옵션2">옵션2</MenuItem>
-                          <MenuItem value="옵션3">옵션3</MenuItem>
-                        </Select>
-                      </td>
-                      <td>
-                        <Select
-                          size="small"
-                          disabled={pageMode === 'view'}
-                          sx={{ width: '100%' }}
+                      >
+                        <MenuItem value=""><span>선택</span></MenuItem>
+                        <MenuItem value="옵션1">옵션1</MenuItem>
+                        <MenuItem value="옵션2">옵션2</MenuItem>
+                        <MenuItem value="옵션3">옵션3</MenuItem>
+                      </Select>
+                    </td>
+                    <td>
+                      <Select
+                        size="small"
+                        disabled={pageMode === 'view'}
+                        sx={{ width: '100%' }}
                           value={item.operator}
                           onChange={(e) => {
                             setSettlementBaseData(prev => prev.map(p =>
                               p.id === item.id ? { ...p, operator: e.target.value } : p
                             ))
                           }}
-                        >
-                          <MenuItem value=""><span>선택</span></MenuItem>
+                      >
+                        <MenuItem value=""><span>선택</span></MenuItem>
                           <MenuItem value="+">+</MenuItem>
                           <MenuItem value="-">-</MenuItem>
                           <MenuItem value="×">×</MenuItem>
                           <MenuItem value="÷">÷</MenuItem>
-                        </Select>
-                      </td>
-                      <td>
-                        <TextField
-                          variant="outlined"
-                          size="small"
-                          type="text"
-                          disabled={pageMode === 'view'}
+                      </Select>
+                    </td>
+                    <td>
+                      <TextField
+                        variant="outlined"
+                        size="small"
+                        type="text"
+                        disabled={pageMode === 'view'}
                           value={item.value}
-                          onChange={(e) => {
-                            // 숫자만 입력받기 (숫자 이외 제거)
-                            const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                        onChange={(e) => {
+                          // 숫자만 입력받기 (숫자 이외 제거)
+                          const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
                             setSettlementBaseData(prev => prev.map(p =>
                               p.id === item.id ? { ...p, value: onlyNumbers } : p
                             ))
-                          }}
-                          sx={{
-                            width: '100%'
-                          }}
-                          inputProps={{
-                            inputMode: 'numeric',
-                            pattern: '[0-9]*'
-                          }}
-                        />
-                      </td>
-                      <td>
+                        }}
+                        sx={{
+                          width: '100%'
+                        }}
+                        inputProps={{
+                          inputMode: 'numeric',
+                          pattern: '[0-9]*'
+                        }}
+                      />
+                    </td>
+                    <td>
                         {pageMode === 'edit' && item.id !== 1 && (
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            color="error"
-                            className="xsmallbtn2"
-                            startIcon={<Minus size={16} />}
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          color="error"
+                          className="xsmallbtn2"
+                          startIcon={<Minus size={16} />}
                             onClick={() => handleDeleteSettlementRow(item.id)}
-                          >
-                            <span style={{ display: "none" }}>삭제</span>
-                          </Button>
-                        )}
-                      </td>
-                    </tr>
+                        >
+                          <span style={{ display: "none" }}>삭제</span>
+                        </Button>
+                      )}
+                    </td>
+                  </tr>
                   ))}
                 </tbody>
               </table>
