@@ -102,6 +102,13 @@ const sidebarItems: MenuItem[] = [
     children: [
       { title: "MUI 컴포넌트", href: "/published/components/mui" },
       { title: "로딩중", href: "/published/components/loading" },
+      {
+        title: "테스트 2뎁스",
+        children: [
+          { title: "하위 메뉴 1", href: "/" },
+          { title: "하위 메뉴 2", href: "/" }
+        ]
+      }
     ]
   },
   { title: "공통팝업", href: "/published/components/modal", icon: Settings },
@@ -304,7 +311,7 @@ function MenuItem({
           {item.children?.map((child: MenuItem, index: number) => {
             const childIsActive = child.href ? pathname === child.href : false
             return (
-              <div key={index} className="relative">
+              <div key={index} className="relative group">
                 {child.href ? (
                   <Link href={child.href} onClick={onMenuClick}>
                     <div
@@ -328,7 +335,49 @@ function MenuItem({
                     <span>{child.title}</span>
                   </div>
                 )}
-
+                {/* level-2 submenu (collapsed only): appears when child has its own children */}
+                {child.children && child.children.length > 0 && (
+                  <div
+                    className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white border border-gray-200 rounded-lg shadow-lg py-2 min-w-48 z-[10001]"
+                  >
+                    {/* pointer arrow */}
+                    <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 -rotate-45" />
+                    {child.children.map((grand: MenuItem, gi: number) => {
+                      const grandIsActive = grand.href ? pathname === grand.href : false
+                      return (
+                        <div key={gi} className="relative">
+                          {grand.href ? (
+                            <Link href={grand.href} onClick={onMenuClick}>
+                              <div
+                                className={cn(
+                                  "flex items-center px-2 py-2 mx-2 text-sm",
+                                  grandIsActive ? "bg-blue-900 text-white" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                                )}
+                              >
+                                {grand.icon && (
+                                  <grand.icon className={cn("h-4 w-4 mr-3", grandIsActive ? "text-white" : undefined)} />
+                                )}
+                                <span>{grand.title}</span>
+                              </div>
+                            </Link>
+                          ) : (
+                            <div
+                              className={cn(
+                                "flex items-center px-2 py-2 mx-2 text-sm cursor-pointer",
+                                grandIsActive ? "bg-blue-900 text-white" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                              )}
+                            >
+                              {grand.icon && (
+                                <grand.icon className={cn("h-4 w-4 mr-3", grandIsActive ? "text-white" : undefined)} />
+                              )}
+                              <span>{grand.title}</span>
+                            </div>
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
             )
           })}
