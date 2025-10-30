@@ -1,6 +1,6 @@
 'use client'
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, TextField, InputAdornment } from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, IconButton, TextField, InputAdornment, Select, MenuItem } from '@mui/material'
 import { Icons } from '@/components'
 import { useState } from 'react'
 import SampleTable from '@/components/table/sample-table'
@@ -11,8 +11,14 @@ interface Cmn014Props {
 }
 
 export default function Cmn014({ open, onClose }: Cmn014Props) {
-  const [itemCode, setItemCode] = useState('')
-  const [itemName, setItemName] = useState('')
+  // 검색어 (라벨: 검색어)
+  const [searchKeyword, setSearchKeyword] = useState('')
+  // 검색 기준 선택 (라벨: 선택)
+  const [selectValue, setSelectValue] = useState('')
+  const selectOptions = [
+    { value: '옵션1', label: '옵션1' },
+    { value: '옵션2', label: '옵션2' }
+  ]
   return (
     <Dialog
       open={open}
@@ -48,54 +54,49 @@ export default function Cmn014({ open, onClose }: Cmn014Props) {
         <div className="flex items-center gap-4">
           <div className="flex items-center">
             <label className="form-side-label">
-              품목코드
+              검색어
             </label>
-            <TextField
-              variant="outlined"
-              size="small"
-              value={itemCode}
-              onChange={(e) => setItemCode(e.target.value)}
-              sx={{ width: '160px' }}
-              InputProps={{
-                endAdornment: itemCode && (
-                  <InputAdornment position="end">
-                    <IconButton
-                      size="small"
-                      onClick={() => setItemCode('')}
-                      sx={{
-                        '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                      }}
-                    >
-                      <Icons.XIcon size={14} />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-            />
-          </div>
-          <div className="flex items-center">
-            <label className="form-side-label">
-              품목명
-            </label>
-            <TextField
-              variant="outlined"
-              size="small"
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-              sx={{ width: '160px' }}
-              InputProps={{
-                endAdornment: itemName && (
-                  <InputAdornment position="end">
-                    <IconButton
-                      size="small"
-                      onClick={() => setItemName('')}
-                    >
-                      <Icons.XIcon size={14} />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
-            />
+            <div style={{ display: 'flex', gap: 4 }}>
+              <Select
+                value={selectValue}
+                onChange={(e) => setSelectValue(e.target.value)}
+                displayEmpty
+                className="bg-white"
+                size="small"
+                sx={{ width: '120px' }}
+              >
+                <MenuItem value="">
+                  <span>선택</span>
+                </MenuItem>
+                {selectOptions.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+              <TextField
+                variant="outlined"
+                size="small"
+                value={searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
+                sx={{ width: '200px' }}
+                InputProps={{
+                  endAdornment: searchKeyword && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        size="small"
+                        onClick={() => setSearchKeyword('')}
+                        sx={{
+                          '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
+                        }}
+                      >
+                        <Icons.XIcon size={14} />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </div>
           </div>
         </div>
         {/* 우측: 카테고리/상태/버튼 (width auto) */}
@@ -105,7 +106,7 @@ export default function Cmn014({ open, onClose }: Cmn014Props) {
           </Button>
         </div>
       </div>
-      
+
       <DialogContent>
         {/* 세로 꽉차는 테이블 샘플 */}
         <div style={{ height: 'calc(100% - 0px)', marginTop: '16px' }}>
@@ -123,10 +124,7 @@ export default function Cmn014({ open, onClose }: Cmn014Props) {
 
       <DialogActions sx={{ padding: '16px' }}>
         <Button onClick={onClose} variant="outlined" color="secondary">
-          취소
-        </Button>
-        <Button variant="contained" onClick={onClose}>
-          선택
+          닫기
         </Button>
       </DialogActions>
     </Dialog>
