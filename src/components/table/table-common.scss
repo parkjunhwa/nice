@@ -680,6 +680,13 @@
   cursor: pointer;
   padding: 2px;
   transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
 
   &:hover {
     color: #3b82f6;
@@ -714,19 +721,6 @@
   pointer-events: none;         /* 클릭 불가 */
   color: #6b7280;               /* gray-500 정도 */
 }
-
-/* 편집 모드에서 쓰는 활성 아이콘(이미 코드에 존재) */
-.table-search-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-}
-
 
 // 고정 컬럼 border 스타일 (헤더)
 .tabulator .tabulator-header .tabulator-col.tabulator-frozen.tabulator-frozen-left {
