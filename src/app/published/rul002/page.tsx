@@ -352,7 +352,8 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
       'R12': '브랜드제휴 변동보전료',
       'R13': '현금/일괄 용역료',
       'R14': '전기료',
-      'R15': 'ATM장소임차료-코리아세븐'
+      'R15': 'ATM장소임차료-코리아세븐',
+      'R16': '현송비'
     }
     return titles[rType] || ''
   }
@@ -396,81 +397,81 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                 <tbody>
                   {settlementBaseData.map((item) => (
                     <tr key={item.id}>
-                    <td>
-                      <Select
-                        size="small"
-                        disabled={pageMode === 'view'}
-                        sx={{ width: '100%' }}
+                      <td>
+                        <Select
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          sx={{ width: '100%' }}
                           value={item.base}
                           onChange={(e) => {
                             setSettlementBaseData(prev => prev.map(p =>
                               p.id === item.id ? { ...p, base: e.target.value } : p
                             ))
                           }}
-                      >
-                        <MenuItem value=""><span>선택</span></MenuItem>
-                        <MenuItem value="옵션1">옵션1</MenuItem>
-                        <MenuItem value="옵션2">옵션2</MenuItem>
-                        <MenuItem value="옵션3">옵션3</MenuItem>
-                      </Select>
-                    </td>
-                    <td>
-                      <Select
-                        size="small"
-                        disabled={pageMode === 'view'}
-                        sx={{ width: '100%' }}
+                        >
+                          <MenuItem value=""><span>선택</span></MenuItem>
+                          <MenuItem value="옵션1">옵션1</MenuItem>
+                          <MenuItem value="옵션2">옵션2</MenuItem>
+                          <MenuItem value="옵션3">옵션3</MenuItem>
+                        </Select>
+                      </td>
+                      <td>
+                        <Select
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          sx={{ width: '100%' }}
                           value={item.operator}
                           onChange={(e) => {
                             setSettlementBaseData(prev => prev.map(p =>
                               p.id === item.id ? { ...p, operator: e.target.value } : p
                             ))
                           }}
-                      >
-                        <MenuItem value=""><span>선택</span></MenuItem>
+                        >
+                          <MenuItem value=""><span>선택</span></MenuItem>
                           <MenuItem value="+">+</MenuItem>
                           <MenuItem value="-">-</MenuItem>
                           <MenuItem value="×">×</MenuItem>
                           <MenuItem value="÷">÷</MenuItem>
-                      </Select>
-                    </td>
-                    <td>
-                      <TextField
-                        variant="outlined"
-                        size="small"
-                        type="text"
-                        disabled={pageMode === 'view'}
+                        </Select>
+                      </td>
+                      <td>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          type="text"
+                          disabled={pageMode === 'view'}
                           value={item.value}
-                        onChange={(e) => {
-                          // 숫자만 입력받기 (숫자 이외 제거)
-                          const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                          onChange={(e) => {
+                            // 숫자만 입력받기 (숫자 이외 제거)
+                            const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
                             setSettlementBaseData(prev => prev.map(p =>
                               p.id === item.id ? { ...p, value: onlyNumbers } : p
                             ))
-                        }}
-                        sx={{
-                          width: '100%'
-                        }}
-                        inputProps={{
-                          inputMode: 'numeric',
-                          pattern: '[0-9]*'
-                        }}
-                      />
-                    </td>
-                    <td>
+                          }}
+                          sx={{
+                            width: '100%'
+                          }}
+                          inputProps={{
+                            inputMode: 'numeric',
+                            pattern: '[0-9]*'
+                          }}
+                        />
+                      </td>
+                      <td>
                         {pageMode === 'edit' && item.id !== 1 && (
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          color="error"
-                          className="xsmallbtn2"
-                          startIcon={<Minus size={16} />}
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            color="error"
+                            className="xsmallbtn2"
+                            startIcon={<Minus size={16} />}
                             onClick={() => handleDeleteSettlementRow(item.id)}
-                        >
-                          <span style={{ display: "none" }}>삭제</span>
-                        </Button>
-                      )}
-                    </td>
-                  </tr>
+                          >
+                            <span style={{ display: "none" }}>삭제</span>
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
                   ))}
                 </tbody>
               </table>
@@ -1635,6 +1636,78 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
           </>
         );
 
+      case 'R16': // 현송비
+        return (
+          <>
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label">
+                  현송업체
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled
+                  value={formatNumber(dailyAverageCount)}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'left'
+                    }
+                  }}
+                  inputProps={{
+                    readOnly: true,
+                  }}
+                />
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label">
+                  단가
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled
+                  value={formatNumber(depositUnitPrice)}
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setDepositUnitPrice(onlyNumbers);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*'
+                  }}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * SITE 월현송건수 x 단가
+              </Typography>
+            </div>
+          </>
+        );
+
       default:
         return (
           <div style={{ display: 'flex', gap: 4, width: '100%' }} className="mb-2">
@@ -1836,6 +1909,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                       <MenuItem value="R13">R13:현금/일괄 용역료</MenuItem>
                       <MenuItem value="R14">R14:전기료</MenuItem>
                       <MenuItem value="R15">R15:ATM장소임차료-코리아세븐</MenuItem>
+                      <MenuItem value="R16">R16:현송비</MenuItem>
                     </Select>
                     <Button
                       variant="outlined"
