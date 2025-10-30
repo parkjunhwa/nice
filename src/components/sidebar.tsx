@@ -102,8 +102,6 @@ const sidebarItems: MenuItem[] = [
     children: [
       { title: "MUI 컴포넌트", href: "/published/components/mui" },
       { title: "로딩중", href: "/published/components/loading" },
-      { title: "검색01", href: "/published/components/search01" },
-      { title: "검색02", href: "/published/components/search02" },
     ]
   },
   { title: "공통팝업", href: "/published/components/modal", icon: Settings },
