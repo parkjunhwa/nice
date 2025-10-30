@@ -43,7 +43,7 @@
   .u-shadow-lg  { box-shadow: var(--shadow-lg); }
   .u-shadow-xl  { box-shadow: var(--shadow-xl); }
 
-  /* 반응형 표시 */
+  /* 반응형 표시(향후 대응용) */
   .u-hidden-mobile   { @include mobile   { display: none;  } }
   .u-hidden-tablet   { @include tablet   { display: none;  } }
   .u-hidden-desktop  { @include desktop  { display: none;  } }

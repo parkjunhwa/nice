@@ -12,7 +12,7 @@ Next.js 15와 TypeScript, Tailwind CSS, MUI를 사용하여 구축된 현대적�
 - **전역 로더 시스템**: Context API 기반 전역 로더 상태 관리
 - **사이드바 시스템**: 접힘/펼침 네비게이션, 하위 메뉴 active 상태 스타일링 (gray-100/gray-900)
 - **에러 페이지**: 401, 404 전용 에러 페이지 (Next.js 자동 404 처리 포함)
-- **반응형 디자인**: 모바일, 태블릿, 데스크톱 모든 디바이스 지원
+- **반응형 디자인**: 모바일, 태블릿, 데스크톱 모든 디바이스 지원(향후 대응용)
 - **TypeScript**: 타입 안전성을 보장하는 TypeScript 지원
 - **컴포넌트 기반**: 재사용 가능한 컴포넌트 구조
 - **SCSS 스타일링**: 토큰 기반 디자인 시스템과 SCSS 컴포넌트 클래스 (c-panel 통일)
@@ -457,7 +457,6 @@ const DraggableRCard = ({ rType, index, moveCard, pageMode }) => {
 **드래그 앤 드롭 특징:**
 - **마우스 커서**: 드래그 시 손 모양 커서 (`cursor-grab`, `cursor-grabbing`)
 - **시각적 피드백**: 드래그 중 투명도 변경, 드롭 영역 점선 테두리 표시
-- **반응형 레이아웃**: 1599px까지 1단, 그 이상에서 2단 그리드
 - **부드러운 애니메이션**: `transition-all duration-200`으로 자연스러운 전환
 
 
@@ -513,7 +512,7 @@ export function NewComponent({ title, value, className }: NewComponentProps) {
 - **Tailwind CSS**: 유틸리티 클래스 사용
 - **SCSS 컴포넌트 클래스**: `c-` 접두사 사용
 - **토큰 기반 시스템**: CSS 변수 활용
-- **반응형 디자인**: 브레이크포인트 활용
+- **반응형 디자인**: 브레이크포인트 활용(향후 대응용)
 
 ```scss
 // SCSS 컴포넌트 클래스 예시
@@ -626,7 +625,7 @@ useReducer를 활용한 통합 상태 관리와 이벤트 핸들러 최적화를
 
 ### 믹스인 시스템
 - **레이아웃**: flexbox, grid, positioning
-- **반응형**: breakpoint별 스타일 적용
+- **반응형**: breakpoint별 스타일 적용(향후 대응용)
 - **접근성**: focus, hover, disabled 상태
 - **애니메이션**: transition, transform, keyframe
 - **컴포넌트**: card, button, input, table 스타일

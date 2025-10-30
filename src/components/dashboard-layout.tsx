@@ -18,7 +18,6 @@ interface DashboardLayoutProps {
  * 주요 특징:
  * - 페이지 로드 완료 시 자동으로 로더 제거
  * - 사이드바 상태를 localStorage에 저장/복원
- * - 반응형 레이아웃 지원
  * - 전역 로더 상태 관리
  */
 function DashboardLayoutContent({ children, isSidebarOpen, setIsSidebarOpen }: DashboardLayoutProps & { 

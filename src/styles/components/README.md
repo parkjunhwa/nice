@@ -246,12 +246,6 @@ styles/
 <div className="c-spacer c-spacer--lg"></div>
 ```
 
-#### 반응형 유틸리티
-```tsx
-<div className="c-hidden c-hidden--mobile">모바일에서 숨김</div>
-<div className="c-visible c-visible--desktop">데스크톱에서만 표시</div>
-```
-
 #### 애니메이션 유틸리티
 ```tsx
 <div className="c-animate c-animate--fade-in">페이드인 애니메이션</div>
@@ -447,7 +441,7 @@ styles/
 }
 ```
 
-### 2. 반응형 믹스인
+### 2. 반응형 믹스인(향후 대응용)
 
 ```scss
 .my-component {
