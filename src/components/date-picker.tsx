@@ -4,8 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { ko } from 'date-fns/locale'
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay'
-import { GlobalStyles, Box, Button } from '@mui/material'
-import type { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar'
+import { GlobalStyles } from '@mui/material'
 
 // 공통 스타일 함수
 const getTextFieldSx = (helperText?: string, disabled?: boolean, readOnly?: boolean) => ({
@@ -102,50 +101,7 @@ function ColoredPickersDay(dayProps: PickersDayProps) {
   )
 }
 
-// 하단 ActionBar를 아웃라인 버튼으로 렌더링
-type ActionKey = 'clear' | 'cancel' | 'accept' | 'today'
-type OutlinedActionBarProps = {
-  onAccept?: () => void
-  onCancel?: () => void
-  onClear?: () => void
-  onSetToday?: () => void
-  actions?: readonly ActionKey[]
-}
-
-function CustomOutlinedActionBar({ onAccept, onCancel, onClear, onSetToday, actions }: OutlinedActionBarProps) {
-  const labels: Record<ActionKey, string> = {
-    clear: '지우기',
-    cancel: '취소',
-    accept: '확인',
-    today: '오늘',
-  }
-  const handlers: Record<ActionKey, (() => void) | undefined> = {
-    clear: onClear,
-    cancel: onCancel,
-    accept: onAccept,
-    today: onSetToday,
-  }
-
-  return (
-    <Box className="MuiPickersLayout-actionBar" sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, px: 2, py: 1.5 }}>
-      {(actions || []).map((key) => {
-        const isAccept = key === 'accept'
-        return (
-          <Button
-            key={key}
-            variant={isAccept ? 'contained' : 'outlined'}
-            color={isAccept ? 'primary' : 'inherit'}
-            size="small"
-            onClick={handlers[key]}
-            sx={!isAccept ? { borderColor: '#d1d5db', color: '#6b7280' } : undefined}
-          >
-            {labels[key]}
-          </Button>
-        )
-      })}
-    </Box>
-  )
-}
+// ActionBar 기본 동작 유지 + 스타일만 CSS로 오버라이드 (핸들러 안정성 보장)
 
 // 공통 slotProps 생성 함수
 const createSlotProps = (
@@ -231,15 +187,26 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
   const content = (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
       <GlobalStyles styles={{
-        '.MuiDayCalendar-weekDayLabel:nth-of-type(1)': { color: '#ef4444' }, // Sun (ko locale starts on Sun)
-        '.MuiDayCalendar-weekDayLabel:nth-of-type(7)': { color: '#2563eb' }  // Sat
+        '.MuiDayCalendar-weekDayLabel:nth-of-type(1)': { color: '#ef4444' },
+        '.MuiDayCalendar-weekDayLabel:nth-of-type(7)': { color: '#2563eb' },
+        '.MuiPickersLayout-actionBar': { display: 'flex', justifyContent: 'flex-end', gap: '0px', padding: '12px 16px' },
+        '.MuiPickersLayout-actionBar .MuiButton-root': {
+          border: '1px solid #d1d5db',
+          color: '#6b7280',
+          background: 'transparent',
+          padding: '2px 4px',
+          lineHeight: 1.5,
+          fontSize: '0.8125rem',
+          minHeight: '28px'
+        },
+        '.MuiPickersLayout-actionBar .MuiButton-root:last-child': { border: '1px solid #1976d2', background: '#1976d2', color: '#fff' }
       }} />
       <MuiDatePicker
         value={value}
         onChange={onChange}
         format="yyyy-MM-dd"
         views={['year', 'month', 'day']}
-        slots={{ day: ColoredPickersDay, actionBar: CustomOutlinedActionBar as unknown as React.ComponentType<PickersActionBarProps> }}
+        slots={{ day: ColoredPickersDay }}
         shouldDisableDate={shouldDisableDate}
         disabled={disabled || readOnly}
         open={readOnly ? false : undefined}
@@ -288,14 +255,25 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
       <GlobalStyles styles={{
         '.MuiDayCalendar-weekDayLabel:nth-of-type(1)': { color: '#ef4444' },
-        '.MuiDayCalendar-weekDayLabel:nth-of-type(7)': { color: '#2563eb' }
+        '.MuiDayCalendar-weekDayLabel:nth-of-type(7)': { color: '#2563eb' },
+        '.MuiPickersLayout-actionBar': { display: 'flex', justifyContent: 'flex-end', gap: '0px', padding: '12px 16px' },
+        '.MuiPickersLayout-actionBar .MuiButton-root': {
+          border: '1px solid #d1d5db',
+          color: '#6b7280',
+          background: 'transparent',
+          padding: '2px 4px',
+          lineHeight: 1.5,
+          fontSize: '0.8125rem',
+          minHeight: '28px'
+        },
+        '.MuiPickersLayout-actionBar .MuiButton-root:last-child': { border: '1px solid #1976d2', background: '#1976d2', color: '#fff' }
       }} />
       <MuiDatePicker
         value={value}
         onChange={onChange}
         format="yyyy-MM"
         views={['year', 'month']}
-        slots={{ day: ColoredPickersDay, actionBar: CustomOutlinedActionBar as unknown as React.ComponentType<PickersActionBarProps> }}
+        slots={{ day: ColoredPickersDay }}
         disabled={disabled || readOnly}
         open={readOnly ? false : undefined}
         localeText={{
