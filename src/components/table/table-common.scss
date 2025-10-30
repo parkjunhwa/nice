@@ -725,16 +725,26 @@
 // 고정 컬럼 border 스타일 (헤더)
 .tabulator .tabulator-header .tabulator-col.tabulator-frozen.tabulator-frozen-left {
   border-right: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
-  background: #1e3a8a !important; // 헤더 배경색 유지
+  background-color: #1e3a8a !important; // 헤더 배경색 명시적으로 설정
   z-index: 11;
   position: relative;
+  
+  &:hover {
+    background-color: #1e3a8a !important; // hover 시 배경색 변경
+    z-index: 12 !important; // hover 시 z-index를 더 높게 설정하여 뒤 셀 위로 올라오도록
+  }
 }
 
 .tabulator .tabulator-header .tabulator-col.tabulator-frozen.tabulator-frozen-right {
   border-left: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
-  background: #1e3a8a !important; // 헤더 배경색 유지
+  background-color: #1e3a8a !important; // 헤더 배경색 명시적으로 설정
   z-index: 11;
   position: relative;
+  
+  &:hover {
+    background-color: #1e3a8a !important; // hover 시 배경색 변경
+    z-index: 12 !important; // hover 시 z-index를 더 높게 설정하여 뒤 셀 위로 올라오도록
+  }
 }
 
 // 고정 컬럼 border 스타일 (바디 셀)
