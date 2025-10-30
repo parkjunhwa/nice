@@ -43,7 +43,7 @@ export const DateTimePicker: React.FC<CustomDateTimePickerProps> = ({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
-      <GlobalStyles styles={{
+      <GlobalStyles styles={(theme) => ({
         '.MuiDayCalendar-weekDayLabel:nth-of-type(1)': { color: '#ef4444' },
         '.MuiDayCalendar-weekDayLabel:nth-of-type(7)': { color: '#2563eb' },
         '.MuiPickersLayout-actionBar': { display: 'flex', justifyContent: 'flex-end', gap: '0px', padding: '12px 16px' },
@@ -56,8 +56,8 @@ export const DateTimePicker: React.FC<CustomDateTimePickerProps> = ({
           fontSize: '0.8125rem',
           minHeight: '28px'
         },
-        '.MuiPickersLayout-actionBar .MuiButton-root:last-child': { border: '1px solid #1976d2', background: '#1976d2', color: '#fff' }
-      }} />
+        '.MuiPickersLayout-actionBar .MuiButton-root:last-child': { border: `1px solid ${theme.palette.primary.main}`, background: theme.palette.primary.main, color: '#fff' }
+      })} />
       <MuiDateTimePicker
         value={value}
         onChange={onChange}
