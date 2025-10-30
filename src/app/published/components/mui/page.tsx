@@ -1109,7 +1109,7 @@ export default function MuiPage() {
             </div>
 
             {/* 액션 버튼 */}
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <Button
                 variant="contained"
                 size="small"
