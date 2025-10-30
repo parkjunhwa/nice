@@ -107,6 +107,10 @@
 
     &:hover {
       background-color: #dbeafe !important; /* blue-50 - hover 시 모든 라인에 적용 */
+      
+      .tabulator-cell {
+        background-color: transparent !important; /* hover 시 셀 배경을 투명으로 */
+      }
     }
 
     &:nth-child(even) {
@@ -114,6 +118,14 @@
       
       &:hover {
         background-color: #dbeafe !important; /* blue-50 - 짝수 라인 hover 시에도 적용 */
+        
+        .tabulator-cell {
+          background-color: transparent !important; /* hover 시 셀 배경을 투명으로 */
+        }
+      }
+      
+      .tabulator-cell {
+        background: #f9fafb !important; /* 짝수 행 배경색 */
       }
     }
 
@@ -125,6 +137,7 @@
       vertical-align: middle;
       height: 34px !important;
       line-height: 22px !important; /* 34px - 12px(padding) = 22px */
+      background: #fff !important; /* 기본 배경색 설정 */
     }
   }
 }
@@ -203,6 +216,11 @@
   }
   
   .tabulator-cell {
+    background-color: transparent !important; /* selected 시 셀 배경을 투명으로 */
+  }
+  
+  // 짝수 행이 selected일 때도 배경색 우선 적용
+  &:nth-child(even) .tabulator-cell {
     background-color: transparent !important;
   }
 }
@@ -210,6 +228,10 @@
 .tabulator .tabulator-row.tabulator-selectable:hover {
   background-color: #f3f4f6 !important; /* gray-100 */
   cursor: pointer;
+  
+  .tabulator-cell {
+    background-color: transparent !important; /* selectable hover 시 셀 배경을 투명으로 */
+  }
 }
 
 .tabulator-row .tabulator-cell.tabulator-editing {
@@ -670,17 +692,29 @@
 // 고정 컬럼 border 스타일 (헤더)
 .tabulator .tabulator-header .tabulator-col.tabulator-frozen.tabulator-frozen-left {
   border-right: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
+  background: #1e3a8a !important; // 헤더 배경색 유지
+  z-index: 11;
+  position: relative;
 }
 
 .tabulator .tabulator-header .tabulator-col.tabulator-frozen.tabulator-frozen-right {
   border-left: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
+  background: #1e3a8a !important; // 헤더 배경색 유지
+  z-index: 11;
+  position: relative;
 }
 
 // 고정 컬럼 border 스타일 (바디 셀)
 .tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-left {
   border-right: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
+  background: #fff !important; // 고정 셀 배경색
+  z-index: 10;
+  position: relative;
 }
 
 .tabulator-row .tabulator-cell.tabulator-frozen.tabulator-frozen-right {
   border-left: 1px solid rgba(17, 24, 39, 0.5) !important; // gray-900 at 50% opacity
+  background: #fff !important; // 고정 셀 배경색
+  z-index: 10;
+  position: relative;
 }
