@@ -60,7 +60,7 @@
 
 ### 드래그 앤 드롭 컴포넌트
 - **React DnD**: 드래그 앤 드롭 라이브러리 통합
-- **DraggableRCard**: R01~R09 카드 드래그 가능 컴포넌트
+- **DraggableRCard**: R01~R16 카드 드래그 가능 컴포넌트
 - **드래그 핸들**: GripVertical 아이콘으로 드래그 영역 표시
 - **시각적 피드백**: 드래그 중 투명도 변경, 드롭 영역 점선 테두리
 
@@ -278,6 +278,6 @@ export function NewComponent({ title, value, className }: NewComponentProps) {
 ---
 
 **작성자**
-디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-22)  
+디자이너/퍼블리셔 박준화 수석 (최종수정일: 2025-10-30)  
 010-9479-3188
 s77t04257@woongjin.co.kr
