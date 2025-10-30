@@ -63,6 +63,7 @@ export default function Stl002({ open, onClose, onSuccess }: Stl002Props) {
       open={open}
       onClose={handleClose}
       maxWidth={false}
+      scroll="body"
       PaperProps={{
         sx: {
           borderRadius: 2,
@@ -87,10 +88,10 @@ export default function Stl002({ open, onClose, onSuccess }: Stl002Props) {
         </div>
       </DialogTitle>
 
-      <DialogContent>
+      <DialogContent sx={{ overflow: 'visible' }}>
 
-        <div className="p-0 gap-y-2">
-          <div className="flex flex-wrap gap-x-4 gap-y-1 items-center mb-1">
+        <div className="gap-y-2">
+          <div className="flex flex-wrap gap-x-4 items-center">
             <div className="flex items-center">
               <label className="form-side-label text-left">
                 사업부
