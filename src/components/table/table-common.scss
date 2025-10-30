@@ -276,7 +276,7 @@
 .tabulator-row .tabulator-cell.tabulator-editing {
   border: 2px solid #2563eb !important; // blue-600
   outline: none;
-  padding: 0 4px !important; /* 일반 셀과 동일한 패딩 유지 */
+  padding: 0 6px !important; /* 일반 셀과 동일한 좌우 패딩 유지 (좌우 12px, 상하 0) */
   line-height: 32px !important;
 }
 
@@ -619,7 +619,7 @@
   padding: 4px 24px 4px 4px;
   margin: 0;
   background: transparent;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.5;
   min-height: 100%;
   box-sizing: border-box;
@@ -637,7 +637,7 @@
   width: 100%;
   border: none;
   outline: none;
-  padding: 0 24px 0 0;
+  padding: 0 24px 0 4px;
   margin: 0;
   background: transparent;
   cursor: pointer;
