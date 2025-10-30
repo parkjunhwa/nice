@@ -13,7 +13,9 @@ import {
   Box,
   BadgeCheck,
   BadgeInfo,
-  AlertTriangle
+  AlertTriangle,
+  Home,
+  Lock
 } from "lucide-react"
 import { Tooltip, IconButton, Select, MenuItem as MuiMenuItem, FormControl } from "@mui/material"
 import Link from "next/link"
@@ -98,12 +100,12 @@ const sidebarItems: MenuItem[] = [
   { title: "", separator: true },
   {
     title: "컴포넌트 예시",
-    icon: FileText,
+    icon: Box,
     children: [
       { title: "MUI 컴포넌트", href: "/published/components/mui" },
       { title: "로딩중", href: "/published/components/loading" },
       {
-        title: "테스트 2뎁스",
+        title: "테스트 3뎁스",
         children: [
           { title: "하위 메뉴 1", href: "/" },
           { title: "하위 메뉴 2", href: "/" }
@@ -111,9 +113,9 @@ const sidebarItems: MenuItem[] = [
       }
     ]
   },
-  { title: "공통팝업", href: "/published/components/modal", icon: Settings },
-  { title: "로그인", href: "/mnb001", icon: Settings },
-  { title: "메인", href: "/published", icon: Settings },
+  { title: "공통팝업", href: "/published/components/modal", icon: FileText },
+  { title: "로그인", href: "/mnb001", icon: Lock },
+  { title: "메인", href: "/published", icon: Home },
   {
     title: "공지사항",
     icon: Bell,
