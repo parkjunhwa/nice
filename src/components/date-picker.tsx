@@ -3,6 +3,9 @@ import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { ko } from 'date-fns/locale'
+import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay'
+import { GlobalStyles, Box, Button } from '@mui/material'
+import type { PickersActionBarProps } from '@mui/x-date-pickers/PickersActionBar'
 
 // 공통 스타일 함수
 const getTextFieldSx = (helperText?: string, disabled?: boolean, readOnly?: boolean) => ({
@@ -85,6 +88,64 @@ const getTextFieldSx = (helperText?: string, disabled?: boolean, readOnly?: bool
     }
   })
 })
+
+// 요일별 색상 적용 Day 컴포넌트 (일: 빨강, 토: 파랑)
+function ColoredPickersDay(dayProps: PickersDayProps) {
+  const date = dayProps.day as Date
+  const weekday = date.getDay()
+  const color = weekday === 0 ? '#ef4444' : (weekday === 6 ? '#2563eb' : undefined)
+  return (
+    <PickersDay
+      {...dayProps}
+      sx={color ? { color } : undefined}
+    />
+  )
+}
+
+// 하단 ActionBar를 아웃라인 버튼으로 렌더링
+type ActionKey = 'clear' | 'cancel' | 'accept' | 'today'
+type OutlinedActionBarProps = {
+  onAccept?: () => void
+  onCancel?: () => void
+  onClear?: () => void
+  onSetToday?: () => void
+  actions?: readonly ActionKey[]
+}
+
+function CustomOutlinedActionBar({ onAccept, onCancel, onClear, onSetToday, actions }: OutlinedActionBarProps) {
+  const labels: Record<ActionKey, string> = {
+    clear: '지우기',
+    cancel: '취소',
+    accept: '확인',
+    today: '오늘',
+  }
+  const handlers: Record<ActionKey, (() => void) | undefined> = {
+    clear: onClear,
+    cancel: onCancel,
+    accept: onAccept,
+    today: onSetToday,
+  }
+
+  return (
+    <Box className="MuiPickersLayout-actionBar" sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, px: 2, py: 1.5 }}>
+      {(actions || []).map((key) => {
+        const isAccept = key === 'accept'
+        return (
+          <Button
+            key={key}
+            variant={isAccept ? 'contained' : 'outlined'}
+            color={isAccept ? 'primary' : 'inherit'}
+            size="small"
+            onClick={handlers[key]}
+            sx={!isAccept ? { borderColor: '#d1d5db', color: '#6b7280' } : undefined}
+          >
+            {labels[key]}
+          </Button>
+        )
+      })}
+    </Box>
+  )
+}
 
 // 공통 slotProps 생성 함수
 const createSlotProps = (
@@ -169,11 +230,16 @@ export const DatePicker: React.FC<CustomDatePickerProps> = ({
 
   const content = (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
+      <GlobalStyles styles={{
+        '.MuiDayCalendar-weekDayLabel:nth-of-type(1)': { color: '#ef4444' }, // Sun (ko locale starts on Sun)
+        '.MuiDayCalendar-weekDayLabel:nth-of-type(7)': { color: '#2563eb' }  // Sat
+      }} />
       <MuiDatePicker
         value={value}
         onChange={onChange}
         format="yyyy-MM-dd"
         views={['year', 'month', 'day']}
+        slots={{ day: ColoredPickersDay, actionBar: CustomOutlinedActionBar as unknown as React.ComponentType<PickersActionBarProps> }}
         shouldDisableDate={shouldDisableDate}
         disabled={disabled || readOnly}
         open={readOnly ? false : undefined}
@@ -220,11 +286,16 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
+      <GlobalStyles styles={{
+        '.MuiDayCalendar-weekDayLabel:nth-of-type(1)': { color: '#ef4444' },
+        '.MuiDayCalendar-weekDayLabel:nth-of-type(7)': { color: '#2563eb' }
+      }} />
       <MuiDatePicker
         value={value}
         onChange={onChange}
         format="yyyy-MM"
         views={['year', 'month']}
+        slots={{ day: ColoredPickersDay, actionBar: CustomOutlinedActionBar as unknown as React.ComponentType<PickersActionBarProps> }}
         disabled={disabled || readOnly}
         open={readOnly ? false : undefined}
         localeText={{

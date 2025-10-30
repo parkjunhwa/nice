@@ -3,6 +3,8 @@ import { DateTimePicker as MuiDateTimePicker } from '@mui/x-date-pickers'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { ko } from 'date-fns/locale'
+import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay'
+import { GlobalStyles, Box, Button } from '@mui/material'
 
 interface CustomDateTimePickerProps {
   value: Date | null
@@ -26,13 +28,54 @@ export const DateTimePicker: React.FC<CustomDateTimePickerProps> = ({
   clearable = true,
   ...props
 }) => {
+  // 요일별 색상 적용 Day 컴포넌트 (일: 빨강, 토: 파랑)
+  function ColoredPickersDay(dayProps: PickersDayProps) {
+    const date = dayProps.day as Date
+    const weekday = date.getDay()
+    const color = weekday === 0 ? '#ef4444' : (weekday === 6 ? '#2563eb' : undefined)
+    return (
+      <PickersDay
+        {...dayProps}
+        sx={color ? { color } : undefined}
+      />
+    )
+  }
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={ko}>
+      <GlobalStyles styles={{
+        '.MuiDayCalendar-weekDayLabel:nth-of-type(1)': { color: '#ef4444' },
+        '.MuiDayCalendar-weekDayLabel:nth-of-type(7)': { color: '#2563eb' }
+      }} />
       <MuiDateTimePicker
         value={value}
         onChange={onChange}
         format="yyyy-MM-dd HH:mm"
         views={['year', 'month', 'day', 'hours', 'minutes']}
+        slots={{
+          day: ColoredPickersDay as unknown as React.ElementType,
+          actionBar: (({ onAccept, onCancel, onClear, onSetToday, actions }: any) => (
+            <Box className="MuiPickersLayout-actionBar" sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, px: 2, py: 1.5 }}>
+              {(actions || []).map((key: 'clear'|'cancel'|'accept'|'today') => {
+                const isAccept = key === 'accept'
+                const handler = { clear: onClear, cancel: onCancel, accept: onAccept, today: onSetToday }[key]
+                const label = { clear: '지우기', cancel: '취소', accept: '확인', today: '오늘' }[key]
+                return (
+                  <Button
+                    key={key}
+                    variant={isAccept ? 'contained' : 'outlined'}
+                    color={isAccept ? 'primary' : 'inherit'}
+                    size="small"
+                    onClick={handler}
+                    sx={!isAccept ? { borderColor: '#d1d5db', color: '#6b7280' } : undefined}
+                  >
+                    {label}
+                  </Button>
+                )
+              })}
+            </Box>
+          )) as unknown as React.ElementType,
+        }}
         localeText={{
           cancelButtonLabel: '취소',
           okButtonLabel: '확인',
