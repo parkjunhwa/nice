@@ -68,7 +68,7 @@ export default function Inc002Page() {
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
-              { label: '매출', href: '/' },
+              { label: '매출 관리', href: '/' },
               { label: '매출 집계(월)', active: true }
             ]}
           />

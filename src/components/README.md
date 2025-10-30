@@ -74,7 +74,7 @@
 - `index.ts`: 모달 컴포넌트 export
 - `basic-modal.tsx`: 기본 모달
 - `confirm-modal.tsx`: 확인 모달
-- `cmn001.tsx` ~ `cmn012.tsx`: 공통 모달 컴포넌트들
+- `cmn001.tsx` ~ `cmn014.tsx`: 공통 모달 컴포넌트들
 - `cmn010.tsx`: 결재상신 본문 등록 모달 (MD Editor 포함)
 - `mui-basic-modal.tsx`: MUI 기본 모달
 - `mui-confirm-modal.tsx`: MUI 확인 모달

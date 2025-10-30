@@ -103,14 +103,14 @@ export default function Pmt001Page() {
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">수납 집계(일)</h1>
+          <h1 className="text-2xl font-bold text-gray-900">수납 집계</h1>
         </div>
         <div>
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
-              { label: '수납', href: '/' },
-              { label: '수납 집계(일)', active: true }
+              { label: '수납 관리', href: '/' },
+              { label: '수납 집계', active: true }
             ]}
           />
         </div>

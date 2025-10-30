@@ -70,14 +70,14 @@ export default function Stl001Page() {
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">정산 집계(월)</h1>
+          <h1 className="text-2xl font-bold text-gray-900">정산</h1>
         </div>
         <div>
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
-              { label: '정산', href: '/' },
-              { label: '정산 집계(월)', active: true }
+              { label: '정산 관리', href: '/' },
+              { label: '정산', active: true }
             ]}
           />
         </div>

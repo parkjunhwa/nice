@@ -77,7 +77,7 @@ nice/
 │   │   ├── modal/           # 모달 컴포넌트들
 │   │   │   ├── basic-modal.tsx
 │   │   │   ├── confirm-modal.tsx
-│   │   │   ├── cmn001.tsx ~ cmn013.tsx
+│   │   │   ├── cmn001.tsx ~ cmn014.tsx
 │   │   │   ├── mnb002.tsx   # 비밀번호 변경 모달
 │   │   │   ├── mui-basic-modal.tsx
 │   │   │   ├── mui-confirm-modal.tsx
@@ -211,7 +211,7 @@ npm run dev
 ### Modal Components
 - **기본 모달**: BasicModal, ConfirmModal
 - **MUI 모달**: MuiBasicModal, MuiFormModal, MuiConfirmModal, MuiFullscreenModal
-- **프로젝트 모달**: Cmn001-Cmn013 (검색, 업로드, 폼 등), Mnb002 (비밀번호 변경), Stl002 (정산 실행 월)
+- **프로젝트 모달**: Cmn001-Cmn014 (검색, 업로드, 폼 등), Mnb002 (비밀번호 변경), Stl002 (정산 실행 월)
 - **리치 텍스트 에디터**: MD Editor (@uiw/react-md-editor) - 결재상신 본문 등록 모달에서 사용
 
 ### Drag & Drop
@@ -297,9 +297,7 @@ import {
 import { 
   BasicModal, 
   ConfirmModal,
-  Cmn001,
-  Cmn012, // CMN012 정산기준정보 검색 모달
-  Cmn013, // CMN013 정산기준정보 상세 모달
+  Cmn001 ~ Cmn014, // 검색 모달
   Mnb002, // MNB002 비밀번호 변경 모달
   Stl002, // STL002 정산 실행 월 모달
   MuiBasicModal 

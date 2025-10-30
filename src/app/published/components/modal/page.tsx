@@ -25,6 +25,7 @@ import {
   Cmn011,
   Cmn012,
   Cmn013,
+  Cmn014,
   Icons
 } from '@/components'
 import { Alert, Snackbar } from '@mui/material'
@@ -59,6 +60,7 @@ export default function ModalPage() {
   const [modal011Open, setModal011Open] = useState(false)
   const [modal012Open, setModal012Open] = useState(false)
   const [modal013Open, setModal013Open] = useState(false)
+  const [modal014Open, setModal014Open] = useState(false)
 
   // Alert 상태 관리
   const [alertOpen, setAlertOpen] = useState(false)
@@ -164,7 +166,7 @@ export default function ModalPage() {
               onClick={() => setModalmnb002Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              비밀번호 변경
+              mnb002 비밀번호 변경
             </Button>
             <Button
               variant="outlined"
@@ -172,7 +174,7 @@ export default function ModalPage() {
               onClick={() => setModalstl002Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              정산 실행 월
+              stl002 정산 실행 월
             </Button>
           </div>
         </div>
@@ -186,7 +188,7 @@ export default function ModalPage() {
               onClick={() => setModal001Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              엑셀 업로드
+              cmn001 엑셀 업로드
             </Button>
             <Button
               variant="outlined"
@@ -194,7 +196,7 @@ export default function ModalPage() {
               onClick={() => setModal002Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              거래처 검색
+              cmn002 거래처 검색
             </Button>
             <Button
               variant="outlined"
@@ -202,7 +204,7 @@ export default function ModalPage() {
               onClick={() => setModal003Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              주차장 검색
+              cmn003 주차장 검색
             </Button>
             <Button
               variant="outlined"
@@ -210,7 +212,7 @@ export default function ModalPage() {
               onClick={() => setModal004Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              EV충전소 검색
+              cmn004 EV충전소 검색
             </Button>
             <Button
               variant="outlined"
@@ -218,7 +220,7 @@ export default function ModalPage() {
               onClick={() => setModal005Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              ATM 기기 검색
+              cmn005 ATM 기기 검색
             </Button>
             <Button
               variant="outlined"
@@ -226,7 +228,7 @@ export default function ModalPage() {
               onClick={() => setModal006Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              키오스크 검색
+              cmn006 키오스크 검색
             </Button>
             <Button
               variant="outlined"
@@ -234,7 +236,7 @@ export default function ModalPage() {
               onClick={() => setModal007Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              상품 검색
+              cmn007 상품 검색
             </Button>
             <Button
               variant="outlined"
@@ -242,7 +244,7 @@ export default function ModalPage() {
               onClick={() => setModal008Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              사용자 검색
+              cmn008 사용자 검색
             </Button>
             <Button
               variant="outlined"
@@ -250,7 +252,7 @@ export default function ModalPage() {
               onClick={() => setModal009Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              정산기준정보 검색
+              cmn009 정산기준정보 검색
             </Button>
             <Button
               variant="outlined"
@@ -258,7 +260,7 @@ export default function ModalPage() {
               onClick={() => setModal010Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              결재상신 본문 등록
+              cmn010 결재상신 본문 등록
             </Button>
             <Button
               variant="outlined"
@@ -266,7 +268,7 @@ export default function ModalPage() {
               onClick={() => setModal011Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              사이트 검색
+              cmn011 사이트 검색
             </Button>
             <Button
               variant="outlined"
@@ -274,7 +276,7 @@ export default function ModalPage() {
               onClick={() => setModal012Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              세금계산서 대사
+              cmn012 세금계산서 대사
             </Button>
             <Button
               variant="outlined"
@@ -282,11 +284,19 @@ export default function ModalPage() {
               onClick={() => setModal013Open(true)}
               startIcon={<Icons.CheckIcon size={16} />}
             >
-              정산기준품목 검색
+              cmn013 정산기준품목 검색
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setModal014Open(true)}
+              startIcon={<Icons.CheckIcon size={16} />}
+            >
+              cmn014 코드 검색
             </Button>
           </div>
 
-          {/* Cmn001-Cmn012 컴포넌트들 */}
+          {/* Cmn001-Cmn014 컴포넌트들 */}
           <Mnb002
             open={modalmnb002Open}
             onClose={() => setModalmnb002Open(false)}
@@ -360,6 +370,10 @@ export default function ModalPage() {
           <Cmn013
             open={modal013Open}
             onClose={() => setModal013Open(false)}
+          />
+          <Cmn014
+            open={modal014Open}
+            onClose={() => setModal014Open(false)}
           />
         </div>
       </div>

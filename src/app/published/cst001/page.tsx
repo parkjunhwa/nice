@@ -81,14 +81,14 @@ export default function Cst001Page() {
       {/* Breadcrumb and Page Title */}
       <div className="flex flex-row items-center justify-between mt-1 mb-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">매입 집계(월)</h1>
+          <h1 className="text-2xl font-bold text-gray-900">매입 집계</h1>
         </div>
         <div>
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
-              { label: '매입', href: '/' },
-              { label: '매입 집계(월)', active: true }
+              { label: '매입 관리', href: '/' },
+              { label: '매입 집계', active: true }
             ]}
           />
         </div>

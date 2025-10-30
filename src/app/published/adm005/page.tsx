@@ -129,7 +129,7 @@ export default function InterfaceLogPage() {
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
-              { label: 'ADMIN', href: '/' },
+              { label: '시스템 관리', href: '/' },
               { label: '공통코드 관리', active: true }
             ]}
           />

@@ -54,7 +54,7 @@ export default function Adm001Page() {
           <Breadcrumb
             items={[
               { label: 'Home', href: '/' },
-              { label: 'ADMIN', href: '/' },
+              { label: '시스템 관리', href: '/' },
               { label: '사용자 관리', active: true }
             ]}
           />

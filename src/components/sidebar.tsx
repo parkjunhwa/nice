@@ -46,7 +46,7 @@ const businessOptions = [
 
 const sidebarItems: MenuItem[] = [
   {
-    title: "매출",
+    title: "매출 관리",
     icon: Box,
     children: [
       { title: "매출 집계(일)", href: "/published/inc001" },
@@ -54,38 +54,38 @@ const sidebarItems: MenuItem[] = [
     ]
   },
   {
-    title: "매입",
+    title: "매입 관리",
     icon: ShoppingCart,
     children: [
-      { title: "매입 집계(월)", href: "/published/cst001" },
+      { title: "매입 집계", href: "/published/cst001" },
     ]
   },
   {
-    title: "수납",
+    title: "수납 관리",
     icon: Wallet,
     children: [
-      { title: "수납 집계(일)", href: "/published/pmt001" },
+      { title: "수납 집계", href: "/published/pmt001" },
     ]
   },
   {
-    title: "정산",
+    title: "정산 관리",
     icon: BadgeCheck,
     children: [
-      { title: "정산 집계(월)", href: "/published/stl001" },
+      { title: "정산", href: "/published/stl001" },
     ]
   },
   {
-    title: "정산기준관리",
+    title: "정산기준 관리",
     icon: BadgeInfo,
     children: [
       { title: "정산기준정보", href: "/published/con001" },
       { title: "정산기준정보(확인용상세)", href: "/published/con002" },
-      { title: "정산규칙", href: "/published/rul001" },
-      { title: "정산규칙(확인용상세)", href: "/published/rul002" },
+      { title: "정산 규칙", href: "/published/rul001" },
+      { title: "정산 규칙(확인용상세)", href: "/published/rul002" },
     ]
   },
   {
-    title: "ADMIN",
+    title: "시스템 관리",
     icon: Settings,
     children: [
       { title: "사용자 관리", href: "/published/adm001" },
