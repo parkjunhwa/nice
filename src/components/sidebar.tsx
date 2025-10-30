@@ -254,8 +254,8 @@ function MenuItem({
   }
 
   const paddingLeft = level === 0 ? (isOpen ? 12 : 0) :
-    level === 1 ? (isOpen ? 44 : 0) :
-      level === 2 ? (isOpen ? 52 : 0) : 0
+    level === 1 ? (isOpen ? 52 : 0) :
+      level === 2 ? (isOpen ? 60 : 0) : 0
 
   /**
    * 접힘 상태 popover: 2뎁스가 연속적으로 열리도록
@@ -301,26 +301,37 @@ function MenuItem({
           {/* 상위 메뉴를 가리키는 화살표 */}
           <div className="absolute -left-1.5 top-3 w-3 h-3 bg-white border-l border-t border-gray-200 -rotate-45" />
 
-          {item.children?.map((child: MenuItem, index: number) => (
-            <div key={index} className="relative">
-              {child.href ? (
-                <Link href={child.href} onClick={onMenuClick}>
-                  <div className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">
-                    {child.icon && <child.icon className="h-4 w-4 mr-3" />}
+          {item.children?.map((child: MenuItem, index: number) => {
+            const childIsActive = child.href ? pathname === child.href : false
+            return (
+              <div key={index} className="relative">
+                {child.href ? (
+                  <Link href={child.href} onClick={onMenuClick}>
+                    <div
+                      className={cn(
+                        "flex items-center px-2 py-2 mx-2 text-sm",
+                        childIsActive ? "bg-blue-900 text-white" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                      )}
+                    >
+                      {child.icon && <child.icon className={cn("h-4 w-4 mr-3", childIsActive ? "text-white" : undefined)} />}
+                      <span>{child.title}</span>
+                    </div>
+                  </Link>
+                ) : (
+                  <div
+                    className={cn(
+                      "flex items-center px-2 py-2 mx-2 text-sm cursor-pointer",
+                      childIsActive ? "bg-blue-900 text-white" : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                    )}
+                  >
+                    {child.icon && <child.icon className={cn("h-4 w-4 mr-3", childIsActive ? "text-white" : undefined)} />}
                     <span>{child.title}</span>
                   </div>
-                </Link>
-              ) : (
-                <div
-                  className="flex items-center px-2 py-2 mx-2 text-sm text-gray-700 cursor-pointer hover:bg-gray-50 hover:text-gray-900"
-                >
-                  {child.icon && <child.icon className="h-4 w-4 mr-3" />}
-                  <span>{child.title}</span>
-                </div>
-              )}
+                )}
 
-            </div>
-          ))}
+              </div>
+            )
+          })}
         </div>
       </PopoverLayer>
     )
@@ -331,10 +342,11 @@ function MenuItem({
       data-popover-anchor={item.title}
       className={cn(
         "flex items-center text-sm font-medium rounded-md transition-all duration-100 group relative cursor-pointer",
-        isActive ? "bg-blue-900 text-white" : 
-        isChildActive ? "bg-gray-100 text-gray-900" : 
-        "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-        isOpen ? "px-3 py-2" : "justify-center py-2"
+        isActive ? "bg-blue-900 text-white" :
+          isChildActive ? "bg-gray-100 text-gray-900" :
+            "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+        isOpen ? "px-3 py-2" : "justify-center py-2",
+        (!isOpen && level === 0 && (isActive || isChildActive)) ? "bg-blue-900 text-white" : ""
       )}
       style={{ paddingLeft: isOpen ? `${paddingLeft}px` : undefined }}
       onClick={handleClick}
