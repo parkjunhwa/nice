@@ -107,9 +107,13 @@
 
     &:hover {
       background-color: #dbeafe !important; /* blue-50 - hover 시 모든 라인에 적용 */
-      
       .tabulator-cell {
-        background-color: transparent !important; /* hover 시 셀 배경을 투명으로 */
+        background-color: #dbeafe !important; /* hover 시 셀 배경 */
+      }
+      
+      // fixed 셀도 hover 시 tr의 배경색 적용
+      .tabulator-cell.tabulator-frozen {
+        background-color: #dbeafe !important; /* fixed 셀도 hover 배경색 적용 */
       }
     }
 
@@ -120,12 +124,22 @@
         background-color: #dbeafe !important; /* blue-50 - 짝수 라인 hover 시에도 적용 */
         
         .tabulator-cell {
-          background-color: transparent !important; /* hover 시 셀 배경을 투명으로 */
+          background-color: #dbeafe !important; /* hover 시 셀 배경 */
+        }
+        
+        // fixed 셀도 hover 시 tr의 배경색 적용
+        .tabulator-cell.tabulator-frozen {
+          background-color: #dbeafe !important; /* fixed 셀도 hover 배경색 적용 */
         }
       }
       
       .tabulator-cell {
         background: #f9fafb !important; /* 짝수 행 배경색 */
+      }
+      
+      // fixed 셀도 짝수 행 배경색 적용
+      .tabulator-cell.tabulator-frozen {
+        background: #f9fafb !important; /* fixed 셀은 짝수 행 배경색 */
       }
     }
 
@@ -213,15 +227,30 @@
   
   &:hover {
     background-color: #bfdbfe !important; /* blue-200 */
+    
+    // selected + hover 시 fixed 셀도 tr의 배경색 적용
+    .tabulator-cell.tabulator-frozen {
+      background-color: #bfdbfe !important; /* fixed 셀도 selected hover 배경색 적용 */
+    }
   }
   
   .tabulator-cell {
     background-color: transparent !important; /* selected 시 셀 배경을 투명으로 */
   }
   
+  // fixed 셀도 selected 상태에서 tr의 배경색 적용
+  .tabulator-cell.tabulator-frozen {
+    background-color: #dbeafe !important; /* fixed 셀도 selected 배경색 적용 */
+  }
+  
   // 짝수 행이 selected일 때도 배경색 우선 적용
   &:nth-child(even) .tabulator-cell {
     background-color: transparent !important;
+  }
+  
+  // 짝수 행 fixed 셀도 selected 배경색 적용
+  &:nth-child(even) .tabulator-cell.tabulator-frozen {
+    background-color: #dbeafe !important; /* fixed 셀도 selected 배경색 적용 */
   }
 }
 
@@ -231,6 +260,16 @@
   
   .tabulator-cell {
     background-color: transparent !important; /* selectable hover 시 셀 배경을 투명으로 */
+  }
+  
+  // fixed 셀도 selectable hover 시 tr의 배경색 적용
+  .tabulator-cell.tabulator-frozen {
+    background-color: #f3f4f6 !important; /* fixed 셀도 selectable hover 배경색 적용 */
+  }
+  
+  // 짝수 행 fixed 셀도 selectable hover 배경색 적용
+  &:nth-child(even) .tabulator-cell.tabulator-frozen {
+    background-color: #f3f4f6 !important; /* fixed 셀도 selectable hover 배경색 적용 */
   }
 }
 
@@ -717,4 +756,10 @@
   background: #fff !important; // 고정 셀 배경색
   z-index: 10;
   position: relative;
+}
+
+// 짝수 행의 fixed 셀은 배경색 유지 (더 구체적인 선택자로 우선순위 확보)
+.tabulator-row:nth-child(even) .tabulator-cell.tabulator-frozen.tabulator-frozen-left,
+.tabulator-row:nth-child(even) .tabulator-cell.tabulator-frozen.tabulator-frozen-right {
+  background: #f9fafb !important; // 짝수 행 fixed 셀 배경색
 }
