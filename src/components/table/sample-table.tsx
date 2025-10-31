@@ -213,6 +213,189 @@ export default function SampleTable({
     return wrapper
   }, [])
 
+  // 날짜 형식 검증 함수 (yyyy-mm-dd 형식만 허용)
+  const validateDate = (value: string): boolean => {
+    if (!value || value.trim() === '') return true // 빈 값은 허용
+    
+    // yyyy-mm-dd 형식만 허용
+    const datePattern = /^\d{4}-\d{2}-\d{2}$/
+    
+    // 패턴 매칭 확인
+    if (!datePattern.test(value)) return false
+    
+    // 입력값 파싱하여 검증
+    const parts = value.split('-')
+    const year = parseInt(parts[0], 10)
+    const month = parseInt(parts[1], 10)
+    const day = parseInt(parts[2], 10)
+    
+    // 월과 일 범위 확인
+    if (month < 1 || month > 12 || day < 1 || day > 31) return false
+    
+    // 실제 날짜 객체로 재검증
+    const testDate = new Date(year, month - 1, day)
+    return (
+      testDate.getFullYear() === year &&
+      testDate.getMonth() === month - 1 &&
+      testDate.getDate() === day
+    )
+  }
+
+  // 커스텀 에디터 (날짜 입력 - datepicker 없이)
+  const dateEditor = useCallback((
+    cell: CellComponent,
+    onRendered: (cb: () => void) => void,
+    success: (value: string | number) => void,
+    cancel: () => void,
+  ) => {
+    const wrapper = document.createElement('div')
+    wrapper.className = 'table-editor-wrapper date-editor-wrapper'
+
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.value = String(cell.getValue() ?? '')
+    input.className = 'table-editor-input'
+    input.placeholder = 'yyyy-mm-dd (예: 2024-01-15)'
+
+    wrapper.appendChild(input)
+
+    // 셀 요소 찾기
+    const getCellElement = (): HTMLElement | null => {
+      return cell.getElement()
+    }
+
+    const validateAndShowError = (value: string): boolean => {
+      const isValid = validateDate(value)
+      const cellElement = getCellElement()
+      
+      if (!isValid && value.trim() !== '') {
+        // 셀 테두리를 빨간색으로 변경 (편집 모드의 파란색 대신)
+        if (cellElement) {
+          cellElement.style.setProperty('border', '2px solid #ef4444', 'important')
+        }
+      } else {
+        // 셀 테두리를 원래대로 (파란색 편집 모드 테두리로 복원)
+        if (cellElement) {
+          cellElement.style.border = ''
+          cellElement.style.removeProperty('border')
+        }
+      }
+      return isValid || value.trim() === ''
+    }
+
+    onRendered(() => {
+      input.focus()
+      input.select()
+
+      // 숫자와 날짜 구분자(-, /, .)만 입력 가능하도록 제한
+      input.addEventListener('keydown', (e) => {
+        // 허용된 키: 숫자, 구분자(-, /, .), 백스페이스, Delete, 화살표, Tab, Enter, Escape
+        const allowedKeys = [
+          'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+          'Tab', 'Enter', 'Escape', 'Home', 'End'
+        ]
+        
+        // 숫자 키 (0-9)
+        const isNumber = (e.key >= '0' && e.key <= '9')
+        
+        // 구분자 키 (하이픈만 허용)
+        const isSeparator = e.key === '-'
+        
+        // 허용된 키
+        const isAllowedKey = allowedKeys.includes(e.key)
+        
+        // Ctrl/Cmd + A, C, V, X, Z (복사/붙여넣기/실행취소용)
+        const isCtrlKey = (e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'x', 'z'].includes(e.key.toLowerCase())
+        
+        if (!isNumber && !isSeparator && !isAllowedKey && !isCtrlKey) {
+          e.preventDefault()
+        }
+      })
+
+      // 붙여넣기 이벤트 처리 (숫자와 하이픈만 허용)
+      input.addEventListener('paste', (e) => {
+        e.preventDefault()
+        const pasteText = e.clipboardData?.getData('text') || ''
+        // 숫자와 하이픈만 필터링
+        const filtered = pasteText.replace(/[^\d\-]/g, '')
+        const currentValue = input.value
+        const start = input.selectionStart || 0
+        const end = input.selectionEnd || 0
+        const newValue = currentValue.substring(0, start) + filtered + currentValue.substring(end)
+        input.value = newValue
+        input.setSelectionRange(start + filtered.length, start + filtered.length)
+        validateAndShowError(newValue)
+      })
+
+      // 실시간 검증
+      input.addEventListener('input', (e) => {
+        const value = (e.target as HTMLInputElement).value
+        validateAndShowError(value)
+      })
+
+      // Enter: 확정 (유효한 경우만)
+      input.addEventListener('keydown', (e) => {
+        const cellElement = getCellElement()
+        
+        if (e.key === 'Enter') {
+          e.stopPropagation()
+          const value = input.value.trim()
+          if (validateDate(value) || value === '') {
+            // 셀 테두리를 원래대로 복원
+            if (cellElement) {
+              cellElement.style.border = ''
+              cellElement.style.removeProperty('border')
+            }
+            
+            success(value)
+          } else {
+            e.preventDefault()
+            
+            // 셀 테두리를 빨간색으로 변경
+            if (cellElement) {
+              cellElement.style.setProperty('border', '2px solid #ef4444', 'important')
+            }
+            
+            input.focus()
+          }
+        } else if (e.key === 'Escape') {
+          e.stopPropagation()
+          
+          // 셀 테두리를 원래대로 복원
+          if (cellElement) {
+            cellElement.style.border = ''
+            cellElement.style.removeProperty('border')
+          }
+          
+          cancel()
+        }
+      })
+
+      // blur 되면 값 확정 (유효한 경우만)
+      input.addEventListener('blur', () => {
+        const cellElement = getCellElement()
+        const value = input.value.trim()
+        
+        if (validateDate(value) || value === '') {
+          // 셀 테두리를 원래대로 복원
+          if (cellElement) {
+            cellElement.style.border = ''
+            cellElement.style.removeProperty('border')
+          }
+          
+          success(value)
+        } else {
+          // 유효하지 않으면 에러 표시 (빨간색 테두리만)
+          if (cellElement) {
+            cellElement.style.setProperty('border', '2px solid #ef4444', 'important')
+          }
+        }
+      })
+    })
+
+    return wrapper
+  }, [])
+
   // 헤더 메뉴 정의 (컬럼 표시/숨김 토글)
   const headerMenu = useCallback(function (this: { getColumns: () => Array<{ isVisible: () => boolean; toggle: () => void; getDefinition: () => { title: string } }> }) {
     const menu: Array<{ label: HTMLElement; action: (e: Event) => void }> = [];
@@ -268,13 +451,18 @@ export default function SampleTable({
 
     for (let i = 1; i <= 50; i++) {
       const randomDate = new Date(2024, Math.floor(Math.random() * 12), Math.floor(Math.random() * 28) + 1)
+      // yyyy-mm-dd 형식으로 변환
+      const year = randomDate.getFullYear()
+      const month = String(randomDate.getMonth() + 1).padStart(2, '0')
+      const day = String(randomDate.getDate()).padStart(2, '0')
+      const formattedDate = `${year}-${month}-${day}`
       data.push({
         id: i,
         header1: names[i % names.length],
         header2: `${Math.floor(Math.random() * 1000) + 100}만원`,
         header3: categories[i % categories.length],
         header4: statuses[i % statuses.length],
-        header5: randomDate.toLocaleDateString('ko-KR'),
+        header5: formattedDate,
         header6: `user${i}@company.com`,
         header7: categories[Math.floor(Math.random() * categories.length)],
         header8: `프로젝트 ${i}`,
@@ -368,7 +556,16 @@ export default function SampleTable({
         editor: selectEditor,
         clickEdit: true
       },
-      { title: '날짜', field: 'header5', width: 180, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      {
+        title: '날짜',
+        field: 'header5',
+        width: 180,
+        headerSort: true,
+        headerSortTristate: true,
+        headerMenu: headerMenu,
+        editor: dateEditor,
+        clickEdit: true
+      },
       { title: '사용자', field: 'header6', width: 140, headerSort: false, headerMenu: headerMenu, headerHozAlign: 'center' },
       { title: '카테고리', field: 'header7', width: 160, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '추가컬럼1', field: 'header8', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
@@ -377,7 +574,7 @@ export default function SampleTable({
     ]
 
     return allColumns
-  }, [customColumns, headerMenu, handleSelectAll, isAllSelected, searchEditor, selectEditor])
+  }, [customColumns, headerMenu, handleSelectAll, isAllSelected, searchEditor, selectEditor, dateEditor])
 
   // 페이지네이션된 데이터 계산
   const paginatedData = useMemo(() => {

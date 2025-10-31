@@ -612,6 +612,15 @@
   min-height: 100%;
 }
 
+.date-editor-wrapper {
+  flex-direction: column;
+  align-items: stretch;
+  
+  .table-editor-input {
+    flex: 1;
+  }
+}
+
 .table-editor-input {
   width: 100%;
   border: none;
@@ -623,6 +632,24 @@
   line-height: 1.5;
   min-height: 100%;
   box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.table-editor-error {
+  position: fixed;
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 4px 8px;
+  font-size: 11px;
+  border: 1px solid #ef4444;
+  border-radius: 4px;
+  z-index: 10000;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
 }
 
 .table-editor-select-wrapper {
