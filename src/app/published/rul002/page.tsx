@@ -201,6 +201,38 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
   const [withdrawalUnitPrice, setWithdrawalUnitPrice] = useState((item.data.withdrawalUnitPrice as string) || '')
   const [depositUnitPrice, setDepositUnitPrice] = useState((item.data.depositUnitPrice as string) || '')
 
+  // R16 점주(대리점) ABC형 관련 상태
+  const [agencyDistributionRate, setAgencyDistributionRate] = useState((item.data.agencyDistributionRate as string) || '')
+  const [insideUnitPrice, setInsideUnitPrice] = useState((item.data.insideUnitPrice as string) || '')
+  const [outsideUnitPrice, setOutsideUnitPrice] = useState((item.data.outsideUnitPrice as string) || '')
+
+  // R17 점주(대리점) 점주운영대행 관련 상태
+  const [additionalPerCaseAmount, setAdditionalPerCaseAmount] = useState((item.data.additionalPerCaseAmount as string) || '')
+  const [r17TableData, setR17TableData] = useState<Array<{
+    id: number;
+    depreciationYears: string;
+    specificationInstalled: string;
+    specificationNotInstalled: string;
+  }>>(() => {
+    const savedData = item.data.r17TableData;
+    if (savedData && Array.isArray(savedData) && savedData.length > 0) {
+      return savedData as Array<{
+        id: number;
+        depreciationYears: string;
+        specificationInstalled: string;
+        specificationNotInstalled: string;
+      }>;
+    }
+    return [
+      {
+        id: 1,
+        depreciationYears: "",
+        specificationInstalled: "",
+        specificationNotInstalled: ""
+      }
+    ];
+  })
+
   // 추가수익 매출정보 데이터
   const [salesData, setSalesData] = useState([
     { id: 'regular_card', usage: false, ratio: '', amountType: '' },
@@ -286,6 +318,41 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
     ));
   }, []);
 
+  // R17 테이블 행 추가
+  const handleAddR17TableRow = useCallback(() => {
+    setR17TableData(prev => {
+      const newId = prev.length > 0
+        ? Math.max(...prev.map(item => item.id)) + 1
+        : 1;
+      return [
+        ...prev,
+        {
+          id: newId,
+          depreciationYears: "",
+          specificationInstalled: "",
+          specificationNotInstalled: ""
+        }
+      ];
+    });
+  }, []);
+
+  // R17 테이블 행 삭제
+  const handleDeleteR17TableRow = useCallback((id: number) => {
+    setR17TableData(prev => {
+      if (prev.length > 1) {
+        return prev.filter(item => item.id !== id);
+      }
+      return prev;
+    });
+  }, []);
+
+  // R17 테이블 필드 변경
+  const handleR17TableRowChange = useCallback((id: number, field: string, value: string) => {
+    setR17TableData(prev => prev.map(item =>
+      item.id === id ? { ...item, [field]: value } : item
+    ));
+  }, []);
+
   // 추가 임차료, 수익 데이터
   const [additionalRentData, setAdditionalRentData] = useState<Array<{
     id: number
@@ -348,12 +415,13 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
       'R08': '품목그룹계산',
       'R09': '부가세계산',
       'R10': '절사',
-      'R11': '점주(대리점)',
-      'R12': '브랜드제휴 변동보전료',
-      'R13': '현금/일괄 용역료',
-      'R14': '전기료',
-      'R15': 'ATM장소임차료-코리아세븐',
-      'R16': '현송비'
+      'R11': '브랜드제휴 변동보전료',
+      'R12': '현금/일괄 용역료',
+      'R13': '전기료',
+      'R14': 'ATM장소임차료-코리아세븐',
+      'R15': '현송비',
+      'R16': '점주(대리점) ABC형',
+      'R17': '점주(대리점) 점주운영대행',
     }
     return titles[rType] || ''
   }
@@ -1183,111 +1251,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
           </>
         );
 
-      case 'R11': // 점주(대리점)
-        return (
-          <>
-            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">
-                  점주유형
-                </label>
-                <Select
-                  variant="outlined"
-                  size="small"
-                  disabled={pageMode === 'view'}
-                  sx={{
-                    width: '100%',
-                    '& .MuiSelect-select': {
-                      textAlign: 'left'
-                    }
-                  }}
-                  value="선택"
-                >
-                  <MenuItem value="선택">선택1</MenuItem>
-                </Select>
-              </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label required">
-                  기준금액
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  disabled={pageMode === 'view'}
-                  value={formatNumber(dailyAverageCount)}
-                  onChange={(e) => {
-                    // 숫자만 입력받기 (숫자 이외 제거)
-                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
-                    setDailyAverageCount(onlyNumbers);
-                  }}
-                  sx={{
-                    width: '100%',
-                    '& input': {
-                      textAlign: 'right'
-                    }
-                  }}
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9]*'
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <span className="text-secondary" style={{ fontSize: 12 }}>₩</span>
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </div>
-              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <label className="form-top-label">
-                  대리점 배분율
-                </label>
-                <TextField
-                  variant="outlined"
-                  size="small"
-                  type="text"
-                  disabled={pageMode === 'view'}
-                  value={salesPurchaseType}
-                  onChange={(e) => {
-                    // 숫자만 추출
-                    const raw = e.target.value.replace(/[^0-9]/g, '');
-                    setSalesPurchaseType(raw);
-                  }}
-                  sx={{
-                    width: '100%',
-                    '& input': {
-                      textAlign: 'right'
-                    }
-                  }}
-                  inputProps={{
-                    inputMode: 'numeric',
-                    pattern: '[0-9,]*'
-                  }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </div>
-            </div>
-            <div className="mb-0">
-              <Typography
-                component="div"
-                className="text-sm"
-                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
-              >
-                * 소수점자리에서 절사
-              </Typography>
-            </div>
-          </>
-        );
-
-      case 'R12': // 브랜드제휴 변동보전료
+      case 'R11': // 브랜드제휴 변동보전료
         return (
           <>
             <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
@@ -1465,7 +1429,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
           </>
         );
 
-      case 'R13': // 현금/일괄 용역료
+      case 'R12': // 현금/일괄 용역료
         return (
           <>
             <div className="mb-0">
@@ -1480,7 +1444,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
           </>
         );
 
-      case 'R14': // 전기료
+      case 'R13': // 전기료
         return (
           <>
             <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
@@ -1524,7 +1488,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
           </>
         );
 
-      case 'R15': // ATM장소임차료-코리아세븐
+      case 'R14': // ATM장소임차료-코리아세븐
         return (
           <>
             <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
@@ -1636,7 +1600,7 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
           </>
         );
 
-      case 'R16': // 현송비
+      case 'R15': // 현송비
         return (
           <>
             <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
@@ -1703,6 +1667,276 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                 style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
               >
                 * SITE 월현송건수 x 단가
+              </Typography>
+            </div>
+          </>
+        );
+
+      case 'R16': // 점주(대리점)
+        return (
+          <>
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">
+                  대리점 배분율
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={agencyDistributionRate}
+                  onChange={(e) => {
+                    // 숫자만 추출
+                    const raw = e.target.value.replace(/[^0-9]/g, '');
+                    setAgencyDistributionRate(raw);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'right'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9,]*'
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <span className="text-secondary" style={{ fontSize: 12 }}>%</span>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">
+                  점내 단가
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={formatNumber(insideUnitPrice)}
+                  onChange={(e) => {
+                    // 숫자만 입력받기 (숫자 이외 제거)
+                    const onlyNumbers = e.target.value.replace(/[^0-9]/g, '');
+                    setInsideUnitPrice(onlyNumbers);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'left'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9]*'
+                  }}
+                />
+              </div>
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label required">
+                  점외 단가
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={formatNumber(outsideUnitPrice)}
+                  onChange={(e) => {
+                    // 숫자만 추출
+                    const raw = e.target.value.replace(/[^0-9]/g, '');
+                    setOutsideUnitPrice(raw);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'left'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9,]*'
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 점주(대리점)
+              </Typography>
+            </div>
+          </>
+        );
+
+      case 'R17': // 점주(대리점) 점주운영대행
+        return (
+          <>
+            <div style={{ display: 'flex', gap: 8, width: '100%' }} className="mt-2 mb-2">
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <label className="form-top-label">
+                  추가 건당 금액
+                </label>
+                <TextField
+                  variant="outlined"
+                  size="small"
+                  type="text"
+                  disabled={pageMode === 'view'}
+                  value={formatNumber(additionalPerCaseAmount)}
+                  onChange={(e) => {
+                    // 숫자만 추출
+                    const raw = e.target.value.replace(/[^0-9]/g, '');
+                    setAdditionalPerCaseAmount(raw);
+                  }}
+                  sx={{
+                    width: '100%',
+                    '& input': {
+                      textAlign: 'left'
+                    }
+                  }}
+                  inputProps={{
+                    inputMode: 'numeric',
+                    pattern: '[0-9,]*'
+                  }}
+                />
+              </div>
+            </div>
+            <div className="mt-2 mb-2">
+              <table className="rul-table">
+                <thead>
+                  <tr>
+                    <th className="text-center" style={{ minWidth: '100px' }}>
+                      <label className="form-top-label required mb-0">
+                        감가상각연수
+                      </label>
+                    </th>
+                    <th className="text-center" style={{ minWidth: '80px' }}>
+                      <label className="form-top-label required mb-0">
+                        명세표장착
+                      </label>
+                    </th>
+                    <th className="text-center" style={{ minWidth: '80px' }}>
+                      <label className="form-top-label required mb-0">
+                        명세표미장착
+                      </label>
+                    </th>
+                    <th className="text-center" style={{ width: '35px' }}>삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {r17TableData.map((row) => (
+                    <tr key={row.id}>
+                      <td>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={formatNumber(row.depreciationYears)}
+                          onChange={e => {
+                            // 숫자만 입력 가능하도록 처리
+                            const value = e.target.value.replace(/[^0-9]/g, '');
+                            handleR17TableRowChange(row.id, 'depreciationYears', value);
+                          }}
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'left' }
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={formatNumber(row.specificationInstalled)}
+                          onChange={e => {
+                            // 숫자만 입력 가능하도록 처리
+                            const value = e.target.value.replace(/[^0-9]/g, '');
+                            handleR17TableRowChange(row.id, 'specificationInstalled', value);
+                          }}
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'right' }
+                          }}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <span>₩</span>
+                              </InputAdornment>
+                            )
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <TextField
+                          variant="outlined"
+                          size="small"
+                          disabled={pageMode === 'view'}
+                          value={formatNumber(row.specificationNotInstalled)}
+                          onChange={e => {
+                            // 숫자만 입력 가능하도록 처리
+                            const value = e.target.value.replace(/[^0-9]/g, '');
+                            handleR17TableRowChange(row.id, 'specificationNotInstalled', value);
+                          }}
+                          sx={{
+                            width: '100%',
+                            '& input': { textAlign: 'right' }
+                          }}
+                          InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <span>₩</span>
+                              </InputAdornment>
+                            )
+                          }}
+                        />
+                      </td>
+                      <td className="text-center">
+                        {pageMode === 'edit' && row.id !== 1 && (
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            color="error"
+                            className="xsmallbtn2"
+                            startIcon={<Minus size={16} />}
+                            onClick={() => handleDeleteR17TableRow(row.id)}
+                          >
+                            <span style={{ display: "none" }}>삭제</span>
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {pageMode === 'edit' && (
+                <div className="flex items-center mt-2" style={{ gap: '8px' }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    size="small"
+                    onClick={handleAddR17TableRow}
+                  >
+                    추가
+                  </Button>
+                </div>
+              )}
+            </div>
+            <div className="mb-0">
+              <Typography
+                component="div"
+                className="text-sm"
+                style={{ fontSize: '12px', color: '#6b7280' }} // gray-500
+              >
+                * 점주(대리점)
               </Typography>
             </div>
           </>
@@ -1904,12 +2138,13 @@ const SettlementAccordion = memo(({ item, onRemove, pageMode }: {
                       <MenuItem value="R08">R08:품목그룹계산</MenuItem>
                       <MenuItem value="R09">R09:부가세계산</MenuItem>
                       <MenuItem value="R10">R10:절사</MenuItem>
-                      <MenuItem value="R11">R11:점주(대리점)</MenuItem>
-                      <MenuItem value="R12">R12:브랜드제휴 변동보전료</MenuItem>
-                      <MenuItem value="R13">R13:현금/일괄 용역료</MenuItem>
-                      <MenuItem value="R14">R14:전기료</MenuItem>
-                      <MenuItem value="R15">R15:ATM장소임차료-코리아세븐</MenuItem>
-                      <MenuItem value="R16">R16:현송비</MenuItem>
+                      <MenuItem value="R11">R11:브랜드제휴 변동보전료</MenuItem>
+                      <MenuItem value="R12">R12:현금/일괄 용역료</MenuItem>
+                      <MenuItem value="R13">R13:전기료</MenuItem>
+                      <MenuItem value="R14">R14:ATM장소임차료-코리아세븐</MenuItem>
+                      <MenuItem value="R15">R15:현송비</MenuItem>
+                      <MenuItem value="R16">R16:점주(대리점) ABC형</MenuItem>
+                      <MenuItem value="R17">R17:점주(대리점) 점주운영대행</MenuItem>
                     </Select>
                     <Button
                       variant="outlined"
