@@ -488,10 +488,25 @@ export default function SampleTable({
     }
   }, [isAllSelected])
 
+  // 확인 버튼 컬럼 formatter
+  const confirmButtonFormatter = (cell: CellComponent) => {
+    // cell 이벤트를 통해 해당 row 정보 등 접근 가능 
+    return `
+      <button 
+        class="confirm-row-btn px-3 py-1 rounded text-white text-xs transition hover:opacity-90"
+        type="button"
+        style="cursor:pointer; background-color: hsl(var(--color-primary));"
+        aria-label="확인">
+        확인
+      </button>
+    `
+  }
+
   // 컬럼 정의 (커스텀 컬럼이 있으면 사용, 없으면 기본 컬럼)
   const tableColumns = useMemo(() => {
     if (customColumns) return customColumns
 
+    // 기본 컬럼 정의
     const allColumns = [
       {
         title: `<input type="checkbox" aria-label="Select All" class="select-all-checkbox" ${isAllSelected ? 'checked' : ''}>`,
@@ -569,6 +584,16 @@ export default function SampleTable({
       { title: '사용자', field: 'header6', width: 140, headerSort: false, headerMenu: headerMenu, headerHozAlign: 'center' },
       { title: '카테고리', field: 'header7', width: 160, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '추가컬럼1', field: 'header8', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
+      // 여기 "추가컬럼1" 다음에 "확인" 컬럼 삽입
+      {
+        title: '확인',
+        field: 'confirm',
+        width: 80,
+        headerSort: false,
+        formatter: confirmButtonFormatter,
+        headerMenu: headerMenu,
+        hozAlign: 'center'
+      },
       { title: '추가컬럼2', field: 'header9', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu },
       { title: '추가컬럼3', field: 'header10', width: 150, headerSort: true, headerSortTristate: true, headerMenu: headerMenu, frozen: true }
     ]
@@ -626,6 +651,39 @@ export default function SampleTable({
         }
       }
     } as Record<string, unknown>)
+
+    // 확인 버튼 클릭 핸들러 연결
+    setTimeout(() => {
+      const tableElem = tableRef.current
+      if (!tableElem) return
+      // 이벤트 위임
+      tableElem.addEventListener('click', function (e) {
+        const target = e.target as HTMLElement
+        // 버튼 또는 내부 svg 포함 클릭 시 감지
+        let confirmBtn: HTMLElement | null = null
+        if (target.classList.contains('confirm-row-btn')) {
+          confirmBtn = target
+        } else {
+          // 버튼 내부 요소(svg 등)가 클릭된 경우
+          confirmBtn = target.closest('.confirm-row-btn')
+        }
+        if (confirmBtn) {
+          // 버튼의 셀/행 정보 얻기
+          const rowElem = confirmBtn.closest('.tabulator-row')
+          if (rowElem) {
+            // tabulator에서 행 데이터 가져오기
+            if (tabulatorRef.current) {
+              const rowObj = tabulatorRef.current.getRow(rowElem)
+              if (rowObj) {
+                const rowData = rowObj.getData && rowObj.getData()
+                // 알림 등
+                alert('확인 버튼 클릭됨!\n' + (rowData && rowData.id ? `ID: ${rowData.id}` : ''))
+              }
+            }
+          }
+        }
+      })
+    }, 300)
 
     // 정렬 아이콘을 회전하는 화살표로 교체
     setTimeout(() => {
@@ -781,4 +839,3 @@ export default function SampleTable({
     </div>
   )
 }
-
