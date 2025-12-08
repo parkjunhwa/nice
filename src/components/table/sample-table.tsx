@@ -489,8 +489,8 @@ export default function SampleTable({
   }, [isAllSelected])
 
   // 확인 버튼 컬럼 formatter
-  const confirmButtonFormatter = (cell: CellComponent) => {
-    // cell 이벤트를 통해 해당 row 정보 등 접근 가능 
+  const confirmButtonFormatter = (_cell: CellComponent) => {
+    // _cell 이벤트를 통해 해당 row 정보 등 접근 가능 
     return `
       <button 
         class="confirm-row-btn px-3 py-1 rounded text-white text-xs transition hover:opacity-90"
@@ -669,7 +669,7 @@ export default function SampleTable({
         }
         if (confirmBtn) {
           // 버튼의 셀/행 정보 얻기
-          const rowElem = confirmBtn.closest('.tabulator-row')
+          const rowElem = confirmBtn.closest('.tabulator-row') as HTMLElement | null
           if (rowElem) {
             // tabulator에서 행 데이터 가져오기
             if (tabulatorRef.current) {

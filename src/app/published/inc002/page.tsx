@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import {
   RefreshCw,
   Search,
@@ -15,6 +15,7 @@ import Collapse from '@mui/material/Collapse'
 import TextField from '@mui/material/TextField'
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
 import {
   SampleTable,
   Breadcrumb,
@@ -36,6 +37,49 @@ export default function Inc002Page() {
   const [customerCode, setCustomerCode] = useState('')
   const [deviceNumber, setDeviceNumber] = useState('')
   const [status, setStatus] = useState('')
+
+  // 패널 크기 조절 상태
+  const [bottomPanelHeight, setBottomPanelHeight] = useState(100)
+  const [isDraggingVertical, setIsDraggingVertical] = useState(false)
+  const [dragStartY, setDragStartY] = useState(0)
+  const [dragStartBottomHeight, setDragStartBottomHeight] = useState(0)
+
+  // 수직 드래그 핸들러
+  const handleVerticalDragStart = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    setIsDraggingVertical(true)
+    setDragStartY(e.clientY)
+    setDragStartBottomHeight(bottomPanelHeight)
+    document.body.style.cursor = 'row-resize'
+    document.body.style.userSelect = 'none'
+  }, [bottomPanelHeight])
+
+  const handleVerticalDragMove = useCallback((e: MouseEvent) => {
+    if (!isDraggingVertical) return
+
+    const deltaY = e.clientY - dragStartY
+    // 위로 드래그하면 (deltaY < 0) 하단 패널이 커짐
+    const newHeight = Math.max(100, Math.min(500, dragStartBottomHeight - deltaY))
+    setBottomPanelHeight(newHeight)
+  }, [isDraggingVertical, dragStartY, dragStartBottomHeight])
+
+  const handleVerticalDragEnd = useCallback(() => {
+    setIsDraggingVertical(false)
+    document.body.style.cursor = ''
+    document.body.style.userSelect = ''
+  }, [])
+
+  // 마우스 이벤트 리스너 등록
+  useEffect(() => {
+    if (isDraggingVertical) {
+      document.addEventListener('mousemove', handleVerticalDragMove)
+      document.addEventListener('mouseup', handleVerticalDragEnd)
+      return () => {
+        document.removeEventListener('mousemove', handleVerticalDragMove)
+        document.removeEventListener('mouseup', handleVerticalDragEnd)
+      }
+    }
+  }, [isDraggingVertical, handleVerticalDragMove, handleVerticalDragEnd])
 
   // 이번달 버튼 클릭 핸들러
   const handleThisMonthClick = () => {
@@ -379,32 +423,59 @@ export default function Inc002Page() {
       </div>
 
       {/* bottom-contents-pannel */}
-      <div className="c-panel bottom-contents-pannel">
-        <div className="bottom-contents-pannel__content">
-          <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
-            <div className="flex gap-1">
-              <Button
-                variant="outlined"
-                size="small"
-                color="secondary"
-                startIcon={<Download size={16} />}
-              >
-                엑셀 다운로드
-              </Button>
-            </div>
-            <div className="flex gap-1">
+      <div
+        className="bottom-contents-pannel__content flex flex-col gap-1.5"
+        style={{ height: 'calc(100vh - 240px)', flex: 1 }}
+      >
+        {/* 상단 카드: 메인 테이블 (나머지 영역 꽉 채움, 페이지네이션 있음) */}
+        <div className="flex-1 min-h-0">
+          <div className="c-panel bottom-contents-pannel h-full">
+            <div className="bottom-contents-pannel__content h-full flex flex-col">
+              <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
+                <Typography variant="subtitle1" className="font-semibold text-gray-900 whitespace-nowrap">
+                  매출 집계 목록
+                </Typography>
+                <div className="flex gap-1">
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    color="secondary"
+                    startIcon={<Download size={16} />}
+                  >
+                    엑셀 다운로드
+                  </Button>
+                </div>
+              </div>
+              {/* 테이블 영역 */}
+              <div style={{ height: 'calc(100% - 40px)' }}>
+                <div className="grid grid-cols-1 h-full overflow-hidden">
+                  <SampleTable
+                    showPagination={true}
+                    pageSize={20}
+                  />
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
-          {/* 세로 꽉차는 테이블 샘플 */}
-          <div style={{ height: 'calc(100% - 40px)' }}>
-            {/* 상단에 뭔가 들어가면 높이만끔 빼줘야 */}
-            {/* 기본 설정: 좌우 스크롤 활성화 */}
-            <div className="grid grid-cols-1 h-full overflow-hidden">
-              <SampleTable
-                showPagination={true}
-                pageSize={20}
-              />
+        {/* 수직 드래그 핸들러: 위로 드래그하면 하단 패널 확장 */}
+        <div
+          className="h-1 cursor-row-resize border-t-2 border-dashed border-gray-200 hover:border-blue-400 transition-colors"
+          onMouseDown={handleVerticalDragStart}
+        />
+
+        {/* 하단 카드: 상세 테이블 (높이 가변, 최소 100px, 헤더/페이지네이션 없음) */}
+        <div style={{ height: bottomPanelHeight }} className="flex-shrink-0">
+          <div className="c-panel bottom-contents-pannel h-full">
+            <div className="bottom-contents-pannel__content h-full flex flex-col">
+              {/* 테이블 영역 */}
+              <div className="grid grid-cols-1 h-full overflow-hidden">
+                <SampleTable
+                  showPagination={false}
+                  pageSize={20}
+                />
+              </div>
             </div>
           </div>
         </div>
