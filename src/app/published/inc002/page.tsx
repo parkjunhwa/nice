@@ -424,8 +424,7 @@ export default function Inc002Page() {
 
       {/* bottom-contents-pannel */}
       <div
-        className="bottom-contents-pannel__content flex flex-col gap-1.5"
-        style={{ height: 'calc(100vh - 240px)', flex: 1 }}
+        className="bottom-contents-pannel__content flex flex-col gap-1.5 flex-1 min-h-0"
       >
         {/* 상단 카드: 메인 테이블 (나머지 영역 꽉 채움, 페이지네이션 있음) */}
         <div className="flex-1 min-h-0">
