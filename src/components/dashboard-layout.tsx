@@ -114,11 +114,11 @@ function DashboardLayoutContent({ children, isSidebarOpen, setIsSidebarOpen }: D
     <div className="flex h-screen bg-gray-50 overflow-hidden">
       <Sidebar isOpen={isSidebarOpen} onToggle={toggleSidebar} />
       <div className={cn(
-        "flex flex-1 flex-col min-h-0 transition-all duration-150 ease-in-out",
+        "flex flex-1 flex-col min-h-0 min-w-0 overflow-hidden transition-all duration-150 ease-in-out",
         isSidebarOpen ? "ml-0" : "ml-0"
       )}>
-        <main className="flex-1 p-4 min-h-0 overflow-y-auto">
-          <div className="mx-auto">
+        <main className="flex-1 p-4 min-h-0 min-w-0 overflow-y-auto overflow-x-hidden">
+          <div className="mx-auto min-w-0 w-full max-w-full">
             {children}
           </div>
         </main>

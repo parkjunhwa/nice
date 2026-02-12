@@ -61,7 +61,7 @@ export default function Stl001Page() {
 
   return (
     <div
-      className="flex flex-col h-full min-h-0 layout-top-bottom"
+      className="flex flex-col h-full min-h-0 min-w-0 overflow-hidden layout-top-bottom"
       style={{
         height: 'calc(100vh - 2rem)', // 1rem top + 1rem bottom
       }}
@@ -465,8 +465,8 @@ export default function Stl001Page() {
       {/* bottom-contents-pannel */}
       <div className="c-panel bottom-contents-pannel">
         <div className="bottom-contents-pannel__content">
-          <div className="flex items-center justify-between mb-2 gap-2" style={{ flex: 0 }}>
-            <div className="flex gap-1">
+          <div className="flex items-center justify-between mb-2 gap-2 min-w-0" style={{ flex: 0 }}>
+            <div className="flex gap-1 flex-shrink-0">
               <Button
                 variant="outlined"
                 size="small"
@@ -492,7 +492,7 @@ export default function Stl001Page() {
                 엑셀 템플릿
               </Button>
             </div>
-            <div className="flex gap-1">
+            <div className="flex gap-1 flex-nowrap overflow-x-auto min-w-0 scrollbar-transparent">
               <Button
                 variant="contained"
                 size="small"

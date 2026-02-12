@@ -26,7 +26,7 @@
 
   /* 하단 패널 */
   :where(.bottom-contents-pannel) {
-    flex: 1; min-height: 0; display: flex; flex-direction: column;
-    .bottom-contents-pannel__content { flex: 1; min-height: 0; }
+    flex: 1; min-height: 0; min-width: 0; overflow: hidden; display: flex; flex-direction: column;
+    .bottom-contents-pannel__content { flex: 1; min-height: 0; min-width: 0; overflow: hidden; }
   }
 }
