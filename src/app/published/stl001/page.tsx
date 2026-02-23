@@ -540,7 +540,19 @@ export default function Stl001Page() {
                 엑셀 템플릿
               </Button>
             </div>
-            <div className="flex gap-1 flex-nowrap overflow-x-auto min-w-0 scrollbar-transparent">
+            <div
+              ref={buttonGroupRef}
+              className={`flex gap-1 flex-nowrap overflow-x-auto min-w-0 scrollbar-transparent ${isDragging ? 'drag-scroll-grabbing' : ''}`}
+              style={{
+                maxWidth: '60%',
+                cursor: isDragging ? 'grabbing' : 'grab',
+                userSelect: 'none',
+              }}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+            >
               <Button
                 variant="contained"
                 size="small"
