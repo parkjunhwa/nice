@@ -255,6 +255,12 @@ body {
   -ms-overflow-style: none; /* IE and Edge */
 }
 
+/* 드래그 스크롤 영역: 그랩 후 이동 시 손 움켜쥔 커서 */
+.drag-scroll-grabbing,
+.drag-scroll-grabbing * {
+  cursor: grabbing !important;
+}
+
 .scrollbar-transparent::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }

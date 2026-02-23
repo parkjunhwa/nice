@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import {
   RefreshCw,
   Search,
@@ -45,6 +45,54 @@ export default function Stl001Page() {
   const [customerCode, setCustomerCode] = useState('')
   const [deviceNumber, setDeviceNumber] = useState('')
   const [stl002Open, setStl002Open] = useState(false)
+
+  // 버튼 그룹 드래그 스크롤 상태
+  const buttonGroupRef = useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [hasDragged, setHasDragged] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
+
+  // 마우스 드래그 스크롤 핸들러
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    if (!buttonGroupRef.current) return
+    setIsDragging(true)
+    setHasDragged(false)
+    setStartX(e.pageX - buttonGroupRef.current.offsetLeft)
+    setScrollLeft(buttonGroupRef.current.scrollLeft)
+  }, [])
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDragging || !buttonGroupRef.current) return
+    e.preventDefault()
+    // 그랩 후 좌우 이동 시 전역 커서를 손 움켜쥔 모양(grabbing)으로 변경
+    document.body.style.cursor = 'grabbing'
+    const x = e.pageX - buttonGroupRef.current.offsetLeft
+    const walk = (x - startX) * 1.5
+    if (Math.abs(walk) > 5) {
+      setHasDragged(true)
+    }
+    buttonGroupRef.current.scrollLeft = scrollLeft - walk
+  }, [isDragging, startX, scrollLeft])
+
+  const handleMouseUp = useCallback(() => {
+    setIsDragging(false)
+    document.body.style.cursor = ''
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    setIsDragging(false)
+    document.body.style.cursor = ''
+  }, [])
+
+  const handleButtonClick = useCallback((e: React.MouseEvent, callback?: () => void) => {
+    if (hasDragged) {
+      e.preventDefault()
+      e.stopPropagation()
+      return
+    }
+    callback?.()
+  }, [hasDragged])
 
   // 버튼 클릭 핸들러
   const handleThisMonthClick = () => {
@@ -492,28 +540,41 @@ export default function Stl001Page() {
                 엑셀 템플릿
               </Button>
             </div>
-            <div className="flex gap-1">
+            <div 
+              ref={buttonGroupRef}
+              className={`flex gap-1 overflow-x-auto scrollbar-transparent ${isDragging ? 'drag-scroll-grabbing' : ''}`}
+              style={{
+                maxWidth: '60%',
+                cursor: isDragging ? 'grabbing' : 'grab',
+                userSelect: 'none',
+              }}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+            >
               <Button
                 variant="contained"
                 size="small"
+                className="flex-shrink-0"
                 startIcon={<ClipboardPaste size={16} />}
-                onClick={() => setStl002Open(true)}
+                onClick={(e) => handleButtonClick(e, () => setStl002Open(true))}
               >
                 정산실행
               </Button>
-              <Button variant="contained" size="small" startIcon={<StretchVertical size={16} />}>
+              <Button variant="contained" size="small" className="flex-shrink-0" startIcon={<StretchVertical size={16} />}>
                 계산서대사
               </Button>
-              <Button variant="contained" size="small" startIcon={<Check size={16} />}>
+              <Button variant="contained" size="small" className="flex-shrink-0" startIcon={<Check size={16} />}>
                 일괄확정
               </Button>
-              <Button variant="contained" size="small" startIcon={<Check size={16} />}>
+              <Button variant="contained" size="small" className="flex-shrink-0" startIcon={<Check size={16} />}>
                 선택확정
               </Button>
-              <Button variant="contained" size="small" startIcon={<ClipboardPaste size={16} />}>
+              <Button variant="contained" size="small" className="flex-shrink-0" startIcon={<ClipboardPaste size={16} />}>
                 결재상신
               </Button>
-              <Button variant="contained" size="small" startIcon={<ClipboardPaste size={16} />}>
+              <Button variant="contained" size="small" className="flex-shrink-0" startIcon={<ClipboardPaste size={16} />}>
                 ERP재전송
               </Button>
             </div>
