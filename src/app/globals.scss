@@ -940,3 +940,17 @@ input[type="radio"] {
 .MuiTouchRipple-ripplePulsate {
   display: none !important;
 }
+
+/* 메인 공지사항 제목부분 truncate 클래스 오버라이드 - 수정 */
+.truncate {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: normal !important;
+  display: -webkit-box !important;
+  -webkit-line-clamp: 1 !important;
+  -webkit-box-orient: vertical !important;
+  word-break: break-word !important;
+}
+
+/* 최소 폭 설정 (내부 항목들이 찌그러지지 않게) */
+body {min-width:1080px;}
